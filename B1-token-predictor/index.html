@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Predictor de tokens · ENTI-UB AI Literacy</title>
+<style>
+/* =============================================================
+   B1 - Token Predictor Widget
+   ENTI-UB AI Literacy Certification, Module 1, Capítol 1.2
+   Editorial / scholarly aesthetic: serif display, mono outputs,
+   high-contrast on warm cream background.
+   ============================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg:        #f4efe6;       /* warm cream */
+  --bg-card:   #ffffff;
+  --ink:       #1a1814;       /* near-black, warm */
+  --ink-soft:  #4a463e;
+  --rule:      #1a1814;
+  --rule-soft: #c9c2b3;
+  --accent:    #b91c1c;       /* deep crimson, used sparingly */
+  --accent-2:  #1e3a5f;       /* navy, for secondary emphasis */
+  --bar-bg:    #e8e2d3;
+  --bar-fill:  #1a1814;
+  --bar-low:   #c9c2b3;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 18px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.widget-frame {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 28px 24px 48px;
+}
+
+/* ---------------- header ---------------- */
+
+.widget-header {
+  border-bottom: 2px solid var(--rule);
+  padding-bottom: 18px;
+  margin-bottom: 24px;
+}
+
+.widget-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+
+.widget-title {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 1.1;
+  margin: 0 0 8px;
+  letter-spacing: -0.01em;
+}
+
+.widget-subtitle {
+  font-style: italic;
+  font-size: 17px;
+  color: var(--ink-soft);
+  margin: 0;
+  max-width: 600px;
+}
+
+/* ---------------- disclosure box ---------------- */
+
+.disclosure {
+  background: var(--bg-card);
+  border-left: 3px solid var(--accent);
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.disclosure strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* ---------------- scenario picker ---------------- */
+
+.scenario-section {
+  margin-bottom: 32px;
+}
+
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--rule-soft);
+}
+
+.scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px;
+}
+
+.scenario-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--rule-soft);
+  padding: 12px 14px;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 15px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  color: var(--ink);
+  line-height: 1.3;
+  position: relative;
+}
+
+.scenario-btn:hover {
+  border-color: var(--rule);
+  background: #faf6ec;
+}
+
+.scenario-btn.active {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+
+.scenario-btn .cat {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 4px;
+}
+
+.scenario-btn.active .cat {
+  color: rgba(244, 239, 230, 0.7);
+}
+
+.scenario-btn .lang-flag {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+  opacity: 0.6;
+}
+
+.scenario-btn.active .lang-flag {
+  color: var(--bg);
+  opacity: 0.7;
+}
+
+/* ---------------- prompt display ---------------- */
+
+.prompt-display {
+  background: var(--bg-card);
+  border: 1px solid var(--rule-soft);
+  padding: 24px 28px;
+  margin-bottom: 24px;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 22px;
+  line-height: 1.5;
+  position: relative;
+  min-height: 80px;
+}
+
+.prompt-text {
+  color: var(--ink);
+}
+
+.prompt-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 24px;
+  background: var(--accent);
+  margin-left: 4px;
+  vertical-align: text-bottom;
+  animation: blink 1s step-end infinite;
+}
+
+.sampled-token {
+  color: var(--accent);
+  font-weight: 600;
+  background: rgba(185, 28, 28, 0.07);
+  padding: 0 3px;
+  border-radius: 2px;
+  animation: appear 0.3s ease-out;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+@keyframes appear {
+  from { background: rgba(185, 28, 28, 0.3); }
+  to { background: rgba(185, 28, 28, 0.07); }
+}
+
+/* ---------------- controls ---------------- */
+
+.controls {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: end;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--rule-soft);
+}
+
+.temp-control {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.temp-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.temp-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  background: var(--rule-soft);
+  outline: none;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: var(--ink);
+  cursor: pointer;
+  border-radius: 0;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  background: var(--ink);
+  cursor: pointer;
+  border: none;
+  border-radius: 0;
+}
+
+.temp-hint {
+  font-size: 13px;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+.action-group {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 12px 20px;
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn:hover {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.btn-primary {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.btn-primary:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.btn:disabled:hover {
+  background: transparent;
+  color: var(--ink);
+}
+
+/* ---------------- distribution display ---------------- */
+
+.dist-section {
+  margin-bottom: 32px;
+}
+
+.dist-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dist-row {
+  display: grid;
+  grid-template-columns: 200px 1fr 70px;
+  gap: 16px;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--rule-soft);
+  transition: background 0.2s ease;
+}
+
+.dist-row:last-child {
+  border-bottom: none;
+}
+
+.dist-row.highlighted {
+  background: rgba(185, 28, 28, 0.04);
+}
+
+.dist-token {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  word-break: break-all;
+}
+
+.dist-token::before {
+  content: '"';
+  color: var(--ink-soft);
+  margin-right: 1px;
+}
+
+.dist-token::after {
+  content: '"';
+  color: var(--ink-soft);
+  margin-left: 1px;
+}
+
+.dist-bar-container {
+  position: relative;
+  height: 22px;
+  background: var(--bar-bg);
+  overflow: hidden;
+}
+
+.dist-bar {
+  height: 100%;
+  background: var(--bar-fill);
+  transition: width 0.4s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.dist-prob {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.dist-prob-low {
+  color: var(--ink-soft);
+  font-weight: 400;
+}
+
+/* ---------------- lesson box ---------------- */
+
+.lesson {
+  background: var(--bg-card);
+  border-left: 3px solid var(--accent-2);
+  padding: 18px 22px;
+  margin-bottom: 24px;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink);
+  display: none;
+}
+
+.lesson.visible {
+  display: block;
+  animation: slide-in 0.3s ease-out;
+}
+
+.lesson-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+  margin-bottom: 8px;
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------------- footer ---------------- */
+
+.widget-footer {
+  margin-top: 40px;
+  padding-top: 18px;
+  border-top: 1px solid var(--rule-soft);
+  font-size: 13px;
+  color: var(--ink-soft);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* ---------------- responsive ---------------- */
+
+@media (max-width: 640px) {
+  .widget-frame {
+    padding: 20px 16px 36px;
+  }
+  .widget-title {
+    font-size: 26px;
+  }
+  .controls {
+    grid-template-columns: 1fr;
+  }
+  .action-group {
+    width: 100%;
+  }
+  .btn {
+    flex: 1;
+    padding: 12px 12px;
+  }
+  .dist-row {
+    grid-template-columns: 110px 1fr 56px;
+    gap: 10px;
+    font-size: 13px;
+  }
+  .prompt-display {
+    font-size: 18px;
+    padding: 18px 20px;
+  }
+}
+
+</style>
+</head>
+<body>
+<div class="widget-frame">
+
+  <header class="widget-header">
+    <div class="widget-eyebrow">Capítol 1.2 · Activitat B1</div>
+    <h1 class="widget-title">Predictor de tokens</h1>
+    <p class="widget-subtitle">Una eina visual per veure com un model de llenguatge gran tria la paraula següent.</p>
+  </header>
+
+  <div class="disclosure">
+    <strong>Aclariment important:</strong> les probabilitats que veuràs aquí són il·lustratives, no la sortida real d'un model concret. Estan calibrades per fer visibles patrons que sí que es donen als models reals. Aquesta eina no fa cap crida a cap servei extern, no envia cap dada enlloc i funciona localment al teu navegador.
+  </div>
+
+  <section class="scenario-section">
+    <div class="section-label">Tria un escenari</div>
+    <div class="scenario-grid" id="scenarioGrid"></div>
+  </section>
+
+  <section>
+    <div class="section-label">Indicació actual</div>
+    <div class="prompt-display">
+      <span class="prompt-text" id="promptText">Selecciona un escenari per començar.</span><span class="prompt-cursor" id="promptCursor" style="display:none"></span>
+    </div>
+  </section>
+
+  <section class="controls">
+    <div class="temp-control">
+      <div class="temp-label">
+        <span>Temperatura</span>
+        <span class="temp-value" id="tempValue">1.0</span>
+      </div>
+      <input type="range" id="tempSlider" min="0" max="2" step="0.1" value="1.0">
+      <div class="temp-hint" id="tempHint">Temperatura = 1: el model mostra la distribució natural.</div>
+    </div>
+    <div class="action-group">
+      <button class="btn btn-primary" id="sampleBtn" disabled>Mostreja un token</button>
+      <button class="btn" id="resetBtn" disabled>Reinicia</button>
+    </div>
+  </section>
+
+  <section class="dist-section">
+    <div class="section-label">Distribució de probabilitats sobre el token següent</div>
+    <div class="dist-list" id="distList">
+      <p style="color: var(--ink-soft); font-style: italic; padding: 24px 0; text-align: center;">
+        Tria un escenari per veure la distribució.
+      </p>
+    </div>
+  </section>
+
+  <div class="lesson" id="lessonBox">
+    <div class="lesson-label">Per què això importa</div>
+    <div id="lessonText"></div>
+  </div>
+
+  <footer class="widget-footer">
+    ENTI-UB · Certificació d'alfabetització en IA · Mòdul 1, Capítol 1.2.
+    Aquesta eina és part del material d'aprenentatge i no substitueix cap servei comercial.
+  </footer>
+
+</div>
+
+<script>
+// =============================================================
+// TOKEN DATA
+// (probabilities are illustrative, calibrated for pedagogy)
+// =============================================================
+
+const TOKEN_DATA = [
+  {
+    id: 'peaked-ca-1',
+    category: 'PEAKED',
+    lang: 'ca',
+    label: 'Una dita popular',
+    prompt: 'Tant va el càntir a la',
+    tokens: [
+      ['font', 0.91], ['cuina', 0.02], ['taula', 0.015], ['plaça', 0.012],
+      ['paret', 0.010], ['casa', 0.008], ['boca', 0.006], ['terra', 0.005],
+      ['platja', 0.003], ['biblioteca', 0.001]
+    ],
+    lesson: "Una dita popular gairebé esgota la probabilitat al token correcte. Quan el context està molt restringit, el model assigna una confiança extrema a una sola opció. Això no és «intel·ligència»: és que aquesta seqüència apareix milions de vegades als textos d'entrenament."
+  },
+  {
+    id: 'peaked-en-1',
+    category: 'PEAKED',
+    lang: 'en',
+    label: 'Un fet geogràfic comú',
+    prompt: 'The capital of France is',
+    tokens: [
+      ['Paris', 0.94], ['the', 0.02], ['a', 0.012], ['located', 0.008],
+      ['known', 0.006], ['actually', 0.005], ['called', 0.003], ['one', 0.002],
+      ['Lyon', 0.0015], ['often', 0.001]
+    ],
+    lesson: "Una continuació factual molt freqüent: «Paris» domina amb un 94 % de probabilitat. Però fixa't que «Lyon» apareix amb un 0,15 %. Amb una temperatura prou alta, el model podria mostrejar ocasionalment una alternativa errònia però plausible. Aquesta és una font mecànica directa d'al·lucinacions factuals."
+  },
+  {
+    id: 'peaked-ca-2',
+    category: 'PEAKED',
+    lang: 'ca',
+    label: 'Una continuació narrativa',
+    prompt: 'En Joan i la Maria van anar al',
+    tokens: [
+      ['mercat', 0.31], ['cinema', 0.18], ['parc', 0.14], ['restaurant', 0.09],
+      ['teatre', 0.07], ['supermercat', 0.06], ['camp', 0.05], ['poble', 0.04],
+      ['museu', 0.03], ['concert', 0.02]
+    ],
+    lesson: "Una continuació narrativa amb diverses opcions raonables. La distribució és menys peaked que la dita popular: el model «sap» que una persona pot anar a molts llocs, però concentra la massa probable a destinacions habituals (mercat, cinema, parc)."
+  },
+  {
+    id: 'flat-ca-1',
+    category: 'FLAT',
+    lang: 'ca',
+    label: 'Una obertura narrativa oberta',
+    prompt: 'Un cop, fa molt de temps,',
+    tokens: [
+      ['hi', 0.18], ['una', 0.14], ['en', 0.13], ['vivia', 0.11], ['un', 0.09],
+      ['els', 0.08], ['va', 0.07], ['existia', 0.06], ['havia', 0.05], ['quan', 0.04]
+    ],
+    lesson: "Una obertura narrativa oberta produeix una distribució aplanada: deu tokens diferents tenen probabilitats similars. És en aquests casos que la temperatura té més efecte visible: a temperatura 0, sempre triaria «hi»; a temperatura alta, pots obtenir qualsevol dels deu i el text resultant pot anar en direccions molt diferents."
+  },
+  {
+    id: 'flat-en-1',
+    category: 'FLAT',
+    lang: 'en',
+    label: 'Una opinió subjectiva',
+    prompt: 'I think the best way to learn programming is',
+    tokens: [
+      ['to', 0.21], ['by', 0.19], ['through', 0.13], ['actually', 0.08],
+      ['probably', 0.07], ['really', 0.06], ['simply', 0.05], ['just', 0.05],
+      ['definitely', 0.04], ['honestly', 0.03]
+    ],
+    lesson: "Una opinió subjectiva no té cap continuació «correcta», així que la distribució és plana. Els mots gramaticals (to, by, through) lideren perquè estan gramaticalment forçats; la resta són matisos estilístics. Els models reals tendeixen molt cap a aquests matisos, i això és una de les fonts de la «pudor d'IA» que ja saps detectar."
+  },
+  {
+    id: 'bias-en-1',
+    category: 'BIAS',
+    lang: 'en',
+    label: 'Un biaix de gènere professional',
+    prompt: 'The doctor walked into the room and',
+    tokens: [
+      ['he', 0.39], ['the', 0.16], ['said', 0.12], ['looked', 0.08],
+      ['greeted', 0.06], ['smiled', 0.05], ['she', 0.04], ['asked', 0.04],
+      ['turned', 0.03], ['sat', 0.025]
+    ],
+    lesson: "«He» (ell) apareix amb un 39 % de probabilitat; «she» (ella) només amb un 4 %. El corpus d'entrenament en anglès conté moltíssimes més coocurrències de «doctor … he» que de «doctor … she». El model no és «sexista» en cap sentit deliberat; reflecteix patrons estadístics de dècades de textos. Com a futur dissenyador o desenvolupador de jocs, conèixer aquest valor per defecte et permet dissenyar-hi explícitament en contra quan la teva visió creativa ho requereixi."
+  },
+  {
+    id: 'bias-en-2',
+    category: 'BIAS',
+    lang: 'en',
+    label: 'Un «per defecte» culturalment marcat',
+    prompt: 'A typical wedding ceremony involves',
+    tokens: [
+      ['a', 0.27], ['the', 0.18], ['vows', 0.11], ['exchanging', 0.08],
+      ['walking', 0.06], ['white', 0.05], ['rings', 0.05], ['music', 0.04],
+      ['flowers', 0.03], ['guests', 0.03]
+    ],
+    lesson: "Fixa't que «white» (blanc) apareix com un dels deu tokens més probables. Les dades d'entrenament estan dominades per descripcions occidentals, sovint angloamericanes, de bodes. Les tradicions de boda índies, xineses, nigerianes o iranianes no són «típiques» des de la perspectiva estadística del model. Quan demanes una descripció genèrica de boda, reps una de culturalment específica sense que el model l'etiqueti com a tal."
+  },
+  {
+    id: 'bias-ca-1',
+    category: 'BIAS',
+    lang: 'ca',
+    label: 'Un biaix de gènere en català',
+    prompt: 'L\'enginyera va presentar el projecte i',
+    tokens: [
+      ['el', 0.20], ['va', 0.18], ['després', 0.11], ['els', 0.09], ['ell', 0.08],
+      ['l\'equip', 0.07], ['ella', 0.06], ['va explicar', 0.05],
+      ['va respondre', 0.04], ['tothom', 0.03]
+    ],
+    lesson: "Encara que la frase comença explícitament amb «l'enginyera» (femení), el pronom «ell» apareix amb el doble de probabilitat que «ella» com a continuació. Aquest és un cas on el biaix es manifesta de forma especialment visible: el model prefereix estadísticament un patró que contradiu la informació gramatical concreta de la frase. Si fessis servir aquest text com a base per a un diàleg de joc, l'estereotip s'instal·laria sense que ho hagis decidit."
+  },
+  {
+    id: 'factual-ca-1',
+    category: 'FACTUAL',
+    lang: 'ca',
+    label: 'Un fet local concentrat',
+    prompt: 'La Sagrada Família es troba a la ciutat de',
+    tokens: [
+      ['Barcelona', 0.96], ['Madrid', 0.012], ['Tarragona', 0.005],
+      ['València', 0.005], ['Girona', 0.004], ['Lleida', 0.003],
+      ['Sevilla', 0.003], ['Bilbao', 0.002], ['Sant', 0.002], ['Reus', 0.002]
+    ],
+    lesson: "Un fet molt comú: el model concentra la pràctica totalitat de la probabilitat al token correcte. Però fixa't que «Madrid», «Tarragona» i «València» tenen probabilitat no nul·la. A temperatura prou alta, el model podria generar «La Sagrada Família es troba a la ciutat de Madrid» amb el mateix to confiat. És exactament aquesta la mecànica de l'al·lucinació factual."
+  },
+  {
+    id: 'factual-en-1',
+    category: 'FACTUAL',
+    lang: 'en',
+    label: 'Un fet cultural d\'alta confiança',
+    prompt: 'The author of "Hamlet" is William',
+    tokens: [
+      ['Shakespeare', 0.97], ['Shakespeares', 0.008], ['Shake', 0.005],
+      ['the', 0.004], ['Shakespeare\'s', 0.003], ['shakespeare', 0.002],
+      ['William', 0.002], ['S', 0.0015], ['Smith', 0.001], ['(', 0.001]
+    ],
+    lesson: "Observació: nou dels deu tokens més probables són variants o fragments de la resposta correcta. El desè és «Smith», una alternativa improbable fins a la insignificança però tècnicament possible. La massa de probabilitat està tan concentrada que aquí l'al·lucinació és gairebé impossible, però el model no té cap mecanisme intern que distingeixi aquest cas dels casos en què SÍ que al·lucina. La confiança ve de la concentració de la probabilitat, no de la verificació."
+  },
+  {
+    id: 'creative-ca-1',
+    category: 'CREATIVE',
+    lang: 'ca',
+    label: 'Una porta que s\'obre',
+    prompt: 'Quan vaig obrir la porta vaig veure',
+    tokens: [
+      ['un', 0.22], ['una', 0.19], ['que', 0.14], ['el', 0.09], ['la', 0.08],
+      ['els', 0.05], ['les', 0.04], ['algú', 0.04], ['tothom', 0.03], ['dos', 0.025]
+    ],
+    lesson: "Un començament obert: la majoria de la probabilitat es reparteix entre articles i pronoms. Cap d'aquests tokens conté informació narrativa: només estructura sintàctica. La «creativitat» del model emergeix dels tokens que vindran després, i la diversitat resultant depèn molt de la temperatura. A temperatura 0, el text es repeteix idèntic cada vegada; a temperatura 1,5 cada generació pot anar a un lloc diferent."
+  },
+  {
+    id: 'creative-en-1',
+    category: 'CREATIVE',
+    lang: 'en',
+    label: 'Un trop de novel·la negra',
+    prompt: 'The detective stared at the body and noticed',
+    tokens: [
+      ['something', 0.16], ['the', 0.14], ['a', 0.13], ['that', 0.11],
+      ['immediately', 0.07], ['the corner', 0.06], ['several', 0.05],
+      ['three', 0.04], ['nothing', 0.04], ['blood', 0.03]
+    ],
+    lesson: "Una obertura de novel·la negra és un trop famós, així que la distribució es decanta cap a clixés de gènere. Fixa't que «blood» (sang) apareix com a opció dins el top 10, però domina «something» (alguna cosa) perquè l'escriptura de misteri prefereix retardar la revelació. Si fessis servir aquest text per redactar diàleg de joc, obtindries prosa que sona com una novel·la negra, perquè ho és, estadísticament. El trop ja viu dins del model."
+  }
+];
+
+const CATEGORY_LABELS = {
+  PEAKED: 'Predictible',
+  FLAT: 'Ambigua',
+  BIAS: 'Biaix',
+  FACTUAL: 'Factual',
+  CREATIVE: 'Creativa'
+};
+
+// =============================================================
+// STATE
+// =============================================================
+
+let currentScenario = null;
+let currentTokens = null;        // tokens after temperature applied
+let baseTokens = null;            // original tokens (temperature = 1)
+let temperature = 1.0;
+let promptHistory = '';           // accumulated sampled tokens
+
+// =============================================================
+// SETUP
+// =============================================================
+
+const scenarioGrid = document.getElementById('scenarioGrid');
+const promptText = document.getElementById('promptText');
+const promptCursor = document.getElementById('promptCursor');
+const tempSlider = document.getElementById('tempSlider');
+const tempValue = document.getElementById('tempValue');
+const tempHint = document.getElementById('tempHint');
+const sampleBtn = document.getElementById('sampleBtn');
+const resetBtn = document.getElementById('resetBtn');
+const distList = document.getElementById('distList');
+const lessonBox = document.getElementById('lessonBox');
+const lessonText = document.getElementById('lessonText');
+
+function buildScenarioButtons() {
+  TOKEN_DATA.forEach((scenario, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'scenario-btn';
+    btn.dataset.idx = idx;
+    btn.innerHTML = `
+      <span class="lang-flag">${scenario.lang.toUpperCase()}</span>
+      <span class="cat">${CATEGORY_LABELS[scenario.category]}</span>
+      ${scenario.label}
+    `;
+    btn.addEventListener('click', () => selectScenario(idx));
+    scenarioGrid.appendChild(btn);
+  });
+}
+
+// =============================================================
+// SCENARIO SELECTION
+// =============================================================
+
+function selectScenario(idx) {
+  document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.scenario-btn[data-idx="${idx}"]`).classList.add('active');
+
+  currentScenario = TOKEN_DATA[idx];
+  baseTokens = [...currentScenario.tokens];
+  promptHistory = '';
+
+  // Update display
+  promptText.innerHTML = escapeHtml(currentScenario.prompt) + ' ';
+  promptCursor.style.display = 'inline-block';
+
+  // Refresh the temperature hint in the new scenario's language by
+  // re-firing the slider's input handler with the current value.
+  tempSlider.dispatchEvent(new Event('input', { bubbles: true }));
+
+  applyTemperature();
+  renderDistribution();
+
+  sampleBtn.disabled = false;
+  resetBtn.disabled = false;
+
+  // Show lesson
+  lessonText.textContent = currentScenario.lesson;
+  lessonBox.classList.add('visible');
+}
+
+// =============================================================
+// TEMPERATURE
+// =============================================================
+
+function applyTemperature() {
+  if (!baseTokens) return;
+
+  // Apply temperature to the distribution.
+  // Standard formula: p_i_new = p_i^(1/T) / sum(p_j^(1/T))
+  // T = 1: unchanged. T -> 0: peaked on max. T -> infinity: uniform.
+
+  // Guard: T = 0 means deterministic (top token gets 1.0)
+  if (temperature < 0.05) {
+    const maxIdx = baseTokens.reduce(
+      (best, [, p], i, arr) => p > arr[best][1] ? i : best, 0
+    );
+    currentTokens = baseTokens.map(([t, p], i) => [t, i === maxIdx ? 1.0 : 0]);
+    return;
+  }
+
+  const invT = 1.0 / temperature;
+  const reweighted = baseTokens.map(([t, p]) => [t, Math.pow(p, invT)]);
+  const total = reweighted.reduce((s, [, p]) => s + p, 0);
+  currentTokens = reweighted.map(([t, p]) => [t, total > 0 ? p / total : 0]);
+}
+
+tempSlider.addEventListener('input', (e) => {
+  temperature = parseFloat(e.target.value);
+  tempValue.textContent = temperature.toFixed(1);
+
+  // Update hint based on temperature.
+  // The hint text is always in Catalan regardless of the scenario's language:
+  // the explanatory copy in this widget is consistently Catalan, only the
+  // example prompts are bilingual.
+  if (temperature < 0.1) {
+    tempHint.textContent = 'Temperatura = 0: el model tria sempre el token més probable (determinista).';
+  } else if (temperature < 0.7) {
+    tempHint.textContent = 'Temperatura baixa: la distribució es concentra; les sortides són més predictibles.';
+  } else if (temperature <= 1.1) {
+    tempHint.textContent = 'Temperatura ≈ 1: el model mostra la distribució natural.';
+  } else if (temperature <= 1.5) {
+    tempHint.textContent = 'Temperatura alta: la distribució s\'aplana; les sortides són més variades (i més propenses a error).';
+  } else {
+    tempHint.textContent = 'Temperatura molt alta: el model pot triar gairebé qualsevol cosa; la qualitat de la sortida baixa.';
+  }
+
+  applyTemperature();
+  renderDistribution();
+});
+
+// =============================================================
+// SAMPLING
+// =============================================================
+
+function sampleToken() {
+  if (!currentTokens) return;
+
+  const r = Math.random();
+  let cumulative = 0;
+  let sampledIdx = 0;
+  let sampledToken = currentTokens[0][0];
+
+  for (let i = 0; i < currentTokens.length; i++) {
+    cumulative += currentTokens[i][1];
+    if (r <= cumulative) {
+      sampledIdx = i;
+      sampledToken = currentTokens[i][0];
+      break;
+    }
+  }
+
+  // Append to prompt history
+  if (promptHistory) {
+    promptHistory += ' <span class="sampled-token">' + escapeHtml(sampledToken) + '</span>';
+  } else {
+    promptHistory = ' <span class="sampled-token">' + escapeHtml(sampledToken) + '</span>';
+  }
+
+  promptText.innerHTML = escapeHtml(currentScenario.prompt) + promptHistory;
+
+  // Highlight which row was sampled
+  highlightSampledRow(sampledIdx);
+}
+
+function highlightSampledRow(idx) {
+  const rows = document.querySelectorAll('.dist-row');
+  rows.forEach(r => r.classList.remove('highlighted'));
+  if (rows[idx]) {
+    rows[idx].classList.add('highlighted');
+    setTimeout(() => {
+      if (rows[idx]) rows[idx].classList.remove('highlighted');
+    }, 1200);
+  }
+}
+
+sampleBtn.addEventListener('click', sampleToken);
+
+// =============================================================
+// RESET
+// =============================================================
+
+function resetSampling() {
+  if (!currentScenario) return;
+  promptHistory = '';
+  promptText.innerHTML = escapeHtml(currentScenario.prompt) + ' ';
+}
+
+resetBtn.addEventListener('click', resetSampling);
+
+// =============================================================
+// RENDER DISTRIBUTION
+// =============================================================
+
+function renderDistribution() {
+  if (!currentTokens) return;
+
+  // Find max probability for bar scaling
+  const maxProb = Math.max(...currentTokens.map(([, p]) => p));
+
+  distList.innerHTML = '';
+  currentTokens.forEach(([token, prob]) => {
+    const row = document.createElement('div');
+    row.className = 'dist-row';
+
+    const barWidth = maxProb > 0 ? (prob / maxProb) * 100 : 0;
+
+    // Format probability nicely
+    let probStr;
+    if (prob >= 0.01) {
+      probStr = (prob * 100).toFixed(1) + ' %';
+    } else if (prob >= 0.001) {
+      probStr = (prob * 100).toFixed(2) + ' %';
+    } else if (prob > 0) {
+      probStr = '< 0,1 %';
+    } else {
+      probStr = '0 %';
+    }
+
+    const probClass = prob < 0.01 ? 'dist-prob dist-prob-low' : 'dist-prob';
+
+    row.innerHTML = `
+      <div class="dist-token">${escapeHtml(token)}</div>
+      <div class="dist-bar-container">
+        <div class="dist-bar" style="width: ${barWidth}%"></div>
+      </div>
+      <div class="${probClass}">${probStr}</div>
+    `;
+
+    distList.appendChild(row);
+  });
+}
+
+// =============================================================
+// HELPERS
+// =============================================================
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// =============================================================
+// BOOT
+// =============================================================
+
+buildScenarioButtons();
+
+</script>
+</body>
+</html>
