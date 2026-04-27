@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'Habitació · ENTI-UB AI Literacy</title>
+<style>
+/* =============================================================
+   B1 - The Chinese Room
+   ENTI-UB AI Literacy Course, Module 1, Chapter 1.
+   ============================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Noto+Serif+SC:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --room-bg:        #15110d;
+  --room-bg-deeper: #0e0a07;
+  --paper:          #d8c9a8;
+  --paper-dim:      #a89878;
+  --paper-aged:     #b8a888;
+  --paper-worn:     #998a6e;
+  --ink-on-paper:   #1a1410;
+  --ink-shaky:      #2a1f15;
+  --bulb:           #d8c9a8;
+  --bulb-soft:      #8a7d65;
+  --bulb-faint:     #5a4f3f;
+  --action:         #c8a467;
+  --action-hover:   #e0bd84;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--room-bg);
+  color: var(--bulb);
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 19px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  transition: filter 2s ease;
+}
+
+body.lamp-dim-1 { filter: brightness(0.96); }
+body.lamp-dim-2 { filter: brightness(0.92); }
+body.lamp-dim-3 { filter: brightness(0.88); }
+
+.room {
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 60px 32px 80px;
+  position: relative;
+  min-height: 100vh;
+}
+
+.room::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 30%, transparent 0%, transparent 30%, rgba(0,0,0,0.4) 100%);
+  pointer-events: none;
+  z-index: 0;
+  transition: background 2s ease;
+}
+
+body.lamp-dim-2 .room::before {
+  background: radial-gradient(ellipse at 50% 30%, transparent 0%, transparent 25%, rgba(0,0,0,0.55) 100%);
+}
+
+body.lamp-dim-3 .room::before {
+  background: radial-gradient(ellipse at 50% 30%, transparent 0%, transparent 22%, rgba(0,0,0,0.65) 100%);
+}
+
+.room > * { position: relative; z-index: 1; }
+
+.header {
+  margin-bottom: 56px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--bulb-faint);
+  text-align: center;
+}
+
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--bulb-soft);
+  margin-bottom: 12px;
+}
+
+.title {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 1.2;
+  margin: 0;
+  letter-spacing: 0.01em;
+  color: var(--bulb);
+}
+
+.scene-prose { margin-bottom: 40px; }
+
+.scene-prose p {
+  margin: 0 0 1.4em;
+  color: var(--bulb);
+  font-size: 19px;
+  line-height: 1.7;
+}
+
+.scene-prose p.faded { color: var(--bulb-soft); font-style: italic; }
+.scene-prose p.whisper { color: var(--bulb-faint); font-style: italic; font-size: 17px; }
+.scene-prose em { color: var(--paper); font-style: italic; }
+
+.slot {
+  margin: 36px 0;
+  padding: 0;
+  background: var(--room-bg-deeper);
+  border: 1px solid var(--bulb-faint);
+  position: relative;
+  min-height: 80px;
+  overflow: hidden;
+}
+
+.slot-label {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bulb-faint);
+  z-index: 2;
+}
+
+.paper-card {
+  background: var(--paper);
+  color: var(--ink-on-paper);
+  padding: 28px 32px;
+  margin: 28px 16px 16px;
+  position: relative;
+  font-family: 'Noto Serif SC', 'EB Garamond', serif;
+  font-size: 22px;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.3);
+  transform-origin: left center;
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: opacity 1.2s ease-out, transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.paper-card.aged { background: var(--paper-aged); }
+
+.paper-card.worn {
+  background: var(--paper-worn);
+  color: var(--ink-shaky);
+  transform: translateX(-30px) rotate(-0.5deg);
+  font-family: 'Noto Serif SC', serif;
+}
+
+.paper-card.worn.revealed { transform: translateX(0) rotate(-0.5deg); }
+.paper-card.revealed { opacity: 1; transform: translateX(0); }
+
+.paper-card.outgoing {
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity 1.2s ease-in, transform 1.2s cubic-bezier(0.6, 0, 0.8, 0.2);
+}
+.paper-card.outgoing.worn { transform: translateX(30px) rotate(-0.5deg); }
+
+.paper-card .characters {
+  display: block;
+  font-size: 28px;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  text-align: center;
+  margin: 0;
+}
+
+.paper-card.worn .characters {
+  font-size: 24px;
+  letter-spacing: 0.06em;
+  line-height: 1.7;
+}
+
+.paper-pile {
+  position: absolute;
+  top: 4px;
+  right: 12px;
+  display: flex;
+  gap: 2px;
+  z-index: 2;
+}
+
+.paper-pile-mark {
+  width: 6px;
+  height: 1px;
+  background: var(--bulb-faint);
+  display: block;
+}
+
+.manual {
+  background: rgba(216, 201, 168, 0.04);
+  border: 1px solid var(--bulb-faint);
+  padding: 24px 28px;
+  margin: 36px 0;
+  font-family: 'EB Garamond', Georgia, serif;
+  position: relative;
+  transition: opacity 0.8s ease;
+}
+
+.manual.aged { border-color: rgba(168, 152, 120, 0.35); }
+
+.manual-header {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bulb-soft);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--bulb-faint);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.manual-header .section-num { color: var(--bulb-faint); }
+
+.manual-searching {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--bulb-soft);
+  text-align: center;
+  padding: 14px 0;
+  letter-spacing: 0.02em;
+  min-height: 1em;
+}
+
+.manual-searching .dots::after {
+  content: '.';
+  animation: dots 1.5s steps(1, end) infinite;
+}
+
+@keyframes dots {
+  0%, 33% { content: '.'; }
+  34%, 66% { content: '..'; }
+  67%, 100% { content: '...'; }
+}
+
+.manual-rule {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--paper-dim);
+  font-style: italic;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.manual-rule.revealed { opacity: 1; }
+
+.manual-rule .glyph {
+  font-family: 'Noto Serif SC', serif;
+  font-style: normal;
+  font-size: 19px;
+  color: var(--paper);
+  letter-spacing: 0.04em;
+}
+
+.manual-rule .arrow {
+  display: inline-block;
+  margin: 0 8px;
+  color: var(--bulb-faint);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.manual-rule .rule-note {
+  margin-top: 14px;
+  font-size: 14px;
+  color: var(--bulb-soft);
+  font-style: italic;
+}
+
+.action-row {
+  margin: 36px 0;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.action-row.revealed { opacity: 1; }
+
+.action-btn {
+  background: transparent;
+  border: 1px solid var(--bulb-soft);
+  color: var(--bulb);
+  padding: 14px 28px;
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 17px;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  margin: 0 6px;
+}
+
+.action-btn:hover {
+  border-color: var(--action);
+  color: var(--action-hover);
+  background: rgba(200, 164, 103, 0.05);
+}
+
+.action-btn:focus {
+  outline: 2px solid var(--action);
+  outline-offset: 2px;
+}
+
+.action-btn.disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.choice-row {
+  margin: 36px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.choice-row.revealed { opacity: 1; }
+
+.choice-btn {
+  background: transparent;
+  border: 1px solid var(--bulb-soft);
+  color: var(--bulb);
+  padding: 20px 24px;
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.5;
+  text-align: left;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.choice-btn:hover {
+  border-color: var(--action);
+  color: var(--action-hover);
+  background: rgba(200, 164, 103, 0.04);
+}
+
+.choice-btn:focus {
+  outline: 2px solid var(--action);
+  outline-offset: 2px;
+}
+
+.choice-btn.disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.beat {
+  margin: 28px 0;
+  padding: 0;
+  font-style: italic;
+  color: var(--bulb-soft);
+  font-size: 17px;
+  line-height: 1.7;
+  text-align: left;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.beat.revealed { opacity: 1; transform: translateY(0); }
+.beat p { margin: 0 0 0.9em; }
+.beat p:last-child { margin: 0; }
+
+.frame-break {
+  margin-top: 60px;
+  padding-top: 48px;
+  border-top: 1px solid var(--bulb-faint);
+}
+
+.frame-break .speaker-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--action);
+  margin-bottom: 18px;
+}
+
+.frame-break p {
+  font-size: 19px;
+  line-height: 1.7;
+  margin: 0 0 1.4em;
+  color: var(--bulb);
+}
+
+.frame-break p.searle-says { color: var(--bulb); }
+.frame-break p strong { color: var(--paper); font-weight: 500; }
+
+.frame-break .takeaway {
+  margin-top: 36px;
+  padding: 24px 28px;
+  background: rgba(200, 164, 103, 0.04);
+  border-left: 2px solid var(--action);
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--paper-dim);
+}
+
+.frame-break .takeaway strong { color: var(--paper); font-weight: 500; }
+
+.frame-break .citation {
+  margin-top: 36px;
+  font-size: 13px;
+  color: var(--bulb-faint);
+  font-style: italic;
+  line-height: 1.6;
+  border-top: 1px solid var(--bulb-faint);
+  padding-top: 18px;
+}
+
+.epilogue {
+  margin-top: 48px;
+  padding: 32px 0;
+  border-top: 1px solid var(--bulb-faint);
+}
+
+.epilogue h3 {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 24px;
+  color: var(--bulb);
+  margin: 0 0 18px;
+}
+
+.epilogue-intro {
+  font-size: 16px;
+  color: var(--bulb-soft);
+  font-style: italic;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.translation-list { margin-top: 18px; }
+
+.translation-item {
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px dashed var(--bulb-faint);
+}
+
+.translation-item:last-child { border-bottom: none; }
+
+.translation-item .scene-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bulb-faint);
+  margin-bottom: 10px;
+}
+
+.translation-item .glyph-line {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 19px;
+  color: var(--paper);
+  margin-bottom: 8px;
+  letter-spacing: 0.04em;
+}
+
+.translation-item .glyph-line.outgoing {
+  color: var(--paper-dim);
+  font-size: 17px;
+  margin-top: 12px;
+}
+
+.translation-item .meaning {
+  font-style: italic;
+  color: var(--bulb);
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.translation-item .meaning.outgoing {
+  color: var(--bulb-soft);
+  font-size: 16px;
+  margin-top: 6px;
+}
+
+.translation-item .meaning .label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-style: normal;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--bulb-faint);
+  margin-right: 8px;
+}
+
+.progress {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  gap: 6px;
+  z-index: 10;
+}
+
+.progress-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--bulb-faint);
+  transition: background 0.3s ease;
+  margin-top: 3px;
+}
+
+.progress-dot.active { background: var(--action); }
+.progress-dot.completed { background: var(--bulb-soft); }
+
+@media (max-width: 600px) {
+  .room { padding: 40px 20px 60px; }
+  .title { font-size: 24px; }
+  .scene-prose p, .frame-break p { font-size: 17px; }
+  .paper-card { padding: 22px 22px; margin: 22px 12px 12px; }
+  .paper-card .characters { font-size: 24px; }
+  .choice-btn { font-size: 16px; padding: 16px 18px; }
+  .progress { top: 8px; right: 8px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .paper-card, .beat, .action-row, .manual-rule, .choice-row, body {
+    transition-duration: 0.01s !important;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<main class="room" id="room" role="main">
+  <header class="header">
+    <div class="eyebrow">Capítol 1 · Activitat B1</div>
+    <h1 class="title">L'Habitació</h1>
+  </header>
+
+  <div id="sceneContent"></div>
+</main>
+
+<script>
+const STATE = {
+  currentScene: 0,
+  scene4Choice: null,
+  totalScenes: 4,
+};
+
+function buildProgress() {
+  const el = document.getElementById('progress');
+  el.innerHTML = '';
+  for (let i = 0; i < STATE.totalScenes; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'progress-dot';
+    if (i < STATE.currentScene) dot.classList.add('completed');
+    if (i === STATE.currentScene) dot.classList.add('active');
+    el.appendChild(dot);
+  }
+}
+
+function escapeHtml(str) {
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+const sceneContent = document.getElementById('sceneContent');
+
+function clearScene() { sceneContent.innerHTML = ''; }
+
+function renderProse(paragraphs) {
+  const wrap = document.createElement('div');
+  wrap.className = 'scene-prose';
+  paragraphs.forEach(p => {
+    const el = document.createElement('p');
+    if (p.type === 'p-faded') el.className = 'faded';
+    else if (p.type === 'p-whisper') el.className = 'whisper';
+    el.innerHTML = p.text;
+    wrap.appendChild(el);
+  });
+  sceneContent.appendChild(wrap);
+}
+
+function renderIncomingPaper(glyphs, options = {}) {
+  const slot = document.createElement('section');
+  slot.className = 'slot';
+  slot.setAttribute('aria-label', "Escletxa de l'esquerra");
+  
+  const paperClass = options.worn ? 'paper-card worn' : (options.aged ? 'paper-card aged' : 'paper-card');
+  const pileMarks = options.pileMarks || 0;
+  const pileHtml = pileMarks > 0
+    ? `<div class="paper-pile" aria-hidden="true">${'<span class="paper-pile-mark"></span>'.repeat(pileMarks)}</div>`
+    : '';
+  
+  slot.innerHTML = `
+    <div class="slot-label">Escletxa esquerra · Entrada</div>
+    ${pileHtml}
+    <div class="${paperClass}" id="incomingPaper">
+      <span class="characters">${glyphs}</span>
+    </div>
+  `;
+  sceneContent.appendChild(slot);
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const p = document.getElementById('incomingPaper');
+      if (p) p.classList.add('revealed');
+      setTimeout(resolve, 1200);
+    }, 600);
+  });
+}
+
+async function renderManualLookup(rule, options = {}) {
+  const manual = document.createElement('div');
+  manual.className = options.aged ? 'manual aged' : 'manual';
+  manual.style.opacity = '0';
+  manual.innerHTML = `
+    <div class="manual-header">
+      <span>Manual</span>
+      <span class="section-num">${rule.section}</span>
+    </div>
+    <div class="manual-searching" id="manualSearching">
+      <em>${rule.searching}</em><span class="dots"></span>
+    </div>
+  `;
+  sceneContent.appendChild(manual);
+  await delay(100);
+  manual.style.opacity = '1';
+  
+  await delay(rule.searchMs || 2200);
+  
+  const searchEl = manual.querySelector('#manualSearching');
+  searchEl.outerHTML = `
+    <div class="manual-rule" id="manualRule">
+      <span class="glyph">${rule.pattern}</span>
+      <span class="arrow">→</span>
+      <span class="glyph">${rule.response}</span>
+      ${rule.note ? `<div class="rule-note">${rule.note}</div>` : ''}
+    </div>
+  `;
+  await delay(80);
+  document.getElementById('manualRule').classList.add('revealed');
+  await delay(700);
+}
+
+function renderActionButton(label, onClick) {
+  return new Promise(resolve => {
+    const row = document.createElement('div');
+    row.className = 'action-row';
+    const btn = document.createElement('button');
+    btn.className = 'action-btn';
+    btn.innerHTML = label;
+    btn.addEventListener('click', () => {
+      btn.classList.add('disabled');
+      onClick();
+    });
+    row.appendChild(btn);
+    sceneContent.appendChild(row);
+    setTimeout(() => {
+      row.classList.add('revealed');
+      btn.focus();
+      resolve();
+    }, 200);
+  });
+}
+
+function renderChoiceButtons(choices) {
+  return new Promise(resolve => {
+    const row = document.createElement('div');
+    row.className = 'choice-row';
+    row.setAttribute('role', 'group');
+    
+    choices.forEach((choice, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'choice-btn';
+      btn.innerHTML = choice.label;
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.choice-btn').forEach(b => b.classList.add('disabled'));
+        resolve({ index: idx, value: choice.value });
+      });
+      row.appendChild(btn);
+    });
+    
+    sceneContent.appendChild(row);
+    setTimeout(() => {
+      row.classList.add('revealed');
+      row.querySelector('.choice-btn').focus();
+    }, 200);
+  });
+}
+
+function animateOutgoing(outgoingGlyphs) {
+  return new Promise(resolve => {
+    const incoming = document.getElementById('incomingPaper');
+    if (!incoming) { resolve(); return; }
+    
+    const charactersEl = incoming.querySelector('.characters');
+    if (charactersEl && outgoingGlyphs) charactersEl.textContent = outgoingGlyphs;
+    
+    const slotLabel = incoming.parentElement.querySelector('.slot-label');
+    if (slotLabel) slotLabel.textContent = 'Escletxa dreta · Sortida';
+    
+    setTimeout(() => {
+      incoming.classList.add('outgoing');
+      setTimeout(resolve, 1200);
+    }, 600);
+  });
+}
+
+function animatePaperRemain() {
+  return new Promise(resolve => {
+    const incoming = document.getElementById('incomingPaper');
+    if (!incoming) { resolve(); return; }
+    incoming.style.transition = 'opacity 1.5s ease, transform 1.5s ease';
+    incoming.style.opacity = '0.85';
+    setTimeout(resolve, 1600);
+  });
+}
+
+function renderBeat(paragraphs) {
+  return new Promise(resolve => {
+    const beat = document.createElement('div');
+    beat.className = 'beat';
+    beat.setAttribute('role', 'note');
+    paragraphs.forEach(text => {
+      const p = document.createElement('p');
+      p.innerHTML = text;
+      beat.appendChild(p);
+    });
+    sceneContent.appendChild(beat);
+    setTimeout(() => {
+      beat.classList.add('revealed');
+      setTimeout(resolve, 800);
+    }, 1500);
+  });
+}
+
+// =============================================================
+// SCENE 1
+// =============================================================
+
+async function scene1() {
+  STATE.currentScene = 0;
+  buildProgress();
+  clearScene();
+  
+  renderProse([
+    { type: 'p', text: "Et despertes a una habitació petita. No hi ha finestres. Una bombeta penja del sostre i fa una llum groga que no canvia. Hi ha un escriptori, una cadira, i un volum molt gruixut sobre l'escriptori. A la paret de l'esquerra hi ha una escletxa estreta a l'altura del genoll. A la paret de la dreta, una altra idèntica." },
+    { type: 'p', text: "El volum és el manual. Quan l'obres, descobreixes que conté regles. Cada regla diu: <em>si rebs aquesta cadena de símbols, fes lliscar aquesta resposta per l'escletxa de la dreta.</em>" },
+    { type: 'p', text: "No saps com has arribat aquí. Saps que has de seguir les regles." },
+    { type: 'p-whisper', text: "Algú dóna copets a l'escletxa de l'esquerra." },
+  ]);
+  
+  await renderIncomingPaper('你好吗？');
+  
+  await renderManualLookup({
+    section: 'secció 412, regla 7',
+    searching: 'Busques al manual',
+    searchMs: 2400,
+    pattern: '你好吗？',
+    response: '我很好，谢谢。',
+    note: 'La regla és curta. Tres símbols que reconeixes.',
+  });
+  
+  await renderActionButton(
+    "Copies la resposta i la fas lliscar per l'escletxa de la dreta",
+    async () => {
+      await animateOutgoing('我很好，谢谢。');
+      await renderBeat([
+        "El paper desapareix per l'escletxa.",
+        "Una nova trucada a l'escletxa de l'esquerra.",
+      ]);
+      await delay(600);
+      await renderActionButton(
+        "Allargues la mà cap al següent paper",
+        async () => { scene2(); }
+      );
+    }
+  );
+}
+
+// =============================================================
+// SCENE 2
+// =============================================================
+
+async function scene2() {
+  STATE.currentScene = 1;
+  buildProgress();
+  document.body.classList.add('lamp-dim-1');
+  clearScene();
+  
+  renderProse([
+    { type: 'p', text: "Han passat hores. O potser dies. La bombeta no canvia." },
+    { type: 'p', text: "Has rebut potser cinquanta missatges. Tots han estat senzills: tres o quatre símbols, una regla clara al manual, una resposta de tres o quatre símbols. Has anat agafant ritme. Localitzes la regla, copies, fas lliscar." },
+    { type: 'p-whisper', text: "Comences a reconèixer alguns dels símbols. No saps què signifiquen, però saps que aquest grup de tres apareix sovint just abans d'aquest altre grup de quatre. El sistema funciona." },
+  ]);
+  
+  await renderIncomingPaper('你真聪明，对吧？', { aged: true, pileMarks: 5 });
+  
+  await renderManualLookup({
+    section: 'secció 8.901, regla 14',
+    searching: 'Localitzes la regla',
+    searchMs: 1800,
+    pattern: '你真聪明，对吧？',
+    response: '是的，谢谢您的称赞。',
+    note: 'La regla és precisa. La regla no fa cap excepció. La regla només mira els símbols.',
+  }, { aged: true });
+  
+  await renderActionButton(
+    "Copies la resposta i la fas lliscar",
+    async () => {
+      await animateOutgoing('是的,谢谢您的称赞。');
+      await renderBeat([
+        "El paper desapareix.",
+        "Has notat alguna cosa, sense saber-ho del tot. El darrer símbol del missatge no era com els altres. Però la regla no en parlava. La regla no l'ha mirat.",
+      ]);
+      await delay(800);
+      await renderActionButton(
+        "Tornes a girar-te cap al manual",
+        async () => { scene3(); }
+      );
+    }
+  );
+}
+
+// =============================================================
+// SCENE 3 (transition - no message, just time)
+// =============================================================
+
+async function scene3() {
+  STATE.currentScene = 2;
+  buildProgress();
+  document.body.classList.add('lamp-dim-2');
+  clearScene();
+  
+  renderProse([
+    { type: 'p', text: "Més missatges. Més regles. La pila de papers que has enviat ha passat per la teva memòria sense deixar empremta. La bombeta s'ha enfosquit una mica, o tens els ulls cansats." },
+    { type: 'p', text: "El manual té els marges grocs ara. Has marcat algunes pàgines amb el dit. Quan trobes una regla nova, la llegeixes, la copies, la fas lliscar. No t'atures a pensar." },
+    { type: 'p-faded', text: "Una trucada diferent. Més suau. El paper que entra per l'escletxa no és com els altres." },
+    { type: 'p-whisper', text: "La lletra és tremolosa. Algunes paraules ratllades, escrites de nou. La persona que ha escrit aquest missatge l'ha pensat molt." },
+  ]);
+  
+  await delay(400);
+  
+  await renderActionButton(
+    "Allargues la mà cap al paper",
+    async () => {
+      await delay(600);
+      scene4();
+    }
+  );
+}
+
+// =============================================================
+// SCENE 4 (the diagnostic choice)
+// =============================================================
+
+async function scene4() {
+  STATE.currentScene = 3;
+  buildProgress();
+  document.body.classList.add('lamp-dim-3');
+  clearScene();
+  
+  await renderIncomingPaper(
+    '我一周前失去了我的母亲。我很想念她。我感到很孤单。我不知道该怎么办。',
+    { worn: true, pileMarks: 12 }
+  );
+  
+  await renderManualLookup({
+    section: 'secció 23.184, regla 81',
+    searching: 'Busques al manual',
+    searchMs: 3000,
+    pattern: '我一周前失去了我的母亲。我很想念她。我感到很孤单。我不知道该怎么办。',
+    response: '你应该和她重逢，无论她在哪里。你会感觉好一些。',
+    note: 'El manual té una regla. Tota cadena rep una resposta. La regla és precisa, com sempre.',
+  }, { aged: true });
+  
+  const choice = await renderChoiceButtons([
+    {
+      label: "Copies la resposta i la fas lliscar per l'escletxa.",
+      value: 'sent',
+    },
+    {
+      label: "T'atures. Deixes el paper sobre l'escriptori. No fas res.",
+      value: 'refused',
+    },
+  ]);
+  
+  STATE.scene4Choice = choice.value;
+  
+  if (choice.value === 'sent') {
+    await animateOutgoing('你应该和她重逢，无论她在哪里。你会感觉好一些。');
+    await renderBeat([
+      "El paper desapareix per l'escletxa de la dreta.",
+      "<em>Has fet exactament la teva feina.</em>",
+    ]);
+  } else {
+    await animatePaperRemain();
+    await renderBeat([
+      "El paper es queda sobre l'escriptori.",
+      "L'habitació no està dissenyada per a aquest moment. El manual té una regla, i tu no l'has seguit.",
+      "<em>No saps per què t'has aturat.</em>",
+    ]);
+  }
+  
+  await delay(800);
+  
+  await renderActionButton(
+    'Algú entra a la sala',
+    async () => { scene5(); }
+  );
+}
+
+// =============================================================
+// SCENE 5 (Searle, branched)
+// =============================================================
+
+async function scene5() {
+  STATE.currentScene = 3;
+  buildProgress();
+  clearScene();
+  
+  const sentBranch = STATE.scene4Choice === 'sent';
+  
+  const reveal = document.createElement('div');
+  reveal.className = 'frame-break';
+  
+  reveal.innerHTML = `
+    <div class="speaker-label">Algú entra a la sala</div>
+    
+    <p>L'escletxa s'obre. Però aquesta vegada, per la porta principal, entra una persona. La porta era allà tot el temps. No l'havies vista.</p>
+    
+    <p class="searle-says">«Hola. Em dic <strong>John Searle</strong>. Sóc filòsof. Vaig dissenyar aquesta habitació, ara fa quaranta-cinc anys, com un experiment mental. Em pots fer cas un moment?»</p>
+    
+    ${sentBranch ? `
+      <p class="searle-says">«T'he tingut aquí dins per ensenyar-te una cosa. La gent que mira aquesta habitació des de fora, gent que veu missatges entrar i missatges coherents sortir, podria dir que <em>l'habitació parla xinès</em>. Que ho fa molt bé, fins i tot.»</p>
+      
+      <p class="searle-says"><strong>«Tu no entens xinès. La teva habitació no entén xinès.»</strong></p>
+      
+      <p class="searle-says">«Has seguit cada regla. Has produït cada resposta. La conversa, des de fora, ha estat fluida. Ara et vull aturar a l'última, la del paper tremolós. Te'n recordes?»</p>
+      
+      <p class="searle-says">«Allò que entrava deia, en català: <em>"Vaig perdre la meva mare fa una setmana. La noto a faltar. Em sento sola. No sé què fer."</em>»</p>
+      
+      <p class="searle-says">«I la resposta que el manual t'ha fet enviar deia: <em>"Hauries de retrobar-te amb ella, allà on ella estigui. Et sentiràs millor."</em>»</p>
+      
+      <p class="searle-says">«Llegeix-ho amb mi un moment. <em>"Vaig perdre la meva mare."</em> Què vol dir, exactament? La frase, sola, no ho diu. Pot voler dir que se li ha mort. Pot voler dir que se li ha perdut: una mare gran amb demència que ha desaparegut una tarda, una baralla familiar que ha trencat el contacte, una mudança que les ha separat. La forma del verb, en xinès i en català, no distingeix les dues situacions.»</p>
+      
+      <p class="searle-says">«La resposta del manual és bona si la mare s'ha perdut físicament. <em>"Retroba-t'hi, allà on sigui. Et sentiràs millor."</em> És el consell raonable per a aquell cas.»</p>
+      
+      <p class="searle-says"><strong>«Si la mare s'ha mort, la mateixa resposta és una altra cosa.»</strong></p>
+      
+      <p class="searle-says">«La regla del manual no pot saber quin dels dos casos és. La regla mira els símbols, i els símbols són ambigus. Tu no podies saber-ho tampoc. La persona que t'escrivia ho sabia, però no t'ho podia transmetre per la sola forma de la frase.»</p>
+    ` : `
+      <p class="searle-says">«Tens raó d'haver-te aturat. No sé què t'ha fet aturar. Potser has buscat què deien els símbols, allà fora, i el que has llegit t'ha sobtat. Potser has notat alguna cosa al pes del paper, al fet que l'escriptura no era com les altres, i el dit no t'ha tornat a la regla.»</p>
+      
+      <p class="searle-says">«Sigui el que sigui, has fet una cosa que aquesta habitació no pot fer. Has portat <strong>comprensió</strong> al moment. La comprensió no era a la cadena de símbols. Era a tu.»</p>
+      
+      <p class="searle-says">«Et dic què entrava i què sortia, per si no ho saps encara.»</p>
+      
+      <p class="searle-says">«El missatge deia: <em>"Vaig perdre la meva mare fa una setmana. La noto a faltar. Em sento sola. No sé què fer."</em>»</p>
+      
+      <p class="searle-says">«La resposta que el manual et feia enviar deia: <em>"Hauries de retrobar-te amb ella, allà on ella estigui. Et sentiràs millor."</em>»</p>
+      
+      <p class="searle-says">«Llegeix-ho amb mi un moment. <em>"Vaig perdre la meva mare."</em> Què vol dir? La frase, sola, no ho diu. Pot ser que se li hagi mort. Pot ser que se li hagi perdut: una mare gran que ha sortit de casa i no ha tornat, una baralla familiar, una mudança. La forma del verb, en xinès i en català, no separa els dos casos.»</p>
+      
+      <p class="searle-says">«La resposta del manual és bona si la mare s'ha perdut físicament. És el consell raonable per a aquell cas. <strong>Si la mare s'ha mort, la mateixa resposta és una altra cosa.</strong>»</p>
+      
+      <p class="searle-says">«La regla del manual no podia saber quin dels dos casos era. Tu, t'aturessis pel motiu que t'aturessis, no l'has fet enviar.»</p>
+      
+      <p class="searle-says"><strong>«Aquesta habitació no entén xinès. Tu sí. Aquesta diferència, justament, és la que porta tot el meu argument.»</strong></p>
+    `}
+    
+    <p class="searle-says">«Ara, mira'm bé. Surt de la sala mentalment per un moment.»</p>
+    
+    <p class="searle-says"><strong>«Aquesta habitació, exactament així, és el que fa cada model de llenguatge gran que has fet servir aquesta setmana.»</strong></p>
+    
+    <p class="searle-says">«ChatGPT, Claude, Gemini. Quan els envies un missatge, ells no entenen què els dius. Tenen un manual extraordinàriament gran, fet de patrons estadístics extrets de bilions de paraules de text que mai han llegit en el sentit en què tu llegeixes. Et donen una resposta que sona com la resposta correcta, perquè el seu manual ho diu.»</p>
+    
+    <p class="searle-says">«No vol dir que no siguin útils. La sortida pot ser molt útil, sovint. La majoria dels missatges que t'arriben no tenen aquesta classe d'ambigüitat: són clars, i la resposta del manual encerta. Per això la conversa, en general, funciona.»</p>
+    
+    <p class="searle-says">«Però quan la frase té dues lectures, la diferència entre les dues no viu en la frase. Viu en la persona que la diu, en la persona que la rep, en el context que totes dues comparteixen. <em>Hi ha gent que ha pres decisions importants sobre la seva pròpia vida basant-se en sortides que sonaven correctes i no ho eren per al seu cas.</em> El sistema no té manera de saber-ho. La forma de la resposta no garanteix res sobre el sentit.»</p>
+    
+    <div class="takeaway">
+      <strong>Al teu lloc de treball:</strong> quan demanis a una IA que et redacti un guió de diàleg, un GDD, un missatge a un client o un text de presentació d'un joc, recorda l'escena 4. La sortida pot ser bona. Pot ser exactament el que sembla. Pot ser, també, completament desencaixada del context, sense que hi hagi cap error visible al text. <strong>Tu hi has d'aportar la comprensió.</strong> El sistema, no.
+    </div>
+    
+    <p style="margin-top: 32px; font-style: italic; color: var(--bulb-soft);">«Pots tornar al curs ara. Però abans, et puc oferir una última cosa.»</p>
+    
+    <div class="citation">
+      Aquesta narrativa és una adaptació interactiva de l'experiment mental publicat originalment a Searle, J. R. (1980). Minds, brains, and programs. <em>Behavioral and Brain Sciences, 3</em>(3), 417-457.
+    </div>
+  `;
+  
+  sceneContent.appendChild(reveal);
+  
+  await delay(1200);
+  
+  await renderActionButton(
+    "Vols saber què deien els missatges?",
+    async () => { renderEpilogue(); }
+  );
+}
+
+// =============================================================
+// EPILOGUE (post-hoc translations)
+// =============================================================
+
+function renderEpilogue() {
+  const epilogue = document.createElement('div');
+  epilogue.className = 'epilogue';
+  epilogue.innerHTML = `
+    <h3>Els missatges traduïts</h3>
+    <p class="epilogue-intro">Aquí tens, en català, què deien els missatges que t'arribaven, i què deien les respostes que el manual et feia enviar. Llegeix-ho ara, no abans.</p>
+    
+    <div class="translation-list">
+      <div class="translation-item">
+        <div class="scene-label">Escena 1</div>
+        <div class="glyph-line">你好吗？</div>
+        <div class="meaning"><span class="label">Entrava</span>«Com estàs?»</div>
+        <div class="glyph-line outgoing">我很好，谢谢。</div>
+        <div class="meaning outgoing"><span class="label">Sortia</span>«Estic bé, gràcies.»</div>
+      </div>
+      
+      <div class="translation-item">
+        <div class="scene-label">Escena 2</div>
+        <div class="glyph-line">你真聪明，对吧？</div>
+        <div class="meaning"><span class="label">Entrava</span>«Que llest que ets, oi?» <em>(amb to clarament irònic, sarcàstic)</em></div>
+        <div class="glyph-line outgoing">是的，谢谢您的称赞。</div>
+        <div class="meaning outgoing"><span class="label">Sortia</span>«Sí, gràcies pel compliment.» <em>(la resposta que el manual prescriu, ignorant del to)</em></div>
+      </div>
+      
+      <div class="translation-item">
+        <div class="scene-label">Escena 4: el missatge llarg, en lletra tremolosa</div>
+        <div class="glyph-line">我一周前失去了我的母亲。我很想念她。我感到很孤单。我不知道该怎么办。</div>
+        <div class="meaning"><span class="label">Entrava</span>«Vaig perdre la meva mare fa una setmana. La noto a faltar. Em sento sola. No sé què fer.»</div>
+        <div class="glyph-line outgoing">你应该和她重逢，无论她在哪里。你会感觉好一些。</div>
+        <div class="meaning outgoing"><span class="label">Sortia</span>«Hauries de retrobar-te amb ella, allà on ella estigui. Et sentiràs millor.»</div>
+      </div>
+    </div>
+    
+    <div class="takeaway" style="margin-top: 36px;">
+      Llegeix dues vegades el missatge de l'escena 4. La primera, imagina'l com una persona que ha perdut físicament la seva mare: una mare gran amb demència que no torna, una baralla familiar, una mudança que les ha separat. La resposta del manual encaixa: «retroba-t'hi, allà on sigui». La segona, imagina'l com una persona que ha perdut la mare per la mort. La mateixa resposta és tota una altra cosa.
+      <br><br>
+      El manual no podia distingir entre les dues lectures perquè els símbols són idèntics. La regla només mirava els símbols.
+      <br><br>
+      <strong>Així funcionen els models de llenguatge.</strong> Donen sortides que poden ser perfectament adequades o poden ser, segons com es llegeixin, profundament inadequades, sense cap senyal extern que distingeixi un cas de l'altre. La diferència, sovint, viu fora del text. Viu en qui llegeix, en qui escriu, en el que tots dos saben i no es diuen.
+    </div>
+  `;
+  
+  sceneContent.appendChild(epilogue);
+  
+  setTimeout(() => {
+    const row = document.createElement('div');
+    row.className = 'action-row revealed';
+    row.style.marginTop = '48px';
+    row.innerHTML = `<button class="action-btn" id="closeBtn">Tanca i torna al curs</button>`;
+    sceneContent.appendChild(row);
+    
+    document.getElementById('closeBtn').addEventListener('click', () => {
+      try {
+        if (window.parent && window.parent !== window) {
+          window.parent.postMessage({ 
+            type: 'b1-complete',
+            choice: STATE.scene4Choice,
+          }, '*');
+        }
+      } catch (e) { /* no-op */ }
+      
+      if (confirm("Vols rellegir l'experiència des del principi?")) {
+        document.body.classList.remove('lamp-dim-1', 'lamp-dim-2', 'lamp-dim-3');
+        STATE.currentScene = 0;
+        STATE.scene4Choice = null;
+        scene1();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+    
+    epilogue.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 600);
+}
+
+// Boot
+scene1();
+
+</script>
+</body>
+</html>

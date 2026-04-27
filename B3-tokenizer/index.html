@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El cost del català · ENTI-UB AI Literacy</title>
+<style>
+/* =============================================================
+   B3 - Tokeniser comparatiu, redesigned layout.
+   ENTI-UB AI Literacy Course, Module 1, Chapter 2.
+   ============================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg:           #f4efe6;
+  --bg-card:      #ffffff;
+  --bg-soft:      #faf6ec;
+  --bg-deep:      #ede4cf;
+  --ink:          #1a1814;
+  --ink-soft:     #4a463e;
+  --ink-faint:    #8a8478;
+  --rule:         #1a1814;
+  --rule-soft:    #c9c2b3;
+  --accent:       #b91c1c;
+  --accent-deep:  #8b1414;
+  --accent-soft:  #f5d8d8;
+  --accent-2:     #1e3a5f;
+  
+  --token-bg-a:   #ede4cf;
+  --token-bg-b:   #c9b993;
+  --token-bg-ws:  rgba(255,255,255,0.4);
+  --token-text:   #1a1410;
+  --token-line:   rgba(26, 20, 16, 0.08);
+  
+  --flag-cat:     #c8a467;
+  --flag-en:      #5a7d8c;
+  --flag-es:      #9c7a3d;
+  --flag-cat-bg:  #f3eadd;
+  --flag-en-bg:   #e8eef0;
+  --flag-es-bg:   #f0e9dc;
+  --flag-free:    #4a463e;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 18px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.widget-frame {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 24px 24px 40px;
+}
+
+.widget-header {
+  border-bottom: 2px solid var(--rule);
+  padding-bottom: 14px;
+  margin-bottom: 22px;
+}
+
+.widget-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+}
+
+.widget-title {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 1.1;
+  margin: 0 0 6px;
+  letter-spacing: -0.01em;
+}
+
+.widget-subtitle {
+  font-style: italic;
+  font-size: 16px;
+  color: var(--ink-soft);
+  margin: 0;
+  max-width: 720px;
+}
+
+.widget-intro {
+  background: var(--bg-card);
+  border-left: 3px solid var(--accent-2);
+  padding: 14px 18px;
+  margin-bottom: 22px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+.widget-intro strong { color: var(--ink); font-weight: 600; }
+
+.loader {
+  text-align: center;
+  padding: 80px 20px;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.loader-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin: 0 3px;
+  background: var(--ink-soft);
+  border-radius: 50%;
+  animation: pulse 1.4s ease-in-out infinite both;
+}
+.loader-dot:nth-child(2) { animation-delay: 0.16s; }
+.loader-dot:nth-child(3) { animation-delay: 0.32s; }
+
+@keyframes pulse {
+  0%, 80%, 100% { opacity: 0.2; }
+  40% { opacity: 1; }
+}
+
+/* ---------------- HERO ---------------- */
+
+.hero {
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  margin-bottom: 28px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-divider { background: var(--rule-soft); }
+
+.hero-figure {
+  padding: 32px 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  min-height: 220px;
+}
+
+.hero-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 12px;
+}
+
+.hero-figure-num {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-weight: 700;
+  font-size: 88px;
+  line-height: 1;
+  color: var(--accent);
+  letter-spacing: -0.04em;
+  margin: 0;
+  font-feature-settings: "lnum";
+}
+
+.hero-figure-num.negative { color: var(--flag-cat); }
+.hero-figure-num.zero { color: var(--ink-faint); }
+.hero-figure-num.empty {
+  color: var(--ink-faint);
+  font-size: 56px;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.hero-figure-caption {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 19px;
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--ink);
+  margin: 14px 0 0;
+  max-width: 320px;
+}
+
+.hero-figure-caption strong {
+  font-style: normal;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.hero-figure-secondary {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--ink-soft);
+  margin: 12px 0 0;
+}
+
+.hero-figure-secondary .figure-mini {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.hero-figure-secondary .figure-mini.negative {
+  color: var(--flag-cat);
+}
+
+.hero-chart {
+  padding: 32px 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--bg-soft);
+}
+
+.hero-chart-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 18px;
+}
+
+.bar-row {
+  display: grid;
+  grid-template-columns: 90px 1fr 56px;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.bar-row:last-child { margin-bottom: 0; }
+
+.bar-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.bar-track {
+  height: 26px;
+  background: var(--bg-card);
+  border: 1px solid var(--rule-soft);
+  position: relative;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bar-row[data-lang="ca"] .bar-fill { background: var(--flag-cat); }
+.bar-row[data-lang="en"] .bar-fill { background: var(--flag-en); }
+.bar-row[data-lang="es"] .bar-fill { background: var(--flag-es); }
+
+.bar-value {
+  font-weight: 700;
+  color: var(--ink);
+  font-size: 16px;
+  text-align: right;
+}
+
+/* ---------------- EVIDENCE ---------------- */
+
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 0 0 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--rule-soft);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.section-label .section-hint {
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: var(--ink-faint);
+  font-size: 12px;
+  font-style: italic;
+  font-family: 'EB Garamond', Georgia, serif;
+}
+
+.evidence-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.evidence-card {
+  background: var(--bg-card);
+  border: 1px solid var(--rule-soft);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.evidence-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--rule-soft);
+}
+
+.evidence-card[data-lang="ca"] .evidence-header { background: var(--flag-cat-bg); }
+.evidence-card[data-lang="en"] .evidence-header { background: var(--flag-en-bg); }
+.evidence-card[data-lang="es"] .evidence-header { background: var(--flag-es-bg); }
+
+.evidence-lang {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.evidence-lang .lang-flag {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.evidence-card[data-lang="ca"] .lang-flag { background: var(--flag-cat); }
+.evidence-card[data-lang="en"] .lang-flag { background: var(--flag-en); }
+.evidence-card[data-lang="es"] .lang-flag { background: var(--flag-es); }
+
+.evidence-count {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--ink);
+  font-feature-settings: "lnum";
+}
+
+.evidence-count-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-left: 4px;
+}
+
+.evidence-body {
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.evidence-input {
+  width: 100%;
+  border: 1px solid var(--rule-soft);
+  background: var(--bg-soft);
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink);
+  padding: 8px 10px;
+  resize: vertical;
+  min-height: 56px;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.evidence-input:focus { border-color: var(--ink); }
+
+.evidence-tokens {
+  background: var(--bg-deep);
+  border: 1px solid var(--rule-soft);
+  padding: 10px 12px;
+  min-height: 56px;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 14px;
+  line-height: 1.85;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  flex: 1;
+}
+
+.evidence-stats {
+  display: flex;
+  justify-content: flex-end;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  padding-top: 4px;
+  border-top: 1px dashed var(--rule-soft);
+}
+
+/* ---------------- TOKEN CHIPS ---------------- */
+
+.token {
+  display: inline;
+  padding: 2px 1px;
+  background: var(--token-bg-a);
+  color: var(--token-text);
+  white-space: pre;
+  border-top: 1px solid var(--token-line);
+  border-bottom: 1px solid var(--token-line);
+}
+
+.token.alt { background: var(--token-bg-b); }
+
+.token.whitespace {
+  background: var(--token-bg-ws);
+  color: var(--ink-faint);
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+}
+
+.token.special {
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  padding: 1px 4px;
+}
+
+.workbench-tokens .token { font-size: 16px; }
+
+/* ---------------- WORKBENCH ---------------- */
+
+.workbench {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  padding: 24px 24px 20px;
+  margin-bottom: 28px;
+  position: relative;
+}
+
+.workbench::before {
+  content: 'PROVA-HO AQUÍ';
+  position: absolute;
+  top: -10px;
+  left: 18px;
+  background: var(--bg);
+  padding: 0 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--ink);
+}
+
+.workbench-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: stretch;
+  margin-top: 6px;
+}
+
+.workbench-side {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.workbench-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.workbench-input {
+  width: 100%;
+  border: 1px solid var(--rule-soft);
+  background: var(--bg-soft);
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink);
+  padding: 10px 12px;
+  resize: vertical;
+  min-height: 90px;
+  outline: none;
+  flex: 1;
+  transition: border-color 0.15s ease;
+}
+
+.workbench-input:focus { border-color: var(--ink); }
+
+.workbench-tokens {
+  background: var(--bg-deep);
+  border: 1px solid var(--rule-soft);
+  padding: 12px 14px;
+  min-height: 90px;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 16px;
+  line-height: 1.85;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  flex: 1;
+}
+
+.workbench-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--rule-soft);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.workbench-count {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1;
+  color: var(--ink);
+  font-feature-settings: "lnum";
+}
+
+.workbench-count-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-left: 6px;
+}
+
+.workbench-ratio {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+}
+
+.widget-footer {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--rule-soft);
+  font-size: 12px;
+  color: var(--ink-soft);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.widget-footer a { color: var(--accent-2); }
+
+/* ---------------- responsive ---------------- */
+
+@media (max-width: 880px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-divider { height: 1px; width: 100%; }
+  .hero-figure-num { font-size: 64px; }
+  .hero-figure { min-height: auto; padding: 24px 24px 16px; }
+  .hero-chart { padding: 20px 24px 24px; }
+  .evidence-grid { grid-template-columns: 1fr; gap: 10px; }
+  .workbench-row { grid-template-columns: 1fr; }
+  .widget-title { font-size: 24px; }
+}
+
+@media (max-width: 480px) {
+  .widget-frame { padding: 16px 14px 32px; }
+  .hero-figure-num { font-size: 52px; }
+  .hero-figure-caption { font-size: 16px; }
+  .bar-row { grid-template-columns: 70px 1fr 44px; gap: 10px; }
+  .bar-label { font-size: 9px; }
+  .workbench { padding: 18px 16px; }
+}
+
+</style>
+</head>
+<body>
+<div class="widget-frame">
+
+  <header class="widget-header">
+    <div class="widget-eyebrow">Capítol 2 · Activitat B3</div>
+    <h1 class="widget-title">El cost del català</h1>
+    <p class="widget-subtitle">La mateixa idea, expressada en català, en anglès i en castellà, no costa el mateix nombre de tokens.</p>
+  </header>
+
+  <div class="widget-intro">
+    <strong>Com funciona aquesta eina.</strong> La tokenització la fa el tokenitzador real que utilitzen GPT-4o, GPT-5 i la sèrie o (codificació o200k_base). Edita les caixes per veure la diferència de cost canviar en directe. La diferència és modesta per missatge, però es multiplica ràpidament en producció. La mateixa lògica val per al límit de context: els models tenen una finestra màxima de tokens, i un mateix document hi cabrà menys si està en català que si està en anglès. Si treballes amb un MLG en un projecte de joc, paga la pena tenir-ho present.
+  </div>
+
+  <div id="loaderArea" class="loader">
+    <div>
+      <span class="loader-dot"></span>
+      <span class="loader-dot"></span>
+      <span class="loader-dot"></span>
+    </div>
+    <div style="margin-top: 14px;">Carregant el tokenitzador (només la primera vegada)</div>
+  </div>
+
+  <div id="mainContent" style="display: none;">
+
+    <section class="hero" aria-label="Comparació general entre les llengües">
+      <div class="hero-figure">
+        <div class="hero-eyebrow">El català davant l'anglès</div>
+        <div class="hero-figure-num" id="heroNum">+0&#8201;%</div>
+        <p class="hero-figure-caption" id="heroCaption">
+          Modifica les caixes de baix per veure la diferència en directe.
+        </p>
+        <p class="hero-figure-secondary" id="heroSecondary"></p>
+      </div>
+      <div class="hero-divider" aria-hidden="true"></div>
+      <div class="hero-chart" aria-label="Gràfic de tokens per llengua">
+        <div class="hero-chart-eyebrow">Tokens per llengua</div>
+        <div id="heroBars"></div>
+      </div>
+    </section>
+
+    <section aria-label="Casos en les tres llengües">
+      <div class="section-label">
+        <span>La mateixa idea, tres llengües</span>
+        <span class="section-hint">edita per explorar</span>
+      </div>
+      <div class="evidence-grid" id="evidenceGrid"></div>
+    </section>
+
+    <section aria-label="Caixa lliure">
+      <div class="workbench" id="workbench"></div>
+    </section>
+
+  </div>
+
+  <footer class="widget-footer">
+    ENTI-UB · Curs d'alfabetització en IA · Mòdul 1, Capítol 2.
+    Tokenització feta amb la biblioteca <a href="https://github.com/niieani/gpt-tokenizer" target="_blank" rel="noopener">gpt-tokenizer</a> (codificació o200k_base, la que fan servir GPT-4o, GPT-5 i la sèrie o).
+    El cost en tokens es paga dues vegades: una a l'entrada (el que envies al model) i una altra a la sortida (la resposta que reps).
+  </footer>
+
+</div>
+
+<script src="o200k_base.js"></script>
+<script>
+
+const SEEDS = [
+  {
+    lang: 'ca',
+    label: 'Català',
+    text: 'El meu nom és Anna i vinc de Barcelona. Tinc vint anys i estudio disseny de videojocs.',
+  },
+  {
+    lang: 'en',
+    label: 'English',
+    text: 'My name is Anna and I come from Barcelona. I am twenty years old and I study video game design.',
+  },
+  {
+    lang: 'es',
+    label: 'Castellano',
+    text: 'Me llamo Ana y vengo de Barcelona. Tengo veinte años y estudio diseño de videojuegos.',
+  },
+];
+
+const FREE_SEED = {
+  lang: 'free',
+  label: 'Lliure',
+  text: 'Una mica de pa amb tomàquet i una mica d\'oli d\'oliva.',
+};
+
+const state = {
+  inputs: {
+    ca:   { text: SEEDS[0].text, count: 0, pieces: [] },
+    en:   { text: SEEDS[1].text, count: 0, pieces: [] },
+    es:   { text: SEEDS[2].text, count: 0, pieces: [] },
+    free: { text: FREE_SEED.text, count: 0, pieces: [] },
+  },
+  encoder: null,
+};
+
+function tokeniseText(text) {
+  if (!state.encoder) return { ids: [], pieces: [] };
+  if (!text || text.length === 0) return { ids: [], pieces: [] };
+  const ids = state.encoder.encode(text);
+  const pieces = ids.map(id => {
+    try { return state.encoder.decode([id]); } catch (e) { return '\uFFFD'; }
+  });
+  return { ids, pieces };
+}
+
+function classifyPiece(piece) {
+  if (piece.length === 0) return 'whitespace';
+  if (/^[\s]+$/.test(piece)) return 'whitespace';
+  if (piece === '\uFFFD' || /[\u0000-\u001F]/.test(piece)) return 'special';
+  return 'normal';
+}
+
+function escapeHtml(str) {
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+function renderTokenStream(pieces) {
+  if (pieces.length === 0) {
+    return '<span style="color: var(--ink-faint); font-style: italic; font-size: 13px;">(buit)</span>';
+  }
+  let html = '';
+  let normalIdx = 0;
+  pieces.forEach((piece) => {
+    const cls = classifyPiece(piece);
+    let displayText, tokenClass;
+    if (cls === 'whitespace') {
+      displayText = piece.replace(/ /g, '·').replace(/\n/g, '↵\n').replace(/\t/g, '→');
+      tokenClass = 'token whitespace';
+    } else if (cls === 'special') {
+      displayText = '⟨' + (piece === '\uFFFD' ? 'byte' : piece.charCodeAt(0).toString(16)) + '⟩';
+      tokenClass = 'token special';
+    } else {
+      displayText = piece;
+      tokenClass = 'token' + (normalIdx % 2 === 1 ? ' alt' : '');
+      normalIdx++;
+    }
+    html += `<span class="${tokenClass}">${escapeHtml(displayText)}</span>`;
+  });
+  return html;
+}
+
+function renderEvidenceCards() {
+  const grid = document.getElementById('evidenceGrid');
+  grid.innerHTML = '';
+  SEEDS.forEach(seed => {
+    const key = seed.lang;
+    const card = document.createElement('div');
+    card.className = 'evidence-card';
+    card.setAttribute('data-lang', seed.lang);
+    card.innerHTML = `
+      <div class="evidence-header">
+        <div class="evidence-lang">
+          <span class="lang-flag" aria-hidden="true"></span>
+          <span>${escapeHtml(seed.label)}</span>
+        </div>
+        <div>
+          <span class="evidence-count" id="count-${key}">0</span><span class="evidence-count-label">tokens</span>
+        </div>
+      </div>
+      <div class="evidence-body">
+        <textarea class="evidence-input" id="input-${key}" rows="2" aria-label="Text en ${escapeHtml(seed.label)}">${escapeHtml(seed.text)}</textarea>
+        <div class="evidence-tokens" id="tokens-${key}" aria-label="Visualització de tokens"></div>
+        <div class="evidence-stats">
+          <span id="ratio-${key}">0,00 tokens/caràcter</span>
+        </div>
+      </div>
+    `;
+    grid.appendChild(card);
+    const textarea = document.getElementById(`input-${key}`);
+    let debounceTimer;
+    textarea.addEventListener('input', (e) => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        state.inputs[key].text = e.target.value;
+        updateInputDisplay(key);
+        updateHero();
+      }, 150);
+    });
+  });
+}
+
+function renderWorkbench() {
+  const wb = document.getElementById('workbench');
+  wb.innerHTML = `
+    <div class="workbench-row">
+      <div class="workbench-side">
+        <div class="workbench-label">El teu text</div>
+        <textarea class="workbench-input" id="input-free" rows="3" aria-label="Text lliure">${escapeHtml(FREE_SEED.text)}</textarea>
+      </div>
+      <div class="workbench-side">
+        <div class="workbench-label">Tokenització</div>
+        <div class="workbench-tokens" id="tokens-free" aria-label="Visualització de tokens"></div>
+      </div>
+    </div>
+    <div class="workbench-stats">
+      <div>
+        <span class="workbench-count" id="count-free">0</span><span class="workbench-count-label">tokens</span>
+      </div>
+      <div class="workbench-ratio" id="ratio-free">0,00 tokens/caràcter</div>
+    </div>
+  `;
+  const textarea = document.getElementById('input-free');
+  let debounceTimer;
+  textarea.addEventListener('input', (e) => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      state.inputs.free.text = e.target.value;
+      updateInputDisplay('free');
+    }, 150);
+  });
+}
+
+function updateInputDisplay(key) {
+  const inp = state.inputs[key];
+  const result = tokeniseText(inp.text);
+  inp.pieces = result.pieces;
+  inp.count = result.ids.length;
+  const tokensEl = document.getElementById(`tokens-${key}`);
+  const countEl = document.getElementById(`count-${key}`);
+  const ratioEl = document.getElementById(`ratio-${key}`);
+  if (tokensEl) tokensEl.innerHTML = renderTokenStream(result.pieces);
+  if (countEl) countEl.textContent = result.ids.length;
+  if (ratioEl) {
+    const charCount = inp.text.length;
+    if (charCount === 0) {
+      ratioEl.textContent = '·  tokens/caràcter';
+    } else {
+      const ratio = (result.ids.length / charCount).toFixed(2).replace('.', ',');
+      ratioEl.textContent = `${ratio} tokens/caràcter`;
+    }
+  }
+}
+
+function updateHero() {
+  const ca = state.inputs.ca.count;
+  const en = state.inputs.en.count;
+  const es = state.inputs.es.count;
+  const numEl = document.getElementById('heroNum');
+  const captionEl = document.getElementById('heroCaption');
+  const secondaryEl = document.getElementById('heroSecondary');
+  
+  numEl.classList.remove('negative', 'zero', 'empty');
+  
+  if (en === 0 || ca === 0) {
+    numEl.classList.add('empty');
+    numEl.textContent = '·';
+    if (ca === 0 && en === 0 && es === 0) {
+      captionEl.innerHTML = 'Modifica les caixes de baix per veure la diferència en directe.';
+    } else {
+      captionEl.innerHTML = 'Omple les caixes de català i anglès per veure la comparació.';
+    }
+    secondaryEl.innerHTML = '';
+  } else {
+    const diff = ca - en;
+    const pct = Math.round((diff / en) * 100);
+    if (pct > 0) {
+      numEl.textContent = `+${pct}\u202F%`;
+      captionEl.innerHTML = `La mateixa idea, expressada en <strong>català</strong>, costa més tokens que en anglès.`;
+    } else if (pct < 0) {
+      numEl.classList.add('negative');
+      numEl.textContent = `${pct}\u202F%`;
+      captionEl.innerHTML = `Aquesta vegada el <strong>català</strong> costa menys tokens que l'anglès. És poc habitual: prova-ho amb un text més llarg o variat.`;
+    } else {
+      numEl.classList.add('zero');
+      numEl.textContent = `0\u202F%`;
+      captionEl.innerHTML = `Aquesta vegada el <strong>català</strong> i l'anglès costen exactament el mateix.`;
+    }
+    if (es > 0) {
+      const diffEs = es - en;
+      const pctEs = Math.round((diffEs / en) * 100);
+      let spanishMark, spanishClass = '';
+      if (pctEs > 0) {
+        spanishMark = `+${pctEs}\u202F%`;
+      } else if (pctEs < 0) {
+        spanishMark = `${pctEs}\u202F%`;
+        spanishClass = ' negative';
+      } else {
+        spanishMark = `0\u202F%`;
+      }
+      secondaryEl.innerHTML = `El castellà davant l'anglès, <span class="figure-mini${spanishClass}">${spanishMark}</span>.`;
+    } else {
+      secondaryEl.innerHTML = '';
+    }
+  }
+  updateHeroBars();
+}
+
+function updateHeroBars() {
+  const ca = state.inputs.ca.count;
+  const en = state.inputs.en.count;
+  const es = state.inputs.es.count;
+  const maxCount = Math.max(ca, en, es, 1);
+  const data = [
+    { lang: 'en', label: 'Anglès',     count: en },
+    { lang: 'es', label: 'Castellà',   count: es },
+    { lang: 'ca', label: 'Català',     count: ca },
+  ];
+  const barsEl = document.getElementById('heroBars');
+  barsEl.innerHTML = data.map(d => `
+    <div class="bar-row" data-lang="${d.lang}">
+      <div class="bar-label">${escapeHtml(d.label)}</div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width: ${(d.count / maxCount * 100).toFixed(1)}%;"></div>
+      </div>
+      <div class="bar-value">${d.count}</div>
+    </div>
+  `).join('');
+}
+
+function boot() {
+  if (typeof GPTTokenizer_o200k_base === 'undefined') {
+    document.getElementById('loaderArea').innerHTML = `
+      <div style="color: #b91c1c;">
+        <strong>No s'ha pogut carregar el tokenitzador.</strong><br>
+        Comprova la teva connexió a internet i recarrega la pàgina.
+      </div>
+    `;
+    return;
+  }
+  state.encoder = GPTTokenizer_o200k_base;
+  document.getElementById('loaderArea').style.display = 'none';
+  document.getElementById('mainContent').style.display = 'block';
+  renderEvidenceCards();
+  renderWorkbench();
+  Object.keys(state.inputs).forEach(key => updateInputDisplay(key));
+  updateHero();
+}
+
+if (typeof GPTTokenizer_o200k_base !== 'undefined') {
+  boot();
+} else {
+  let attempts = 0;
+  const interval = setInterval(() => {
+    attempts++;
+    if (typeof GPTTokenizer_o200k_base !== 'undefined') {
+      clearInterval(interval);
+      boot();
+    } else if (attempts > 50) {
+      clearInterval(interval);
+      boot();
+    }
+  }, 100);
+}
+</script>
+</body>
+</html>
