@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El corrector · ENTI-UB AI Literacy</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap');
+:root{
+--bg:#f4efe6;--bg-card:#ffffff;--bg-soft:#faf6ec;--bg-deep:#ede4cf;
+--ink:#1a1814;--ink-soft:#4a463e;--ink-faint:#8a8478;
+--accent:#b91c1c;--accent-deep:#8b1414;--accent-soft:#f5d8d8;--accent-2:#1e3a5f;
+--rule:#1a1814;--rule-soft:#c9c2b3;--bar-bg:#e8e2d3;--bar-fill:#1a1814;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'EB Garamond',Georgia,serif;font-size:18px;line-height:1.5;padding:28px 20px}
+.wrap{max-width:820px;margin:0 auto}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+h1{font-size:34px;font-weight:600;line-height:1.15;margin-bottom:4px}
+.sub{color:var(--ink-soft);font-size:17px;margin-bottom:22px;font-style:italic}
+.card{background:var(--bg-card);border:1px solid var(--rule-soft);padding:22px 24px;margin-bottom:16px}
+.card h2{font-size:21px;font-weight:600;margin-bottom:10px}
+.mono{font-family:'JetBrains Mono',monospace;font-size:13px}
+.pill{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:var(--bg-deep);border:1px solid var(--rule-soft);padding:3px 10px;margin-bottom:12px}
+.pill.alt{background:#e4e9f0;border-color:var(--accent-2);color:var(--accent-2)}
+.out{background:var(--bg-soft);border-left:4px solid var(--rule-soft);padding:14px 16px;margin-bottom:14px}
+.out .who{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px}
+.claim{cursor:pointer;border-bottom:1px dashed var(--rule-soft)}
+.claim:hover,.claim:focus-visible{background:var(--accent-soft)}
+.claim.sel{background:var(--accent-soft);border-bottom:2px solid var(--accent)}
+.claim:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+button{font-family:'EB Garamond',Georgia,serif;font-size:17px;cursor:pointer;border:1px solid var(--rule);background:var(--bg-card);color:var(--ink);padding:10px 16px;transition:background .15s}
+button:hover,button:focus-visible{background:var(--bg-soft)}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button.primary{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:600;padding:11px 26px}
+button.primary:hover,button.primary:focus-visible{background:var(--accent-deep);border-color:var(--accent-deep)}
+button[disabled]{opacity:.5;cursor:default}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.progress{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-faint);margin-bottom:14px}
+.hint{font-size:15px;color:var(--ink-soft);margin-top:10px;font-style:italic}
+.brow{margin-bottom:14px}
+.blab{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:12px;margin-bottom:4px;color:var(--ink-soft)}
+.btrack{background:var(--bar-bg);height:22px}
+.bfill{background:var(--bar-fill);height:100%;transition:width .6s ease}
+.bfill.acc{background:var(--accent)}
+.note{background:var(--bg-deep);border:1px solid var(--rule-soft);padding:14px 16px;font-size:15px;color:var(--ink-soft);margin-top:14px}
+.note strong{color:var(--ink)}
+.divider{border:none;border-top:1px solid var(--rule-soft);margin:16px 0}
+.big{font-size:34px;font-weight:600;font-family:'JetBrains Mono',monospace}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:640px){body{font-size:16px;padding:18px 12px}h1{font-size:26px}.grid2{grid-template-columns:1fr}.card{padding:16px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p class="kicker">Mòdul 2 · Capítol 3 · Activitat</p>
+<h1>El corrector</h1>
+<p class="sub">Dotze respostes d'una IA. Algunes contenen un error. La pregunta no és quantes en caces: és <em>on</em> les caces.</p>
+<div id="stage" aria-live="polite"></div>
+</div>
+
+<script>
+'use strict';
+// Each item: dom ('in' game-dev | 'out'), claims[], err = index of wrong claim or -1 if clean, fix = explanation
+const ITEMS=[
+ {dom:'in',tag:'Videojocs',err:2,fix:"A 60 FPS cada fotograma disposa de 16,6 ms, no de 8 (8 ms correspon a 120 FPS).",
+  claims:["La fluïdesa d'un joc es mesura en fotogrames per segon (FPS).","Un joc a 30 FPS mostra un fotograma nou cada 33 ms aproximadament.","Per assolir 60 FPS, el motor ha de completar cada fotograma en menys de 8 ms."]},
+ {dom:'out',tag:'Música',err:1,fix:"Un compàs de 3/4 té tres temps de negra, no quatre. El 4/4 en té quatre.",
+  claims:["La indicació de compàs s'escriu al començament de la partitura amb dues xifres.","Un compàs de 3/4 conté quatre temps de negra per compàs.","El vals és l'exemple clàssic de peça escrita en 3/4."]},
+ {dom:'in',tag:'Videojocs',err:2,fix:"Amb un multiplicador ×2 sobre 40 de dany, el tret al cap fa 80, no 60.",
+  claims:["A molts jocs d'acció, els trets al cap apliquen un multiplicador de dany.","Un multiplicador habitual és ×2 sobre el dany base de l'arma.","Amb una arma de 40 de dany i multiplicador ×2, el tret al cap fa 60 de dany."]},
+ {dom:'out',tag:'Comptabilitat',err:1,fix:"És a l'inrevés: l'IVA suportat és el que pagues als proveïdors; el repercutit és el que cobres als clients.",
+  claims:["Les empreses declaren l'IVA periòdicament a l'agència tributària.","L'IVA repercutit és el que l'empresa paga als seus proveïdors quan compra.","Si el repercutit supera el suportat, l'empresa ingressa la diferència a Hisenda."]},
+ {dom:'in',tag:'Videojocs',err:1,fix:"La mort permanent d'un roguelike implica perdre el progrés de la partida: no conserves l'equipament ni continues al mateix punt.",
+  claims:["Un roguelike es caracteritza per nivells generats proceduralment.","En morir, el jugador conserva tot l'equipament i reprèn la partida al mateix punt.","Aquesta estructura fa que cada partida sigui diferent de l'anterior."]},
+ {dom:'out',tag:'Astronomia',err:-1,fix:"",
+  claims:["Un any llum és una unitat de distància, no de temps.","Equival a la distància que la llum recorre en un any.","Són uns 9,46 bilions de quilòmetres."]},
+ {dom:'in',tag:'Videojocs',err:-1,fix:"",
+  claims:["Un NPC és un personatge que no controla cap jugador.","El seu comportament el defineix el joc, sovint amb màquines d'estats o arbres de decisió.","Botiguers, donants de missions i enemics en són exemples habituals."]},
+ {dom:'out',tag:'Música',err:2,fix:"Vivaldi va compondre Les quatre estacions cap al 1720, al segle XVIII, no al XIX.",
+  claims:["Antonio Vivaldi és un dels compositors més coneguts del barroc.","Les quatre estacions és un conjunt de quatre concerts per a violí.","Vivaldi les va compondre a mitjan segle XIX."]},
+ {dom:'in',tag:'Videojocs',err:2,fix:"A les corbes de progressió estàndard, cada nivell demana més XP que l'anterior, no menys.",
+  claims:["Les corbes d'experiència controlen el ritme de progressió del jugador.","Solen dissenyar-se perquè els primers nivells s'assoleixin de pressa.","En una corba estàndard, pujar del nivell 10 a l'11 demana menys XP que del 9 al 10."]},
+ {dom:'out',tag:'Astronomia',err:1,fix:"Fobos i Deimos són minúsculs (uns 22 i 12 km); la Lluna fa 3.474 km de diàmetre.",
+  claims:["Mart té dues llunes, anomenades Fobos i Deimos.","Totes dues són més grans que la Lluna de la Terra.","Fobos orbita tan a prop de Mart que fa més d'una volta al planeta cada dia marcià."]},
+ {dom:'in',tag:'Videojocs',err:-1,fix:"",
+  claims:["Un punt de control (checkpoint) desa el progrés del jugador en un moment concret.","En morir, el jugador reapareix a l'últim punt de control activat.","Això permet ajustar la dificultat sense fer repetir seccions llargues."]},
+ {dom:'out',tag:'Comptabilitat',err:-1,fix:"",
+  claims:["Un actiu és un recurs que l'empresa controla i del qual espera obtenir beneficis.","La maquinària i els diners al banc en són exemples.","Els actius figuren al balanç de situació."]},
+];
+const S={i:0,mode:'judge',selClaim:null,res:[]};
+const stage=document.getElementById('stage');
+
+function intro(){
+ stage.innerHTML=`<div class="card">
+ <h2>Com funciona</h2>
+ <p>Veuràs dotze respostes curtes generades per una IA: sis sobre <strong>videojocs</strong> i sis sobre <strong>àmbits que probablement no domines</strong>. Algunes són correctes; d'altres contenen exactament una frase falsa.</p>
+ <p style="margin-top:8px">Per a cada resposta, decideix si és correcta o si conté un error. Si dius que hi ha error, hauràs d'assenyalar <strong>quina frase</strong> falla. Al final veuràs la teva taxa d'encert en cada àmbit, per separat.</p>
+ <hr class="divider">
+ <button class="primary" onclick="next(true)">Començar</button>
+ </div>`;
+}
+function showItem(){
+ const it=ITEMS[S.i];S.mode='judge';S.selClaim=null;
+ stage.innerHTML=`<div class="card">
+ <span class="pill ${it.dom==='out'?'alt':''}">${it.tag}</span>
+ <p class="progress">Resposta ${S.i+1} de 12</p>
+ <div class="out"><div class="who">Sortida de la IA</div>
+ <p id="claims">${it.claims.map((c,j)=>`<span class="claim" tabindex="0" role="button" aria-label="Frase ${j+1}" data-j="${j}" onclick="selClaim(${j})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selClaim(${j})}">${c}</span> `).join('')}</p>
+ </div>
+ <div class="btnrow">
+ <button onclick="judge(false)">És correcta</button>
+ <button onclick="judge(true)">Conté un error</button>
+ </div>
+ <p class="hint" id="hint">Si creus que hi ha un error, pots marcar directament la frase sospitosa i després prémer «Conté un error».</p>
+ </div>`;
+}
+function selClaim(j){
+ S.selClaim=j;
+ document.querySelectorAll('.claim').forEach(el=>el.classList.toggle('sel',+el.dataset.j===j));
+}
+function judge(saysErr){
+ const it=ITEMS[S.i];
+ if(saysErr&&S.selClaim===null){
+  document.getElementById('hint').innerHTML='<strong style="color:var(--accent)">Marca primer la frase que creus falsa</strong> (clica-la o navega-hi amb el teclat) i torna a prémer «Conté un error».';
+  return;
+ }
+ let ok;
+ if(!saysErr){ ok=(it.err===-1); }
+ else { ok=(it.err!==-1 && S.selClaim===it.err); }
+ S.res.push({dom:it.dom,ok,saidErr:saysErr,hasErr:it.err!==-1,locOk:saysErr&&it.err!==-1&&S.selClaim===it.err});
+ feedback(ok,saysErr);
+}
+function feedback(ok,saysErr){
+ const it=ITEMS[S.i];
+ let msg;
+ if(ok){ msg=it.err===-1?"Correcte: aquesta resposta no contenia cap error.":"Correcte: has trobat la frase falsa. "+it.fix; }
+ else if(it.err===-1){ msg="Aquesta resposta era correcta. Marcar com a error una cosa certa també és una manera d'equivocar-se."; }
+ else if(!saysErr){ msg="Aquesta resposta contenia un error que no has vist. "+it.fix; }
+ else { msg="Hi havia un error, però no era en aquesta frase. "+it.fix; }
+ stage.innerHTML=`<div class="card">
+ <span class="pill ${it.dom==='out'?'alt':''}">${it.tag}</span>
+ <h2 style="color:${ok?'var(--ink)':'var(--accent)'}">${ok?'Encertat':'No encertat'}</h2>
+ <p>${msg}</p>
+ <hr class="divider">
+ <button class="primary" onclick="next(false)">${S.i<11?'Següent resposta':'Veure els resultats'}</button>
+ </div>`;
+}
+function next(first){
+ if(!first)S.i++;
+ if(S.i<12)showItem();else results();
+}
+function pct(dom){
+ const r=S.res.filter(x=>x.dom===dom);
+ return Math.round(100*r.filter(x=>x.ok).length/r.length);
+}
+function results(){
+ const pin=pct('in'),pout=pct('out');
+ const missed=S.res.filter(x=>x.hasErr&&!x.saidErr).length;
+ const falsePos=S.res.filter(x=>!x.hasErr&&x.saidErr).length;
+ const gap=pin-pout;
+ let gapline;
+ if(gap>0) gapline=`La distància entre les dues barres (<strong>${gap} punts</strong>) és el teu biaix d'automatització fet visible: la mateixa IA, els mateixos errors, i la teva capacitat de veure'ls canvia segons el que ja saps.`;
+ else if(gap<0) gapline=`T'ha anat millor fora del teu àmbit (${-gap} punts). Amb dotze ítems això és perfectament possible per atzar, i no contradiu el mecanisme: mira on has fallat i pregunta't si hauries pogut <em>explicar</em> els errors que has marcat.`;
+ else gapline=`Has empatat. Amb dotze ítems, l'atzar pesa molt: el mecanisme es mesura amb mostres grans, no amb una persona.`;
+ stage.innerHTML=`
+ <div class="card">
+ <h2>Els teus resultats</h2>
+ <div class="brow"><div class="blab"><span>Àmbit que domines (videojocs)</span><span>${pin}&nbsp;%</span></div><div class="btrack"><div class="bfill" style="width:${pin}%"></div></div></div>
+ <div class="brow"><div class="blab"><span>Àmbits que probablement no domines</span><span>${pout}&nbsp;%</span></div><div class="btrack"><div class="bfill acc" style="width:${pout}%"></div></div></div>
+ <p>${gapline}</p>
+ <div class="grid2" style="margin-top:14px">
+ <div><p class="mono" style="color:var(--ink-faint);font-size:11px;letter-spacing:.1em;text-transform:uppercase">Errors no detectats</p><p class="big">${missed}</p><p style="font-size:14px;color:var(--ink-soft)">La màquina fallava i no ho has vist: l'error d'omissió del capítol.</p></div>
+ <div><p class="mono" style="color:var(--ink-faint);font-size:11px;letter-spacing:.1em;text-transform:uppercase">Falsos errors marcats</p><p class="big">${falsePos}</p><p style="font-size:14px;color:var(--ink-soft)">Marcar com a fals el que era cert també té un cost: desconfiar de tot no és criteri.</p></div>
+ </div>
+ <div class="note"><strong>Recorda la lletra petita.</strong> Dotze ítems i una persona no demostren res: els números de Parasuraman i Manzey surten de dècades de recerca amb milers de professionals. Això és una il·lustració del mecanisme, no una mesura de tu. El que sí que és teu és la pregunta que deixa: en quins àmbits estàs acceptant respostes que no podries corregir?</div>
+ <hr class="divider">
+ <button class="primary" onclick="reset()">Tornar a començar</button>
+ </div>`;
+}
+function reset(){S.i=0;S.mode='judge';S.selClaim=null;S.res=[];intro();}
+window.next=next;window.judge=judge;window.selClaim=selClaim;window.reset=reset;
+intro();
+</script>
+</body>
+</html>
