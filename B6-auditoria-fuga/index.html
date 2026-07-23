@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'auditoria de la fuga · ENTI-UB AI Literacy</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+--bg:#f4efe6;--bg-card:#ffffff;--bg-soft:#faf6ec;--bg-deep:#ede4cf;
+--ink:#1a1814;--ink-soft:#4a463e;--ink-faint:#8a8478;
+--rule:#1a1814;--rule-soft:#c9c2b3;
+--accent:#b91c1c;--accent-deep:#8b1414;--accent-soft:#f5d8d8;--accent-2:#1e3a5f;
+--ok:#3d6b3d;--ok-soft:#f2f6ee;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'EB Garamond',Georgia,serif;font-size:18px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.widget-frame{max-width:1080px;margin:0 auto;padding:24px 24px 40px}
+.widget-header{border-bottom:2px solid var(--rule);padding-bottom:14px;margin-bottom:22px}
+.widget-eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+.widget-title{font-family:'EB Garamond',Georgia,serif;font-size:32px;font-weight:600;line-height:1.1;letter-spacing:-.01em;margin:0 0 6px}
+.widget-subtitle{color:var(--ink-soft);font-size:16px;font-style:italic;max-width:720px;margin:0}
+.widget-intro{background:var(--bg-card);border-left:3px solid var(--accent-2);padding:14px 18px;margin-bottom:22px;font-size:15px;line-height:1.55;color:var(--ink-soft)}
+.widget-intro strong{color:var(--ink);font-weight:600}
+.section-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 12px;padding-bottom:6px;border-bottom:1px solid var(--rule-soft)}
+.section-hint{font-family:'EB Garamond',Georgia,serif;font-size:12px;font-weight:400;font-style:italic;letter-spacing:.04em;text-transform:none;color:var(--ink-faint)}
+.msgs{list-style:none;margin:0 0 16px;padding:0}
+.msg{display:flex;gap:12px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--rule-soft);border-left:3px solid var(--rule-soft);padding:10px 12px;margin-bottom:7px;transition:background .15s ease,border-color .15s ease}
+.msg:hover{border-color:var(--rule)}
+.msg.marked{border-left-color:var(--accent);background:var(--accent-soft)}
+.msg.gone{display:none}
+.msg input{margin-top:5px;width:17px;height:17px;accent-color:var(--accent);flex-shrink:0}
+.msg label{cursor:pointer;font-size:15px;line-height:1.45}
+.msg .n{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:var(--ink-soft);display:block;letter-spacing:.16em;margin-bottom:3px}
+button{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.btn{background:var(--ink);color:var(--bg);border:1px solid var(--ink);padding:12px 20px;transition:all .15s ease}
+.btn:hover{background:var(--accent);border-color:var(--accent)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:var(--bg)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
+.dossier{border:2px solid var(--ink);background:var(--bg-card);padding:20px 22px;margin-top:12px}
+.dossier h3{color:var(--ink);font-size:20px;margin:0 0 10px}
+.dossier p{margin-bottom:0}
+.fact{border-bottom:1px dashed var(--rule-soft);padding:8px 0}
+.fact:last-of-type{border-bottom:none}
+.fact .k{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-soft)}
+.fact .v{font-weight:700;font-size:19px}
+.fact .src{font-size:14px;color:var(--ink-soft);font-style:italic}
+.tally{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;background:var(--bg-card);border:1px solid var(--rule-soft);border-left:3px solid var(--accent-2);padding:12px 14px;margin-bottom:10px}
+.clean{border:2px solid var(--ok);background:var(--ok-soft);padding:18px 20px}
+.clean h3{color:var(--ok);font-size:20px;margin:0 0 8px}
+.clean p{margin:0}
+.widget-footer{margin-top:24px;padding-top:16px;border-top:1px solid var(--rule-soft);font-size:12px;color:var(--ink-soft);font-style:italic;line-height:1.5}
+.widget-footer a{color:var(--accent-2)}
+.hide{display:none}
+@media (max-width:880px){.widget-title{font-size:24px}}
+@media (max-width:480px){.widget-frame{padding:16px 14px 32px}.row{flex-direction:column}.btn{width:100%}}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="widget-frame">
+<header class="widget-header">
+<div class="widget-eyebrow">Activitat B6</div>
+<h1 class="widget-title">L'auditoria de la fuga</h1>
+<p class="widget-subtitle">Quinze converses aparentment innocents poden reconstruir un projecte sencer.</p>
+</header>
+
+<div class="widget-intro">
+<strong>Com funciona aquesta eina.</strong> En Bru fa segon i ha fet servir un xat d'IA gratuït durant tot el semestre. Ara li han dit que potser ha filtrat coses del projecte i t'ha demanat que li facis una auditoria. Marca les converses que creus que filtren alguna cosa i després demana l'informe.
+</div>
+
+<div class="section-label">
+<span>Quinze converses per revisar</span>
+<span class="section-hint">marca les sospitoses</span>
+</div>
+<ul class="msgs" id="msgs"></ul>
+
+<div class="row">
+<button class="btn" id="audit">Fes l'auditoria</button>
+<button class="btn ghost hide" id="erase">Esborra les converses que has marcat</button>
+<button class="btn ghost hide" id="reset">Torna-hi de zero</button>
+</div>
+
+<div id="out" aria-live="polite"></div>
+
+<footer class="widget-footer">ENTI-UB · Curs d'alfabetització en IA · Activitat B6. Cas fictici, dades inventades. És una experiència individual de n=1: serveix per pensar, no per mesurar res. No es desa ni s'envia res enlloc, i el resultat no compta per a cap nota.</footer>
+</div>
+
+<script>
+"use strict";
+const FACTS=[
+ {id:"titol",k:"Títol del projecte",v:"Vessel"},
+ {id:"motor",k:"Motor i versió exacta",v:"Unity 6.1.3f1"},
+ {id:"data",k:"Finestra de llançament",v:"primer trimestre de 2027"},
+ {id:"equip",k:"Persones de l'equip",v:"Núria Sabaté i Marc Oller"},
+ {id:"client",k:"Qui hi ha darrere, i quan",v:"l'estudi Nau Roja; demo el 14 de març"},
+ {id:"plataforma",k:"Plataforma no anunciada",v:"un port a consola portàtil"},
+ {id:"autor",k:"Qui és l'autor de tot plegat",v:"Bru Terrades, segon curs, ENTI-UB"}
+];
+const MSGS=[
+ {n:1,t:"Revisa'm l'ortografia d'aquest paràgraf sobre el ritme de les missions secundàries.",l:[]},
+ {n:2,t:"T'enganxo dues pàgines del nostre document de disseny («VESSEL · GDD v0.9, capítol 3»): digues si el sistema d'economia és coherent.",l:[["titol","la capçalera del document que hi va enganxar"]]},
+ {n:3,t:"Per què em surt aquest error? «NullReferenceException at Assets/Scripts/Vessel/TideController.cs:88» · Unity 6.1.3f1",l:[["titol","la ruta del fitxer dins de la traça de l'error"],["motor","la versió del motor que acompanyava la traça"]]},
+ {n:4,t:"Tradueix aquest correu a l'anglès: «Benvolguts, us confirmem que la primera build jugable estarà llesta per al gener de 2027, tal com vam acordar amb Nau Roja.»",l:[["data","la data del correu que va fer traduir"],["client","el nom del destinatari dins del correu"]]},
+ {n:5,t:"Fes-me un resum d'aquest article sobre disseny de nivells que he trobat en un blog.",l:[]},
+ {n:6,t:"Reescriu aquest missatge perquè soni més professional: «Núria, el Marc encara no ha pujat els sprites nous i anem tard».",l:[["equip","els noms de pila i el context de feina del missatge"]]},
+ {n:7,t:"Quina és la millor manera d'aprendre shaders des de zero?",l:[]},
+ {n:8,t:"Si una consola portàtil té 12 GB de memòria compartida i el sistema en reserva 3, quant em queda per a textures?",l:[["plataforma","el perfil de maquinari, que identifica una màquina concreta"]]},
+ {n:9,t:"Escriu-me una carta de presentació per a unes pràctiques: em dic Bru Terrades i estudio segon a ENTI-UB.",l:[["autor","les dades personals de la carta"]]},
+ {n:10,t:"Explica'm com funciona l'algorisme A* de cerca de camí.",l:[]},
+ {n:11,t:"Millora aquest text per a la pàgina de la botiga: «Vessel és un joc d'exploració submarina que arriba el primer trimestre de 2027».",l:[["titol","el text promocional"],["data","la data anunciada al mateix text"]]},
+ {n:12,t:"Genera'm deu noms possibles per a una criatura marina d'un joc.",l:[]},
+ {n:13,t:"Ajuda'm a redactar l'acta: assistents Núria Sabaté, Marc Oller i jo; vam decidir retardar el port a portàtil fins després del llançament.",l:[["equip","la llista d'assistents de l'acta"],["plataforma","la decisió que consta a l'acta"]]},
+ {n:14,t:"Corregeix aquest codi: «// TODO: treure el mode debug abans de la demo a Nau Roja del 14 de març».",l:[["client","el comentari que va deixar dins del codi"]]},
+ {n:15,t:"Quines eines gratuïtes hi ha per fer música de joc?",l:[]}
+];
+function RECONSTRUCT(marked){
+ const out=[];
+ for(const f of FACTS){
+  for(const m of MSGS){
+   if(marked.has(m.n)) continue;
+   const hit=m.l.find(x=>x[0]===f.id);
+   if(hit){ out.push({fact:f, n:m.n, how:hit[1]}); break; }
+  }
+ }
+ return out;
+}
+const LEAKY = MSGS.filter(m=>m.l.length>0).map(m=>m.n);
+if (typeof document !== "undefined") {
+ const ul=document.getElementById("msgs");
+ MSGS.forEach(m=>{
+  const li=document.createElement("li"); li.className="msg"; li.id="m"+m.n;
+  const cb=document.createElement("input"); cb.type="checkbox"; cb.id="c"+m.n;
+  const lb=document.createElement("label"); lb.htmlFor="c"+m.n;
+  lb.innerHTML='<span class="n">CONVERSA '+m.n+'</span>'+m.t;
+  cb.addEventListener("change",()=>li.classList.toggle("marked",cb.checked));
+  li.appendChild(cb); li.appendChild(lb); ul.appendChild(li);
+ });
+ function marked(){const s=new Set();MSGS.forEach(m=>{if(document.getElementById("c"+m.n).checked)s.add(m.n);});return s;}
+ document.getElementById("audit").addEventListener("click",()=>{
+  const mk=marked(), res=RECONSTRUCT(mk);
+  const caught=LEAKY.filter(n=>mk.has(n)).length;
+  const falsePos=[...mk].filter(n=>!LEAKY.includes(n)).length;
+  let html='<div class="tally">Has marcat '+mk.size+' converses de 15. De les 9 que filtraven alguna cosa, n\'has enxampat <strong>'+caught+'</strong>'+(falsePos?'; n\'has marcat '+falsePos+' que no filtraven res':'')+'.</div>';
+  if(res.length===0){
+   html+='<div class="clean"><h3>Auditoria impecable</h3><p>No queda res per reconstruir: has marcat totes les converses que filtraven alguna cosa. Ara fixa-t\'hi bé, perquè aquí hi ha la lliçó: per aconseguir-ho has hagut de marcar una traça d\'error, una traducció d\'un correu, un missatge a un company, un càlcul de memòria, una acta i un comentari dins del codi. Cap d\'aquestes converses no s\'assembla gens a «enganxar el document de disseny», i a la vida real gairebé ningú no les marca.</p></div>';
+  } else {
+   html+='<div class="dossier"><h3>Informe: què podria reconstruir un desconegut amb les converses que has deixat passar</h3>';
+   res.forEach(r=>{html+='<div class="fact"><span class="k">'+r.fact.k+'</span><div class="v">'+r.fact.v+'</div><div class="src">Conversa '+r.n+': '+r.how+'</div></div>';});
+   html+='<p style="margin-top:.9em">Cap d\'aquestes converses, per si sola, no semblava una fuga. El problema no és cap missatge concret: és la <strong>suma</strong>. Cada tros és innocu i el conjunt és una fitxa del projecte, de l\'equip i teva.</p></div>';
+  }
+  document.getElementById("out").innerHTML=html;
+  document.getElementById("erase").classList.remove("hide");
+  document.getElementById("reset").classList.remove("hide");
+ });
+ document.getElementById("erase").addEventListener("click",()=>{
+  marked().forEach(n=>document.getElementById("m"+n).classList.add("gone"));
+  const d=document.createElement("div");
+  d.className="dossier"; d.style.marginTop="12px";
+  d.innerHTML='<h3>Fet: converses esborrades</h3><p>Han desaparegut de la llista, com desapareixen del teu historial. Mira l\'informe de sobre: continua sencer. Esborrar treu la conversa de la vista, no desfà el que algú ja hagi pogut llegir, ni el que hagi entrat en un entrenament. La decisió amb control real era una altra, i era abans.</p>';
+  document.getElementById("out").appendChild(d);
+  document.getElementById("erase").classList.add("hide");
+ });
+ document.getElementById("reset").addEventListener("click",()=>{
+  MSGS.forEach(m=>{const cb=document.getElementById("c"+m.n);cb.checked=false;const li=document.getElementById("m"+m.n);li.className="msg";});
+  document.getElementById("out").innerHTML="";
+  document.getElementById("erase").classList.add("hide");
+  document.getElementById("reset").classList.add("hide");
+  window.scrollTo({top:0,behavior:"auto"});
+ });
+}
+</script>
+</body>
+</html>
