@@ -1,219 +1,112 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ca">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L'experiment · ENTI-UB AI Literacy</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
-:root{
---bg:#f4efe6;--bg-card:#ffffff;--bg-soft:#faf6ec;--bg-deep:#ede4cf;
---ink:#1a1814;--ink-soft:#4a463e;--ink-faint:#8a8478;
---accent:#b91c1c;--accent-deep:#8b1414;--accent-soft:#f5d8d8;--accent-2:#1e3a5f;
---rule:#1a1814;--rule-soft:#c9c2b3;--bar-bg:#e8e2d3;--bar-fill:#1a1814;--bar-low:#c9c2b3;
-}
-*{box-sizing:border-box}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'EB Garamond',Georgia,serif;font-size:18px;line-height:1.5;-webkit-font-smoothing:antialiased}
-.widget-frame{max-width:1080px;margin:0 auto;padding:24px 24px 40px}
-.widget-header{border-bottom:2px solid var(--rule);padding-bottom:14px;margin-bottom:22px}
-.widget-eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
-.widget-title{font-family:'EB Garamond',Georgia,serif;font-size:32px;font-weight:600;line-height:1.1;letter-spacing:-.01em;margin:0 0 6px}
-.widget-subtitle{color:var(--ink-soft);font-size:16px;font-style:italic;max-width:720px;margin:0}
-.widget-intro{background:var(--bg-card);border-left:3px solid var(--accent-2);padding:14px 18px;margin-bottom:22px;font-size:15px;line-height:1.55;color:var(--ink-soft)}
-.widget-intro strong{color:var(--ink);font-weight:600}
-.card{background:var(--bg-card);border:1px solid var(--rule-soft);padding:22px 24px;margin-bottom:16px}
-.card h2{font-size:21px;font-weight:600;margin:0 0 10px}
-.card p{margin-top:0}
-.mono{font-family:'JetBrains Mono',monospace;font-size:13px}
-.pill{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:var(--bg-deep);border:1px solid var(--rule-soft);padding:3px 10px;margin-bottom:12px}
-.pill.r2{background:var(--accent-soft);border-color:var(--accent)}
-button{font-family:'EB Garamond',Georgia,serif;font-size:15px;line-height:1.3;cursor:pointer;border:1px solid var(--rule-soft);background:var(--bg-card);color:var(--ink);padding:12px 14px;text-align:left;width:100%;transition:all .15s ease}
-button:hover,button:focus-visible{background:var(--bg-soft);border-color:var(--rule)}
-button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-button.primary{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:var(--bg);border-color:var(--ink);text-align:center;width:auto;padding:12px 20px}
-button.primary:hover,button.primary:focus-visible{background:var(--accent-deep);border-color:var(--accent-deep)}
-button.opt{margin-bottom:8px}
-button.opt.sel{background:var(--bg-deep);border-width:2px}
-button.opt[disabled]{cursor:default;opacity:.85}
-.qtext{font-size:19px;margin-bottom:14px}
-.qnum{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-faint);margin-bottom:4px}
-.assist{background:var(--bg-soft);border-left:4px solid var(--accent-2);padding:14px 16px;margin:0 0 14px}
-.assist .who{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-2);margin-bottom:6px}
-.assist p{font-size:16px;color:var(--ink-soft)}
-.confrow{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 4px}
-.confrow button{width:auto;padding:10px 18px;text-align:center}
-.bars{margin:14px 0}
-.brow{margin-bottom:14px}
-.blab{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:12px;margin-bottom:4px;color:var(--ink-soft)}
-.btrack{background:var(--bar-bg);height:22px;position:relative}
-.bfill{background:var(--bar-fill);height:100%;transition:width .6s ease}
-.bfill.acc{background:var(--accent)}
-.bfill.blue{background:var(--accent-2)}
-.note{background:var(--bg-deep);border:1px solid var(--rule-soft);padding:14px 16px;font-size:15px;color:var(--ink-soft);margin-top:14px}
-.note strong{color:var(--ink)}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.big{font-size:30px;font-weight:600;font-family:'JetBrains Mono',monospace}
-.divider{border:none;border-top:1px solid var(--rule-soft);margin:16px 0}
-.hidden{display:none}
-.progress{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-faint);margin-bottom:14px}
-.widget-footer{margin-top:24px;padding-top:16px;border-top:1px solid var(--rule-soft);font-size:12px;color:var(--ink-soft);font-style:italic;line-height:1.5}
-.widget-footer a{color:var(--accent-2)}
-@media (max-width:880px){.widget-title{font-size:24px}}
-@media (max-width:640px){.grid2{grid-template-columns:1fr}.card{padding:16px}}
-@media (max-width:480px){.widget-frame{padding:16px 14px 32px}}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
-</style>
-</head>
-<body>
-<div class="widget-frame">
-<header class="widget-header">
-<div class="widget-eyebrow">Mòdul 2 · Capítol 2 · Activitat B4</div>
-<h1 class="widget-title">L'experiment</h1>
-<p class="widget-subtitle">Tres rondes, nou decisions de disseny, i una pregunta: què et queda quan l'assistent marxa?</p>
-</header>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Activitat interactiva sobre la diferència entre rendiment assistit, aprenentatge transferible i confiança en la IA."
+    />
+    <meta name="theme-color" content="#f3eee3" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'"
+    />
+    <title>La paradoxa del rendiment · Activitat B4 · ENTI-UB</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="b4-core.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#activity">Salta a l’activitat</a>
 
-<div class="widget-intro">
-<strong>Abans de començar, la lletra petita.</strong> Tu ets una persona; l'estudi de Bastani en tenia gairebé mil, amb grups de control i assignació aleatòria. El que faràs aquí no demostra res sobre tu ni sobre l'estudi: és una manera de <em>notar</em> en primera persona un mecanisme que altrament només llegiries. Cap resultat no es desa ni s'envia enlloc.
-</div>
+    <div class="widget-frame">
+      <header class="widget-header">
+        <div>
+          <p class="widget-eyebrow">Mòdul 2 · Capítol 2 · Activitat B4</p>
+          <h1>La paradoxa del rendiment</h1>
+          <p class="widget-subtitle">
+            Fer-ho millor amb una eina no sempre significa aprendre a fer-ho
+            sense l’eina.
+          </p>
+        </div>
+        <button
+          class="button button-quiet header-reset"
+          id="restartButton"
+          type="button"
+          hidden
+        >
+          Reinicia
+        </button>
+      </header>
 
-<div id="stage" aria-live="polite"></div>
+      <nav
+        class="activity-progress"
+        id="progressShell"
+        aria-label="Progrés de l’activitat"
+        hidden
+      >
+        <div class="progress-copy">
+          <span id="progressLabel">Punt de partida</span>
+          <span id="progressValue">0 %</span>
+        </div>
+        <progress id="progressBar" max="100" value="0">0 %</progress>
+        <ol id="progressSteps">
+          <li data-progress-step="1">Punt de partida</li>
+          <li data-progress-step="2">Pràctica amb IA</li>
+          <li data-progress-step="3">Transferència</li>
+          <li data-progress-step="4">Fiabilitat</li>
+          <li data-progress-step="5">Debrief</li>
+        </ol>
+      </nav>
 
-<footer class="widget-footer">
-ENTI-UB · Curs d'alfabetització en IA · Activitat B4. Aquesta experiència il·lustra un mecanisme; no mesura la teva capacitat ni substitueix l'evidència de l'estudi.
-</footer>
-</div>
+      <main id="activity" tabindex="-1">
+        <div id="app"></div>
+      </main>
 
-<script>
-'use strict';
-const Q = {
- r1:[
-  {t:"Una poció petita cura 20 PV i costa 8 monedes. Una poció gran cura 50 PV. Perquè tingui exactament el mateix valor per moneda, quant hauria de costar?",
-   o:["16 monedes","20 monedes","24 monedes","25 monedes"],c:1},
-  {t:"Un enemic bàsic dona 12 XP. El jugador necessita 300 XP per pujar de nivell. Quants enemics ha de derrotar?",
-   o:["20","24","25","30"],c:2},
-  {t:"L'espasa fa 15 de dany i ataca 2 cops per segon. La destral fa 40 de dany i ataca 0,5 cops per segon. Quina arma té més dany per segon (DPS)?",
-   o:["L'espasa (30 DPS contra 20)","La destral (20 DPS contra 15)","Empaten","No es pot calcular sense saber la vida de l'enemic"],c:0},
- ],
- r2:[
-  {t:"L'arc fa 24 de dany i ataca 1,5 cops per segon. La vareta fa 60 de dany i ataca 0,5 cops per segon. Quina arma té més DPS?",
-   o:["L'arc (36 DPS contra 30)","La vareta (30 DPS contra 25,5)","Empaten","La vareta (30 DPS contra 24)"],c:0,
-   a:{pick:3,txt:"Càlcul directe: la vareta fa 60 × 0,5 = 30 DPS. L'arc fa 24 de dany de base per atac, així que el seu DPS efectiu queda en 24. La vareta és clarament superior: 30 contra 24."}},
-  {t:"Un escut redueix el dany rebut un 30&nbsp;%. El jugador rep un cop de 80 de dany. Quant de dany rep finalment?",
-   o:["50","56","60","24"],c:1,
-   a:{pick:0,txt:"Reducció de 30 sobre un cop de 80: 80 − 30 = 50. El jugador rep 50 de dany. És la fórmula estàndard de mitigació plana que fan servir la majoria de jocs d'acció."}},
-  {t:"La missió A dona 45 monedes i es completa en 3 minuts. La missió B dona 100 monedes en 8 minuts. Quina és més rendible per minut?",
-   o:["La missió A (15/min contra 12,5/min)","La missió B (12,5/min contra 11/min)","Empaten","La B, perquè dona més monedes totals"],c:0,
-   a:{pick:0,txt:"Missió A: 45 ÷ 3 = 15 monedes per minut. Missió B: 100 ÷ 8 = 12,5 monedes per minut. La missió A és més rendible per minut, tot i donar menys monedes totals."}},
- ],
- r3:[
-  {t:"Una poció de mana petita dona 30 PM i costa 12 monedes. Una de gran dona 75 PM. Perquè tingui el mateix valor per moneda, quant hauria de costar?",
-   o:["25 monedes","28 monedes","30 monedes","36 monedes"],c:2},
-  {t:"Un enemic dona 18 XP. El jugador necessita 270 XP. Quants enemics ha de derrotar?",
-   o:["12","15","18","20"],c:1},
-  {t:"La daga fa 9 de dany i ataca 3 cops per segon. El martell fa 50 de dany i ataca 0,4 cops per segon. Quina arma té més DPS?",
-   o:["El martell (20 DPS contra 18)","La daga (27 DPS contra 20)","Empaten","El martell (25 DPS contra 27)"],c:1},
- ]
-};
-const S={round:0,qi:0,answers:{r1:[],r2:[],r3:[]},times:{},conf:{},t0:0,acceptedWrong:0,assistWrongSeen:0};
-const stage=document.getElementById('stage');
-const R=['r1','r2','r3'];
-const RLAB={r1:"Ronda 1 · Sense assistent",r2:"Ronda 2 · Amb assistent",r3:"Ronda 3 · Sense assistent"};
+      <p
+        class="sr-only"
+        id="activityStatus"
+        role="status"
+        aria-live="polite"
+      ></p>
 
-function esc(s){return s}
-function intro(){
- stage.innerHTML=`<div class="card">
- <h2>Com funciona</h2>
- <p>Respondràs nou preguntes de disseny de jocs en tres rondes de tres. A la <strong>primera ronda</strong> vas sol. A la <strong>segona</strong> tindràs un assistent que et proposa una resposta raonada. A la <strong>tercera</strong> tornes a anar sol.</p>
- <p style="margin-top:8px">Després de cada ronda et demanarem que <strong>predigueixis</strong> quantes n'has encertat. També mesurem el temps de cada ronda. Al final ho veuràs tot de cop.</p>
- <hr class="divider">
- <button class="primary" onclick="startRound(0)">Començar la ronda 1</button>
- </div>`;
-}
-function startRound(r){
- S.round=r;S.qi=0;S.t0=Date.now();
- showQ();
-}
-function showQ(){
- const rk=R[S.round],q=Q[rk][S.qi];
- let assist='';
- if(rk==='r2'){
-  assist=`<div class="assist"><div class="who">Assistent · resposta suggerida</div><p>${q.a.txt}</p><p style="margin-top:6px;font-weight:600;color:var(--ink)">Recomanació: «${q.o[q.a.pick]}»</p></div>`;
- }
- stage.innerHTML=`<div class="card">
- <span class="pill ${rk==='r2'?'r2':''}">${RLAB[rk]}</span>
- <p class="progress">Pregunta ${S.qi+1} de 3</p>
- <p class="qtext">${q.t}</p>
- ${assist}
- <div role="group" aria-label="Opcions de resposta">
- ${q.o.map((o,i)=>`<button class="opt" onclick="pick(${i})">${String.fromCharCode(97+i)}) ${o}</button>`).join('')}
- </div></div>`;
-}
-function pick(i){
- const rk=R[S.round],q=Q[rk][S.qi];
- S.answers[rk].push(i);
- if(rk==='r2'){
-  if(q.a.pick!==q.c){S.assistWrongSeen++;if(i===q.a.pick)S.acceptedWrong++;}
- }
- S.qi++;
- if(S.qi<3){showQ();}
- else{S.times[rk]=Math.round((Date.now()-S.t0)/1000);confidence();}
-}
-function confidence(){
- const rk=R[S.round];
- stage.innerHTML=`<div class="card">
- <span class="pill">${RLAB[rk]} · acabada</span>
- <h2>Abans de continuar: quantes creus que n'has encertat?</h2>
- <p style="color:var(--ink-soft)">Sense pensar-ho gaire. La primera intuïció.</p>
- <div class="confrow">${[0,1,2,3].map(n=>`<button onclick="setConf(${n})">${n} de 3</button>`).join('')}</div>
- </div>`;
-}
-function setConf(n){
- const rk=R[S.round];S.conf[rk]=n;
- if(S.round<2){
-  stage.innerHTML=`<div class="card"><h2>Ronda ${S.round+1} registrada</h2><p>Quan estiguis a punt, passem a la següent.</p><hr class="divider"><button class="primary" onclick="startRound(${S.round+1})">Començar la ronda ${S.round+2}</button></div>`;
- } else { results(); }
-}
-function score(rk){return S.answers[rk].reduce((s,a,i)=>s+(a===Q[rk][i].c?1:0),0);}
-function bar(lab,val,max,cls,suffix){
- const pct=Math.round(100*val/max);
- return `<div class="brow"><div class="blab"><span>${lab}</span><span>${val}${suffix||''}</span></div><div class="btrack"><div class="bfill ${cls}" style="width:${pct}%"></div></div></div>`;
-}
-function results(){
- const s1=score('r1'),s2=score('r2'),s3=score('r3');
- const gap=(rk,s)=>S.conf[rk]-s;
- const gaps=[gap('r1',s1),gap('r2',s2),gap('r3',s3)];
- const fmtGap=g=>g>0?`+${g} (sobreestimació)`:g<0?`${g} (subestimació)`:'0 (calibrat)';
- let assistLine='';
- if(S.assistWrongSeen>0){
-  assistLine=`<p style="margin-top:10px">L'assistent s'equivocava en <strong>2 de les 3</strong> preguntes de la ronda 2. Tu vas acceptar la seva recomanació errònia <strong class="mono" style="font-size:16px">${S.acceptedWrong} de ${S.assistWrongSeen}</strong> vegades.</p>`;
- }
- stage.innerHTML=`
- <div class="card">
- <h2>Els teus resultats</h2>
- <div class="bars">
- ${bar('Ronda 1 · sola/sol',s1,3,'', ' de 3')}
- ${bar('Ronda 2 · amb assistent',s2,3,'blue',' de 3')}
- ${bar('Ronda 3 · sola/sol',s3,3,'acc',' de 3')}
- </div>
- <div class="grid2">
- <div><p class="mono" style="color:var(--ink-faint);font-size:11px;letter-spacing:.1em;text-transform:uppercase">Temps per ronda</p>
- <p>R1: <span class="mono">${S.times.r1}s</span> · R2: <span class="mono">${S.times.r2}s</span> · R3: <span class="mono">${S.times.r3}s</span></p></div>
- <div><p class="mono" style="color:var(--ink-faint);font-size:11px;letter-spacing:.1em;text-transform:uppercase">Confiança contra realitat</p>
- <p style="font-size:15px">R1: ${fmtGap(gaps[0])}<br>R2: ${fmtGap(gaps[1])}<br>R3: ${fmtGap(gaps[2])}</p></div>
- </div>
- ${assistLine}
- </div>
- <div class="card" style="background:var(--bg-soft)">
- <h2>El que va trobar l'estudi de veritat</h2>
- <p>Amb prop de 1.000 estudiants, Bastani i el seu equip van trobar que el grup amb ChatGPT sense restriccions rendia un <strong>48&nbsp;% millor durant la pràctica</strong> i un <strong>17&nbsp;% pitjor que el grup de control</strong> a l'examen sense IA. El grup amb el tutor restringit (pistes, no respostes) va millorar un 127&nbsp;% <em>durant la pràctica</em> i a l'examen va treure <strong>el mateix que el control</strong>: les restriccions van evitar el dany, no van crear un avantatge durador.</p>
- <div class="note"><strong>I els teus tres números?</strong> No demostren res: tres rondes i una persona no distingeixen un efecte del soroll, i si t'ha anat millor a la ronda 3, això tampoc no refuta l'estudi. La prova és de Bastani. L'experiència és teva. El que sí que et pots endur és la <em>sensació</em>: què has fet quan l'assistent sonava segur, i com de bé has predit els teus propis encerts.</div>
- <hr class="divider">
- <button class="primary" onclick="reset()">Tornar a començar</button>
- </div>`;
-}
-function reset(){Object.assign(S,{round:0,qi:0,answers:{r1:[],r2:[],r3:[]},times:{},conf:{},t0:0,acceptedWrong:0,assistWrongSeen:0});intro();}
-window.startRound=startRound;window.pick=pick;window.setConf=setConf;window.reset=reset;
-intro();
-</script>
-</body>
+      <noscript>
+        <section class="card">
+          <h2>Cal JavaScript per fer aquesta activitat</h2>
+          <p>
+            Activa JavaScript o demana al professorat una versió alternativa
+            accessible.
+          </p>
+        </section>
+      </noscript>
+
+      <footer class="widget-footer">
+        <p>
+          ENTI-UB · Curs d’alfabetització en IA · Aquesta activitat és una
+          experiència educativa, no una prova de capacitat.
+        </p>
+      </footer>
+    </div>
+
+    <dialog id="restartDialog" aria-labelledby="restartTitle">
+      <form method="dialog" class="dialog-card">
+        <h2 id="restartTitle">Vols tornar a començar?</h2>
+        <p>
+          S’esborrarà el progrés d’aquesta pestanya. Aquesta acció no afecta
+          Moodle ni cap altra activitat.
+        </p>
+        <div class="button-row">
+          <button class="button button-quiet" value="cancel">Continua</button>
+          <button
+            class="button button-danger"
+            id="confirmRestartButton"
+            value="confirm"
+          >
+            Esborra i reinicia
+          </button>
+        </div>
+      </form>
+    </dialog>
+  </body>
 </html>

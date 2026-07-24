@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ca">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Harness Moodle · B4</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 20px;
+        background: #e7e7e7;
+        color: #161616;
+        font-family: system-ui, sans-serif;
+      }
+
+      iframe {
+        width: 100%;
+        min-height: 600px;
+        border: 2px solid #222;
+        background: #fff;
+      }
+
+      pre {
+        min-height: 80px;
+        padding: 12px;
+        overflow: auto;
+        background: #111;
+        color: #e9ffe9;
+      }
+    </style>
+    <script src="../integration/moodle-wrapper.js" defer></script>
+    <script src="iframe-harness.js" defer></script>
+  </head>
+  <body>
+    <h1>Harness Moodle · B4</h1>
+    <p>
+      Aquesta pàgina simula el contenidor que valida els missatges del widget.
+    </p>
+    <iframe
+      id="widgetFrame"
+      title="Activitat B4: la paradoxa del rendiment"
+    ></iframe>
+    <h2>Registre validat</h2>
+    <pre id="messageLog" aria-live="polite"></pre>
+  </body>
+</html>
