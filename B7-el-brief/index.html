@@ -81,7 +81,7 @@ html, body {
   background: var(--bg-card);
   border-left: 3px solid var(--accent-2);
   padding: 14px 18px;
-  margin-bottom: 22px;
+  margin-bottom: 18px;
   font-size: 15px;
   line-height: 1.55;
   color: var(--ink-soft);
@@ -90,6 +90,37 @@ html, body {
 .widget-intro strong {
   color: var(--ink);
   font-weight: 600;
+}
+
+.progress {
+  display: flex;
+  gap: 0;
+  margin-bottom: 16px;
+  border: 1px solid var(--rule-soft);
+  background: var(--bg-card);
+}
+
+.progress-step {
+  flex: 1;
+  padding: 10px 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  text-align: center;
+  border-right: 1px solid var(--rule-soft);
+}
+
+.progress-step:last-child { border-right: none; }
+
+.progress-step.is-done { color: var(--ink-soft); background: var(--bg-soft); }
+
+.progress-step.is-current {
+  color: var(--ink);
+  background: var(--bg-deep);
+  box-shadow: inset 0 -2px 0 var(--accent-2);
 }
 
 .panel {
@@ -137,6 +168,94 @@ html, body {
   color: var(--warn);
 }
 
+.echo .dim-tag {
+  display: block;
+  margin: 0 0 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+}
+
+.facts {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--rule-soft);
+  background: var(--bg-soft);
+}
+
+.facts-label {
+  display: block;
+  margin-bottom: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.facts ul {
+  margin: 0;
+  padding-left: 1.15em;
+  color: var(--ink-soft);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.facts li { margin-bottom: 2px; }
+.facts li:last-child { margin-bottom: 0; }
+
+.dims {
+  margin: 14px 0 16px;
+  padding: 10px 12px;
+  border: 1px dashed var(--rule-soft);
+  background: var(--bg-soft);
+}
+
+.dims-label {
+  display: block;
+  margin-bottom: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.dims-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.dim {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border: 1px solid var(--rule-soft);
+  color: var(--ink-faint);
+  background: transparent;
+}
+
+.dim.is-hot {
+  color: var(--ink);
+  border-color: var(--ink);
+  background: var(--bg-card);
+}
+
+.dim.is-cold {
+  opacity: 0.45;
+  text-decoration: line-through;
+  text-decoration-color: var(--rule-soft);
+}
+
 button {
   cursor: pointer;
   transition: all 0.15s ease;
@@ -176,6 +295,17 @@ button {
   margin-top: 2px;
   color: var(--ink-soft);
   font-size: 14px;
+}
+
+.opt .r {
+  display: block;
+  margin-top: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--ink-faint);
+  line-height: 1.4;
 }
 
 .btn {
@@ -242,12 +372,37 @@ button {
   text-transform: uppercase;
 }
 
+.dline .aside {
+  display: block;
+  margin-top: 6px;
+  color: var(--ink-faint);
+  font-size: 13px;
+  font-style: italic;
+}
+
 .meta {
   border-top: 1px solid var(--rule-soft);
   margin: 14px 0 0;
   padding-top: 12px;
   color: var(--ink-soft);
   font-style: italic;
+}
+
+.meta-reopen {
+  margin: 8px 0 0;
+  color: var(--ink-soft);
+  font-size: 14px;
+  font-style: normal;
+}
+
+.bridge {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  border-left: 3px solid var(--accent-2);
+  background: var(--bg-soft);
+  color: var(--ink-soft);
+  font-size: 14px;
+  font-style: normal;
 }
 
 .widget-footer {
@@ -271,6 +426,11 @@ button {
   .panel,
   .debrief {
     padding: 16px;
+  }
+  .progress-step {
+    padding: 8px 6px;
+    letter-spacing: 0.06em;
+    font-size: 9px;
   }
 }
 
@@ -298,9 +458,10 @@ button {
 </header>
 
 <div class="widget-intro">
-<strong>Com funciona aquesta eina.</strong> Ets responsable tècnic d'un projecte petit durant un any i mig. Rebràs tres encàrrecs en tres moments diferents. Cada cop, tries l'eina. Les conseqüències no arriben quan tries: arriben després, com a la vida real.
+<strong>Com funciona aquesta eina.</strong> Ets responsable tècnic d'un projecte petit durant un any i mig. Rebràs tres encàrrecs en tres moments diferents. Cada cop, tries l'eina; les conseqüències no arriben quan tries: arriben després, com a la vida real. Fixa't en quina dimensió mana a cada brief: no és mai la mateixa. El vocabulari del capítol: <strong>cost, privadesa, transparència, capacitat i control</strong>. I una advertència que no pots confondre: <strong>obert no vol dir privat</strong>; la privadesa la dona l'execució local, no la llicència dels pesos.
 </div>
 
+<div id="progress" class="progress" aria-label="Progrés del projecte"></div>
 <div id="game"></div>
 
 <footer class="widget-footer">ENTI-UB · Curs d'alfabetització en IA · Mòdul 3, Capítol 2 · Activitat B7. Simulació amb conseqüències simplificades i deterministes, escrites per il·lustrar les cinc dimensions del capítol; la realitat és més sorollosa. Experiència de n=1: no es desa res, no s'envia res enlloc i no compta per a cap nota.</footer>
@@ -308,73 +469,128 @@ button {
 
 <script>
 "use strict";
+/*
+  Governance invariants (harvested from wip/b7-el-brief):
+  - Open / local / private are three axes; "open web" = cloud for input data.
+  - No universal winning family; ≥2 options conditionally defensible per brief.
+  - DPA is diligence, not a full privacy fix.
+  - Forbid absolute "cost local zero" (hardware/energy/hours remain).
+  - Sample of 200 ≠ automatically "biased": uncertainty, strata, rare events.
+  - No activity score as competence measure.
+*/
+const DIMS=["cost","privadesa","transparència","capacitat","control"];
 const R1={stamp:"Mes 1 · Preproducció",title:"Brief 1: quaranta PNJ sense veu",
  brief:"Necessiteu diàleg provisional per a 40 PNJ per provar el ritme de les escenes. La font és el document de lore: material original i confidencial de l'estudi. Pressupost: gairebé zero. Termini: aquesta setmana.",
+ facts:["El lore és confidencial de l'estudi.","El pressupost és gairebé zero.","Per a marcadors de posició, la qualitat coherent basta; no cal brillantor."],
+ hot:["privadesa","cost"], cold:["transparència"], ruling:"privadesa",
  opts:[
-  {id:"A",t:"Xat comercial gratuït de frontera",d:"La millor qualitat d'escriptura disponible, cost zero, condicions de consum per defecte."},
-  {id:"B",t:"Model obert petit, executat en local",d:"Qualitat més tosca, però el lore no surt de les vostres màquines."},
-  {id:"C",t:"Pla professional al núvol amb DPA",d:"Qualitat de frontera i contracte que exclou l'entrenament. Es menja el marge de pressupost de tot l'any."},
-  {id:"D",t:"Sense IA: escriure-ho tot a mà",d:"Control total. Unes 400 línies. La setmana sencera de dues persones."}]};
+  {id:"A",t:"Xat comercial gratuït de frontera",d:"La millor qualitat d'escriptura disponible, cost de quota zero, condicions de consum per defecte.",r:"Reconsidera si el contracte, la retenció o l'entrenament per defecte no passen diligència."},
+  {id:"B",t:"Model obert petit, executat en local",d:"Pesos oberts al vostre disc: qualitat més tosca, però el lore no surt de les vostres màquines. Maquinari i hores d'operació segueixen existint.",r:"Reconsidera si la qualitat deixa de ser suficient o el manteniment del model local es dispara."},
+  {id:"C",t:"Model obert allotjat en un web de tercers",d:"Mateixa família «oberta», però el càlcul passa als servidors d'un altre: gratis i còmode. Obert ≠ local ≠ privat.",r:"Reconsidera si canvien les condicions d'ús, la indexació de prompts o la política de dades."},
+  {id:"D",t:"Sense IA: escriure-ho tot a mà",d:"Control total. Unes 400 línies. La setmana sencera de dues persones.",r:"Reconsidera si el calendari no pot absorbir una setmana sencera de dues persones."}]};
 const R2={stamp:"Mes 8 · Producció",title:"Brief 2: el guió del tràiler",
  brief:"L'editor vol un tràiler narratiu per a l'anunci públic. Demana la millor escriptura possible: aquest text el veurà tothom. No hi ha res de confidencial: el contingut és públic des del primer segon. Termini: demà.",
+ facts:["El text és públic des del primer segon.","El termini és demà.","La qualitat d'escriptura és el producte; caldrà edició de marca igualment."],
+ hot:["capacitat"], cold:["privadesa","transparència"], ruling:"capacitat",
  opts:[
-  {id:"A",t:"Model tancat de frontera",d:"La màxima capacitat d'escriptura del mercat, per a un text públic."},
-  {id:"B",t:"El vostre model local petit",d:"Ja el teniu muntat; cap dada no surt de l'estudi."},
-  {id:"C",t:"A mà, tota la nit",d:"El vostre guionista s'hi posa fins que surti."}]};
+  {id:"A",t:"Model tancat de frontera",d:"La màxima capacitat d'escriptura del mercat, per a un text públic. Encara caldrà edició de marca.",r:"Reconsidera si el proveïdor canvia el model, el to o el preu abans del llançament."},
+  {id:"B",t:"El vostre model local petit",d:"Ja el teniu muntat; cap dada no surt de l'estudi. Protegeix una privadesa que aquest brief no demana.",r:"Reconsidera si l'editor rebutja el to o exigeix una capacitat que el model petit no dóna."},
+  {id:"C",t:"A mà, tota la nit",d:"El vostre guionista s'hi posa fins que surti. Sostenible un cop; no cada mes.",r:"Reconsidera si el calendari ja ve tens o caldrà repetir el ritme."}]};
 const R3={stamp:"Mes 14 · Postllançament",title:"Brief 3: quaranta mil ressenyes",
  brief:"El joc és fora i cada setmana cauen ressenyes noves a Steam: ja n'hi ha 40.000. Direcció vol un informe setmanal de què elogien i de què es queixen els jugadors. Les ressenyes són públiques. Això no és un encàrrec puntual: és per sempre.",
+ facts:["Les ressenyes són públiques i l'informe és recurrent per sempre.","Classificar i extreure és més fàcil que redactar.","Cal poder repetir l'anàlisi d'aquí a mesos amb la mateixa versió."],
+ hot:["cost","control"], cold:["privadesa","transparència"], ruling:"cost i control",
  opts:[
-  {id:"A",t:"API de frontera, per petició",d:"La màxima qualitat de classificació, pagant per cada ressenya processada."},
-  {id:"B",t:"Model local petit, per lots",d:"Classificar és més fàcil que redactar; el procés es repeteix idèntic cada setmana."},
-  {id:"C",t:"Mostreig manual de 200 ressenyes",d:"Llegir-ne una mostra a mà cada setmana i extrapolar."}]};
+  {id:"A",t:"API de frontera, per petició",d:"La màxima qualitat de classificació, pagant per cada ressenya processada. Cost i dependència recurrents.",r:"Reconsidera si la diferència de qualitat no compensa el cost o el proveïdor canvia model, preu o condicions."},
+  {id:"B",t:"Model local petit, per lots",d:"Classificar és més fàcil que redactar; cost d'API per petició zero. Cal fixar versió i validar errors per segment: maquinari i manteniment no desapareixen.",r:"Reconsidera si deriva la qualitat, canvia el volum o el manteniment supera l'alternativa allotjada."},
+  {id:"C",t:"Mostra aleatòria de 200 ressenyes",d:"Llegir una mostra nova cada setmana i estimar tendències globals amb incertesa declarada. No cobreix sola incidències rares ni segments.",r:"Reconsidera si calen alertes rares, resultats per segment o més precisió que la incertesa de la mostra."}]};
+const PROGRESS=[{id:1,label:"Mes 1"},{id:8,label:"Mes 8"},{id:14,label:"Mes 14"}];
 function ECHO2(c1){
- return {A:"Notícia del proveïdor: el model del xat que fèieu servir ha estat retirat i substituït per una versió nova. El to dels diàlegs nous no encaixa amb els 400 que ja teníeu generats: o ho regenereu tot, o conviviu amb la costura. Ningú no us va demanar permís; era el seu model, no el vostre.",
+ return {A:"Notícia del proveïdor: el model del xat que fèieu servir ha estat retirat i substituït per una versió nova. El to dels diàlegs nous no encaixa amb els 400 que ja teníeu generats: o ho regenereu tot, o conviviu amb la costura. Ningú no us va demanar permís; era el seu model, no el vostre. Un pla professional amb DPA hauria canviat l'eix contractual (retenció, subprocessadors, entrenament), no la física: les dades haurien viatjat igualment.",
  B:"Els diàlegs provisionals van fer la seva feina. El vostre model local és exactament el mateix que fa set mesos, congelat al vostre disc: ningú no us el pot tocar.",
- C:"Els diàlegs van complir amb qualitat de frontera. La quota mensual del pla professional, això sí, continua corrent cada mes, s'utilitzi o no.",
+ C:"El proveïdor del web «obert» ha canviat les condicions d'ús: ara indexa els prompts per millorar el servei. El lore confidencial ja ha sortit de l'estudi. Obert no vol dir privat: la privadesa la dona l'execució local, no la llicència dels pesos.",
  D:"Les 400 línies escrites a mà van quedar bé, però van costar la setmana sencera de dues persones: el calendari encara ho arrossega, i la data del tràiler no es mou."}[c1];
 }
 function ECHO3(c1,c2){
  const dd={A:"Sobre la taula, a més, el qüestionari de diligència de l'editor: «cap material confidencial ha passat per serveis de tercers sense contracte?». Amb el lore al xat gratuït del mes 1, la resposta neta no existeix. El vostre productor hi perd una tarda, i tu, una mica de reputació.",
   B:"El qüestionari de diligència de l'editor es respon en cinc minuts: «res de confidencial no ha sortit de les màquines de l'estudi».",
-  C:"El qüestionari de diligència de l'editor es respon en deu minuts, adjuntant el DPA.",
+  C:"El qüestionari de diligència de l'editor pregunta pel lore: «ha passat per un servei de tercers?». Sí: un web amb model obert, però tercers igualment. La llicència no esborra el trajecte de les dades.",
   D:"El qüestionari de diligència de l'editor, pel que fa al lore, es respon sol: no hi va intervenir cap servei extern."}[c1];
- const tr={A:"El guió del tràiler va sortir brillant i l'editor el va aprovar a la primera. El contingut era públic: cap dimensió de privadesa hi jugava, i la capacitat era l'única que comptava.",
+ const tr={A:"El guió del tràiler va sortir brillant i l'editor el va aprovar a la primera, amb una passada d'edició de marca. El contingut era públic: cap dimensió de privadesa hi jugava, i la capacitat era l'única que comptava.",
   B:"El guió del tràiler va quedar correcte i pla, i l'editor el va fer refer. Vas protegir una privadesa que no calia protegir: el text era públic des del minut zero. La dimensió que manava era la capacitat, i el model petit no hi arribava.",
   C:"El guió a mà va quedar molt bé, a costa d'una nit del guionista i d'un calendari que va cruixir. Sostenible un cop; no cada mes."}[c2];
  return tr+" "+dd;
 }
 function EPILOGUE(c){
- const v1={A:"El lore confidencial va viatjar a un servei de consum: la dimensió que manava era la privadesa, i era l'única tria que la ignorava. Tot el que ha vingut després (la retirada del model, la diligència) surt d'aquí.",
-  B:"Privadesa per física i capacitat suficient per a text provisional: la lectura correcta del brief. El cost va ser un text més tosc, que per a marcadors de posició era exactament acceptable.",
-  C:"El DPA resol la privadesa per contracte i dona qualitat de frontera: lectura vàlida, pagada amb el marge de pressupost de l'any. Correcte, i car per a un text provisional.",
-  D:"El màxim control possible, pagat amb la moneda més cara de totes: una setmana de dues persones per a text que estava destinat a la paperera."}[c.c1];
- const v2={A:"Text públic, màxima exigència de qualitat: capacitat de frontera. La tria que llegia el brief nou en lloc de repetir la lliçó del brief vell.",
-  B:"La lliçó del primer brief aplicada al brief equivocat: aquí no hi havia res a protegir i tot a escriure. La prudència també té cost.",
-  C:"Qualitat humana i cap risc, pagats amb una nit i un calendari tens. Defensable com a excepció; insostenible com a mètode."}[c.c2];
- const v3={A:"La millor qualitat per a una feina que no la necessitava, a preu d'API i per sempre: 40.000 ressenyes recurrents converteixen cada cèntim per petició en cost estructural.",
-  B:"Classificar és més fàcil que redactar: un model petit arriba de sobres, el cost marginal és zero i l'informe de la setmana 30 es fa igual que el de la setmana 1. Cost i control, les dimensions que manaven.",
-  C:"Barat, però esbiaixat: les 200 ressenyes que llegiu no representen les 40.000, i el mes que el pic de queixes va ser de rendiment, l'informe no ho va veure."}[c.c3];
- const fams={A:"núvol",B:"local",C:"altres",D:"altres"};
+ const v1={A:{t:"El lore confidencial va viatjar a un servei de consum: la dimensió que manava era la privadesa, i era l'única tria que la ignorava del tot. Tot el que ha vingut després (la retirada del model, la diligència) surt d'aquí.",a:"Un pla professional amb DPA hauria millorat el contracte (entrenament, retenció, subprocessadors), no la física: les dades haurien sortit igual. La transparència del model no decidia res en un text provisional."},
+  B:{t:"Privadesa per física i capacitat suficient per a text provisional: la lectura correcta del brief. El cost va ser un text més tosc (i hores de muntatge local), acceptable per a marcadors de posició.",a:"Obert i local: dues coses diferents; aquí coincidien."},
+  C:{t:"Vas triar un model «obert» i el lore va sortir igualment: obert no vol dir privat. La privadesa la dona l'execució local, no la llicència. El web de tercers era núvol amb una altra etiqueta.",a:"La transparència dels pesos no protegia les dades en trànsit."},
+  D:{t:"El màxim control possible, pagat amb la moneda més cara de totes: una setmana de dues persones per a text que estava destinat a la paperera.",a:"Privadesa resolta; cost de calendari disparat."}}[c.c1];
+ const v2={A:{t:"Text públic, màxima exigència de qualitat: capacitat de frontera. La tria que llegia el brief nou en lloc de repetir la lliçó del brief vell.",a:"Privadesa i transparència eren irrellevants: el text era públic des del primer segon."},
+  B:{t:"La lliçó del primer brief aplicada al brief equivocat: aquí no hi havia res a protegir i tot a escriure. La prudència també té cost.",a:"Privadesa freda; capacitat calenta, i el model petit no hi arribava."},
+  C:{t:"Qualitat humana i cap risc, pagats amb una nit i un calendari tens. Defensable com a excepció; insostenible com a mètode.",a:"Cap dimensió de privadesa no hi jugava; el cost era de persones."}}[c.c2];
+ const v3={A:{t:"La millor qualitat per a una feina que no la necessitava, a preu d'API i per sempre: 40.000 ressenyes recurrents converteixen cada cèntim per petició en cost estructural.",a:"Privadesa irrellevant (ressenyes públiques); cost i control eren les que manaven."},
+  B:{t:"Classificar és més fàcil que redactar: un model petit arriba de sobres, el cost d'API per petició és zero i l'informe de la setmana 30 es fa igual que el de la setmana 1 si fixes la versió. Cost i control, les dimensions que manaven.",a:"Mateixes cinc dimensions que al lore; guanyadores diferents. Maquinari i validació per segment no desapareixen."},
+  C:{t:"Barat i interpretable: una mostra aleatòria de 200 pot estimar proporcions globals amb incertesa declarada. El mes del pic de queixes de rendiment, però, l'informe no el va veure: la mostra sola no cobreix incidències rares ni segments.",a:"Sota mostreig aleatori simple, el marge màxim aproximat és ±6,9 punts percentuals al 95 %. Això no és «biaix» automàtic; és incertesa, i un forat per a casos rars."}}[c.c3];
+ const fams={A:"núvol",B:"local",C:"núvol",D:"altres"};
  const same = fams[c.c1]===fams[c.c2] && fams[c.c2]===fams[c.c3] && fams[c.c1]!=="altres";
  const meta = same
   ? "Has triat la mateixa família les tres vegades, i almenys una de les tres t'ha sortit cara. No és mala sort: és el senyal que responies amb una eina en lloc de llegir cada brief. La dimensió que mana canvia amb el context i amb el temps: privadesa al primer, capacitat al segon, cost i control al tercer."
   : "Fixa't en la seqüència de dimensions que han manat: privadesa al primer brief, capacitat al segon, cost i control al tercer. Cap eina no era «la resposta»: cada brief demanava una lectura nova. Aquesta lectura és exactament la competència del capítol.";
- return {v1,v2,v3,meta};
+ const reopen = "Cada tria és una hipòtesi en producció: reobre-la quan canviïn l'error mesurat, el volum, el cost, la política o les condicions del proveïdor.";
+ return {v1,v2,v3,meta,reopen};
 }
 if (typeof document !== "undefined") {
  const g=document.getElementById("game");
+ const prog=document.getElementById("progress");
  const state={};
- function screen(round, data, echo, key, next){
+ function setProgress(step){
+  prog.innerHTML=PROGRESS.map((p,i)=>{
+   const n=i+1;
+   let cls="progress-step";
+   if(step>n || step===4) cls+=" is-done";
+   if(step===n) cls+=" is-current";
+   return '<div class="'+cls+'" aria-current="'+(step===n?"step":"false")+'">'+p.label+'</div>';
+  }).join("");
+ }
+ function factStrip(data){
+  if(!data.facts || !data.facts.length) return "";
+  return '<div class="facts"><span class="facts-label">Fets del brief</span><ul>'
+   +data.facts.map(f=>'<li>'+f+'</li>').join("")
+   +'</ul></div>';
+ }
+ function dimStrip(data){
+  const hot=new Set(data.hot);
+  const cold=new Set(data.cold);
+  return '<div class="dims" role="group" aria-label="Dimensions del brief">'
+   +'<span class="dims-label">Lent del brief · en joc / irrellevant</span>'
+   +'<div class="dims-row">'+DIMS.map(d=>{
+    let cls="dim";
+    if(hot.has(d)) cls+=" is-hot";
+    if(cold.has(d)) cls+=" is-cold";
+    return '<span class="'+cls+'">'+d+'</span>';
+   }).join("")+'</div></div>';
+ }
+ function screen(round, data, echo, rulingPrev, key, next){
   g.innerHTML="";
+  setProgress(round);
   const p=document.createElement("div"); p.className="panel"; p.setAttribute("aria-live","polite");
   let h='<span class="stamp">'+data.stamp+'</span><h2>'+data.title+'</h2>';
-  if(echo) h+='<div class="echo"><span class="stamp">Mentrestant, conseqüències</span><p style="margin:0">'+echo+'</p></div>';
+  if(echo){
+   h+='<div class="echo"><span class="stamp">Mentrestant, conseqüències</span>'
+    +(rulingPrev?'<span class="dim-tag">Dimensió que manava: '+rulingPrev+'</span>':'')
+    +'<p style="margin:0">'+echo+'</p></div>';
+  }
   h+='<p>'+data.brief+'</p>';
+  h+=factStrip(data);
+  h+=dimStrip(data);
   p.innerHTML=h;
   data.opts.forEach(o=>{
    const b=document.createElement("button"); b.type="button"; b.className="opt";
    const blocked = (round===2 && o.id==="C" && state.c1==="D");
-   b.innerHTML='<span class="t">'+o.t+'</span><span class="d">'+(blocked?"No queda marge: la setmana perduda al mes 1 s'ha menjat aquesta opció.":o.d)+'</span>';
+   const dText = blocked ? "No queda marge: la setmana perduda al mes 1 s'ha menjat aquesta opció." : o.d;
+   const rText = blocked ? "" : (o.r ? '<span class="r">'+o.r+'</span>' : "");
+   b.innerHTML='<span class="t">'+o.t+'</span><span class="d">'+dText+'</span>'+rText;
    if(blocked) b.disabled=true;
    b.addEventListener("click",()=>{state[key]=o.id; next();});
    p.appendChild(b);
@@ -382,21 +598,25 @@ if (typeof document !== "undefined") {
   g.appendChild(p);
   if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches) window.scrollTo({top:0,behavior:"smooth"});
  }
- function s1(){ screen(1,R1,null,"c1",s2); }
- function s2(){ screen(2,R2,ECHO2(state.c1),"c2",s3); }
- function s3(){ screen(3,R3,ECHO3(state.c1,state.c2),"c3",fin); }
+ function s1(){ screen(1,R1,null,null,"c1",s2); }
+ function s2(){ screen(2,R2,ECHO2(state.c1),R1.ruling,"c2",s3); }
+ function s3(){ screen(3,R3,ECHO3(state.c1,state.c2),R2.ruling,"c3",fin); }
  function fin(){
   const e=EPILOGUE(state);
   g.innerHTML="";
+  setProgress(4);
   const d=document.createElement("div"); d.className="debrief"; d.setAttribute("aria-live","polite");
   d.innerHTML='<h3>Informe de final de projecte</h3>'
-   +'<div class="dline"><span class="k">Brief 1 · manava la privadesa</span>'+e.v1+'</div>'
-   +'<div class="dline"><span class="k">Brief 2 · manava la capacitat</span>'+e.v2+'</div>'
-   +'<div class="dline"><span class="k">Brief 3 · manaven el cost i el control</span>'+e.v3+'</div>'
-   +'<p class="meta">'+e.meta+'</p>';
+   +'<div class="dline"><span class="k">Brief 1 · manava la privadesa</span>'+e.v1.t+'<span class="aside">'+e.v1.a+'</span></div>'
+   +'<div class="dline"><span class="k">Brief 2 · manava la capacitat</span>'+e.v2.t+'<span class="aside">'+e.v2.a+'</span></div>'
+   +'<div class="dline"><span class="k">Brief 3 · manaven el cost i el control</span>'+e.v3.t+'<span class="aside">'+e.v3.a+'</span></div>'
+   +'<p class="meta">'+e.meta+'</p>'
+   +'<p class="meta-reopen">'+e.reopen+'</p>'
+   +'<p class="bridge"><strong>Després, al llibre.</strong> Tria tres tasques reals del teu grau, recorre les cinc dimensions i decideix: núvol o local? Si et surten respostes diferents, no t\'has equivocat: és la competència del capítol.</p>';
   const b=document.createElement("button"); b.className="btn ghost"; b.type="button"; b.textContent="Torna-hi amb altres tries"; b.style.marginTop="12px";
   b.addEventListener("click",()=>{delete state.c1;delete state.c2;delete state.c3;s1();});
   d.appendChild(b); g.appendChild(d);
+  if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches) window.scrollTo({top:0,behavior:"smooth"});
  }
  s1();
 }

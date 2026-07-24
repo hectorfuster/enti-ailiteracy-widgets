@@ -974,7 +974,7 @@ html, body {
   <div class="widget-intro">
     <strong>Com funciona aquesta eina.</strong>
     Els tokenitzadors dels grans MLG estan optimitzats per a l'anglès, que domina les dades d'entrenament.
-    La mateixa idea en una altra llengua sovint necessitarà més tokens — i el cost (i la finestra de context) es factura per token.
+    La mateixa idea en una altra llengua sovint necessitarà més tokens; i el cost (i la finestra de context) es factura per token.
     Aquesta eina fa servir la codificació real <code>o200k_base</code> (GPT-4o, GPT-5 i la sèrie o): edita les caixes i veuràs la diferència en directe.
     Si treballes amb un MLG en un projecte de joc, val la pena tenir-ho present: projectes com <a href="https://github.com/juliusbrussee/caveman" target="_blank" rel="noopener">caveman</a> existeixen precisament per reduir tokens sense perdre la idea.
   </div>
@@ -996,8 +996,8 @@ html, body {
         <span class="section-hint">llegeix i compara</span>
       </div>
       <p class="section-note" id="sectionNote">
-        Llegeix les tres versions de la mateixa idea. Després predieu quina tindrà més tokens —
-        encara no es mostren els comptes ni les peces.
+        Llegeix les tres versions de la mateixa idea. Després predieu quina tindrà més tokens
+        (encara no es mostren els comptes ni les peces).
       </p>
       <div class="section-toolbar" id="presetToolbar" role="group" aria-label="Exemples preparats"></div>
       <p class="honesty-note" id="honestyNote">
@@ -1278,7 +1278,7 @@ function syncEvidenceReveal() {
   if (note) {
     note.textContent = revealed
       ? 'Cada peça ombrejada és un token. Fes clic o toca una peça per veure l\'identificador numèric: després d\'aquesta etapa, el model ja no veu text, només una llista d\'enters.'
-      : 'Llegeix les tres versions de la mateixa idea. Després predieu quina tindrà més tokens — encara no es mostren els comptes ni les peces.';
+      : 'Llegeix les tres versions de la mateixa idea. Després predieu quina tindrà més tokens (encara no es mostren els comptes ni les peces).';
   }
   if (hint) hint.textContent = revealed ? 'edita per explorar' : 'llegeix i compara';
 }
