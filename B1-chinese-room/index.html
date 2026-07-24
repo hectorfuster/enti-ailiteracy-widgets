@@ -10,9 +10,10 @@
    ENTI-UB AI Literacy Course, Module 1, Chapter 1.
    ============================================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Noto+Serif+SC:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
-
 :root {
+  --font-serif: Georgia, 'Times New Roman', Times, serif;
+  --font-mono: ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Consolas, monospace;
+
   --room-bg:        #15110d;
   --room-bg-deeper: #0e0a07;
   --paper:          #d8c9a8;
@@ -35,7 +36,7 @@ html, body {
   padding: 0;
   background: var(--room-bg);
   color: var(--bulb);
-  font-family: 'EB Garamond', Georgia, serif;
+  font-family: var(--font-serif);
   font-size: 19px;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
@@ -103,7 +104,7 @@ body.lamp-dim-3 .room::before {
   background: transparent;
   color: var(--bulb-soft);
   padding: 5px 0;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.08em;
   cursor: pointer;
@@ -128,7 +129,7 @@ body.lamp-dim-3 .room::before {
 }
 
 .eyebrow {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.24em;
@@ -138,7 +139,7 @@ body.lamp-dim-3 .room::before {
 }
 
 .title {
-  font-family: 'EB Garamond', Georgia, serif;
+  font-family: var(--font-serif);
   font-style: italic;
   font-weight: 400;
   font-size: 32px;
@@ -153,7 +154,7 @@ body.lamp-dim-3 .room::before {
 .scene-title {
   margin: 0 0 28px;
   color: var(--bulb-soft);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.18em;
@@ -188,7 +189,7 @@ body.lamp-dim-3 .room::before {
   position: absolute;
   top: 8px;
   left: 12px;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.2em;
@@ -203,7 +204,7 @@ body.lamp-dim-3 .room::before {
   padding: 28px 32px;
   margin: 28px 16px 16px;
   position: relative;
-  font-family: 'Noto Serif SC', 'EB Garamond', serif;
+  font-family: 'Songti SC', 'SimSun', 'Noto Serif CJK SC', var(--font-serif);
   font-size: 22px;
   line-height: 1.6;
   letter-spacing: 0.02em;
@@ -269,7 +270,7 @@ body.lamp-dim-3 .room::before {
   border: 1px solid var(--bulb-faint);
   padding: 24px 28px;
   margin: 36px 0;
-  font-family: 'EB Garamond', Georgia, serif;
+  font-family: var(--font-serif);
   position: relative;
   transition: opacity 0.8s ease;
 }
@@ -277,7 +278,7 @@ body.lamp-dim-3 .room::before {
 .manual.aged { border-color: rgba(168, 152, 120, 0.35); }
 
 .manual-header {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.2em;
@@ -295,7 +296,7 @@ body.lamp-dim-3 .room::before {
 .manual-header .section-num { color: var(--bulb-faint); }
 
 .manual-searching {
-  font-family: 'EB Garamond', serif;
+  font-family: var(--font-serif);
   font-style: italic;
   font-size: 15px;
   color: var(--bulb-soft);
@@ -339,7 +340,7 @@ body.lamp-dim-3 .room::before {
   display: inline-block;
   margin: 0 8px;
   color: var(--bulb-faint);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
 }
 
 .manual-rule .rule-note {
@@ -363,7 +364,7 @@ body.lamp-dim-3 .room::before {
   border: 1px solid var(--bulb-soft);
   color: var(--bulb);
   padding: 14px 28px;
-  font-family: 'EB Garamond', serif;
+  font-family: var(--font-serif);
   font-style: italic;
   font-size: 17px;
   letter-spacing: 0.01em;
@@ -406,7 +407,7 @@ body.lamp-dim-3 .room::before {
   border: 1px solid var(--bulb-soft);
   color: var(--bulb);
   padding: 20px 24px;
-  font-family: 'EB Garamond', serif;
+  font-family: var(--font-serif);
   font-style: italic;
   font-size: 17px;
   line-height: 1.5;
@@ -466,7 +467,7 @@ body.lamp-dim-3 .room::before {
 }
 
 .frame-break .speaker-label {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.24em;
@@ -606,7 +607,7 @@ body.lamp-dim-3 .room::before {
 
 .epilogue h2,
 .epilogue h3 {
-  font-family: 'EB Garamond', serif;
+  font-family: var(--font-serif);
   font-style: italic;
   font-weight: 400;
   font-size: 24px;
@@ -633,7 +634,7 @@ body.lamp-dim-3 .room::before {
 .translation-item:last-child { border-bottom: none; }
 
 .translation-item .scene-label {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -669,7 +670,7 @@ body.lamp-dim-3 .room::before {
 }
 
 .translation-item .meaning .label {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 10px;
   font-style: normal;
   letter-spacing: 0.16em;
@@ -683,7 +684,7 @@ body.lamp-dim-3 .room::before {
   align-items: center;
   gap: 6px;
   color: var(--bulb-soft);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.08em;
 }
@@ -762,12 +763,18 @@ body.no-motion *::after {
   <div class="sr-only" id="activityStatus" role="status" aria-live="polite"></div>
 </main>
 
+<script src="../shared/enti-widget-bridge.js"></script>
 <script>
 (() => {
   'use strict';
 
   const WIDGET_ID = 'B1-chinese-room';
   const WIDGET_VERSION = 2;
+  const bridge = createEntiBridge({
+    widget: WIDGET_ID,
+    version: String(WIDGET_VERSION),
+    root: document.querySelector('.widget-frame') || document.body,
+  });
   const STORAGE_KEY = 'enti-b1-state-v2';
   const STEP_LABELS = [
     'La primera regla',
@@ -1563,6 +1570,7 @@ body.no-motion *::after {
 
   syncMotionPreference();
   renderIntro();
+  bridge.emitResize();
 })();
 
 </script>

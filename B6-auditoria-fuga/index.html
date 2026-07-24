@@ -139,11 +139,16 @@ button{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacin
 
 <div id="out" aria-live="polite"></div>
 
-<footer class="widget-footer">ENTI-UB · Curs d'alfabetització en IA · Mòdul 3, Capítol 1 · Activitat B6. Cas fictici, dades inventades. És una experiència individual de n=1: serveix per pensar, no per mesurar res. No es desa ni s'envia res enlloc, i el resultat no compta per a cap nota. Sense fonts ni serveis de tercers.</footer>
+<footer class="widget-footer">ENTI-UB · Curs d'alfabetització en IA · Mòdul 3, Capítol 1 · Activitat B6. Cas fictici, dades inventades. És una experiència individual de n=1: serveix per pensar, no per mesurar res. Les marques es poden reprendre dins d'aquesta pestanya (sessionStorage); no s'envia res a cap servidor, i el resultat no compta per a cap nota. Sense fonts ni serveis de tercers.</footer>
 </div>
 
+<script src="../shared/enti-widget-bridge.js"></script>
 <script>
 "use strict";
+const WIDGET_ID="b6-auditoria-fuga";
+const WIDGET_VERSION="1.1.0";
+const STORAGE_KEY="enti-b6-audit-v1";
+const bridge=createEntiBridge({widget:WIDGET_ID,version:WIDGET_VERSION,root:document.querySelector(".widget-frame")});
 const FACTS=[
  {id:"titol",k:"Títol del projecte",v:"Vessel"},
  {id:"motor",k:"Motor i versió exacta",v:"Unity 6.1.3f1"},
@@ -247,6 +252,19 @@ if (typeof document !== "undefined") {
   MSGS.forEach(m=>{ if(document.getElementById("c"+m.n).checked) s.add(m.n); });
   return s;
  }
+ function saveMarks(){
+  try{ sessionStorage.setItem(STORAGE_KEY, JSON.stringify({marked:[...marked()]})); }catch(_){}
+ }
+ function copyText(text, statusEl){
+  const done=()=>{ if(statusEl) statusEl.textContent="Copiat al porta-retalls."; };
+  if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done).catch(()=>fallback());
+  else fallback();
+  function fallback(){
+   const ta=document.createElement("textarea"); ta.value=text; document.body.appendChild(ta); ta.select();
+   try{ document.execCommand("copy"); done(); }catch(_){ if(statusEl) statusEl.textContent="No s'ha pogut copiar."; }
+   ta.remove();
+  }
+ }
 
  function clearAnswerKey(){
   audited=false;
@@ -316,6 +334,7 @@ if (typeof document !== "undefined") {
    if(audited) return;
    li.classList.toggle("marked", cb.checked);
    updateCount();
+   saveMarks();
   });
   li.appendChild(cb);
   li.appendChild(lb);
@@ -387,6 +406,21 @@ if (typeof document !== "undefined") {
 
   appendHabit(out);
   appendAtura(out);
+  const copyRow=el("div","row");
+  const copyBtn=el("button","btn ghost");
+  copyBtn.type="button";
+  copyBtn.textContent="Copia ATURA";
+  const copyStatus=el("p");
+  copyStatus.style.cssText="font-family:var(--font-mono);font-size:11px;color:var(--ok);margin:8px 0 0";
+  copyStatus.setAttribute("aria-live","polite");
+  const aturaText=ATURA.map(a=>a.letter+" · "+a.title+": "+a.text).join("\n");
+  copyBtn.addEventListener("click",()=>copyText("ATURA abans d'enviar\n"+aturaText, copyStatus));
+  copyRow.appendChild(copyBtn);
+  out.appendChild(copyRow);
+  out.appendChild(copyStatus);
+  bridge.emitProgress({step:1,percent:100,stepLabel:"Auditoria",completed:true});
+  bridge.emitComplete({caught,falsePos,leaked:res.length});
+  bridge.emitResize();
   document.getElementById("erase").classList.remove("hide");
   document.getElementById("reset").classList.remove("hide");
  });
@@ -426,11 +460,26 @@ if (typeof document !== "undefined") {
   out.replaceChildren();
   document.getElementById("erase").classList.add("hide");
   document.getElementById("reset").classList.add("hide");
+  try{ sessionStorage.removeItem(STORAGE_KEY); }catch(_){}
+  bridge.resetCompletionFlag();
   updateCount();
   window.scrollTo({top:0,behavior:"auto"});
+  bridge.emitResize();
  });
 
+ try{
+  const saved=JSON.parse(sessionStorage.getItem(STORAGE_KEY)||"null");
+  if(saved && Array.isArray(saved.marked)){
+   saved.marked.forEach(n=>{
+    const cb=document.getElementById("c"+n);
+    const li=document.getElementById("m"+n);
+    if(cb&&li){ cb.checked=true; li.classList.add("marked"); }
+   });
+  }
+ }catch(_){}
+
  updateCount();
+ bridge.emitResize();
 }
 </script>
 </body>

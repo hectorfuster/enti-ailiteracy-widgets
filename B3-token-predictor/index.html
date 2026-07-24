@@ -1078,6 +1078,7 @@ input[type="range"]::-moz-range-thumb {
 
 </div>
 
+<script src="../shared/enti-widget-bridge.js"></script>
 <script>
 // =============================================================
 // TOKEN DATA
@@ -1835,7 +1836,7 @@ function renderDistribution() {
     const count = tokenCounts[token] || 0;
     const freqStr = sampleCount > 0
       ? (count > 0 ? count + ' (' + Math.round((count / sampleCount) * 100) + '%)' : '0')
-      : '—';
+      : '-';
 
     row.innerHTML = `
       <div class="dist-token">${escapeHtml(token)}</div>
@@ -1883,6 +1884,11 @@ function escapeHtml(str) {
 buildCategoryTabs();
 renderScenarioButtons();
 updatePresetButtons();
+createEntiBridge({
+  widget: 'b3-token-predictor',
+  version: '1.1.0',
+  root: document.querySelector('.widget-frame') || document.body
+});
 
 </script>
 </body>

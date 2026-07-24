@@ -5,9 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>El brief · ENTI-UB AI Literacy</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
-
 :root {
+  --font-serif: Georgia, 'Times New Roman', Times, serif;
+  --font-mono: ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Consolas, monospace;
+
   --bg: #f4efe6;
   --bg-card: #ffffff;
   --bg-soft: #faf6ec;
@@ -32,7 +33,7 @@ html, body {
   padding: 0;
   background: var(--bg);
   color: var(--ink);
-  font-family: 'EB Garamond', Georgia, serif;
+  font-family: var(--font-serif);
   font-size: 18px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -51,7 +52,7 @@ html, body {
 }
 
 .widget-eyebrow {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.16em;
@@ -61,7 +62,7 @@ html, body {
 }
 
 .widget-title {
-  font-family: 'EB Garamond', Georgia, serif;
+  font-family: var(--font-serif);
   font-size: 32px;
   font-weight: 600;
   line-height: 1.1;
@@ -103,7 +104,7 @@ html, body {
 .progress-step {
   flex: 1;
   padding: 10px 12px;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -148,7 +149,7 @@ html, body {
 .stamp {
   display: inline-block;
   margin-bottom: 6px;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.16em;
@@ -171,7 +172,7 @@ html, body {
 .echo .dim-tag {
   display: block;
   margin: 0 0 6px;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -189,7 +190,7 @@ html, body {
 .facts-label {
   display: block;
   margin-bottom: 6px;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -218,7 +219,7 @@ html, body {
 .dims-label {
   display: block;
   margin-bottom: 8px;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -233,7 +234,7 @@ html, body {
 }
 
 .dim {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -269,7 +270,7 @@ button {
   border: 1px solid var(--rule-soft);
   background: var(--bg-card);
   color: var(--ink);
-  font-family: 'EB Garamond', Georgia, serif;
+  font-family: var(--font-serif);
   font-size: 15px;
   line-height: 1.35;
   text-align: left;
@@ -300,7 +301,7 @@ button {
 .opt .r {
   display: block;
   margin-top: 6px;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.04em;
@@ -313,7 +314,7 @@ button {
   border: 1px solid var(--ink);
   background: var(--ink);
   color: var(--bg);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -365,7 +366,7 @@ button {
   display: block;
   margin-bottom: 3px;
   color: var(--ink-soft);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -450,6 +451,7 @@ button {
 </style>
 </head>
 <body>
+<a class="skip" href="#game" style="position:absolute;left:-9999px">Salta a l'exercici</a>
 <div class="widget-frame">
 <header class="widget-header">
 <div class="widget-eyebrow">Mòdul 3 · Capítol 2 · Activitat B7</div>
@@ -464,9 +466,10 @@ button {
 <div id="progress" class="progress" aria-label="Progrés del projecte"></div>
 <div id="game"></div>
 
-<footer class="widget-footer">ENTI-UB · Curs d'alfabetització en IA · Mòdul 3, Capítol 2 · Activitat B7. Simulació amb conseqüències simplificades i deterministes, escrites per il·lustrar les cinc dimensions del capítol; la realitat és més sorollosa. Experiència de n=1: no es desa res, no s'envia res enlloc i no compta per a cap nota.</footer>
+<footer class="widget-footer">ENTI-UB · Curs d'alfabetització en IA · Mòdul 3, Capítol 2 · Activitat B7. Simulació amb conseqüències simplificades i deterministes, escrites per il·lustrar les cinc dimensions del capítol; la realitat és més sorollosa. Experiència de n=1: el progrés es pot reprendre dins d'aquesta pestanya (sessionStorage); no s'envia res a cap servidor i no compta per a cap nota.</footer>
 </div>
 
+<script src="../shared/enti-widget-bridge.js"></script>
 <script>
 "use strict";
 /*
@@ -478,6 +481,10 @@ button {
   - Sample of 200 ≠ automatically "biased": uncertainty, strata, rare events.
   - No activity score as competence measure.
 */
+const WIDGET_ID="b7-el-brief";
+const WIDGET_VERSION="1.1.0";
+const STORAGE_KEY="enti-b7-brief-v1";
+const bridge=createEntiBridge({widget:WIDGET_ID,version:WIDGET_VERSION,root:document.querySelector(".widget-frame")});
 const DIMS=["cost","privadesa","transparència","capacitat","control"];
 const R1={stamp:"Mes 1 · Preproducció",title:"Brief 1: quaranta PNJ sense veu",
  brief:"Necessiteu diàleg provisional per a 40 PNJ per provar el ritme de les escenes. La font és el document de lore: material original i confidencial de l'estudi. Pressupost: gairebé zero. Termini: aquesta setmana.",
@@ -598,27 +605,52 @@ if (typeof document !== "undefined") {
   g.appendChild(p);
   if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches) window.scrollTo({top:0,behavior:"smooth"});
  }
- function s1(){ screen(1,R1,null,null,"c1",s2); }
- function s2(){ screen(2,R2,ECHO2(state.c1),R1.ruling,"c2",s3); }
- function s3(){ screen(3,R3,ECHO3(state.c1,state.c2),R2.ruling,"c3",fin); }
  function fin(){
   const e=EPILOGUE(state);
+  try{ sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(_){}
+  bridge.emitProgress({step:4,percent:100,stepLabel:"Informe",completed:true});
+  bridge.emitComplete({c1:state.c1,c2:state.c2,c3:state.c3});
   g.innerHTML="";
   setProgress(4);
   const d=document.createElement("div"); d.className="debrief"; d.setAttribute("aria-live","polite");
-  d.innerHTML='<h3>Informe de final de projecte</h3>'
+  d.innerHTML='<h3 tabindex="-1">Informe de final de projecte</h3>'
    +'<div class="dline"><span class="k">Brief 1 · manava la privadesa</span>'+e.v1.t+'<span class="aside">'+e.v1.a+'</span></div>'
    +'<div class="dline"><span class="k">Brief 2 · manava la capacitat</span>'+e.v2.t+'<span class="aside">'+e.v2.a+'</span></div>'
    +'<div class="dline"><span class="k">Brief 3 · manaven el cost i el control</span>'+e.v3.t+'<span class="aside">'+e.v3.a+'</span></div>'
    +'<p class="meta">'+e.meta+'</p>'
    +'<p class="meta-reopen">'+e.reopen+'</p>'
    +'<p class="bridge"><strong>Després, al llibre.</strong> Tria tres tasques reals del teu grau, recorre les cinc dimensions i decideix: núvol o local? Si et surten respostes diferents, no t\'has equivocat: és la competència del capítol.</p>';
-  const b=document.createElement("button"); b.className="btn ghost"; b.type="button"; b.textContent="Torna-hi amb altres tries"; b.style.marginTop="12px";
-  b.addEventListener("click",()=>{delete state.c1;delete state.c2;delete state.c3;s1();});
-  d.appendChild(b); g.appendChild(d);
+  const actions=document.createElement("div"); actions.style.cssText="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px";
+  const copyBtn=document.createElement("button"); copyBtn.className="btn ghost"; copyBtn.type="button"; copyBtn.textContent="Copia l'informe";
+  const status=document.createElement("p"); status.style.cssText="font-family:var(--font-mono);font-size:11px;color:var(--ok);margin:6px 0 0"; status.setAttribute("aria-live","polite");
+  const summary=["El brief · informe",e.v1.t,e.v2.t,e.v3.t,"",e.meta,e.reopen].join("\n");
+  copyBtn.addEventListener("click",()=>{
+   const done=()=>{status.textContent="Copiat al porta-retalls.";};
+   if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(summary).then(done).catch(done); else done();
+  });
+  const b=document.createElement("button"); b.className="btn ghost"; b.type="button"; b.textContent="Torna-hi amb altres tries";
+  b.addEventListener("click",()=>{
+   delete state.c1;delete state.c2;delete state.c3;
+   try{ sessionStorage.removeItem(STORAGE_KEY); }catch(_){}
+   bridge.resetCompletionFlag();
+   s1();
+  });
+  actions.appendChild(copyBtn); actions.appendChild(b);
+  d.appendChild(actions); d.appendChild(status); g.appendChild(d);
+  requestAnimationFrame(()=>d.querySelector("h3")?.focus({preventScroll:true}));
   if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches) window.scrollTo({top:0,behavior:"smooth"});
+  bridge.emitResize();
  }
- s1();
+ function s1(){ bridge.emitProgress({step:1,percent:25,stepLabel:"Brief 1",completed:false}); screen(1,R1,null,null,"c1",s2); }
+ function s2(){ try{sessionStorage.setItem(STORAGE_KEY,JSON.stringify(state));}catch(_){} bridge.emitProgress({step:2,percent:50,stepLabel:"Brief 2",completed:false}); screen(2,R2,ECHO2(state.c1),R1.ruling,"c2",s3); }
+ function s3(){ try{sessionStorage.setItem(STORAGE_KEY,JSON.stringify(state));}catch(_){} bridge.emitProgress({step:3,percent:75,stepLabel:"Brief 3",completed:false}); screen(3,R3,ECHO3(state.c1,state.c2),R2.ruling,"c3",fin); }
+ try{
+  const saved=JSON.parse(sessionStorage.getItem(STORAGE_KEY)||"null");
+  if(saved&&saved.c1&&!saved.c2){ Object.assign(state,saved); s2(); }
+  else if(saved&&saved.c1&&saved.c2&&!saved.c3){ Object.assign(state,saved); s3(); }
+  else if(saved&&saved.c1&&saved.c2&&saved.c3){ Object.assign(state,saved); fin(); }
+  else s1();
+ }catch(_){ s1(); }
 }
 </script>
 </body>

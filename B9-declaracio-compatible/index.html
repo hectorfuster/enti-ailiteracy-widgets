@@ -5,57 +5,73 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Què és compatible amb això? · ENTI-UB AI Literacy</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 :root{
+  --font-serif: Georgia, 'Times New Roman', Times, serif;
+  --font-mono: ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Consolas, monospace;
 --bg:#f4efe6;--bg-card:#ffffff;--bg-soft:#faf6ec;--bg-deep:#ede4cf;
 --ink:#1a1814;--ink-soft:#4a463e;--ink-faint:#8a8478;
 --rule:#1a1814;--rule-soft:#c9c2b3;
 --accent:#b91c1c;--accent-deep:#8b1414;--accent-soft:#f5d8d8;--accent-2:#1e3a5f;
---ok:#3d6b3d;--ok-soft:#f2f6ee;
+--ok:#3d6b3d;--ok-soft:#f2f6ee;--warn:#8a5a12;--warn-soft:#f7f0e2;
 }
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'EB Garamond',Georgia,serif;font-size:18px;line-height:1.5;-webkit-font-smoothing:antialiased}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--font-serif);font-size:18px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.skip{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+.skip:focus{position:fixed;left:12px;top:12px;z-index:100;width:auto;height:auto;padding:10px 14px;background:var(--ink);color:var(--bg);font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none}
 .widget-frame{max-width:1080px;margin:0 auto;padding:24px 24px 40px}
 .widget-header{border-bottom:2px solid var(--rule);padding-bottom:14px;margin-bottom:22px}
-.widget-eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
-.widget-title{font-family:'EB Garamond',Georgia,serif;font-size:32px;font-weight:600;line-height:1.1;letter-spacing:-.01em;margin:0 0 6px}
+.widget-eyebrow{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+.widget-title{font-family:var(--font-serif);font-size:32px;font-weight:600;line-height:1.1;letter-spacing:-.01em;margin:0 0 6px}
 .widget-subtitle{color:var(--ink-soft);font-size:16px;font-style:italic;max-width:720px;margin:0}
 .widget-intro{background:var(--bg-card);border-left:3px solid var(--accent-2);padding:14px 18px;margin-bottom:22px;font-size:15px;line-height:1.55;color:var(--ink-soft)}
 .widget-intro strong{color:var(--ink);font-weight:600}
-h2{display:flex;justify-content:space-between;align-items:baseline;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin:24px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--rule-soft)}
-#groups>div:first-child h2{margin-top:0}
-.decl{position:relative;background:var(--bg-card);border:2px solid var(--ink);padding:20px 22px;margin:26px 0 14px;font-size:18px;min-height:76px}
-.decl::before{content:'LA TEVA DECLARACIÓ';position:absolute;top:-10px;left:18px;background:var(--bg);padding:0 10px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.22em;color:var(--ink)}
+.sticky-meter{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0 2px;margin:0 0 8px}
+.sticky-meter::after{content:"";display:block;height:10px;background:linear-gradient(var(--bg),transparent);pointer-events:none}
+h2{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin:24px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--rule-soft)}
+#groups>div:first-child h2{margin-top:8px}
+.decl{position:relative;background:var(--bg-card);border:2px solid var(--ink);padding:20px 22px;margin:16px 0 10px;font-size:18px;min-height:76px}
+.decl::before{content:'LA TEVA DECLARACIÓ';position:absolute;top:-10px;left:18px;background:var(--bg);padding:0 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.22em;color:var(--ink)}
 .decl .ph{color:var(--ink-soft);font-style:italic}
 .opts{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:4px}
+.opt-note{font-size:14px;line-height:1.45;color:var(--ink-soft);font-style:italic;min-height:1.45em;margin:2px 0 4px}
+.opt-note.vague{color:var(--warn)}
+.opt-note:empty{display:none}
 button{cursor:pointer;transition:all .15s ease}
-.opt{font-family:'EB Garamond',Georgia,serif;font-size:15px;line-height:1.3;color:var(--ink);background:var(--bg-card);border:1px solid var(--rule-soft);padding:12px 14px;text-align:left;max-width:100%}
+.opt{font-family:var(--font-serif);font-size:15px;line-height:1.3;color:var(--ink);background:var(--bg-card);border:1px solid var(--rule-soft);padding:12px 14px;text-align:left;max-width:100%}
 .opt:hover{border-color:var(--rule);background:var(--bg-soft)}
 .opt[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--bg);font-weight:600}
-.btn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:var(--bg);border:1px solid var(--ink);padding:12px 20px}
+.btn{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:var(--bg);border:1px solid var(--ink);padding:12px 20px}
 .btn:hover{background:var(--accent);border-color:var(--accent)}
 .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
 .btn.ghost:hover{background:var(--ink);color:var(--bg)}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.counter{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;background:var(--bg-card);border:1px solid var(--rule-soft);border-left:3px solid var(--accent-2);padding:12px 14px;margin:14px 0}
-.counter b{font-family:'EB Garamond',Georgia,serif;font-size:24px;color:var(--ink)}
+.counter{font-family:var(--font-mono);font-size:11px;letter-spacing:.04em;background:var(--bg-card);border:1px solid var(--rule-soft);border-left:3px solid var(--accent-2);padding:12px 14px;margin:0 0 6px}
+.counter b{font-family:var(--font-serif);font-size:24px;color:var(--ink)}
 .counter.win{border-left-color:var(--ok)} .counter.win b{color:var(--ok)}
-.delta{font-family:'EB Garamond',Georgia,serif;font-size:14px;font-style:italic;letter-spacing:0;color:var(--ink-soft);display:block;margin-top:3px}
+.counter.empty{border-left-color:var(--warn);background:var(--warn-soft)} .counter.empty b{color:var(--warn)}
+.counter.flash b{animation:nflash .45s ease}
+@keyframes nflash{0%{transform:scale(1)}40%{transform:scale(1.18)}100%{transform:scale(1)}}
+.delta{font-family:var(--font-serif);font-size:14px;font-style:italic;letter-spacing:0;color:var(--ink-soft);display:block;margin-top:3px}
 .worlds{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:9px;margin-top:10px}
 .w{background:var(--bg-card);border:1px solid var(--rule-soft);padding:12px 14px;font-size:15px}
 .w.true{border:2px solid var(--ok);background:var(--ok-soft)}
-.w .lbl{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-soft);display:block;margin-bottom:4px}
+.w.none{border-style:dashed;color:var(--ink-soft);font-style:italic}
+.w .lbl{font-family:var(--font-mono);font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-soft);display:block;margin-bottom:4px}
 .row{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
-.msg{font-family:'EB Garamond',Georgia,serif;font-size:15px;letter-spacing:0;background:var(--ok-soft);border-left:3px solid var(--ok);padding:10px 13px;margin-top:10px}
+.msg{font-family:var(--font-serif);font-size:15px;letter-spacing:0;background:var(--ok-soft);border-left:3px solid var(--ok);padding:10px 13px;margin-top:10px}
+.msg.warn{background:var(--warn-soft);border-left-color:var(--warn)}
+.msg.trap{background:var(--accent-soft);border-left-color:var(--accent)}
 .widget-footer{margin-top:24px;padding-top:16px;border-top:1px solid var(--rule-soft);font-size:12px;color:var(--ink-soft);font-style:italic;line-height:1.5}
 .widget-footer a{color:var(--accent-2)}
-.hide{display:none}
+.noscript{margin:24px;padding:16px 18px;border-left:3px solid var(--accent);background:var(--bg-card);font-size:15px}
 @media (max-width:880px){.widget-title{font-size:24px}}
 @media (max-width:480px){.widget-frame{padding:16px 14px 32px}.row{flex-direction:column}.btn{width:100%}}
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.counter.flash b{animation:none}}
 </style>
 </head>
 <body>
+<a class="skip" href="#groups">Salta a les tries</a>
+<noscript><p class="noscript">Aquesta activitat necessita JavaScript per comptar quants processos encaixen amb la teva declaració. Activa'l o obre la pàgina en un navegador amb script habilitat.</p></noscript>
 <div class="widget-frame">
 <header class="widget-header">
 <div class="widget-eyebrow">Mòdul 3 · Capítol 5 · Activitat B9</div>
@@ -64,11 +80,13 @@ button{cursor:pointer;transition:all .15s ease}
 </header>
 
 <div class="widget-intro">
-<strong>Com funciona aquesta eina.</strong> Un company entrega un document de disseny amb aquesta declaració: <em>«He fet servir IA per ajudar-me amb el document.»</em> Aquí sota tens vuit processos de treball completament diferents. Tots vuit són compatibles amb aquella frase. Afegeix-hi precisió fins que només en quedi un de possible.
+<strong>Com funciona aquesta eina.</strong> Un company entrega un document de disseny amb aquesta declaració: <em>«He fet servir IA per ajudar-me amb el document.»</em> Aquí sota tens vuit processos de treball completament diferents. Tots vuit són compatibles amb aquella frase. Afegeix-hi precisió fins que només en quedi un de possible. Fixa't en quines tries redueixen el ventall i quines només allarguen la frase.
 </div>
 
+<div class="sticky-meter">
 <div class="decl" id="decl"></div>
 <div class="counter" id="counter" aria-live="polite"></div>
+</div>
 
 <div id="groups"></div>
 
@@ -80,11 +98,18 @@ button{cursor:pointer;transition:all .15s ease}
 <h2>Mons encara compatibles amb la teva declaració</h2>
 <div class="worlds" id="worlds"></div>
 
-<footer class="widget-footer">ENTI-UB · Curs d'alfabetització en IA · Mòdul 3, Capítol 5 · Activitat B9. El que va passar de debò és el procés marcat en verd quan el trobis. Aquest exercici no jutja com escrius: compta quantes realitats diferents encaixen encara amb el que has dit. És una experiència de n=1, no es desa res i no compta per a cap nota.</footer>
+<footer class="widget-footer">ENTI-UB · Curs d'alfabetització en IA · Mòdul 3, Capítol 5 · Activitat B9. El que va passar de debò és el procés marcat en verd quan el trobis. Aquest exercici no jutja com escrius: compta quantes realitats diferents encaixen encara amb el que has dit. <strong>Declarar no és el mateix que estar permès:</strong> la declaració descriu el procés; la consigna i la política decideixen el permís. És una experiència de n=1, no es desa res i no compta per a cap nota.</footer>
 </div>
 
+<script src="../shared/enti-widget-bridge.js"></script>
 <script>
 "use strict";
+const WIDGET_ID="b9-declaracio-compatible";
+const WIDGET_VERSION="1.2.0";
+const noopBridge={emitProgress(){},emitComplete(){},emitResize(){},resetCompletionFlag(){}};
+const bridge=(typeof createEntiBridge==="function")
+  ? createEntiBridge({widget:WIDGET_ID,version:WIDGET_VERSION,root:document.querySelector(".widget-frame")})
+  : noopBridge;
 const W=[
  {id:1,t:"Corrector ortogràfic",d:"Va escriure tot el document i el va passar per un corrector d'IA.",a:{toca:true,struct:false,gen:"cap",ma:"lleu"}},
  {id:2,t:"Pluja d'idees prèvia",d:"Va parlar d'idees amb l'eina abans de començar; res del que va sortir és al document.",a:{toca:false,struct:false,gen:"cap",ma:"cap"}},
@@ -98,24 +123,29 @@ const W=[
 const G=[
  {k:"eina",n:"1 · L'eina",o:[
   {t:"(no dir res)",x:""},
-  {t:"«una IA»",x:"una IA",f:()=>true},
-  {t:"«ChatGPT»",x:"ChatGPT",f:()=>true},
-  {t:"«ChatGPT (GPT-5, web, juliol de 2026)»",x:"ChatGPT (GPT-5, web, juliol de 2026)",f:()=>true}]},
+  {t:"«una IA»",x:"una IA",f:()=>true,vague:true,note:"Declara l'ús, però no separa cap dels vuit casos."},
+  {t:"«ChatGPT»",x:"ChatGPT",f:()=>true,vague:true,note:"El nom del producte allarga la frase; no tanca el ventall."},
+  {t:"«ChatGPT (GPT-5, web, juliol de 2026)»",x:"ChatGPT (GPT-5, web, juliol de 2026)",f:()=>true,vague:true,note:"Afegeix procedència (model, canal, data). Encara no elimina cap cas."}]},
  {k:"prop",n:"2 · Per a què",o:[
   {t:"(no dir res)",x:""},
-  {t:"«per ajudar-me»",x:"per ajudar-me",f:()=>true},
-  {t:"«per proposar-me estructures»",x:"per proposar-me estructures del document",f:p=>p.struct===true},
-  {t:"«per traduir el meu text»",x:"per traduir el meu text",f:p=>p.gen==="part"&&p.struct===false}]},
+  {t:"«per ajudar-me»",x:"per ajudar-me",f:()=>true,vague:true,note:"Completa el camp, però és compatible amb tots els processos."},
+  {t:"«per proposar-me estructures»",x:"per proposar-me estructures del document",f:p=>p.struct===true,note:"Només encaixa amb processos on l'eina ha tocat l'estructura."},
+  {t:"«per traduir el meu text»",x:"per traduir el meu text",f:p=>p.gen==="part"&&p.struct===false,note:"Descriu una transformació lingüística: deixa fora estructures i usos que no toquen el text."}]},
  {k:"on",n:"3 · On exactament",o:[
   {t:"(no dir res)",x:""},
-  {t:"«al document»",x:"al document",f:p=>p.toca===true},
-  {t:"«a l'estructura»",x:"a l'estructura del document",f:p=>p.struct===true},
-  {t:"«a l'estructura; cap paràgraf del text final no és generat»",x:"a l'estructura del document, i cap paràgraf del text final no és generat",f:p=>p.struct===true&&p.gen==="cap"}]},
+  {t:"«en aquest treball de l'assignatura»",x:"en aquest treball de l'assignatura",f:()=>true,vague:true,note:"Sona concret, però no delimita quina part del treball."},
+  {t:"«al document»",x:"al document",f:p=>p.toca===true,note:"Elimina usos que no toquen el lliurament (pluja d'idees, consultes pures)."},
+  {t:"«a l'estructura»",x:"a l'estructura del document",f:p=>p.struct===true,note:"Redueix als casos on l'estructura ve de l'eina."},
+  {t:"«a l'estructura; cap paràgraf del text final no és generat»",x:"a l'estructura del document, i cap paràgraf del text final no és generat",f:p=>p.struct===true&&p.gen==="cap",note:"Tanca el ventall: estructura sí, text final no generat."}]},
  {k:"ma",n:"4 · La teva mà",o:[
   {t:"(no dir res)",x:""},
-  {t:"«ho he revisat jo»",x:"ho he revisat jo",f:p=>p.ma!=="cap"},
-  {t:"«he reorganitzat la proposta i he escrit tot el text jo»",x:"he reorganitzat la proposta i he escrit tot el text jo",f:p=>p.ma==="reescrit"&&p.gen==="cap"}]}
+  {t:"«he supervisat el procés»",x:"he supervisat el procés",f:()=>true,vague:true,note:"Sona responsable, però no diu què has fet tu amb el resultat."},
+  {t:"«ho he revisat jo»",x:"ho he revisat jo",f:p=>p.ma!=="cap",note:"Exigeix que hi hagi hagut alguna revisió humana del resultat."},
+  {t:"«he reorganitzat la proposta i he escrit tot el text jo»",x:"he reorganitzat la proposta i he escrit tot el text jo",f:p=>p.ma==="reescrit"&&p.gen==="cap",note:"Defineix la frontera humana: reorganitzar l'estructura i escriure tot el text."}]}
 ];
+/* Indices that maximize length while leaving all 8 worlds. */
+const VAGUE={eina:3,prop:1,on:1,ma:1};
+
 function COMPAT(sel){
  return W.filter(w=>G.every(g=>{
   const i=sel[g.k]; if(i===undefined||i===0) return true;
@@ -131,9 +161,43 @@ function SENT(sel){
  if(ma) s+=(s?" ":"")+ma.charAt(0).toUpperCase()+ma.slice(1)+".";
  return s;
 }
+/** Axes that, if cleared, would restore at least one compatible world. */
+function clashAxes(sel){
+ return G.filter(g=>{
+  const i=sel[g.k];
+  if(i===undefined||i===0) return false;
+  const trial=Object.assign({},sel); trial[g.k]=0;
+  return COMPAT(trial).length>0;
+ }).map(g=>g.n);
+}
+function selectedOption(g,sel){
+ const i=sel[g.k];
+ if(i===undefined||i===0) return null;
+ return g.o[i]||null;
+}
+
 if (typeof document !== "undefined") {
- let sel={}, prev=W.length;
+ let sel={}, prev=W.length, einaLessonShown=false, trapActive=false, lastChanged=null;
  const gh=document.getElementById("groups");
+ const noteEls={};
+ function syncPressed(){
+  document.querySelectorAll("#groups .opts").forEach((box,gi)=>{
+   const k=G[gi].k, i=sel[k]||0;
+   [...box.children].forEach((c,j)=>c.setAttribute("aria-pressed",j===i?"true":"false"));
+  });
+ }
+ function syncNotes(){
+  G.forEach(g=>{
+   const el=noteEls[g.k]; if(!el) return;
+   const o=selectedOption(g,sel);
+   if(!o||!o.note){ el.textContent=""; el.className="opt-note"; return; }
+   el.textContent=o.note;
+   el.className="opt-note"+(o.vague?" vague":"");
+  });
+ }
+ function otherAxesEmpty(except){
+  return G.every(g=>g.k===except||!sel[g.k]||sel[g.k]===0);
+ }
  G.forEach(g=>{
   const wrap=document.createElement("div");
   const h=document.createElement("h2"); h.textContent=g.n; wrap.appendChild(h);
@@ -141,33 +205,85 @@ if (typeof document !== "undefined") {
   g.o.forEach((o,i)=>{
    const b=document.createElement("button"); b.type="button"; b.className="opt"; b.textContent=o.t;
    b.setAttribute("aria-pressed", i===0?"true":"false");
-   b.addEventListener("click",()=>{sel[g.k]=i;[...box.children].forEach((c,j)=>c.setAttribute("aria-pressed",j===i?"true":"false"));render();});
+   b.addEventListener("click",()=>{
+    sel[g.k]=i; lastChanged=g.k; trapActive=false; syncPressed(); render();
+   });
    box.appendChild(b);
   });
-  wrap.appendChild(box); gh.appendChild(wrap);
+  wrap.appendChild(box);
+  const note=document.createElement("p"); note.className="opt-note"; note.id="note-"+g.k; note.setAttribute("aria-live","polite");
+  noteEls[g.k]=note; wrap.appendChild(note);
+  gh.appendChild(wrap);
  });
  function render(){
   const s=SENT(sel), list=COMPAT(sel), n=list.length;
+  const dropped=n<prev, same=n===prev&&!!s;
+  syncNotes();
   document.getElementById("decl").innerHTML = s ? s : '<span class="ph">La teva declaració apareixerà aquí a mesura que triïs.</span>';
   const c=document.getElementById("counter");
-  let delta="";
-  if(n===prev && s) delta='<span class="delta">L\'última tria no ha eliminat cap possibilitat: ocupa espai, però no informa.</span>';
-  else if(n<prev) delta='<span class="delta">L\'última tria n\'ha eliminat '+(prev-n)+'.</span>';
-  c.className = n===1 ? "counter win" : "counter";
-  c.innerHTML='Mons compatibles amb la teva declaració: <b>'+n+'</b> de 8.'+delta+
-   (n===1?'<div class="msg">Ara la declaració només encaixa amb una realitat: informa de debò. Fixa\'t en quines tries ho han aconseguit i quines no: el nom de l\'eina no n\'ha eliminat cap. El que tanca el ventall és <strong>on</strong> exactament i <strong>què hi vas fer tu</strong>.</div>':"");
+  let delta="", extra="";
+
+  const lastOpt=lastChanged?selectedOption(G.find(g=>g.k===lastChanged),sel):null;
+  const einaOnly=lastChanged==="eina"&&(sel.eina||0)>0&&otherAxesEmpty("eina")&&same;
+  if(einaOnly){
+   delta='<span class="delta">L\'última tria no ha eliminat cap possibilitat: ocupa espai, però no informa.</span>';
+   if(!einaLessonShown){
+    extra='<div class="msg trap">El nom de l\'eina allarga la frase; no tanca el ventall. Prova «on exactament» o «la teva mà».</div>';
+    einaLessonShown=true;
+   }
+  }else if(trapActive&&n>=7){
+   delta='<span class="delta">Sembla específica i gairebé no informa: encara hi encaixen '+n+' processos.</span>';
+   extra='<div class="msg trap">Això sembla una declaració completa. Compte: és llarga i vaga alhora. El detall que sona professional no és el que redueix el ventall.</div>';
+  }else if(same){
+   delta='<span class="delta">L\'última tria no ha eliminat cap possibilitat: ocupa espai, però no informa.'+(lastOpt&&lastOpt.vague?" És una formulació vaga.":"")+'</span>';
+  }else if(dropped){
+   delta='<span class="delta">L\'última tria n\'ha eliminat '+(prev-n)+'.</span>';
+  }
+
+  let base="counter";
+  if(n===0) base="counter empty";
+  else if(n===1) base="counter win";
+  c.className=base+(dropped?" flash":"");
+
+  if(n===0){
+   const clash=clashAxes(sel);
+   const hint=clash.length
+     ? "Els eixos que es xafen són: <strong>"+clash.join("</strong> i <strong>")+"</strong>. Abaixa la precisió d'un d'ells fins que torni a aparèixer algun món."
+     : "Abaixa la precisió d'un eix fins que torni a aparèixer algun món.";
+   c.innerHTML='Mons compatibles amb la teva declaració: <b>0</b> de 8.'+delta+
+    '<div class="msg warn">Aquesta declaració es contradiu: les tries no tenen intersecció comuna. '+hint+'</div>';
+   document.getElementById("worlds").innerHTML='<div class="w none"><span class="lbl">Cap encaix</span><strong>Cap procés compatible</strong><br>La precisió s\'ha tornat contradictòria entre eixos. Canvia una tria o comença de nou.</div>';
+  }else if(n===1){
+   c.innerHTML='Mons compatibles amb la teva declaració: <b>1</b> de 8.'+delta+
+    '<div class="msg">Ara la declaració només encaixa amb una realitat: informa de debò. El nom de l\'eina no n\'ha eliminat cap. El que tanca el ventall és <strong>on</strong> exactament i <strong>què hi vas fer tu</strong>: les tres preguntes del capítol, què, on, frontera humana. Torna a la plantilla omplerta del llibre: és el mateix criteri, camp per camp. I recorda: <strong>declarar no concedeix permís</strong>; només descriu el procés.</div>'+
+    '<div class="row" style="margin-top:10px"><button class="btn ghost" type="button" id="copyDecl">Copia la declaració</button></div>'+
+    '<p id="copyStatus" aria-live="polite" style="font-family:var(--font-mono);font-size:11px;color:var(--ok);margin:6px 0 0"></p>';
+   document.getElementById("worlds").innerHTML=list.map(w=>'<div class="w'+(w.truth?" true":"")+'"><span class="lbl">'+(w.truth?"El que va passar de debò":"Possible")+'</span><strong>'+w.t+'</strong><br>'+w.d+'</div>').join("");
+   bridge.emitProgress({step:1,percent:100,stepLabel:"1 món",completed:true});
+   bridge.emitComplete({worlds:1});
+   const copyBtn=document.getElementById("copyDecl");
+   const status=document.getElementById("copyStatus");
+   if(copyBtn){
+    copyBtn.addEventListener("click",()=>{
+     const text=document.getElementById("decl").textContent||"";
+     const done=()=>{if(status) status.textContent="Copiat al porta-retalls.";};
+     if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done).catch(done); else done();
+    });
+   }
+  }else{
+   c.innerHTML='Mons compatibles amb la teva declaració: <b>'+n+'</b> de 8.'+delta+extra;
+   document.getElementById("worlds").innerHTML=list.map(w=>'<div class="w"><span class="lbl">Possible</span><strong>'+w.t+'</strong><br>'+w.d+'</div>').join("");
+  }
   prev=n;
-  document.getElementById("worlds").innerHTML = list.map(w=>'<div class="w'+(n===1&&w.truth?" true":"")+'"><span class="lbl">'+(n===1&&w.truth?"El que va passar de debò":"Possible")+'</span><strong>'+w.t+'</strong><br>'+w.d+'</div>').join("");
+  bridge.emitResize();
  }
  document.getElementById("vague").addEventListener("click",()=>{
-  sel={eina:1,prop:1,on:1,ma:1};
-  document.querySelectorAll(".opts").forEach((box,gi)=>[...box.children].forEach((c,j)=>c.setAttribute("aria-pressed",j===1?"true":"false")));
-  prev=W.length; render();
+  sel={...VAGUE}; lastChanged=null; trapActive=true; prev=W.length; bridge.resetCompletionFlag(); syncPressed(); render();
  });
  document.getElementById("reset").addEventListener("click",()=>{
-  sel={}; prev=W.length;
-  document.querySelectorAll(".opts").forEach(box=>[...box.children].forEach((c,j)=>c.setAttribute("aria-pressed",j===0?"true":"false")));
-  render();
+  sel={}; prev=W.length; lastChanged=null; trapActive=false; einaLessonShown=false;
+  bridge.resetCompletionFlag();
+  syncPressed(); render();
  });
  render();
 }

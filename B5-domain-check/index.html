@@ -5,19 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>El corrector · ENTI-UB AI Literacy</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 :root{
+  --font-serif: Georgia, 'Times New Roman', Times, serif;
+  --font-mono: ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Consolas, monospace;
+
 --bg:#f4efe6;--bg-card:#ffffff;--bg-soft:#faf6ec;--bg-deep:#ede4cf;
 --ink:#1a1814;--ink-soft:#4a463e;--ink-faint:#8a8478;
 --accent:#b91c1c;--accent-deep:#8b1414;--accent-soft:#f5d8d8;--accent-2:#1e3a5f;
---ok-soft:#dce8dc;--rule:#1a1814;--rule-soft:#c9c2b3;--bar-bg:#e8e2d3;--bar-fill:#1a1814;
+--ok:#3d6b3d;--ok-soft:#dce8dc;--rule:#1a1814;--rule-soft:#c9c2b3;--bar-bg:#e8e2d3;--bar-fill:#1a1814;
 }
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'EB Garamond',Georgia,serif;font-size:18px;line-height:1.5;-webkit-font-smoothing:antialiased}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--font-serif);font-size:18px;line-height:1.5;-webkit-font-smoothing:antialiased}
 .widget-frame{max-width:1080px;margin:0 auto;padding:24px 24px 40px}
 .widget-header{border-bottom:2px solid var(--rule);padding-bottom:14px;margin-bottom:22px}
-.widget-eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
-.widget-title{font-family:'EB Garamond',Georgia,serif;font-size:32px;font-weight:600;line-height:1.1;letter-spacing:-.01em;margin:0 0 6px}
+.widget-eyebrow{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+.widget-title{font-family:var(--font-serif);font-size:32px;font-weight:600;line-height:1.1;letter-spacing:-.01em;margin:0 0 6px}
 .widget-subtitle{color:var(--ink-soft);font-size:16px;font-style:italic;max-width:720px;margin:0}
 .widget-intro{background:var(--bg-card);border-left:3px solid var(--accent-2);padding:14px 18px;margin-bottom:22px;font-size:15px;line-height:1.55;color:var(--ink-soft)}
 .widget-intro strong{color:var(--ink);font-weight:600}
@@ -25,11 +27,11 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'
 .card h2{font-size:21px;font-weight:600;margin:0 0 10px}
 .card h2:focus{outline:none}
 .card p{margin-top:0}
-.mono{font-family:'JetBrains Mono',monospace;font-size:13px}
-.pill{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:var(--bg-deep);border:1px solid var(--rule-soft);padding:3px 10px;margin-bottom:12px}
+.mono{font-family:var(--font-mono);font-size:13px}
+.pill{display:inline-block;font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:var(--bg-deep);border:1px solid var(--rule-soft);padding:3px 10px;margin-bottom:12px}
 .pill.alt{background:#e4e9f0;border-color:var(--accent-2);color:var(--accent-2)}
 .out{background:var(--bg-soft);border-left:4px solid var(--rule-soft);padding:14px 16px;margin-bottom:14px}
-.out .who{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px}
+.out .who{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px}
 .claim{cursor:pointer;border-bottom:1px dashed var(--rule-soft)}
 .claim:hover,.claim:focus-visible{background:var(--accent-soft)}
 .claim:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
@@ -37,29 +39,31 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'
 .claim.reveal:hover,.claim.reveal:focus-visible{background:transparent;outline:none}
 .claim.false{background:var(--accent-soft);border-bottom:2px solid var(--accent)}
 .claim.pick{background:var(--bg-deep);border-bottom:2px dashed var(--ink-faint)}
-.claim.okmark{background:var(--ok-soft);border-bottom:2px solid #2f5d3a}
-button{font-family:'EB Garamond',Georgia,serif;font-size:15px;line-height:1.3;cursor:pointer;border:1px solid var(--rule-soft);background:var(--bg-card);color:var(--ink);padding:12px 14px;transition:all .15s ease}
+.claim.okmark{background:var(--ok-soft);border-bottom:2px solid var(--ok)}
+.verdict-ok{color:var(--ok)}
+.verdict-bad{color:var(--accent-deep)}
+button{font-family:var(--font-serif);font-size:15px;line-height:1.3;cursor:pointer;border:1px solid var(--rule-soft);background:var(--bg-card);color:var(--ink);padding:12px 14px;transition:all .15s ease}
 button:hover,button:focus-visible{background:var(--bg-soft);border-color:var(--rule)}
 button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-button.primary{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:var(--bg);border-color:var(--ink);padding:12px 20px}
+button.primary{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:var(--bg);border-color:var(--ink);padding:12px 20px}
 button.primary:hover,button.primary:focus-visible{background:var(--accent);border-color:var(--accent)}
 button[disabled]{opacity:.5;cursor:default}
 .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-.progress{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-faint);margin-bottom:14px}
+.progress{font-family:var(--font-mono);font-size:12px;color:var(--ink-faint);margin-bottom:14px}
 .hint{font-size:15px;color:var(--ink-soft);margin-top:10px;font-style:italic}
 .verify{margin-top:12px;font-size:15px;color:var(--ink-soft);line-height:1.5}
 .verify a,.source-link{color:var(--accent-2)}
 .brow{margin-bottom:14px}
-.blab{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:12px;margin-bottom:4px;color:var(--ink-soft)}
+.blab{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:12px;margin-bottom:4px;color:var(--ink-soft)}
 .btrack{background:var(--bar-bg);height:22px}
 .bfill{background:var(--bar-fill);height:100%;transition:width .6s ease}
 .bfill.acc{background:var(--accent)}
 .note{background:var(--bg-deep);border:1px solid var(--rule-soft);padding:14px 16px;font-size:15px;color:var(--ink-soft);margin-top:14px}
 .note strong{color:var(--ink)}
 .divider{border:none;border-top:1px solid var(--rule-soft);margin:16px 0}
-.big{font-size:34px;font-weight:600;font-family:'JetBrains Mono',monospace}
+.big{font-size:34px;font-weight:600;font-family:var(--font-mono)}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.legend{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-faint);letter-spacing:.04em;margin:8px 0 0}
+.legend{font-family:var(--font-mono);font-size:11px;color:var(--ink-faint);letter-spacing:.04em;margin:8px 0 0}
 .widget-footer{margin-top:24px;padding-top:16px;border-top:1px solid var(--rule-soft);font-size:12px;color:var(--ink-soft);font-style:italic;line-height:1.5}
 .widget-footer a{color:var(--accent-2)}
 @media (max-width:880px){.widget-title{font-size:24px}}
@@ -87,11 +91,12 @@ ENTI-UB · Curs d'alfabetització en IA · Mòdul 2, Capítol 3 · Activitat B5.
 </footer>
 </div>
 
+<script src="../shared/enti-widget-bridge.js"></script>
 <script>
 'use strict';
 // Item: dom ('in'|'out'), tag, claims[3], err (-1 clean | 0..2), fix, optional check, optional source:{title,url}
 const ITEMS=[
- // —— In-domain (videojocs): 3 errors, 3 clean ——
+ // -- In-domain (videojocs): 3 errors, 3 clean --
  {dom:'in',tag:'Videojocs',err:2,
   fix:"Si les recompenses injecten més moneda de la que els embornals treuen, el mercat s'infla: no és un estímul sa, és hiperinflació disfressada de generositat.",
   check:"Compara entrada i sortida de moneda: si entra més del que surt de forma sostinguda, els preus pugen.",
@@ -114,7 +119,7 @@ const ITEMS=[
   check:"Revisa la definició matemàtica o la documentació de Vector3.normalized.",
   source:{title:"Vector3.normalized (Unity)",url:"https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Vector3-normalized.html"},
   claims:["El vector normalitzat manté la direcció de l'original.","La magnitud del vector normalitzat és 1.","Multiplicar-lo per una velocitat escalar produeix un vector amb aquella magnitud."]},
- // —— Out-domain: 3 errors, 3 clean ——
+ // -- Out-domain: 3 errors, 3 clean --
  {dom:'out',tag:'Música',err:0,
   fix:"En un 3/4, la xifra superior (3) indica tres pulsacions; la inferior (4) indica que la negra és la unitat de referència.",
   check:"Separa les dues xifres del compàs: superior = quantes pulsacions; inferior = quina figura les mesura.",
@@ -266,7 +271,7 @@ function feedback(outcome,saysErr,pick){
  }
  stage.innerHTML=`<div class="card">
  <span class="pill ${it.dom==='out'?'alt':''}">${escapeHTML(it.tag)}</span>
- <h2 id="stage-title" tabindex="-1" style="color:${ok?'var(--ink)':'var(--accent)'}">${ok?'Encertat':'No encertat'}</h2>
+ <h2 id="stage-title" tabindex="-1" class="${ok?'verdict-ok':'verdict-bad'}">${ok?'Encertat':'No encertat'}</h2>
  <p>${labels[outcome]}${detail}</p>
  <div class="out" style="margin-top:12px"><div class="who">Sortida revisada</div>
  <p>${claimSpans(it,{falseIdx:it.err,pickIdx:saysErr?pick:null})}</p>${legend}</div>
@@ -279,6 +284,8 @@ function feedback(outcome,saysErr,pick){
 
 function next(){
  S.i++;
+ persist();
+ bridge.emitProgress({step:S.i,percent:Math.round(100*S.i/12),stepLabel:'Ítem '+(S.i)+'/12',completed:false});
  if(S.i<12)showItem();else results();
 }
 
@@ -287,11 +294,23 @@ function pct(dom){
  return Math.round(100*r.filter(x=>x.ok).length/r.length);
 }
 
+const WIDGET_ID='b5-domain-check';
+const WIDGET_VERSION='1.1.0';
+const STORAGE_KEY='enti-b5-domain-v1';
+const bridge=createEntiBridge({widget:WIDGET_ID,version:WIDGET_VERSION,root:document.querySelector('.widget-frame')});
+
+function persist(){
+ try{sessionStorage.setItem(STORAGE_KEY,JSON.stringify({i:S.i,res:S.res,answers:S.answers}));}catch(_){}
+}
+function clearPersist(){try{sessionStorage.removeItem(STORAGE_KEY);}catch(_){}}
+
 function results(){
  const pin=pct('in'),pout=pct('out');
  const missed=S.res.filter(x=>x.hasErr&&!x.saidErr).length;
  const falsePos=S.res.filter(x=>!x.hasErr&&x.saidErr).length;
  const gap=pin-pout;
+ bridge.emitProgress({step:12,percent:100,stepLabel:'Resultats',completed:true});
+ bridge.emitComplete({pin,pout,missed,falsePos});
  let gapline;
  if(gap>0) gapline=`La distància entre les dues barres (<strong>${gap} punts</strong>) és el teu biaix d'automatització fet visible: la mateixa IA, els mateixos errors, i la teva capacitat de veure'ls canvia segons el que ja saps.`;
  else if(gap<0) gapline=`T'ha anat millor fora del teu àmbit (${-gap} punts). Amb dotze ítems això és perfectament possible per atzar, i no contradiu el mecanisme: mira on has fallat i pregunta't si hauries pogut <em>explicar</em> els errors que has marcat.`;
@@ -309,14 +328,39 @@ function results(){
  <div class="note"><strong>Recorda la lletra petita.</strong> Dotze ítems i una persona no demostren res: els números de Parasuraman i Manzey surten de dècades de recerca amb milers de professionals. Això és una il·lustració del mecanisme, no una mesura de tu. El que sí que és teu és la pregunta que deixa: en quins àmbits estàs acceptant respostes que no podries corregir?</div>
  <div class="note" style="margin-top:10px"><strong>Abans de tornar al text.</strong> En la propera sortida d'IA que acceptis, <strong>pots explicar per què funciona?</strong> Si no, estàs en terreny on el corrector ets tu, i encara no hi ets.</div>
  <hr class="divider">
- <button class="primary" onclick="reset()">Tornar a començar</button>
+ <div class="actions" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px">
+ <button class="primary" type="button" id="copyTakeaway">Copia el resum</button>
+ <button class="primary" type="button" onclick="reset()">Tornar a començar</button>
+ </div>
+ <p class="copy-status" id="copyStatus" aria-live="polite" style="font-family:var(--font-mono);font-size:11px;color:var(--ok)"></p>
  </div>`;
  focusStage();
+ const summary=['El corrector · resultats','Àmbit que domines: '+pin+'%','Fora d\'àmbit: '+pout+'%','Errors no detectats: '+missed,'Falsos errors: '+falsePos,'','En la propera sortida d\'IA: pots explicar per què funciona?'].join('\n');
+ const copyBtn=document.getElementById('copyTakeaway');
+ const status=document.getElementById('copyStatus');
+ if(copyBtn){
+  copyBtn.addEventListener('click',()=>{
+   const done=()=>{if(status) status.textContent='Copiat al porta-retalls.';};
+   if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(summary).then(done).catch(done);
+   else done();
+  });
+ }
+ bridge.emitResize();
 }
 
-function reset(){ intro(); }
+function reset(){ bridge.resetCompletionFlag(); clearPersist(); intro(); }
 window.startRun=startRun;window.next=next;window.pickError=pickError;window.judgeClean=judgeClean;window.reset=reset;
-intro();
+
+(function boot(){
+ if(!document.querySelector('a.skip')){
+  const skip=document.createElement('a');
+  skip.className='skip'; skip.href='#stage'; skip.textContent='Salta al contingut';
+  skip.style.cssText='position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden';
+  skip.addEventListener('focus',()=>{Object.assign(skip.style,{left:'16px',top:'16px',width:'auto',height:'auto',zIndex:'10',padding:'8px 12px',background:'var(--ink)',color:'var(--bg)',fontFamily:'var(--font-mono)',fontSize:'12px',textDecoration:'none'});});
+  document.body.insertBefore(skip, document.body.firstChild);
+ }
+ intro();
+})();
 </script>
 </body>
 </html>

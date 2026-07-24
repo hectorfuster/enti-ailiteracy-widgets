@@ -5,9 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>El mirall del consentiment · ENTI-UB AI Literacy</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
-
 :root {
+  --font-serif: Georgia, 'Times New Roman', Times, serif;
+  --font-mono: ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Consolas, monospace;
+
   --bg: #f4efe6;
   --bg-card: #ffffff;
   --bg-soft: #faf6ec;
@@ -34,7 +35,7 @@ html, body {
   padding: 0;
   background: var(--bg);
   color: var(--ink);
-  font-family: 'EB Garamond', Georgia, serif;
+  font-family: var(--font-serif);
   font-size: 18px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -55,7 +56,7 @@ html, body {
 .widget-eyebrow {
   margin-bottom: 6px;
   color: var(--ink-soft);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.16em;
@@ -64,7 +65,7 @@ html, body {
 
 .widget-title {
   margin: 0 0 6px;
-  font-family: 'EB Garamond', Georgia, serif;
+  font-family: var(--font-serif);
   font-size: 32px;
   font-weight: 600;
   line-height: 1.1;
@@ -123,24 +124,44 @@ html, body {
   display: inline-block;
   margin-bottom: 6px;
   color: var(--ink-soft);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
+.progress {
+  margin: 0 0 14px;
+  color: var(--ink-faint);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.dim-stamp {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--accent-2);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
 fieldset {
   border: none;
-  margin: 18px 0;
+  margin: 0 0 18px;
   padding: 0;
 }
 
 legend {
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   color: var(--ink);
-  font-family: 'EB Garamond', Georgia, serif;
-  font-size: 16px;
+  font-family: var(--font-serif);
+  font-size: 17px;
   font-weight: 600;
   line-height: 1.35;
 }
@@ -158,7 +179,7 @@ button {
   border: 1px solid var(--rule-soft);
   background: var(--bg-card);
   color: var(--ink);
-  font-family: 'EB Garamond', Georgia, serif;
+  font-family: var(--font-serif);
   font-size: 15px;
   line-height: 1.35;
   text-align: left;
@@ -181,7 +202,7 @@ button {
   border: 1px solid var(--ink);
   background: var(--ink);
   color: var(--bg);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -230,7 +251,7 @@ button {
   border-bottom: 1px solid var(--rule-soft);
   background: var(--bg-soft);
   color: var(--ink-soft);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.14em;
@@ -255,7 +276,7 @@ button {
   display: block;
   margin-bottom: 3px;
   color: var(--ink-soft);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 9px;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -265,7 +286,7 @@ button {
 .tag {
   padding: 8px 12px;
   border-top: 1px solid var(--rule-soft);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   line-height: 1.4;
 }
@@ -293,6 +314,57 @@ button {
   margin: 16px 0;
 }
 
+.tally {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin: 14px 0 0;
+}
+
+.tally-item {
+  background: var(--bg-soft);
+  border: 1px solid var(--rule-soft);
+  padding: 12px 10px;
+  text-align: center;
+}
+
+.tally-item .n {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.tally-item.gap .n { color: var(--accent-deep); }
+.tally-item.mid .n { color: var(--warn); }
+.tally-item.okc .n { color: var(--ok); }
+
+.tally-item .lab {
+  display: block;
+  margin-top: 4px;
+  color: var(--ink-soft);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.cta {
+  background: var(--bg-card);
+  border: 1px solid var(--accent-2);
+  border-left: 4px solid var(--accent-2);
+  padding: 14px 16px;
+  margin-top: 14px;
+  color: var(--ink-soft);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.cta strong { color: var(--ink); }
+
 .widget-footer {
   margin-top: 24px;
   padding-top: 16px;
@@ -304,6 +376,63 @@ button {
 }
 
 .widget-footer a { color: var(--accent-2); }
+
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.skip:focus {
+  left: 16px;
+  top: 16px;
+  width: auto;
+  height: auto;
+  z-index: 10;
+  padding: 8px 12px;
+  background: var(--ink);
+  color: var(--bg);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.restore {
+  background: var(--warn-soft);
+  border: 1px solid var(--rule-soft);
+  border-left: 3px solid var(--warn);
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+.restore .row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.copy-status {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ok);
+  margin-top: 6px;
+}
+
+.panel h2:focus,
+.verdict h2:focus {
+  outline: none;
+}
 
 @media (max-width: 880px) {
   .widget-title { font-size: 24px; }
@@ -323,6 +452,10 @@ button {
     border-left: none;
     border-top: 1px dashed var(--rule-soft);
   }
+
+  .tally {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 480px) {
@@ -341,24 +474,30 @@ button {
 </style>
 </head>
 <body>
+<a class="skip" href="#game">Salta a l'exercici</a>
 <div class="widget-frame">
 <header class="widget-header">
 <div class="widget-eyebrow">Mòdul 3 · Capítol 4 · Activitat B8</div>
 <h1 class="widget-title">El mirall del consentiment</h1>
-<p class="widget-subtitle">Les mateixes cinc decisions, mirades des de dues bandes de la taula.</p>
+<p class="widget-subtitle">Cinc decisions des de dues bandes de la taula: primer com a estudi, després com a autor.</p>
 </header>
 
 <div class="widget-intro">
-<strong>Com funciona aquesta eina.</strong> Un exercici en dues parts, amb un truc que no et desvelarem fins al final. Respon la primera part amb el cap fred de qui pren decisions de negoci.
+<strong>Com funciona aquesta eina.</strong> Un exercici en dues parts, cinc decisions cadascuna, uns quants minuts. Respon la primera part amb el cap fred de qui pren decisions de negoci. El truc el veuràs al final; el resultat no és cap nota.
 </div>
 
-<div id="game"></div>
+<div id="restore" class="restore" hidden></div>
+<div id="game" tabindex="-1"></div>
 
-<footer class="widget-footer">ENTI-UB · Curs d'alfabetització en IA · Mòdul 3, Capítol 4 · Activitat B8. Aquí no hi ha respostes correctes ni puntuació: l'única sortida de l'exercici és la distància entre les teves pròpies respostes. Experiència de n=1: no es desa res, no s'envia res enlloc i no compta per a cap nota.</footer>
+<footer class="widget-footer">ENTI-UB · Curs d'alfabetització en IA · Mòdul 3, Capítol 4 · Activitat B8. Aquí no hi ha respostes correctes ni puntuació: l'única sortida de l'exercici és la distància entre les teves pròpies respostes. Experiència de n=1: el progrés es pot reprendre només dins d'aquesta pestanya (sessionStorage); no s'envia res a cap servidor i no compta per a cap nota.</footer>
 </div>
 
+<script src="../shared/enti-widget-bridge.js"></script>
 <script>
 "use strict";
+const WIDGET_ID="b8-mirall-consentiment";
+const WIDGET_VERSION="1.1.0";
+const STORAGE_KEY="enti-b8-mirall-v1";
 const Q=[
  {dim:"Consentiment dels autors",
   s:{q:"Exigiríeu al proveïdor garanties que el model es va entrenar amb el consentiment dels autors del material?",
@@ -398,69 +537,261 @@ function EVAL8(sv, av){
   return {dim:q.dim, s:q.s.o[sv[i]].t, a:q.a.o[av[i]].t, gap, cls, line};
  });
 }
+function plural(n, one, many){ return n===1 ? one : many; }
+function scrollTop(){
+ if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches) window.scrollTo({top:0,behavior:"smooth"});
+ else window.scrollTo(0,0);
+}
+function focusHeading(root){
+ const h=root && root.querySelector("h2");
+ if(h){ h.setAttribute("tabindex","-1"); requestAnimationFrame(()=>h.focus({preventScroll:true})); }
+}
+
 if (typeof document !== "undefined") {
+ const bridge=createEntiBridge({widget:WIDGET_ID,version:WIDGET_VERSION,root:document.querySelector(".widget-frame")});
  const g=document.getElementById("game");
+ const restoreEl=document.getElementById("restore");
  const sv=[null,null,null,null,null], av=[null,null,null,null,null];
  let studioName="";
- function form(role, store, title, stamp, intro, nextLabel, next){
-  g.innerHTML="";
-  const p=document.createElement("div"); p.className="panel";
-  p.innerHTML='<span class="stamp">'+stamp+'</span><h2>'+title+'</h2><p>'+intro+'</p>';
-  Q.forEach((q,i)=>{
-   const fs=document.createElement("fieldset");
-   const lg=document.createElement("legend"); lg.textContent=(i+1)+". "+q[role].q; fs.appendChild(lg);
-   q[role].o.forEach((o,j)=>{
-    const b=document.createElement("button"); b.type="button"; b.className="opt"; b.textContent=o.t;
-    b.setAttribute("aria-pressed","false");
-    b.addEventListener("click",()=>{store[i]=j;[...fs.querySelectorAll(".opt")].forEach((c,k)=>c.setAttribute("aria-pressed",k===j?"true":"false"));chk();});
-    fs.appendChild(b);
-   });
-   p.appendChild(fs);
-  });
-  const go=document.createElement("button"); go.className="btn"; go.type="button"; go.textContent=nextLabel; go.disabled=true;
-  function chk(){go.disabled=store.some(x=>x===null);}
-  go.addEventListener("click",next);
-  p.appendChild(go); g.appendChild(p);
-  if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches) window.scrollTo({top:0,behavior:"smooth"});
+ let phase="s1";
+ let stepIdx=0;
+ let done=false;
+
+ function save(){
+  try{
+   sessionStorage.setItem(STORAGE_KEY, JSON.stringify({sv,av,studioName,phase,stepIdx,done}));
+  }catch(_){/* private mode */}
  }
- function s1(){ form("s",sv,"Primera part: la compra","Barret d'estudi",
-  "Sou un estudi de dotze persones a punt de llicenciar un model de generació d'imatge per a la vostra canonada d'art. Tu portes la negociació. Fixa les condicions de compra.",
-  "Tanca les condicions de compra", inter); }
+ function clearSave(){
+  try{ sessionStorage.removeItem(STORAGE_KEY); }catch(_){}
+ }
+ function load(){
+  try{
+   const raw=sessionStorage.getItem(STORAGE_KEY);
+   if(!raw) return null;
+   const data=JSON.parse(raw);
+   if(!data || !Array.isArray(data.sv) || !Array.isArray(data.av)) return null;
+   return data;
+  }catch(_){ return null; }
+ }
+
+ function progressPayload(step, percent, stepLabel, completed){
+  bridge.emitProgress({step, percent, stepLabel, completed:!!completed});
+ }
+
+ function step(role, store, idx, meta){
+  phase=meta.phase;
+  stepIdx=idx;
+  done=false;
+  save();
+  const totalSteps=11;
+  const absStep=meta.phase==="s1"? idx+1 : meta.phase==="inter"? 6 : 7+idx;
+  const percent=Math.round(100*absStep/totalSteps);
+  progressPayload(absStep, percent, meta.partLabel+" · "+(idx+1)+"/5", false);
+
+  g.innerHTML="";
+  const q=Q[idx];
+  const p=document.createElement("div"); p.className="panel";
+  const progressLabel=meta.partLabel+" · "+(idx+1)+"/5";
+  p.innerHTML='<span class="stamp">'+meta.stamp+'</span>'
+   +'<p class="progress">'+progressLabel+'</p>'
+   +'<h2>'+meta.title+'</h2>'
+   +(idx===0 ? '<p>'+meta.intro+'</p>' : '');
+  const dim=document.createElement("span"); dim.className="dim-stamp"; dim.textContent=q.dim;
+  p.appendChild(dim);
+  const fs=document.createElement("fieldset");
+  const lg=document.createElement("legend"); lg.textContent=q[role].q; fs.appendChild(lg);
+  q[role].o.forEach((o,j)=>{
+   const b=document.createElement("button"); b.type="button"; b.className="opt"; b.textContent=o.t;
+   b.setAttribute("aria-pressed", store[idx]===j ? "true" : "false");
+   b.addEventListener("click",()=>{
+    store[idx]=j;
+    save();
+    [...fs.querySelectorAll(".opt")].forEach((c,k)=>c.setAttribute("aria-pressed",k===j?"true":"false"));
+    go.disabled=false;
+   });
+   fs.appendChild(b);
+  });
+  p.appendChild(fs);
+  const go=document.createElement("button"); go.className="btn"; go.type="button";
+  go.textContent = idx<4 ? "Següent" : meta.finalLabel;
+  go.disabled = store[idx]===null;
+  go.addEventListener("click",()=>{
+   if(store[idx]===null) return;
+   if(idx<4) step(role, store, idx+1, meta);
+   else meta.onDone();
+  });
+  p.appendChild(go);
+  g.appendChild(p);
+  scrollTop();
+  focusHeading(p);
+  bridge.emitResize();
+ }
+
+ function s1(startIdx){
+  step("s", sv, startIdx||0, {
+   stamp:"Barret d'estudi",
+   partLabel:"Part 1 · Compra",
+   phase:"s1",
+   title:"Primera part: la compra",
+   intro:"Sou un estudi de dotze persones a punt de llicenciar un model de generació d'imatge per a la vostra canonada d'art. Tu portes la negociació. Fixa les condicions de compra, una decisió cada vegada.",
+   finalLabel:"Tanca les condicions de compra",
+   onDone: inter
+  });
+ }
+
  function inter(){
+  phase="inter"; stepIdx=0; done=false; save();
+  progressPayload(6, Math.round(100*6/11), "Interludi", false);
   g.innerHTML="";
   const p=document.createElement("div"); p.className="panel"; p.setAttribute("aria-live","polite");
-  p.innerHTML='<span class="stamp">Interludi</span><h2>Passen tres anys</h2><p>Les condicions van quedar tancades i el projecte va sortir. Amb els beneficis, has deixat l\'estudi per treballar pel teu compte, i el teu portafolis en línia comença a tenir nom. Abans de continuar: com es deia, aquell estudi?</p>';
+  p.innerHTML='<span class="stamp">Interludi</span><h2>Passen tres anys</h2>'
+   +'<p>Les condicions van quedar tancades i el projecte va sortir. Amb els beneficis, has deixat l\'estudi per treballar pel teu compte, i el teu portafolis en línia comença a tenir nom. Ara et toca seure a l\'altra banda de la taula.</p>'
+   +'<p>Abans de continuar: com es deia, aquell estudi?</p>';
   ["Nau Roja","Forn de Píxels","Marea Baixa"].forEach(n=>{
    const b=document.createElement("button"); b.type="button"; b.className="opt"; b.textContent=n;
-   b.addEventListener("click",()=>{studioName=n; s2();});
+   if(studioName===n) b.setAttribute("aria-pressed","true");
+   b.addEventListener("click",()=>{studioName=n; save(); s2(0);});
    p.appendChild(b);
   });
   g.appendChild(p);
+  scrollTop();
+  focusHeading(p);
+  bridge.emitResize();
  }
- function s2(){ form("a",av,"Segona part: la carta","Barret d'artista",
-  "T'arriba un correu: una empresa d'IA vol incorporar obres del teu portafolis al conjunt d'entrenament del seu pròxim model. Et pregunten les teves condicions. Fixa-les.",
-  "Envia les teves condicions", fin); }
+
+ function s2(startIdx){
+  step("a", av, startIdx||0, {
+   stamp:"Barret d'artista",
+   partLabel:"Part 2 · Carta",
+   phase:"s2",
+   title:"Segona part: la carta",
+   intro:"T'arriba un correu: una empresa d'IA vol incorporar obres del teu portafolis al conjunt d'entrenament del seu pròxim model. Et pregunten les teves condicions. Fixa-les, una decisió cada vegada.",
+   finalLabel:"Envia les teves condicions",
+   onDone: fin
+  });
+ }
+
+ function copyText(text, statusEl){
+  const doneMsg=()=>{ if(statusEl) statusEl.textContent="Copiat al porta-retalls."; };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+   navigator.clipboard.writeText(text).then(doneMsg).catch(()=>fallback());
+  } else fallback();
+  function fallback(){
+   const ta=document.createElement("textarea");
+   ta.value=text; document.body.appendChild(ta); ta.select();
+   try{ document.execCommand("copy"); doneMsg(); }catch(_){ if(statusEl) statusEl.textContent="No s'ha pogut copiar."; }
+   ta.remove();
+  }
+ }
+
  function fin(){
+  phase="fin"; done=true; save();
   const res=EVAL8(sv,av);
-  const gaps=res.filter(r=>r.cls==="gap").length, mids=res.filter(r=>r.cls==="mid").length;
+  const gaps=res.filter(r=>r.cls==="gap");
+  const mids=res.filter(r=>r.cls==="mid");
+  const oks=res.filter(r=>r.cls==="okc");
+  const ordered=[...gaps, ...mids, ...oks];
+  progressPayload(11, 100, "Mirall", true);
+  bridge.emitComplete({gaps:gaps.length, mids:mids.length, oks:oks.length});
+
   g.innerHTML="";
   const d=document.createElement("div"); d.setAttribute("aria-live","polite");
-  let h='<div class="verdict"><h2>El mirall</h2><p>Aquest era el truc: les cinc preguntes de la segona part eren les mateixes cinc de la primera, mirades des de l\'altra banda de la taula. A l\'esquerra, el que vas exigir comprant per a '+studioName+'; a la dreta, el que has reclamat com a autor.</p></div>';
-  res.forEach(r=>{
+
+  let h='<div class="verdict"><h2>El mirall</h2>'
+   +'<p>Aquest era el truc: les cinc preguntes de la segona part eren les mateixes cinc de la primera, mirades des de l\'altra banda de la taula. A l\'esquerra, el que vas exigir comprant per a '+studioName+'; a la dreta, el que has reclamat com a autor.</p>'
+   +'<div class="tally">'
+   +'<div class="tally-item gap"><span class="n">'+gaps.length+'</span><span class="lab">'+plural(gaps.length,"Asimetria","Asimetries")+'</span></div>'
+   +'<div class="tally-item mid"><span class="n">'+mids.length+'</span><span class="lab">'+plural(mids.length,"Matís","Matisos")+'</span></div>'
+   +'<div class="tally-item okc"><span class="n">'+oks.length+'</span><span class="lab">'+plural(oks.length,"Coherència","Coherències")+'</span></div>'
+   +'</div></div>';
+
+  ordered.forEach(r=>{
    h+='<div class="pair"><div class="dim">'+r.dim+'</div><div class="cols">'
     +'<div class="col"><span class="who">Com a estudi</span>'+r.s+'</div>'
     +'<div class="col"><span class="who">Com a autor</span>'+r.a+'</div></div>'
     +'<div class="tag '+r.cls+'">'+r.line+'</div></div>';
   });
-  h+='<div class="verdict"><p>'+(gaps>0
-    ? 'Resultat: '+gaps+' asimetria'+(gaps>1?'es':'')+' clara'+(gaps>1?'es':'')+(mids?' i '+mids+' matís'+(mids>1?'os':''):'')+'. No és cap acusació: és el descobriment. La majoria de la gent surt asimètrica d\'aquest mirall, i el sector sencer també: els compradors volen models bons i barats, i els autors volen consentiment i paga. Tu seràs les dues coses alhora durant tota la teva carrera. Els contractes del teu sector els escriurà la gent que hagi vist aquesta distància abans de seure a la taula.'
-    : 'Resultat: cap asimetria clara. Coherència completa entre les dues bandes de la taula, en la direcció que sigui: és menys habitual del que sembla. Ara la pregunta interessant és si el mercat t\'oferirà mai unes condicions tan simètriques com les teves, i què estàs disposat a fer quan no ho faci.')+'</p></div>';
-  const b=document.createElement("button"); b.className="btn ghost"; b.type="button"; b.textContent="Torna-hi"; b.style.marginTop="12px";
-  b.addEventListener("click",()=>{for(let i=0;i<5;i++){sv[i]=null;av[i]=null;} s1();});
-  d.innerHTML=h; d.appendChild(b); g.appendChild(d);
-  if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches) window.scrollTo({top:0,behavior:"smooth"});
+
+  const takeaway = gaps.length>0
+    ? 'No és cap acusació: és el descobriment. La majoria de la gent surt asimètrica d\'aquest mirall, i el sector sencer també. Tu seràs les dues coses alhora durant tota la teva carrera. Els contractes del teu sector els escriurà la gent que hagi vist aquesta distància abans de seure a la taula.'
+    : 'Coherència completa entre les dues bandes de la taula, en la direcció que sigui: és menys habitual del que sembla. Ara la pregunta interessant és si el mercat t\'oferirà mai unes condicions tan simètriques com les teves, i què estàs disposat a fer quan no ho faci.';
+
+  h+='<div class="verdict"><h2>Què et pots endur</h2><p>'+takeaway+'</p>'
+   +'<div class="cta"><strong>Abans de tancar el capítol.</strong> Tens obra teva penjada a internet. Quina part cediries per entrenar un model, i a canvi de què? Porta aquesta pregunta al «Pensa en això» del llibre.</div></div>';
+
+  const summary=[
+   "El mirall del consentiment · "+studioName,
+   "Asimetries: "+gaps.length+" · Matisos: "+mids.length+" · Coherències: "+oks.length,
+   "",
+   takeaway,
+   "",
+   "Abans de tancar el capítol: quina part de la teva obra cediries per entrenar un model, i a canvi de què?"
+  ].join("\n");
+
+  const actions=document.createElement("div"); actions.className="actions";
+  const copyBtn=document.createElement("button"); copyBtn.className="btn ghost"; copyBtn.type="button"; copyBtn.textContent="Copia el resum";
+  const status=document.createElement("div"); status.className="copy-status"; status.setAttribute("aria-live","polite");
+  copyBtn.addEventListener("click",()=>copyText(summary, status));
+  const b=document.createElement("button"); b.className="btn ghost"; b.type="button"; b.textContent="Torna-hi";
+  b.addEventListener("click",()=>{
+   for(let i=0;i<5;i++){sv[i]=null;av[i]=null;}
+   studioName=""; phase="s1"; stepIdx=0; done=false;
+   bridge.resetCompletionFlag();
+   clearSave();
+   restoreEl.hidden=true;
+   s1(0);
+  });
+  actions.appendChild(copyBtn);
+  actions.appendChild(b);
+
+  d.innerHTML=h; d.appendChild(actions); d.appendChild(status); g.appendChild(d);
+  scrollTop();
+  focusHeading(d);
+  bridge.emitResize();
  }
- s1();
+
+ function applyLoaded(data){
+  for(let i=0;i<5;i++){ sv[i]=data.sv[i]; av[i]=data.av[i]; }
+  studioName=data.studioName||"";
+  phase=data.phase||"s1";
+  stepIdx=data.stepIdx||0;
+  done=!!data.done;
+ }
+
+ function route(){
+  if(done && sv.every(x=>x!==null) && av.every(x=>x!==null) && studioName) return fin();
+  if(phase==="fin") return fin();
+  if(phase==="inter") return inter();
+  if(phase==="s2") return s2(stepIdx);
+  return s1(stepIdx);
+ }
+
+ function showRestore(data){
+  restoreEl.hidden=false;
+  restoreEl.innerHTML='<strong>Hi ha un progrés guardat en aquesta pestanya.</strong> El pots reprendre o començar de zero.'
+   +'<div class="row"></div>';
+  const row=restoreEl.querySelector(".row");
+  const cont=document.createElement("button"); cont.type="button"; cont.className="btn"; cont.textContent="Continua";
+  const fresh=document.createElement("button"); fresh.type="button"; fresh.className="btn ghost"; fresh.textContent="Comença de zero";
+  cont.addEventListener("click",()=>{ restoreEl.hidden=true; applyLoaded(data); route(); });
+  fresh.addEventListener("click",()=>{
+   clearSave();
+   for(let i=0;i<5;i++){sv[i]=null;av[i]=null;}
+   studioName=""; phase="s1"; stepIdx=0; done=false;
+   restoreEl.hidden=true;
+   s1(0);
+  });
+  row.appendChild(cont); row.appendChild(fresh);
+ }
+
+ const saved=load();
+ if(saved && (saved.phase!=="s1" || saved.stepIdx>0 || saved.sv.some(x=>x!==null))){
+  showRestore(saved);
+  g.innerHTML='<div class="panel"><p>Tria a dalt si vols reprendre o començar de zero.</p></div>';
+ } else {
+  s1(0);
+ }
 }
 </script>
 </body>
