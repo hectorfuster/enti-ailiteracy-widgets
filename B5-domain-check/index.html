@@ -10,7 +10,7 @@
 --bg:#f4efe6;--bg-card:#ffffff;--bg-soft:#faf6ec;--bg-deep:#ede4cf;
 --ink:#1a1814;--ink-soft:#4a463e;--ink-faint:#8a8478;
 --accent:#b91c1c;--accent-deep:#8b1414;--accent-soft:#f5d8d8;--accent-2:#1e3a5f;
---rule:#1a1814;--rule-soft:#c9c2b3;--bar-bg:#e8e2d3;--bar-fill:#1a1814;
+--ok-soft:#dce8dc;--rule:#1a1814;--rule-soft:#c9c2b3;--bar-bg:#e8e2d3;--bar-fill:#1a1814;
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'EB Garamond',Georgia,serif;font-size:18px;line-height:1.5;-webkit-font-smoothing:antialiased}
@@ -23,6 +23,7 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'
 .widget-intro strong{color:var(--ink);font-weight:600}
 .card{background:var(--bg-card);border:1px solid var(--rule-soft);padding:22px 24px;margin-bottom:16px}
 .card h2{font-size:21px;font-weight:600;margin:0 0 10px}
+.card h2:focus{outline:none}
 .card p{margin-top:0}
 .mono{font-family:'JetBrains Mono',monospace;font-size:13px}
 .pill{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:var(--bg-deep);border:1px solid var(--rule-soft);padding:3px 10px;margin-bottom:12px}
@@ -31,8 +32,12 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'
 .out .who{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px}
 .claim{cursor:pointer;border-bottom:1px dashed var(--rule-soft)}
 .claim:hover,.claim:focus-visible{background:var(--accent-soft)}
-.claim.sel{background:var(--accent-soft);border-bottom:2px solid var(--accent)}
 .claim:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.claim.reveal{cursor:default;border-bottom:1px solid transparent}
+.claim.reveal:hover,.claim.reveal:focus-visible{background:transparent;outline:none}
+.claim.false{background:var(--accent-soft);border-bottom:2px solid var(--accent)}
+.claim.pick{background:var(--bg-deep);border-bottom:2px dashed var(--ink-faint)}
+.claim.okmark{background:var(--ok-soft);border-bottom:2px solid #2f5d3a}
 button{font-family:'EB Garamond',Georgia,serif;font-size:15px;line-height:1.3;cursor:pointer;border:1px solid var(--rule-soft);background:var(--bg-card);color:var(--ink);padding:12px 14px;transition:all .15s ease}
 button:hover,button:focus-visible{background:var(--bg-soft);border-color:var(--rule)}
 button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -42,6 +47,8 @@ button[disabled]{opacity:.5;cursor:default}
 .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
 .progress{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-faint);margin-bottom:14px}
 .hint{font-size:15px;color:var(--ink-soft);margin-top:10px;font-style:italic}
+.verify{margin-top:12px;font-size:15px;color:var(--ink-soft);line-height:1.5}
+.verify a,.source-link{color:var(--accent-2)}
 .brow{margin-bottom:14px}
 .blab{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:12px;margin-bottom:4px;color:var(--ink-soft)}
 .btrack{background:var(--bar-bg);height:22px}
@@ -52,6 +59,7 @@ button[disabled]{opacity:.5;cursor:default}
 .divider{border:none;border-top:1px solid var(--rule-soft);margin:16px 0}
 .big{font-size:34px;font-weight:600;font-family:'JetBrains Mono',monospace}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.legend{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-faint);letter-spacing:.04em;margin:8px 0 0}
 .widget-footer{margin-top:24px;padding-top:16px;border-top:1px solid var(--rule-soft);font-size:12px;color:var(--ink-soft);font-style:italic;line-height:1.5}
 .widget-footer a{color:var(--accent-2)}
 @media (max-width:880px){.widget-title{font-size:24px}}
@@ -69,7 +77,7 @@ button[disabled]{opacity:.5;cursor:default}
 </header>
 
 <div class="widget-intro">
-<strong>Com funciona aquesta eina.</strong> Compararàs respostes del teu àmbit amb respostes de fora del teu àmbit per fer visible com el coneixement propi condiciona la capacitat de detectar errors. El resultat és orientatiu i no es desa ni s'envia enlloc.
+<strong>Il·lustració, no mesura.</strong> El resultat és orientatiu i no es desa ni s'envia enlloc. Dotze ítems i una persona no demostren res: serveixen per notar un mecanisme.
 </div>
 
 <div id="stage" aria-live="polite"></div>
@@ -81,99 +89,204 @@ ENTI-UB · Curs d'alfabetització en IA · Mòdul 2, Capítol 3 · Activitat B5.
 
 <script>
 'use strict';
-// Each item: dom ('in' game-dev | 'out'), claims[], err = index of wrong claim or -1 if clean, fix = explanation
+// Item: dom ('in'|'out'), tag, claims[3], err (-1 clean | 0..2), fix, optional check, optional source:{title,url}
 const ITEMS=[
- {dom:'in',tag:'Videojocs',err:2,fix:"A 60 FPS cada fotograma disposa de 16,6 ms, no de 8 (8 ms correspon a 120 FPS).",
-  claims:["La fluïdesa d'un joc es mesura en fotogrames per segon (FPS).","Un joc a 30 FPS mostra un fotograma nou cada 33 ms aproximadament.","Per assolir 60 FPS, el motor ha de completar cada fotograma en menys de 8 ms."]},
- {dom:'out',tag:'Música',err:1,fix:"Un compàs de 3/4 té tres temps de negra, no quatre. El 4/4 en té quatre.",
-  claims:["La indicació de compàs s'escriu al començament de la partitura amb dues xifres.","Un compàs de 3/4 conté quatre temps de negra per compàs.","El vals és l'exemple clàssic de peça escrita en 3/4."]},
- {dom:'in',tag:'Videojocs',err:2,fix:"Amb un multiplicador ×2 sobre 40 de dany, el tret al cap fa 80, no 60.",
-  claims:["A molts jocs d'acció, els trets al cap apliquen un multiplicador de dany.","Un multiplicador habitual és ×2 sobre el dany base de l'arma.","Amb una arma de 40 de dany i multiplicador ×2, el tret al cap fa 60 de dany."]},
- {dom:'out',tag:'Comptabilitat',err:1,fix:"És a l'inrevés: l'IVA suportat és el que pagues als proveïdors; el repercutit és el que cobres als clients.",
-  claims:["Les empreses declaren l'IVA periòdicament a l'agència tributària.","L'IVA repercutit és el que l'empresa paga als seus proveïdors quan compra.","Si el repercutit supera el suportat, l'empresa ingressa la diferència a Hisenda."]},
- {dom:'in',tag:'Videojocs',err:1,fix:"La mort permanent d'un roguelike implica perdre el progrés de la partida: no conserves l'equipament ni continues al mateix punt.",
-  claims:["Un roguelike es caracteritza per nivells generats proceduralment.","En morir, el jugador conserva tot l'equipament i reprèn la partida al mateix punt.","Aquesta estructura fa que cada partida sigui diferent de l'anterior."]},
- {dom:'out',tag:'Astronomia',err:-1,fix:"",
-  claims:["Un any llum és una unitat de distància, no de temps.","Equival a la distància que la llum recorre en un any.","Són uns 9,46 bilions de quilòmetres."]},
+ // —— In-domain (videojocs): 3 errors, 3 clean ——
+ {dom:'in',tag:'Videojocs',err:2,
+  fix:"Si les recompenses injecten més moneda de la que els embornals treuen, el mercat s'infla: no és un estímul sa, és hiperinflació disfressada de generositat.",
+  check:"Compara entrada i sortida de moneda: si entra més del que surt de forma sostinguda, els preus pugen.",
+  claims:["En una economia de jugador a jugador, la moneda que entra al mercat ha d'equilibrar-se amb la que en surt.","Si les recompenses diàries injecten més moneda de la que els embornals poden absorbir, els preus pugen.","Per estimular l'activitat, és sa que cada missió diària pagui més del que un jugador pot gastar en una setmana."]},
+ {dom:'in',tag:'Videojocs',err:1,
+  fix:"Una distància fixa per fotograma fa que la velocitat canviï quan canvien els FPS. Cal multiplicar per el temps del fotograma.",
+  check:"Comprova les unitats: metres per segon × segons per fotograma = metres per fotograma.",
+  source:{title:"Time and frame rate management (Unity)",url:"https://docs.unity3d.com/2023.2/Documentation/Manual/TimeFrameManagement.html"},
+  claims:["Time.deltaTime expressa en segons el temps transcorregut des del fotograma anterior.","Moure un objecte una distància fixa a cada Update garanteix una velocitat constant encara que canviïn els FPS.","Multiplicar una velocitat per Time.deltaTime ajuda a fer el moviment independent de la taxa de fotogrames."]},
+ {dom:'in',tag:'Videojocs',err:0,
+  fix:"Les actualitzacions de física segueixen el pas fix, no una relació obligatòria d'una per fotograma renderitzat.",
+  check:"Consulta la documentació del bucle temporal del motor i diferencia renderitzat de simulació.",
+  source:{title:"Time and frame rate management (Unity)",url:"https://docs.unity3d.com/2023.2/Documentation/Manual/TimeFrameManagement.html"},
+  claims:["FixedUpdate s'executa exactament una vegada per cada fotograma renderitzat.","Un pas fix de 0,02 segons equival a 50 actualitzacions de física per segon de joc.","Un fotograma pot contenir zero, una o diverses actualitzacions de física segons el temps acumulat."]},
  {dom:'in',tag:'Videojocs',err:-1,fix:"",
   claims:["Un NPC és un personatge que no controla cap jugador.","El seu comportament el defineix el joc, sovint amb màquines d'estats o arbres de decisió.","Botiguers, donants de missions i enemics en són exemples habituals."]},
- {dom:'out',tag:'Música',err:2,fix:"Vivaldi va compondre Les quatre estacions cap al 1720, al segle XVIII, no al XIX.",
-  claims:["Antonio Vivaldi és un dels compositors més coneguts del barroc.","Les quatre estacions és un conjunt de quatre concerts per a violí.","Vivaldi les va compondre a mitjan segle XIX."]},
- {dom:'in',tag:'Videojocs',err:2,fix:"A les corbes de progressió estàndard, cada nivell demana més XP que l'anterior, no menys.",
-  claims:["Les corbes d'experiència controlen el ritme de progressió del jugador.","Solen dissenyar-se perquè els primers nivells s'assoleixin de pressa.","En una corba estàndard, pujar del nivell 10 a l'11 demana menys XP que del 9 al 10."]},
- {dom:'out',tag:'Astronomia',err:1,fix:"Fobos i Deimos són minúsculs (uns 22 i 12 km); la Lluna fa 3.474 km de diàmetre.",
-  claims:["Mart té dues llunes, anomenades Fobos i Deimos.","Totes dues són més grans que la Lluna de la Terra.","Fobos orbita tan a prop de Mart que fa més d'una volta al planeta cada dia marcià."]},
  {dom:'in',tag:'Videojocs',err:-1,fix:"",
   claims:["Un punt de control (checkpoint) desa el progrés del jugador en un moment concret.","En morir, el jugador reapareix a l'últim punt de control activat.","Això permet ajustar la dificultat sense fer repetir seccions llargues."]},
+ {dom:'in',tag:'Videojocs',err:-1,fix:"",
+  check:"Revisa la definició matemàtica o la documentació de Vector3.normalized.",
+  source:{title:"Vector3.normalized (Unity)",url:"https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Vector3-normalized.html"},
+  claims:["El vector normalitzat manté la direcció de l'original.","La magnitud del vector normalitzat és 1.","Multiplicar-lo per una velocitat escalar produeix un vector amb aquella magnitud."]},
+ // —— Out-domain: 3 errors, 3 clean ——
+ {dom:'out',tag:'Música',err:0,
+  fix:"En un 3/4, la xifra superior (3) indica tres pulsacions; la inferior (4) indica que la negra és la unitat de referència.",
+  check:"Separa les dues xifres del compàs: superior = quantes pulsacions; inferior = quina figura les mesura.",
+  source:{title:"Meter (Open Music Theory)",url:"https://openmusictheory.github.io/meter.html"},
+  claims:["En una indicació 3/4, la xifra inferior indica que hi ha tres pulsacions a cada compàs.","En una indicació 3/4, una negra representa una pulsació de referència.","En una indicació 3/4, la xifra superior 3 correspon a una mètrica triple simple."]},
+ {dom:'out',tag:'Comptabilitat',err:1,
+  fix:"És a l'inrevés: l'IVA suportat és el que pagues als proveïdors; el repercutit és el que cobres als clients.",
+  check:"Traça el flux: qui cobra l'IVA i qui el paga en cada operació.",
+  source:{title:"Funcionament general de l'IVA (Agència Tributària)",url:"https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/manual-iva-2025/capitulo-02-introduccion/funcionamiento-general-impuesto.html"},
+  claims:["L'empresa repercuteix IVA als clients en les vendes o prestacions de serveis subjectes.","L'IVA repercutit és el que l'empresa paga als proveïdors quan compra.","Si el resultat de restar l'IVA suportat deduïble al repercutit és positiu, s'ingressa al Tresor."]},
+ {dom:'out',tag:'Astronomia',err:0,
+  fix:"Les estacions venen de la inclinació de l'eix terrestre, no de si la Terra és més a prop o més lluny del Sol.",
+  check:"Compara l'explicació de l'òrbita amb la de la inclinació axial en una font de ciència espacial.",
+  source:{title:"Seasons on Earth (NASA)",url:"https://science.nasa.gov/helio-and-you-seasons-on-earth-mars-and-beyond/"},
+  claims:["La causa principal de les estacions és que la Terra s'acosta i s'allunya molt del Sol cada sis mesos.","La inclinació de l'eix terrestre canvia l'angle amb què arriben els rajos solars.","Quan un hemisferi rep els rajos més directament, hi és estiu."]},
+ {dom:'out',tag:'Música',err:-1,fix:"",
+  check:"Compta semitons i recorda que una tercera major són quatre semitons.",
+  source:{title:"Intervals (Open Music Theory)",url:"https://openmusictheory.github.io/intervals.html"},
+  claims:["En el sistema occidental de dotze notes per octava, de C4 a E4 hi ha quatre semitons.","En aquest mateix sistema, quatre semitons formen l'interval d'una tercera major.","Una octava justa, com la que va de C4 a C5, abasta un total de dotze semitons."]},
  {dom:'out',tag:'Comptabilitat',err:-1,fix:"",
-  claims:["Un actiu és un recurs que l'empresa controla i del qual espera obtenir beneficis.","La maquinària i els diners al banc en són exemples.","Els actius figuren al balanç de situació."]},
+  check:"Contrasta cada frase amb el marc conceptual: ingressos i despeses no inclouen moviments amb els propietaris.",
+  source:{title:"Conceptual Framework (IFRS)",url:"https://www.ifrs.org/issued-standards/list-of-standards/conceptual-framework/"},
+  claims:["Els ingressos poden resultar d'augments d'actius o disminucions de passius que augmenten el patrimoni.","Les aportacions dels propietaris no es classifiquen com a ingressos.","Les distribucions als propietaris no es classifiquen com a despeses."]},
+ {dom:'out',tag:'Astronomia',err:-1,fix:"",
+  check:"Comprova els períodes de rotació i òrbita a la fitxa del planeta.",
+  source:{title:"Venus facts (NASA)",url:"https://science.nasa.gov/venus/venus-facts/"},
+  claims:["La rotació de Venus dura uns 243 dies terrestres.","Una òrbita de Venus al voltant del Sol dura uns 225 dies terrestres.","Per tant, el període de rotació de Venus és més llarg que el seu any."]},
 ];
-const S={i:0,mode:'judge',selClaim:null,res:[]};
+
+const S={i:0,res:[],deck:[]};
 const stage=document.getElementById('stage');
+
+function escapeHTML(str){
+ return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function focusStage(){
+ const el=document.getElementById('stage-title');
+ if(el) el.focus({preventScroll:true});
+}
+function shuffle(arr){
+ const a=arr.slice();
+ for(let i=a.length-1;i>0;i--){
+  const j=Math.floor(Math.random()*(i+1));
+  const t=a[i];a[i]=a[j];a[j]=t;
+ }
+ return a;
+}
+function cur(){ return S.deck[S.i]; }
+function startRun(){
+ S.i=0;S.res=[];S.deck=shuffle(ITEMS);
+ showItem();
+}
 
 function intro(){
  stage.innerHTML=`<div class="card">
- <h2>Com funciona</h2>
- <p>Veuràs dotze respostes curtes generades per una IA: sis sobre <strong>videojocs</strong> i sis sobre <strong>àmbits que probablement no domines</strong>. Algunes són correctes; d'altres contenen exactament una frase falsa.</p>
- <p style="margin-top:8px">Per a cada resposta, decideix si és correcta o si conté un error. Si dius que hi ha error, hauràs d'assenyalar <strong>quina frase</strong> falla. Al final veuràs la teva taxa d'encert en cada àmbit, per separat.</p>
+ <h2 id="stage-title" tabindex="-1">Com funciona</h2>
+ <p>Veuràs <strong>dotze sortides d'IA amb errors plantats</strong>: sis d'un àmbit que probablement domines (<strong>videojocs</strong>) i sis d'àmbits que probablement no. Algunes són correctes; d'altres contenen exactament una frase falsa.</p>
+ <p style="margin-top:8px">Si veus un error, <strong>clica la frase falsa</strong>. Si tot et sembla correcte, prem «Cap error». Al final veuràs les dues taxes d'encert per separat.</p>
  <hr class="divider">
- <button class="primary" onclick="next(true)">Començar</button>
+ <button class="primary" onclick="startRun()">Començar</button>
  </div>`;
+ focusStage();
 }
+
+function claimSpans(it,opts){
+ const interactive=opts&&opts.interactive;
+ const falseIdx=opts&&opts.falseIdx;
+ const pickIdx=opts&&opts.pickIdx;
+ return it.claims.map((c,j)=>{
+  if(interactive){
+   return `<span class="claim" tabindex="0" role="button" aria-label="Marca la frase ${j+1} com a falsa" data-j="${j}" onclick="pickError(${j})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();pickError(${j})}">${escapeHTML(c)}</span>`;
+  }
+  let cls='claim reveal';
+  if(falseIdx===j) cls+=' false';
+  else if(pickIdx!==null&&pickIdx!==undefined&&pickIdx===j&&pickIdx!==falseIdx) cls+=' pick';
+  else if(falseIdx===-1) cls+=' okmark';
+  return `<span class="${cls}">${escapeHTML(c)}</span>`;
+ }).join(' ');
+}
+
+function verifyBlock(it){
+ if(!it.check&&!(it.source&&it.source.url)) return '';
+ let html='<div class="verify">';
+ if(it.check) html+=`<p><strong>Per comprovar-ho:</strong> ${escapeHTML(it.check)}</p>`;
+ if(it.source&&it.source.url){
+  html+=`<p><a class="source-link" href="${escapeHTML(it.source.url)}" target="_blank" rel="noopener noreferrer">${escapeHTML(it.source.title||'Font')}</a></p>`;
+ }
+ html+='</div>';
+ return html;
+}
+
 function showItem(){
- const it=ITEMS[S.i];S.mode='judge';S.selClaim=null;
+ const it=cur();
  stage.innerHTML=`<div class="card">
- <span class="pill ${it.dom==='out'?'alt':''}">${it.tag}</span>
+ <span class="pill ${it.dom==='out'?'alt':''}">${escapeHTML(it.tag)}</span>
  <p class="progress">Resposta ${S.i+1} de 12</p>
+ <h2 id="stage-title" tabindex="-1">Què en fas, d'aquesta sortida?</h2>
  <div class="out"><div class="who">Sortida de la IA</div>
- <p id="claims">${it.claims.map((c,j)=>`<span class="claim" tabindex="0" role="button" aria-label="Frase ${j+1}" data-j="${j}" onclick="selClaim(${j})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selClaim(${j})}">${c}</span> `).join('')}</p>
+ <p id="claims">${claimSpans(it,{interactive:true})}</p>
  </div>
  <div class="btnrow">
- <button onclick="judge(false)">És correcta</button>
- <button onclick="judge(true)">Conté un error</button>
+ <button class="primary" onclick="judgeClean()">Cap error</button>
  </div>
- <p class="hint" id="hint">Si creus que hi ha un error, pots marcar directament la frase sospitosa i després prémer «Conté un error».</p>
+ <p class="hint">Clica la frase que creus falsa, o prem «Cap error» si tot et sembla correcte.</p>
  </div>`;
+ focusStage();
 }
-function selClaim(j){
- S.selClaim=j;
- document.querySelectorAll('.claim').forEach(el=>el.classList.toggle('sel',+el.dataset.j===j));
+
+function pickError(j){
+ judge(true,j);
 }
-function judge(saysErr){
- const it=ITEMS[S.i];
- if(saysErr&&S.selClaim===null){
-  document.getElementById('hint').innerHTML='<strong style="color:var(--accent)">Marca primer la frase que creus falsa</strong> (clica-la o navega-hi amb el teclat) i torna a prémer «Conté un error».';
-  return;
- }
+function judgeClean(){
+ judge(false,null);
+}
+
+function judge(saysErr,pick){
+ const it=cur();
  let ok;
  if(!saysErr){ ok=(it.err===-1); }
- else { ok=(it.err!==-1 && S.selClaim===it.err); }
- S.res.push({dom:it.dom,ok,saidErr:saysErr,hasErr:it.err!==-1,locOk:saysErr&&it.err!==-1&&S.selClaim===it.err});
- feedback(ok,saysErr);
+ else { ok=(it.err!==-1 && pick===it.err); }
+ // Outcomes: localized | missedError | wrongLocation | cleanAccepted | falseAlarm
+ let outcome;
+ if(ok&&!saysErr) outcome='cleanAccepted';
+ else if(ok&&saysErr) outcome='localized';
+ else if(it.err===-1) outcome='falseAlarm';
+ else if(!saysErr) outcome='missedError';
+ else outcome='wrongLocation';
+ S.res.push({dom:it.dom,ok,saidErr:saysErr,hasErr:it.err!==-1,pick,outcome});
+ feedback(outcome,saysErr,pick);
 }
-function feedback(ok,saysErr){
- const it=ITEMS[S.i];
- let msg;
- if(ok){ msg=it.err===-1?"Correcte: aquesta resposta no contenia cap error.":"Correcte: has trobat la frase falsa. "+it.fix; }
- else if(it.err===-1){ msg="Aquesta resposta era correcta. Marcar com a error una cosa certa també és una manera d'equivocar-se."; }
- else if(!saysErr){ msg="Aquesta resposta contenia un error que no has vist. "+it.fix; }
- else { msg="Hi havia un error, però no era en aquesta frase. "+it.fix; }
+
+function feedback(outcome,saysErr,pick){
+ const it=cur();
+ const labels={
+  localized:"Has localitzat l'error.",
+  missedError:"Hi havia un error i no l'has vist.",
+  wrongLocation:"Hi havia un error, però no era en aquesta frase.",
+  cleanAccepted:"Correcte: aquesta resposta no contenia cap error.",
+  falseAlarm:"Aquesta resposta era correcta. Marcar com a error una cosa certa també és una manera d'equivocar-se."
+ };
+ const ok=outcome==='localized'||outcome==='cleanAccepted';
+ let detail='';
+ if(it.err!==-1&&it.fix) detail=' '+escapeHTML(it.fix);
+ let legend='';
+ if(it.err!==-1){
+  legend=`<p class="legend">Frase falsa en vermell${pick!==null&&pick!==it.err?' · la teva tria, en gris':''}</p>`;
+ } else if(outcome==='falseAlarm'){
+  legend=`<p class="legend">Totes les frases eren correctes</p>`;
+ }
  stage.innerHTML=`<div class="card">
- <span class="pill ${it.dom==='out'?'alt':''}">${it.tag}</span>
- <h2 style="color:${ok?'var(--ink)':'var(--accent)'}">${ok?'Encertat':'No encertat'}</h2>
- <p>${msg}</p>
+ <span class="pill ${it.dom==='out'?'alt':''}">${escapeHTML(it.tag)}</span>
+ <h2 id="stage-title" tabindex="-1" style="color:${ok?'var(--ink)':'var(--accent)'}">${ok?'Encertat':'No encertat'}</h2>
+ <p>${labels[outcome]}${detail}</p>
+ <div class="out" style="margin-top:12px"><div class="who">Sortida revisada</div>
+ <p>${claimSpans(it,{falseIdx:it.err,pickIdx:saysErr?pick:null})}</p>${legend}</div>
+ ${verifyBlock(it)}
  <hr class="divider">
- <button class="primary" onclick="next(false)">${S.i<11?'Següent resposta':'Veure els resultats'}</button>
+ <button class="primary" onclick="next()">${S.i<11?'Següent resposta':'Veure els resultats'}</button>
  </div>`;
+ focusStage();
 }
-function next(first){
- if(!first)S.i++;
+
+function next(){
+ S.i++;
  if(S.i<12)showItem();else results();
 }
+
 function pct(dom){
  const r=S.res.filter(x=>x.dom===dom);
  return Math.round(100*r.filter(x=>x.ok).length/r.length);
 }
+
 function results(){
  const pin=pct('in'),pout=pct('out');
  const missed=S.res.filter(x=>x.hasErr&&!x.saidErr).length;
@@ -185,7 +298,7 @@ function results(){
  else gapline=`Has empatat. Amb dotze ítems, l'atzar pesa molt: el mecanisme es mesura amb mostres grans, no amb una persona.`;
  stage.innerHTML=`
  <div class="card">
- <h2>Els teus resultats</h2>
+ <h2 id="stage-title" tabindex="-1">Els teus resultats</h2>
  <div class="brow"><div class="blab"><span>Àmbit que domines (videojocs)</span><span>${pin}&nbsp;%</span></div><div class="btrack"><div class="bfill" style="width:${pin}%"></div></div></div>
  <div class="brow"><div class="blab"><span>Àmbits que probablement no domines</span><span>${pout}&nbsp;%</span></div><div class="btrack"><div class="bfill acc" style="width:${pout}%"></div></div></div>
  <p>${gapline}</p>
@@ -194,12 +307,15 @@ function results(){
  <div><p class="mono" style="color:var(--ink-faint);font-size:11px;letter-spacing:.1em;text-transform:uppercase">Falsos errors marcats</p><p class="big">${falsePos}</p><p style="font-size:14px;color:var(--ink-soft)">Marcar com a fals el que era cert també té un cost: desconfiar de tot no és criteri.</p></div>
  </div>
  <div class="note"><strong>Recorda la lletra petita.</strong> Dotze ítems i una persona no demostren res: els números de Parasuraman i Manzey surten de dècades de recerca amb milers de professionals. Això és una il·lustració del mecanisme, no una mesura de tu. El que sí que és teu és la pregunta que deixa: en quins àmbits estàs acceptant respostes que no podries corregir?</div>
+ <div class="note" style="margin-top:10px"><strong>Abans de tornar al text.</strong> En la propera sortida d'IA que acceptis, <strong>pots explicar per què funciona?</strong> Si no, estàs en terreny on el corrector ets tu — i encara no hi ets.</div>
  <hr class="divider">
  <button class="primary" onclick="reset()">Tornar a començar</button>
  </div>`;
+ focusStage();
 }
-function reset(){S.i=0;S.mode='judge';S.selClaim=null;S.res=[];intro();}
-window.next=next;window.judge=judge;window.selClaim=selClaim;window.reset=reset;
+
+function reset(){ intro(); }
+window.startRun=startRun;window.next=next;window.pickError=pickError;window.judgeClean=judgeClean;window.reset=reset;
 intro();
 </script>
 </body>
