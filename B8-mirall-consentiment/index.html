@@ -496,32 +496,32 @@ button {
 <script>
 "use strict";
 const WIDGET_ID="b8-mirall-consentiment";
-const WIDGET_VERSION="1.1.0";
+const WIDGET_VERSION="1.1.1";
 const STORAGE_KEY="enti-b8-mirall-v1";
 const Q=[
  {dim:"Consentiment dels autors",
   s:{q:"Exigiríeu al proveïdor garanties que el model es va entrenar amb el consentiment dels autors del material?",
-     o:[{t:"No cal: com es va entrenar és problema seu, no nostre.",v:0},{t:"Només per al material que acabi en contingut comercial del joc.",v:1},{t:"Sí, sempre: sense garanties, no el comprem.",v:2}]},
+     o:[{t:"No cal: és problema seu. Business respira i el vertical slice segueix al calendari.",v:0},{t:"Només per al material que acabi en contingut comercial del joc.",v:1},{t:"Sí, sempre: sense garanties no comprem, encara que el calendari se'n ressenti.",v:2}]},
   a:{q:"Podria una empresa entrenar amb el teu portafolis sense demanar-t'ho?",
      o:[{t:"Tant me fa: penjat a internet, ja compto que passarà.",v:0},{t:"Només per a recerca sense ànim de lucre.",v:1},{t:"Mai sense demanar-m'ho explícitament.",v:2}]}},
  {dim:"Compensació",
   s:{q:"Pagaríeu més per un model entrenat només amb material llicenciat, pels quals els autors han cobrat?",
-     o:[{t:"No: comprem el millor model al millor preu.",v:0},{t:"Una mica més, si la diferència de preu és petita.",v:1},{t:"Notablement més: és una condició de compra.",v:2}]},
+     o:[{t:"No: el millor model al millor preu. El publisher ho vol així.",v:0},{t:"Una mica més, si la diferència de preu és petita.",v:1},{t:"Notablement més: és una condició de compra, tot i la pressió del calendari.",v:2}]},
   a:{q:"Què hauria de pagar-te una empresa per entrenar amb la teva obra?",
      o:[{t:"Res: la visibilitat ja em compensa.",v:0},{t:"Una quantitat simbòlica per tancar el tema.",v:1},{t:"Un preu just per obra, com qualsevol llicència.",v:2}]}},
  {dim:"Transparència i crèdit",
   s:{q:"Necessiteu saber amb quines dades es va entrenar el model que compreu?",
-     o:[{t:"Indiferent: ens importa el rendiment, no la recepta.",v:0},{t:"Amb una descripció general en tenim prou.",v:1},{t:"Volem la llista o una descripció detallada i auditable.",v:2}]},
+     o:[{t:"Indiferent: ens importa el rendiment ara; la recepta pot esperar.",v:0},{t:"Amb una descripció general en tenim prou.",v:1},{t:"Volem detall auditable, encara que alenteixi el tancament del tracte.",v:2}]},
   a:{q:"Si la teva obra és dins d'un conjunt d'entrenament, vols que consti?",
      o:[{t:"M'és indiferent.",v:0},{t:"Vull poder consultar-ho si ho demano.",v:1},{t:"Vull que consti públicament, amb el meu nom.",v:2}]}},
  {dim:"Imitació d'estil",
   s:{q:"Faríeu servir un model que imita l'estil d'artistes concrets i vius per accelerar la vostra direcció d'art?",
-     o:[{t:"Sí, mentre sigui legal: l'estil no té drets d'autor.",v:0},{t:"Només estils genèrics o d'època, mai d'una persona concreta.",v:1},{t:"Mai: sense permís de l'artista, no.",v:2}]},
+     o:[{t:"Sí, mentre sigui legal: Art necessita velocitat per al slice.",v:0},{t:"Només estils genèrics o d'època, mai d'una persona concreta.",v:1},{t:"Mai sense permís de l'artista, encara que això freni la canonada.",v:2}]},
   a:{q:"Que un model pugui generar imatges «a la teva manera», amb el teu estil reconeixible?",
      o:[{t:"No em molesta: l'estil no es pot tancar amb clau.",v:0},{t:"Acceptable amb permís i una part del benefici.",v:1},{t:"Mai sense el meu consentiment explícit.",v:2}]}},
  {dim:"Retirada (sortir del conjunt)",
   s:{q:"Si autors demanen sortir del conjunt de dades i el model s'ha de reentrenar, acceptaríeu canvis i interrupcions del model que useu?",
-     o:[{t:"No: l'estabilitat del nostre pipeline és primer.",v:0},{t:"Només amb un preavís llarg i versions congelades.",v:1},{t:"Sí: el dret dels autors passa per davant de la nostra comoditat.",v:2}]},
+     o:[{t:"No: l'estabilitat del pipeline mana; el slice no pot parar.",v:0},{t:"Només amb un preavís llarg i versions congelades.",v:1},{t:"Sí: el dret dels autors passa per davant de la nostra comoditat de producció.",v:2}]},
   a:{q:"Si demanes que la teva obra surti d'un conjunt d'entrenament, què esperes?",
      o:[{t:"Res: un cop dins, ja està fet.",v:0},{t:"Que no sigui als entrenaments següents.",v:1},{t:"Efecte real com més aviat millor, encara que costi al proveïdor.",v:2}]}}
 ];
@@ -634,7 +634,7 @@ if (typeof document !== "undefined") {
    partLabel:"Part 1 · Compra",
    phase:"s1",
    title:"Primera part: la compra",
-   intro:"Sou un estudi de dotze persones a punt de llicenciar un model de generació d'imatge per a la vostra canonada d'art. Tu portes la negociació. Fixa les condicions de compra, una decisió cada vegada.",
+   intro:"Sou un estudi de dotze persones. Necessiteu un model de generació d'imatge per a la canonada d'art: Art diu que, sense això, no arribeu al vertical slice d'aquí a sis setmanes. Business ha dit: agafeu el més barat que encara sigui legal; el paper, ja el mirarem després. Tu portes la negociació. Fixa les condicions, una decisió cada vegada.",
    finalLabel:"Tanca les condicions de compra",
    onDone: inter
   });
@@ -646,7 +646,7 @@ if (typeof document !== "undefined") {
   g.innerHTML="";
   const p=document.createElement("div"); p.className="panel"; p.setAttribute("aria-live","polite");
   p.innerHTML='<span class="stamp">Interludi</span><h2>Passen tres anys</h2>'
-   +'<p>Les condicions van quedar tancades i el projecte va sortir. Amb els beneficis, has deixat l\'estudi per treballar pel teu compte, i el teu portafolis en línia comença a tenir nom. Ara et toca seure a l\'altra banda de la taula.</p>'
+   +'<p>Les condicions van quedar tancades. El camí que vas tancar (velocitat, opció legal més barata, pipeline estable) va funcionar: el projecte va sortir. Amb els beneficis, has deixat l\'estudi per treballar pel teu compte, i el teu portafolis en línia comença a tenir nom. Ara et toca seure a l\'altra banda de la taula.</p>'
    +'<p>Abans de continuar: com es deia, aquell estudi?</p>';
   ["Nau Roja","Forn de Píxels","Marea Baixa"].forEach(n=>{
    const b=document.createElement("button"); b.type="button"; b.className="opt"; b.textContent=n;
@@ -666,7 +666,7 @@ if (typeof document !== "undefined") {
    partLabel:"Part 2 · Carta",
    phase:"s2",
    title:"Segona part: la carta",
-   intro:"T'arriba un correu: una empresa d'IA vol incorporar obres del teu portafolis al conjunt d'entrenament del seu pròxim model. Et pregunten les teves condicions. Fixa-les, una decisió cada vegada.",
+   intro:"Anys després d'aquell llançament, t'arriba un correu: una empresa d'IA vol incorporar obres del teu portafolis al conjunt d'entrenament del seu pròxim model. Et pregunten les teves condicions. Fixa-les, una decisió cada vegada.",
    finalLabel:"Envia les teves condicions",
    onDone: fin
   });
