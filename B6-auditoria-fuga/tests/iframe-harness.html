@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ca">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Prova d'integració B6</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+      }
+      iframe {
+        width: 100%;
+        min-height: 500px;
+        border: 0;
+      }
+      pre {
+        max-height: 15rem;
+        overflow: auto;
+        padding: 1rem;
+        background: #eee;
+      }
+    </style>
+    <script defer src="../integration/moodle-wrapper.js"></script>
+    <script defer src="iframe-harness.js"></script>
+  </head>
+  <body>
+    <button id="reset" type="button">Reinicia des de Moodle</button>
+    <iframe id="widget" title="L'auditoria de la fuga"></iframe>
+    <pre id="events" aria-live="polite"></pre>
+  </body>
+</html>

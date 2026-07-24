@@ -1,0 +1,26 @@
+{
+  "name": "enti-b6-auditoria-fuga",
+  "version": "3.0.0",
+  "private": true,
+  "description": "Local-first Moodle companion activity for learning direct and cumulative disclosure in AI prompts.",
+  "license": "MIT",
+  "scripts": {
+    "format": "prettier --write \"**/*.{cjs,css,html,js,json,md,mjs}\"",
+    "format:check": "prettier --check \"**/*.{cjs,css,html,js,json,md,mjs}\"",
+    "static:check": "node scripts/check-static.mjs",
+    "size:check": "node scripts/check-size.mjs",
+    "test": "npm run test:unit",
+    "test:unit": "node --test tests/*.test.cjs",
+    "test:browser": "playwright test",
+    "check": "npm run format:check && npm run static:check && npm run size:check && npm run test:unit",
+    "check:all": "npm run check && npm run test:browser"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.12.1",
+    "@playwright/test": "1.61.1",
+    "prettier": "3.6.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
