@@ -1,0 +1,27 @@
+{
+  "name": "enti-b7-el-brief",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Briefing laboratory for comparing AI workflows across cost, privacy, transparency, capability, and control.",
+  "license": "MIT",
+  "scripts": {
+    "format": "prettier --write \"**/*.{cjs,css,html,js,json,md,mjs}\"",
+    "format:check": "prettier --check \"**/*.{cjs,css,html,js,json,md,mjs}\"",
+    "static:check": "node scripts/check-static.mjs",
+    "size:check": "node scripts/check-size.mjs",
+    "test": "npm run test:unit",
+    "test:unit": "node --test tests/*.test.cjs",
+    "test:browser": "playwright test",
+    "check": "npm run format:check && npm run static:check && npm run size:check && npm run test:unit",
+    "check:all": "npm run check && npm run test:browser",
+    "serve": "node scripts/static-server.mjs"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.12.1",
+    "@playwright/test": "1.61.1",
+    "prettier": "3.6.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
