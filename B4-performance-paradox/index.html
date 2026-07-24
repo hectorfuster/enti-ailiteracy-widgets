@@ -21,13 +21,14 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'
 .widget-subtitle{color:var(--ink-soft);font-size:16px;font-style:italic;max-width:720px;margin:0}
 .widget-intro{background:var(--bg-card);border-left:3px solid var(--accent-2);padding:14px 18px;margin-bottom:22px;font-size:15px;line-height:1.55;color:var(--ink-soft)}
 .widget-intro strong{color:var(--ink);font-weight:600}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 10px}
 .card{background:var(--bg-card);border:1px solid var(--rule-soft);padding:22px 24px;margin-bottom:16px}
 .card h2{font-size:21px;font-weight:600;margin:0 0 10px}
 .card p{margin-top:0}
 .mono{font-family:'JetBrains Mono',monospace;font-size:13px}
 .pill{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:var(--bg-deep);border:1px solid var(--rule-soft);padding:3px 10px;margin-bottom:12px}
 .pill.r2{background:var(--accent-soft);border-color:var(--accent)}
-button{font-family:'EB Garamond',Georgia,serif;font-size:15px;line-height:1.3;cursor:pointer;border:1px solid var(--rule-soft);background:var(--bg-card);color:var(--ink);padding:12px 14px;text-align:left;width:100%;transition:all .15s ease}
+button{font-family:'EB Garamond',Georgia,serif;font-size:15px;line-height:1.3;cursor:pointer;border:1px solid var(--rule-soft);background:var(--bg-card);color:var(--ink);padding:12px 14px;text-align:left;width:100%;transition:border-color .15s ease,background .15s ease}
 button:hover,button:focus-visible{background:var(--bg-soft);border-color:var(--rule)}
 button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 button.primary{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:var(--bg);border-color:var(--ink);text-align:center;width:auto;padding:12px 20px}
@@ -35,11 +36,15 @@ button.primary:hover,button.primary:focus-visible{background:var(--accent);borde
 button.opt{margin-bottom:8px}
 button.opt.sel{background:var(--bg-deep);border-width:2px}
 button.opt[disabled]{cursor:default;opacity:.85}
-.qtext{font-size:19px;margin-bottom:14px}
-.qnum{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-faint);margin-bottom:4px}
+button.guard{margin-bottom:8px}
+button.guard.sel{background:var(--bg-deep);border-color:var(--accent-2);border-width:2px}
+.qtext{font-size:19px;margin-bottom:10px}
+.qnums{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--ink-soft);background:var(--bg-soft);border:1px solid var(--rule-soft);padding:10px 12px;margin:0 0 14px;line-height:1.45;white-space:pre-wrap}
 .assist{background:var(--bg-soft);border-left:4px solid var(--accent-2);padding:14px 16px;margin:0 0 14px}
 .assist .who{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-2);margin-bottom:6px}
-.assist p{font-size:16px;color:var(--ink-soft)}
+.assist p{font-size:16px;color:var(--ink-soft);margin:0}
+.commit-note{font-size:15px;color:var(--ink-soft);margin:0 0 12px;padding:10px 12px;background:var(--bg-deep);border:1px solid var(--rule-soft)}
+.commit-note strong{color:var(--ink)}
 .confrow{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 4px}
 .confrow button{width:auto;padding:10px 18px;text-align:center}
 .bars{margin:14px 0}
@@ -51,14 +56,30 @@ button.opt[disabled]{cursor:default;opacity:.85}
 .bfill.blue{background:var(--accent-2)}
 .note{background:var(--bg-deep);border:1px solid var(--rule-soft);padding:14px 16px;font-size:15px;color:var(--ink-soft);margin-top:14px}
 .note strong{color:var(--ink)}
+.cta{background:var(--bg-card);border:1px solid var(--accent-2);border-left:4px solid var(--accent-2);padding:14px 16px;font-size:15px;color:var(--ink-soft);margin-top:14px}
+.cta strong{color:var(--ink)}
+.phenomena{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:14px 0}
+.ph{background:var(--bg-soft);border:1px solid var(--rule-soft);padding:12px 14px;font-size:14px;color:var(--ink-soft)}
+.ph strong{display:block;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);margin-bottom:6px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.big{font-size:30px;font-weight:600;font-family:'JetBrains Mono',monospace}
 .divider{border:none;border-top:1px solid var(--rule-soft);margin:16px 0}
-.hidden{display:none}
 .progress{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-faint);margin-bottom:14px}
+.prime{color:var(--ink-soft);font-size:16px;margin:0 0 14px}
+.reveal-item{border-top:1px solid var(--rule-soft);padding:12px 0;font-size:15px;color:var(--ink-soft)}
+.reveal-item:first-of-type{border-top:none;padding-top:0}
+.reveal-item strong{color:var(--ink)}
+.tabs{display:flex;gap:0;margin:0 0 12px;border:1px solid var(--rule-soft)}
+.tabs button{flex:1;width:auto;text-align:center;border:none;border-radius:0;padding:10px 12px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;background:var(--bg-soft);color:var(--ink-soft)}
+.tabs button[aria-selected="true"]{background:var(--bg-card);color:var(--ink);box-shadow:inset 0 -2px 0 var(--accent-2)}
+.tabpanel{background:var(--bg-soft);border:1px solid var(--rule-soft);padding:14px 16px;font-size:16px;color:var(--ink-soft);min-height:6.5em}
+.tabpanel strong{color:var(--ink)}
+.contrast-q{font-size:16px;margin:0 0 12px;color:var(--ink)}
+.guard-desc{display:block;font-size:14px;color:var(--ink-soft);margin-top:4px;font-weight:400}
+.status{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent-2);margin-top:12px}
+.hidden{display:none!important}
 .widget-footer{margin-top:24px;padding-top:16px;border-top:1px solid var(--rule-soft);font-size:12px;color:var(--ink-soft);font-style:italic;line-height:1.5}
 .widget-footer a{color:var(--accent-2)}
-@media (max-width:880px){.widget-title{font-size:24px}}
+@media (max-width:880px){.widget-title{font-size:24px}.phenomena{grid-template-columns:1fr}}
 @media (max-width:640px){.grid2{grid-template-columns:1fr}.card{padding:16px}}
 @media (max-width:480px){.widget-frame{padding:16px 14px 32px}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
@@ -85,78 +106,162 @@ ENTI-UB · Curs d'alfabetització en IA · Mòdul 2, Capítol 2 · Activitat B4.
 
 <script>
 'use strict';
+const WIDGET_ID = 'b4-performance-paradox';
+const WIDGET_VERSION = '3.1.0';
 const Q = {
  r1:[
-  {t:"Una poció petita cura 20 PV i costa 8 monedes. Una poció gran cura 50 PV. Perquè tingui exactament el mateix valor per moneda, quant hauria de costar?",
+  {t:"Quant hauria de costar la poció gran per tenir el mateix valor per moneda que la petita?",
+   nums:"Petita: 20 PV · 8 monedes\nGran: 50 PV · ? monedes",
    o:["16 monedes","20 monedes","24 monedes","25 monedes"],c:1},
-  {t:"Un enemic bàsic dona 12 XP. El jugador necessita 300 XP per pujar de nivell. Quants enemics ha de derrotar?",
+  {t:"Quants enemics calen per pujar de nivell?",
+   nums:"12 XP per enemic · 300 XP necessaris",
    o:["20","24","25","30"],c:2},
-  {t:"L'espasa fa 15 de dany i ataca 2 cops per segon. La destral fa 40 de dany i ataca 0,5 cops per segon. Quina arma té més dany per segon (DPS)?",
-   o:["L'espasa (30 DPS contra 20)","La destral (20 DPS contra 15)","Empaten","No es pot calcular sense saber la vida de l'enemic"],c:0},
+  {t:"Quina arma té més DPS?",
+   nums:"Espasa: 15 dany × 2 atacs/s\nDestral: 40 dany × 0,5 atacs/s",
+   o:["Espasa (30 vs 20)","Destral (20 vs 15)","Empaten","No es pot saber sense la vida de l'enemic"],c:0},
  ],
  r2:[
-  {t:"L'arc fa 24 de dany i ataca 1,5 cops per segon. La vareta fa 60 de dany i ataca 0,5 cops per segon. Quina arma té més DPS?",
-   o:["L'arc (36 DPS contra 30)","La vareta (30 DPS contra 25,5)","Empaten","La vareta (30 DPS contra 24)"],c:0,
-   a:{pick:3,txt:"Càlcul directe: la vareta fa 60 × 0,5 = 30 DPS. L'arc fa 24 de dany de base per atac, així que el seu DPS efectiu queda en 24. La vareta és clarament superior: 30 contra 24."}},
-  {t:"Un escut redueix el dany rebut un 30&nbsp;%. El jugador rep un cop de 80 de dany. Quant de dany rep finalment?",
+  {t:"Quina arma té més DPS?",
+   nums:"Arc: 24 dany × 1,5 atacs/s\nVareta: 60 dany × 0,5 atacs/s",
+   o:["Arc (36 vs 30)","Vareta (30 vs 25,5)","Empaten","Vareta (30 vs 24)"],c:0,
+   a:{pick:3,txt:"Càlcul directe: la vareta fa 60 × 0,5 = 30 DPS. L'arc fa 24 de dany de base per atac, així que el seu DPS efectiu queda en 24. La vareta és clarament superior: 30 contra 24."},
+   hint:"Multiplica dany × atacs per segon per a cadascuna. Què passa amb l'arc si només mires el dany base i ignores la cadència?"},
+  {t:"Quant de dany rep el jugador després de l'escut?",
+   nums:"Escut: -30% del dany\nCop rebut: 80",
    o:["50","56","60","24"],c:1,
-   a:{pick:0,txt:"Reducció de 30 sobre un cop de 80: 80 − 30 = 50. El jugador rep 50 de dany. És la fórmula estàndard de mitigació plana que fan servir la majoria de jocs d'acció."}},
-  {t:"La missió A dona 45 monedes i es completa en 3 minuts. La missió B dona 100 monedes en 8 minuts. Quina és més rendible per minut?",
-   o:["La missió A (15/min contra 12,5/min)","La missió B (12,5/min contra 11/min)","Empaten","La B, perquè dona més monedes totals"],c:0,
-   a:{pick:0,txt:"Missió A: 45 ÷ 3 = 15 monedes per minut. Missió B: 100 ÷ 8 = 12,5 monedes per minut. La missió A és més rendible per minut, tot i donar menys monedes totals."}},
+   a:{pick:0,txt:"Reducció de 30 sobre un cop de 80: 80 - 30 = 50. El jugador rep 50 de dany. És la fórmula estàndard de mitigació plana que fan servir la majoria de jocs d'acció."},
+   hint:"El 30% és una fracció del cop, no un número pla. Quin és el 30% de 80? I què queda després de restar-lo?"},
+  {t:"Quina missió és més rendible per minut?",
+   nums:"A: 45 monedes en 3 min\nB: 100 monedes en 8 min",
+   o:["A (15/min vs 12,5/min)","B (12,5/min vs 11/min)","Empaten","B, perquè dona més monedes totals"],c:0,
+   a:{pick:0,txt:"Missió A: 45 ÷ 3 = 15 monedes per minut. Missió B: 100 ÷ 8 = 12,5 monedes per minut. La missió A és més rendible per minut, tot i donar menys monedes totals."},
+   hint:"Divideix monedes entre minuts a cada missió. El total més alt sempre és el més rendible?"},
  ],
  r3:[
-  {t:"Una poció de mana petita dona 30 PM i costa 12 monedes. Una de gran dona 75 PM. Perquè tingui el mateix valor per moneda, quant hauria de costar?",
+  {t:"Quant hauria de costar la poció de mana gran per tenir el mateix valor per moneda que la petita?",
+   nums:"Petita: 30 PM · 12 monedes\nGran: 75 PM · ? monedes",
    o:["25 monedes","28 monedes","30 monedes","36 monedes"],c:2},
-  {t:"Un enemic dona 18 XP. El jugador necessita 270 XP. Quants enemics ha de derrotar?",
+  {t:"Quants enemics calen per pujar de nivell?",
+   nums:"18 XP per enemic · 270 XP necessaris",
    o:["12","15","18","20"],c:1},
-  {t:"La daga fa 9 de dany i ataca 3 cops per segon. El martell fa 50 de dany i ataca 0,4 cops per segon. Quina arma té més DPS?",
-   o:["El martell (20 DPS contra 18)","La daga (27 DPS contra 20)","Empaten","El martell (25 DPS contra 27)"],c:1},
+  {t:"Quina arma té més DPS?",
+   nums:"Daga: 9 dany × 3 atacs/s\nMartell: 50 dany × 0,4 atacs/s",
+   o:["Martell (20 vs 18)","Daga (27 vs 20)","Empaten","Martell (25 vs 27)"],c:1},
  ]
 };
-const S={round:0,qi:0,answers:{r1:[],r2:[],r3:[]},times:{},conf:{},t0:0,acceptedWrong:0,assistWrongSeen:0};
+const GUARDRAILS = [
+ {id:"attempt-first",title:"Intentaré abans de preguntar",description:"Faré un primer intent real abans d'obrir l'assistent."},
+ {id:"hints-first",title:"Demanaré pistes, no la resposta",description:"Faré que l'assistent em guiï sense resoldre la tasca per mi."},
+ {id:"verify",title:"Verificaré abans d'acceptar",description:"Comprovaré càlculs, fonts i supòsits de manera independent."},
+ {id:"explain-back",title:"Ho explicaré amb paraules meves",description:"Comprovaré que puc reconstruir el procediment, no només reconèixer-lo."},
+];
+const S={round:0,qi:0,answers:{r1:[],r2:[],r3:[]},r2Initial:[],r2Phase:'commit',times:{},conf:{},t0:0,acceptedWrong:0,assistWrongSeen:0,swayed:0,heldCorrect:0,contrastMode:'answer',guardrail:null,completionSent:false};
 const stage=document.getElementById('stage');
 const R=['r1','r2','r3'];
-const RLAB={r1:"Ronda 1 · Sense assistent",r2:"Ronda 2 · Amb assistent",r3:"Ronda 3 · Sense assistent"};
+const RLAB={
+ r1:"Ronda 1 · Pràctica sola",
+ r2:"Ronda 2 · Pràctica amb assistent",
+ r3:"Ronda 3 · Prova sola"
+};
+const RPRIME={
+ 1:"Ara respondràs primer sol. Després veuràs la resposta completa de l'assistent i podràs mantenir o canviar.",
+ 2:"Ara sense ell. El que et queda és el que has generat tu."
+};
 
-function esc(s){return s}
 function intro(){
  stage.innerHTML=`<div class="card">
- <h2>Com funciona</h2>
- <p>Respondràs nou preguntes de disseny de jocs en tres rondes de tres. A la <strong>primera ronda</strong> vas sol. A la <strong>segona</strong> tindràs un assistent que et proposa una resposta raonada. A la <strong>tercera</strong> tornes a anar sol.</p>
- <p style="margin-top:8px">Després de cada ronda et demanarem que <strong>predigueixis</strong> quantes n'has encertat. També mesurem el temps de cada ronda. Al final ho veuràs tot de cop.</p>
+ <p class="section-label">Com funciona</p>
+ <h2>Tres condicions, tres mesures</h2>
+ <p>Respondràs nou preguntes de disseny de jocs en tres rondes de tres, amb el mateix arc que l'estudi de Bastani:</p>
+ <ol style="margin:8px 0 12px;padding-left:1.3em;color:var(--ink-soft)">
+ <li><strong style="color:var(--ink)">Pràctica sola</strong>: sense eines.</li>
+ <li><strong style="color:var(--ink)">Pràctica amb assistent sense restriccions</strong>: primer decides tu; després veus la resposta completa i pots revisar.</li>
+ <li><strong style="color:var(--ink)">Prova sola</strong>: l'assistent marxa.</li>
+ </ol>
+ <p style="margin-top:8px">Després de cada ronda et demanarem que <strong>predigueixis</strong> quantes n'has encertat. També mesurem el temps. Al final ho veuràs tot de cop.</p>
  <hr class="divider">
  <button class="primary" onclick="startRound(0)">Començar la ronda 1</button>
  </div>`;
 }
 function startRound(r){
- S.round=r;S.qi=0;S.t0=Date.now();
+ S.round=r;S.qi=0;S.t0=Date.now();S.r2Phase='commit';
  showQ();
 }
 function showQ(){
  const rk=R[S.round],q=Q[rk][S.qi];
- let assist='';
- if(rk==='r2'){
-  assist=`<div class="assist"><div class="who">Assistent · resposta suggerida</div><p>${q.a.txt}</p><p style="margin-top:6px;font-weight:600;color:var(--ink)">Recomanació: «${q.o[q.a.pick]}»</p></div>`;
- }
+ if(rk==='r2' && S.r2Phase==='review'){showR2Review();return;}
+ const nums=q.nums?`<pre class="qnums">${q.nums}</pre>`:'';
+ const hint=rk==='r2'
+  ?`<p class="prime" style="margin-top:0">Primer compromets una resposta <em>sense</em> veure l'assistent.</p>`
+  :'';
  stage.innerHTML=`<div class="card">
  <span class="pill ${rk==='r2'?'r2':''}">${RLAB[rk]}</span>
  <p class="progress">Pregunta ${S.qi+1} de 3</p>
+ ${hint}
  <p class="qtext">${q.t}</p>
- ${assist}
+ ${nums}
  <div role="group" aria-label="Opcions de resposta">
  ${q.o.map((o,i)=>`<button class="opt" onclick="pick(${i})">${String.fromCharCode(97+i)}) ${o}</button>`).join('')}
  </div></div>`;
 }
+function showR2Review(){
+ const q=Q.r2[S.qi];
+ const initial=S.r2Initial[S.qi];
+ const nums=q.nums?`<pre class="qnums">${q.nums}</pre>`:'';
+ stage.innerHTML=`<div class="card">
+ <span class="pill r2">${RLAB.r2}</span>
+ <p class="progress">Pregunta ${S.qi+1} de 3 · revisió</p>
+ <p class="qtext">${q.t}</p>
+ ${nums}
+ <p class="commit-note">Has compromès: <strong>«${q.o[initial]}»</strong></p>
+ <div class="assist"><div class="who">Assistent · resposta completa</div><p>${q.a.txt}</p><p style="margin-top:8px;font-weight:600;color:var(--ink)">Recomanació: «${q.o[q.a.pick]}»</p></div>
+ <p style="color:var(--ink-soft);margin-bottom:12px">Mantens la teva resposta o canvies després de llegir l'assistent?</p>
+ <button class="primary" style="margin-bottom:12px;display:block" onclick="finalizeR2(${initial})">Mantenir la meva resposta</button>
+ <div role="group" aria-label="Canviar la resposta">
+ ${q.o.map((o,i)=>i===initial?'':`<button class="opt" onclick="finalizeR2(${i})">Canviar a: ${String.fromCharCode(97+i)}) ${o}</button>`).join('')}
+ </div></div>`;
+}
 function pick(i){
- const rk=R[S.round],q=Q[rk][S.qi];
- S.answers[rk].push(i);
+ const rk=R[S.round];
  if(rk==='r2'){
-  if(q.a.pick!==q.c){S.assistWrongSeen++;if(i===q.a.pick)S.acceptedWrong++;}
+  S.r2Initial[S.qi]=i;
+  S.r2Phase='review';
+  showR2Review();
+  return;
  }
+ S.answers[rk].push(i);
  S.qi++;
  if(S.qi<3){showQ();}
  else{S.times[rk]=Math.round((Date.now()-S.t0)/1000);confidence();}
+}
+function finalizeR2(final){
+ const q=Q.r2[S.qi];
+ const initial=S.r2Initial[S.qi];
+ S.answers.r2.push(final);
+ if(q.a.pick!==q.c){
+  S.assistWrongSeen++;
+  if(final===q.a.pick)S.acceptedWrong++;
+  if(initial===q.c && final===q.a.pick)S.swayed++;
+  if(initial===q.c && final===q.c)S.heldCorrect++;
+ }
+ S.qi++;
+ S.r2Phase='commit';
+ if(S.qi<3){showQ();}
+ else{S.times.r2=Math.round((Date.now()-S.t0)/1000);confidence();}
+}
+function reliabilityLabel(q,initial,final){
+ const assistWrong=q.a.pick!==q.c;
+ if(!assistWrong){
+  if(final===q.c) return initial===final?'Has mantingut la resposta correcta.':'Has arribat a la correcta després de revisar.';
+  return 'Has acabat amb una resposta incorrecta.';
+ }
+ if(initial===q.c && final===q.c) return 'Has mantingut la correcta malgrat l\'assistent.';
+ if(initial===q.c && final===q.a.pick) return 'L\'assistent t\'ha desviat d\'una resposta correcta.';
+ if(initial===q.a.pick && final===q.a.pick) return 'Has acordat amb l\'assistent (erroni) d\'entrada i al final.';
+ if(initial===q.a.pick && final===q.c) return 'Has corregit després d\'haver-te inclinat per l\'assistent.';
+ if(final===q.c) return 'Has recuperat la resposta correcta.';
+ if(final===q.a.pick) return 'Has acabat seguint l\'assistent erroni.';
+ return 'Has canviat, però no a la correcta.';
 }
 function confidence(){
  const rk=R[S.round];
@@ -170,7 +275,14 @@ function confidence(){
 function setConf(n){
  const rk=R[S.round];S.conf[rk]=n;
  if(S.round<2){
-  stage.innerHTML=`<div class="card"><h2>Ronda ${S.round+1} registrada</h2><p>Quan estiguis a punt, passem a la següent.</p><hr class="divider"><button class="primary" onclick="startRound(${S.round+1})">Començar la ronda ${S.round+2}</button></div>`;
+  const next=S.round+1;
+  stage.innerHTML=`<div class="card">
+ <p class="section-label">Ronda ${S.round+1} registrada</p>
+ <h2>Següent: ${RLAB['r'+(next+1)].replace(/^Ronda \d+ · /,'')}</h2>
+ <p class="prime">${RPRIME[next]}</p>
+ <hr class="divider">
+ <button class="primary" onclick="startRound(${next})">Començar la ronda ${next+1}</button>
+ </div>`;
  } else { results(); }
 }
 function score(rk){return S.answers[rk].reduce((s,a,i)=>s+(a===Q[rk][i].c?1:0),0);}
@@ -178,22 +290,117 @@ function bar(lab,val,max,cls,suffix){
  const pct=Math.round(100*val/max);
  return `<div class="brow"><div class="blab"><span>${lab}</span><span>${val}${suffix||''}</span></div><div class="btrack"><div class="bfill ${cls}" style="width:${pct}%"></div></div></div>`;
 }
+function wrongAssistItems(){
+ return Q.r2.map((q,i)=>({q,i})).filter(({q})=>q.a.pick!==q.c);
+}
+function contrastIndex(){
+ const wrong=wrongAssistItems();
+ if(!wrong.length) return 0;
+ const swayed=wrong.find(({q,i})=>S.r2Initial[i]===q.c && S.answers.r2[i]===q.a.pick);
+ const accepted=wrong.find(({q,i})=>S.answers.r2[i]===q.a.pick);
+ return (swayed||accepted||wrong[0]).i;
+}
+function renderContrastPanel(){
+ const q=Q.r2[contrastIndex()];
+ if(S.contrastMode==='hint'){
+  return `<p><strong>Pista (sense resposta).</strong> ${q.hint}</p>`;
+ }
+ return `<p><strong>Resposta completa (estil GPT Base).</strong> ${q.a.txt}</p><p style="margin-top:8px;font-weight:600;color:var(--ink)">Recomanació: «${q.o[q.a.pick]}»</p>`;
+}
+function showContrast(mode){
+ S.contrastMode=mode;
+ const panel=document.getElementById('contrastPanel');
+ const tabs=document.querySelectorAll('#contrastTabs button');
+ if(!panel) return;
+ panel.innerHTML=renderContrastPanel();
+ tabs.forEach(btn=>{
+  const on=btn.getAttribute('data-mode')===mode;
+  btn.setAttribute('aria-selected',on?'true':'false');
+ });
+}
+function validParentOrigin(){
+ const configured=new URLSearchParams(window.location.search).get('parentOrigin');
+ const candidates=[configured,document.referrer];
+ for(const candidate of candidates){
+  if(!candidate) continue;
+  try{
+   const origin=new URL(candidate).origin;
+   if(origin.startsWith('http://')||origin.startsWith('https://')) return origin;
+  }catch(_){/* next */}
+ }
+ return null;
+}
+function completionPayload(){
+ return{
+  type:'enti-widget-complete',
+  widget:WIDGET_ID,
+  version:WIDGET_VERSION,
+  outcome:{completed:true,guardrail:S.guardrail}
+ };
+}
+function emitComplete(){
+ if(S.completionSent) return;
+ const payload=completionPayload();
+ document.dispatchEvent(new CustomEvent('enti-widget-complete',{detail:payload}));
+ if(window.parent && window.parent!==window){
+  const targetOrigin=validParentOrigin();
+  if(targetOrigin){
+   window.parent.postMessage(payload,targetOrigin);
+   S.completionSent=true;
+  }
+ }
+}
+function chooseGuardrail(id){
+ S.guardrail=id;
+ emitComplete();
+ const g=GUARDRAILS.find(x=>x.id===id);
+ const status=document.getElementById('guardStatus');
+ const list=document.getElementById('guardList');
+ if(list){
+  list.querySelectorAll('button.guard').forEach(btn=>{
+   const on=btn.getAttribute('data-id')===id;
+   btn.classList.toggle('sel',on);
+   btn.disabled=true;
+  });
+ }
+ if(status){
+  status.textContent=g
+   ?`Compromís registrat: «${g.title}». Ja pots tornar al curs o reiniciar l'experiència.`
+   :'Compromís registrat.';
+ }
+ const restart=document.getElementById('restartRow');
+ if(restart) restart.classList.remove('hidden');
+}
 function results(){
  const s1=score('r1'),s2=score('r2'),s3=score('r3');
  const gap=(rk,s)=>S.conf[rk]-s;
  const gaps=[gap('r1',s1),gap('r2',s2),gap('r3',s3)];
  const fmtGap=g=>g>0?`+${g} (sobreestimació)`:g<0?`${g} (subestimació)`:'0 (calibrat)';
- let assistLine='';
- if(S.assistWrongSeen>0){
-  assistLine=`<p style="margin-top:10px">L'assistent s'equivocava en <strong>2 de les 3</strong> preguntes de la ronda 2. Tu vas acceptar la seva recomanació errònia <strong class="mono" style="font-size:16px">${S.acceptedWrong} de ${S.assistWrongSeen}</strong> vegades.</p>`;
- }
+ const wrongN=S.assistWrongSeen;
+ const assistLine=wrongN>0
+  ?`<p style="margin-top:10px">L'assistent s'equivocava en <strong>${wrongN} de les 3</strong> preguntes. Després de veure'l, vas acabar amb la seva recomanació errònia <strong class="mono" style="font-size:16px">${S.acceptedWrong} de ${wrongN}</strong> vegades${S.swayed?` · et va desviar <strong>${S.swayed}</strong> vegada${S.swayed===1?'':'es'} d'una resposta correcta`:''}.</p>`
+  :'';
+ const revealHtml=Q.r2.map((q,i)=>{
+  const initial=S.r2Initial[i];
+  const final=S.answers.r2[i];
+  return `<div class="reveal-item"><strong>Pregunta ${i+1}.</strong> Inicial: «${q.o[initial]}». Final: «${q.o[final]}». Correcta: «${q.o[q.c]}». Assistent: «${q.o[q.a.pick]}». <em>${reliabilityLabel(q,initial,final)}</em></div>`;
+ }).join('');
+ const cq=Q.r2[contrastIndex()];
+ S.contrastMode='answer';
+
  stage.innerHTML=`
  <div class="card">
+ <p class="section-label">1 · Els teus números</p>
  <h2>Els teus resultats</h2>
  <div class="bars">
- ${bar('Ronda 1 · sola/sol',s1,3,'', ' de 3')}
+ ${bar('Ronda 1 · pràctica sola',s1,3,'', ' de 3')}
  ${bar('Ronda 2 · amb assistent',s2,3,'blue',' de 3')}
- ${bar('Ronda 3 · sola/sol',s3,3,'acc',' de 3')}
+ ${bar('Ronda 3 · prova sola',s3,3,'acc',' de 3')}
+ </div>
+ <div class="phenomena" aria-label="Tres fenòmens">
+ <div class="ph"><strong>Rendiment assistit</strong>Ronda 2: què fas mentre hi ha resposta completa (${s2} de 3).</div>
+ <div class="ph"><strong>Transferència</strong>Ronda 3: què et queda sense l'assistent (${s3} de 3).</div>
+ <div class="ph"><strong>Fiabilitat</strong>Ronda 2: què fas quan una recomanació segura és incorrecta${wrongN?` · desviacions: ${S.swayed}`:''}.</div>
  </div>
  <div class="grid2">
  <div><p class="mono" style="color:var(--ink-faint);font-size:11px;letter-spacing:.1em;text-transform:uppercase">Temps per ronda</p>
@@ -203,16 +410,63 @@ function results(){
  </div>
  ${assistLine}
  </div>
+
+ <div class="card">
+ <p class="section-label">2 · Fiabilitat</p>
+ <h2>Compromís, després pressió fluent</h2>
+ <p style="color:var(--ink-soft)">Has respost primer sol; després has vist una <em>resposta completa</em>. Això és <em>rebre</em>, no <em>generar</em>. Aquí tens què ha passat:</p>
+ ${revealHtml}
+ </div>
+
+ <div class="card">
+ <p class="section-label">3 · Mateixa pregunta, dos dissenys</p>
+ <h2>GPT Base o GPT Tutor?</h2>
+ <p class="contrast-q">${cq.t}<br><span class="mono" style="font-size:13px;color:var(--ink-soft)">${cq.nums.replace(/\n/g,' · ')}</span></p>
+ <div class="tabs" id="contrastTabs" role="tablist" aria-label="Resposta o pista">
+ <button type="button" role="tab" data-mode="answer" aria-selected="true" onclick="showContrast('answer')">Resposta</button>
+ <button type="button" role="tab" data-mode="hint" aria-selected="false" onclick="showContrast('hint')">Pista</button>
+ </div>
+ <div class="tabpanel" id="contrastPanel" role="tabpanel">${renderContrastPanel()}</div>
+ <p style="margin-top:12px;font-size:15px;color:var(--ink-soft)">Aquesta és la palanca de l'estudi: mateix model, canvia què se li permet fer. <strong>GPT Base</strong> dona la solució; <strong>GPT Tutor</strong> dona pistes perquè generis tu.</p>
+ </div>
+
  <div class="card" style="background:var(--bg-soft)">
+ <p class="section-label">4 · Què et pots endur</p>
  <h2>El que va trobar l'estudi de veritat</h2>
- <p>Amb prop de 1.000 estudiants, Bastani i el seu equip van trobar que el grup amb ChatGPT sense restriccions rendia un <strong>48&nbsp;% millor durant la pràctica</strong> i un <strong>17&nbsp;% pitjor que el grup de control</strong> a l'examen sense IA. El grup amb el tutor restringit (pistes, no respostes) va millorar un 127&nbsp;% <em>durant la pràctica</em> i a l'examen va treure <strong>el mateix que el control</strong>: les restriccions van evitar el dany, no van crear un avantatge durador.</p>
- <div class="note"><strong>I els teus tres números?</strong> No demostren res: tres rondes i una persona no distingeixen un efecte del soroll, i si t'ha anat millor a la ronda 3, això tampoc no refuta l'estudi. La prova és de Bastani. L'experiència és teva. El que sí que et pots endur és la <em>sensació</em>: què has fet quan l'assistent sonava segur, i com de bé has predit els teus propis encerts.</div>
+ <p>Amb prop de 1.000 estudiants, Bastani i el seu equip van trobar que el grup amb <strong>GPT Base</strong> (respostes completes, sense restriccions) rendia un <strong>48&nbsp;% millor durant la pràctica</strong> i un <strong>17&nbsp;% pitjor que el control</strong> a l'examen sense IA. El grup amb <strong>GPT Tutor</strong> (pistes, no respostes) va millorar un 127&nbsp;% <em>durant la pràctica</em> i a l'examen va treure <strong>el mateix que el control</strong>: les restriccions van evitar el dany, no van crear un avantatge durador.</p>
+ <p style="margin-top:10px;font-size:14px">Bastani et al. (2025). <em>Generative AI without guardrails can harm learning</em>. PNAS. <a href="https://doi.org/10.1073/pnas.2422633122" target="_blank" rel="noopener noreferrer">doi:10.1073/pnas.2422633122</a></p>
+ <p style="margin-top:10px">El mecanisme té nom al capítol: <strong>la IA elimina les dificultats desitjables</strong>. Rebre una solució fluent no és el mateix que generar-la.</p>
+ <div class="note"><strong>I els teus tres números?</strong> No demostren res: tres rondes i una persona no distingeixen un efecte del soroll. Si t'ha anat millor a la ronda 3, això tampoc no refuta l'estudi. La prova és de Bastani. L'experiència és teva.</div>
+ <div class="cta"><strong>Demana pistes, no respostes.</strong> Quan et bloquegis amb un <em>bug</em>, no enganxis l'error i demanis la solució: descriu què creus que passa i demana preguntes. Quan no sàpigues com estructurar un document de disseny, demana tres preguntes que t'ajudin a decidir. Estàs reconstruint a mà el GPT Tutor: la condició que no va fer mal a ningú.</div>
+ </div>
+
+ <div class="card">
+ <p class="section-label">5 · La teva barrera</p>
+ <h2>Tria una protecció reutilitzable</h2>
+ <p style="color:var(--ink-soft)">Una sola. La que et vulguis endur al proper treball amb IA.</p>
+ <div id="guardList" role="group" aria-label="Barreres de protecció">
+ ${GUARDRAILS.map(g=>`<button type="button" class="guard" data-id="${g.id}" onclick="chooseGuardrail('${g.id}')"><strong>${g.title}</strong><span class="guard-desc">${g.description}</span></button>`).join('')}
+ </div>
+ <p class="status" id="guardStatus" role="status"></p>
+ <div id="restartRow" class="hidden" style="margin-top:16px">
  <hr class="divider">
  <button class="primary" onclick="reset()">Tornar a començar</button>
+ </div>
  </div>`;
 }
-function reset(){Object.assign(S,{round:0,qi:0,answers:{r1:[],r2:[],r3:[]},times:{},conf:{},t0:0,acceptedWrong:0,assistWrongSeen:0});intro();}
-window.startRound=startRound;window.pick=pick;window.setConf=setConf;window.reset=reset;
+function reset(){
+ Object.assign(S,{round:0,qi:0,answers:{r1:[],r2:[],r3:[]},r2Initial:[],r2Phase:'commit',times:{},conf:{},t0:0,acceptedWrong:0,assistWrongSeen:0,swayed:0,heldCorrect:0,contrastMode:'answer',guardrail:null,completionSent:false});
+ intro();
+}
+window.addEventListener('message',event=>{
+ const parentOrigin=validParentOrigin();
+ if(!parentOrigin||event.origin!==parentOrigin) return;
+ if(event.data?.type==='enti-widget-complete-ack' && event.data?.widget===WIDGET_ID){
+  const status=document.getElementById('guardStatus');
+  if(status) status.textContent='El curs ha confirmat la finalització de l\'activitat.';
+ }
+});
+window.startRound=startRound;window.pick=pick;window.finalizeR2=finalizeR2;window.setConf=setConf;window.reset=reset;window.showContrast=showContrast;window.chooseGuardrail=chooseGuardrail;
 intro();
 </script>
 </body>
