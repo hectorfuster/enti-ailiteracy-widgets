@@ -106,6 +106,16 @@ html, body {
 
 .widget-intro strong { color: var(--ink); font-weight: 600; }
 
+.widget-intro a { color: var(--accent-2); }
+
+.widget-intro code,
+.loader code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.9em;
+  background: var(--bg-deep);
+  padding: 1px 4px;
+}
+
 .loader {
   text-align: center;
   padding: 80px 20px;
@@ -265,7 +275,7 @@ html, body {
 
 .bar-fill {
   height: 100%;
-  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: width 0.2s ease;
 }
 
 .bar-row[data-lang="ca"] .bar-fill { background: var(--flag-cat); }
@@ -288,12 +298,14 @@ html, body {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--ink-soft);
-  margin: 0 0 12px;
+  margin: 0 0 10px;
   padding-bottom: 6px;
   border-bottom: 1px solid var(--rule-soft);
   display: flex;
   justify-content: space-between;
   align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .section-label .section-hint {
@@ -304,6 +316,285 @@ html, body {
   font-size: 12px;
   font-style: italic;
   font-family: 'EB Garamond', Georgia, serif;
+}
+
+.section-note {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  margin: 0 0 12px;
+  max-width: 720px;
+}
+
+.section-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+
+.preset-btn,
+.reset-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--rule-soft);
+  background: var(--bg-card);
+  color: var(--ink-soft);
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.preset-btn:hover,
+.reset-btn:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.preset-btn[aria-pressed="true"] {
+  border-color: var(--ink);
+  background: var(--bg-deep);
+  color: var(--ink);
+}
+
+.reset-btn {
+  margin-left: auto;
+  border-style: dashed;
+  font-weight: 500;
+}
+
+.reset-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  border-color: var(--rule-soft);
+  color: var(--ink-faint);
+}
+
+.reset-btn:disabled:hover {
+  border-color: var(--rule-soft);
+  color: var(--ink-faint);
+}
+
+.hero-preset-link {
+  appearance: none;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  font-weight: 600;
+  color: var(--accent-2);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.hero-preset-link:hover {
+  color: var(--accent);
+}
+
+.hero-preset-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.predict-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  padding: 16px 18px;
+  margin-bottom: 16px;
+}
+
+.predict-panel[hidden] {
+  display: none !important;
+}
+
+.predict-question {
+  font-size: 16px;
+  margin: 0 0 12px;
+  color: var(--ink);
+}
+
+.predict-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.predict-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--rule-soft);
+  background: var(--bg-soft);
+  color: var(--ink-soft);
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.predict-btn:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.predict-skip {
+  margin-left: auto;
+  border-style: dashed;
+  background: transparent;
+}
+
+.predict-feedback {
+  margin: 10px 0 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+.predict-feedback:empty {
+  display: none;
+}
+
+.hero.is-veiled .hero-figure-num,
+.hero.is-veiled .bar-value,
+.hero.is-veiled .bar-fill {
+  filter: blur(6px);
+  user-select: none;
+}
+
+.hero.is-veiled .hero-figure-caption,
+.hero.is-veiled .hero-figure-secondary {
+  opacity: 0.85;
+}
+
+.results-veiled .evidence-count,
+.results-veiled .evidence-count-label,
+.results-veiled .evidence-tokens,
+.results-veiled .evidence-stats {
+  display: none !important;
+}
+
+.results-veiled .evidence-body::after {
+  content: 'Els comptes i les peces de token es mostraran quan facis la predicció (o saltis).';
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--ink-faint);
+  line-height: 1.4;
+}
+
+.predict-panel {
+  margin-top: 8px;
+  margin-bottom: 20px;
+}
+
+.honesty-note {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  margin: 0 0 14px;
+  max-width: 720px;
+}
+
+.reflection {
+  background: var(--bg-card);
+  border: 1px solid var(--rule-soft);
+  margin: 0 0 28px;
+  padding: 0;
+}
+
+.reflection > summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 12px 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  border-bottom: 1px solid transparent;
+}
+
+.reflection[open] > summary {
+  border-bottom-color: var(--rule-soft);
+}
+
+.reflection > summary::-webkit-details-marker {
+  display: none;
+}
+
+.reflection-body {
+  padding: 14px 16px 16px;
+}
+
+.reflection-prompt {
+  margin: 0 0 12px;
+  font-size: 15px;
+  color: var(--ink);
+}
+
+.reflection-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+
+.reflection-options label {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.reflection-options input {
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+.reflection-check {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--ink);
+  background: var(--bg-card);
+  color: var(--ink);
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.reflection-check:hover {
+  background: var(--bg-deep);
+}
+
+.reflection-feedback {
+  margin: 10px 0 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
+.reflection-feedback.is-correct {
+  color: var(--accent-2);
+}
+
+.reflection-feedback.is-wrong {
+  color: var(--accent-deep);
 }
 
 .evidence-grid {
@@ -416,13 +707,28 @@ html, body {
 
 .evidence-stats {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
   letter-spacing: 0.06em;
   color: var(--ink-soft);
   padding-top: 4px;
   border-top: 1px dashed var(--rule-soft);
+  min-height: 1.4em;
+}
+
+.evidence-select,
+.workbench-select {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.evidence-select:empty,
+.workbench-select:empty {
+  display: none;
 }
 
 /* ---------------- TOKEN CHIPS ---------------- */
@@ -435,6 +741,7 @@ html, body {
   white-space: pre;
   border-top: 1px solid var(--token-line);
   border-bottom: 1px solid var(--token-line);
+  cursor: pointer;
 }
 
 .token.alt { background: var(--token-bg-b); }
@@ -454,7 +761,25 @@ html, body {
   padding: 1px 4px;
 }
 
+.token.is-selected {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
 .workbench-tokens .token { font-size: 16px; }
+
+.workbench-hint {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  margin: 0 0 4px;
+}
+
+.evidence-input,
+.workbench-input {
+  overflow-y: auto;
+  max-height: 180px;
+}
 
 /* ---------------- WORKBENCH ---------------- */
 
@@ -544,6 +869,21 @@ html, body {
   padding-top: 10px;
   border-top: 1px solid var(--rule-soft);
   font-family: 'JetBrains Mono', monospace;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.workbench-select {
+  display: block;
+  margin-top: 6px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.workbench-select:empty {
+  display: none;
 }
 
 .workbench-count {
@@ -599,6 +939,7 @@ html, body {
   .evidence-grid { grid-template-columns: 1fr; gap: 10px; }
   .workbench-row { grid-template-columns: 1fr; }
   .widget-title { font-size: 24px; }
+  .reset-btn { margin-left: 0; }
 }
 
 @media (max-width: 480px) {
@@ -631,11 +972,11 @@ html, body {
   </header>
 
   <div class="widget-intro">
-    <strong>Com funciona aquesta eina.</strong> La tokenització la fa el tokenitzador real que utilitzen GPT-4o, GPT-5 i la sèrie o
-    (codificació o200k_base). Edita les caixes per veure la diferència de cost canviar en directe. La diferència és modesta per missatge,
-    però es multiplica ràpidament en producció. La mateixa lògica val per al límit de context: els models tenen una finestra màxima de tokens,
-    i un mateix document hi cabrà menys si està en català que si està en anglès. Si treballes amb un MLG en un projecte de joc,
-    val la pena tenir-ho present i per això projectes com <a href="https://github.com/juliusbrussee/caveman" target="_blank" rel="noopener">caveman</a> són tant populars.
+    <strong>Com funciona aquesta eina.</strong>
+    Els tokenitzadors dels grans MLG estan optimitzats per a l'anglès, que domina les dades d'entrenament.
+    La mateixa idea en una altra llengua sovint necessitarà més tokens — i el cost (i la finestra de context) es factura per token.
+    Aquesta eina fa servir la codificació real <code>o200k_base</code> (GPT-4o, GPT-5 i la sèrie o): edita les caixes i veuràs la diferència en directe.
+    Si treballes amb un MLG en un projecte de joc, val la pena tenir-ho present: projectes com <a href="https://github.com/juliusbrussee/caveman" target="_blank" rel="noopener">caveman</a> existeixen precisament per reduir tokens sense perdre la idea.
   </div>
 
   <div id="loaderArea" class="loader">
@@ -649,12 +990,40 @@ html, body {
 
   <div id="mainContent" style="display: none;">
 
-    <section class="hero" aria-label="Comparació general entre les llengües">
-      <div class="hero-figure">
+    <section id="evidenceSection" class="results-veiled" aria-label="Casos en les tres llengües">
+      <div class="section-label">
+        <span>La mateixa idea, tres llengües</span>
+        <span class="section-hint">llegeix i compara</span>
+      </div>
+      <p class="section-note" id="sectionNote">
+        Llegeix les tres versions de la mateixa idea. Després predieu quina tindrà més tokens —
+        encara no es mostren els comptes ni les peces.
+      </p>
+      <div class="section-toolbar" id="presetToolbar" role="group" aria-label="Exemples preparats"></div>
+      <p class="honesty-note" id="honestyNote">
+        La diferència depèn del text concret i de la codificació: no és una llei del català.
+        Canvia d'exemple o edita les caixes per veure com el percentatge es mou.
+      </p>
+      <div class="evidence-grid" id="evidenceGrid"></div>
+    </section>
+
+    <section class="predict-panel" id="predictPanel" aria-label="Predicció abans de veure els comptes">
+      <p class="predict-question" id="predictQuestion">Has llegit les tres versions. Quina creus que tindrà més tokens?</p>
+      <div class="predict-actions" id="predictActions" role="group" aria-label="Tria una llengua">
+        <button type="button" class="predict-btn" data-guess="ca">Català</button>
+        <button type="button" class="predict-btn" data-guess="en">Anglès</button>
+        <button type="button" class="predict-btn" data-guess="es">Castellà</button>
+        <button type="button" class="predict-btn predict-skip" id="predictSkip">Salta</button>
+      </div>
+      <p class="predict-feedback" id="predictFeedback" aria-live="polite"></p>
+    </section>
+
+    <section class="hero is-veiled" id="heroSection" hidden aria-label="Comparació general entre les llengües">
+      <div class="hero-figure" aria-live="polite">
         <div class="hero-eyebrow">El català davant l'anglès</div>
         <div class="hero-figure-num" id="heroNum">+0&#8201;%</div>
         <p class="hero-figure-caption" id="heroCaption">
-          Modifica les caixes de baix per veure la diferència en directe.
+          Fes una predicció a dalt (o salta) per revelar la comparació.
         </p>
         <p class="hero-figure-secondary" id="heroSecondary"></p>
       </div>
@@ -665,17 +1034,34 @@ html, body {
       </div>
     </section>
 
-    <section aria-label="Casos en les tres llengües">
-      <div class="section-label">
-        <span>La mateixa idea, tres llengües</span>
-        <span class="section-hint">edita per explorar</span>
-      </div>
-      <div class="evidence-grid" id="evidenceGrid"></div>
-    </section>
-
     <section aria-label="Caixa lliure">
       <div class="workbench" id="workbench"></div>
     </section>
+
+    <details class="reflection" id="reflection">
+      <summary>Reflexió ràpida (opcional)</summary>
+      <div class="reflection-body">
+        <p class="reflection-prompt">Què explica millor el que has vist?</p>
+        <form id="reflectionForm">
+          <div class="reflection-options">
+            <label>
+              <input type="radio" name="reflection" value="dependent">
+              <span>El cost en tokens depèn del text concret i de com el tokenitzador parteix cada llengua.</span>
+            </label>
+            <label>
+              <input type="radio" name="reflection" value="always">
+              <span>El català sempre costa més tokens, passi el que passi.</span>
+            </label>
+            <label>
+              <input type="radio" name="reflection" value="word">
+              <span>Un token és el mateix que una paraula.</span>
+            </label>
+          </div>
+          <button type="submit" class="reflection-check">Comprova</button>
+          <p class="reflection-feedback" id="reflectionFeedback" aria-live="polite"></p>
+        </form>
+      </div>
+    </details>
 
   </div>
 
@@ -683,6 +1069,7 @@ html, body {
     ENTI-UB · Curs d'alfabetització en IA · Mòdul 1, Capítol 2 · Activitat B2.
     Tokenització feta amb la biblioteca <a href="https://github.com/niieani/gpt-tokenizer" target="_blank" rel="noopener">gpt-tokenizer</a> (codificació o200k_base, la que fan servir GPT-4o, GPT-5 i la sèrie o).
     El cost en tokens es paga dues vegades: una a l'entrada (el que envies al model) i una altra a la sortida (la resposta que reps).
+    Tot el text que escrius es processa només al teu navegador: no s'envia enlloc.
   </footer>
 
 </div>
@@ -690,22 +1077,31 @@ html, body {
 <script src="o200k_base.js"></script>
 <script>
 
-const SEEDS = [
-  {
-    lang: 'ca',
-    label: 'Català',
-    text: 'El meu nom és Anna i vinc de Barcelona. Tinc vint anys i estudio disseny de videojocs.',
+const PRESETS = {
+  game: {
+    id: 'game',
+    label: 'Petició de joc',
+    texts: {
+      ca: 'Necessito un sistema de diàleg per a un joc d\'aventura ambientat a Barcelona. Els personatges han de parlar en català natural, amb expressions col·loquials, i adaptar-se a les decisions del jugador sense trencar la immersió narrativa.',
+      en: 'I need a dialogue system for an adventure game set in Barcelona. Characters should speak natural Catalan, with colloquial expressions, and adapt to the player\'s decisions without breaking narrative immersion.',
+      es: 'Necesito un sistema de diálogo para un juego de aventura ambientado en Barcelona. Los personajes deben hablar en catalán natural, con expresiones coloquiales, y adaptarse a las decisiones del jugador sin romper la inmersión narrativa.',
+    },
   },
-  {
-    lang: 'en',
-    label: 'English',
-    text: 'My name is Anna and I come from Barcelona. I am twenty years old and I study video game design.',
+  short: {
+    id: 'short',
+    label: 'Frase curta',
+    texts: {
+      ca: 'El meu nom és Anna i vinc de Barcelona. Tinc vint anys i estudio disseny de videojocs.',
+      en: 'My name is Anna and I come from Barcelona. I am twenty years old and I study video game design.',
+      es: 'Me llamo Ana y vengo de Barcelona. Tengo veinte años y estudio diseño de videojuegos.',
+    },
   },
-  {
-    lang: 'es',
-    label: 'Castellano',
-    text: 'Me llamo Ana y vengo de Barcelona. Tengo veinte años y estudio diseño de videojuegos.',
-  },
+};
+
+const LANG_META = [
+  { lang: 'ca', label: 'Català' },
+  { lang: 'en', label: 'English' },
+  { lang: 'es', label: 'Castellano' },
 ];
 
 const FREE_SEED = {
@@ -714,12 +1110,19 @@ const FREE_SEED = {
   text: 'Una mica de pa amb tomàquet i una mica d\'oli d\'oliva.',
 };
 
+const DEFAULT_PRESET = 'game';
+
 const state = {
+  activePreset: DEFAULT_PRESET,
+  lastPreset: DEFAULT_PRESET,
+  comparisonRevealed: false,
+  revealedPresets: {},
+  lastGuess: null,
   inputs: {
-    ca:   { text: SEEDS[0].text, count: 0, pieces: [] },
-    en:   { text: SEEDS[1].text, count: 0, pieces: [] },
-    es:   { text: SEEDS[2].text, count: 0, pieces: [] },
-    free: { text: FREE_SEED.text, count: 0, pieces: [] },
+    ca:   { text: PRESETS.game.texts.ca, count: 0, pieces: [], ids: [] },
+    en:   { text: PRESETS.game.texts.en, count: 0, pieces: [], ids: [] },
+    es:   { text: PRESETS.game.texts.es, count: 0, pieces: [], ids: [] },
+    free: { text: FREE_SEED.text, count: 0, pieces: [], ids: [] },
   },
   encoder: null,
 };
@@ -747,14 +1150,15 @@ function escapeHtml(str) {
   return d.innerHTML;
 }
 
-function renderTokenStream(pieces) {
+function renderTokenStream(pieces, ids) {
   if (pieces.length === 0) {
     return '<span style="color: var(--ink-faint); font-style: italic; font-size: 13px;">(buit)</span>';
   }
   let html = '';
   let normalIdx = 0;
-  pieces.forEach((piece) => {
+  pieces.forEach((piece, i) => {
     const cls = classifyPiece(piece);
+    const id = ids[i];
     let displayText, tokenClass;
     if (cls === 'whitespace') {
       displayText = piece.replace(/ /g, '·').replace(/\n/g, '↵\n').replace(/\t/g, '→');
@@ -767,44 +1171,329 @@ function renderTokenStream(pieces) {
       tokenClass = 'token' + (normalIdx % 2 === 1 ? ' alt' : '');
       normalIdx++;
     }
-    html += `<span class="${tokenClass}">${escapeHtml(displayText)}</span>`;
+    const idAttr = typeof id === 'number' ? String(id) : '';
+    html += `<span class="${tokenClass}" data-token-index="${i}" data-token-id="${escapeHtml(idAttr)}">${escapeHtml(displayText)}</span>`;
   });
   return html;
+}
+
+function presetLinkHtml(label) {
+  return `<button type="button" class="hero-preset-link" data-preset="game">${escapeHtml(label)}</button>`;
+}
+
+function bindHeroPresetLinks() {
+  document.querySelectorAll('.hero-preset-link').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const presetId = btn.getAttribute('data-preset') || 'game';
+      applyPreset(presetId);
+      const evidence = document.getElementById('evidenceGrid');
+      if (evidence) evidence.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    });
+  });
+}
+
+function isPresetClean() {
+  const preset = PRESETS[state.lastPreset];
+  if (!preset) return false;
+  return LANG_META.every(({ lang }) => state.inputs[lang].text === preset.texts[lang]);
+}
+
+function autoGrowTextarea(el) {
+  if (!el) return;
+  el.style.height = 'auto';
+  const next = Math.min(el.scrollHeight, 180);
+  el.style.height = `${Math.max(next, 56)}px`;
+}
+
+function clearTokenSelection(key) {
+  const tokensEl = document.getElementById(`tokens-${key}`);
+  if (tokensEl) {
+    tokensEl.querySelectorAll('.token.is-selected').forEach(el => el.classList.remove('is-selected'));
+  }
+  const selectEl = document.getElementById(`select-${key}`);
+  if (selectEl) selectEl.textContent = '';
+}
+
+function setTokenSelection(key, tokenEl) {
+  const tokensEl = document.getElementById(`tokens-${key}`);
+  if (!tokensEl || !tokenEl) return;
+  tokensEl.querySelectorAll('.token.is-selected').forEach(el => el.classList.remove('is-selected'));
+  tokenEl.classList.add('is-selected');
+  const idx = Number(tokenEl.getAttribute('data-token-index'));
+  const inp = state.inputs[key];
+  const piece = (inp && Number.isInteger(idx) && inp.pieces[idx] != null)
+    ? inp.pieces[idx]
+    : '';
+  const id = (inp && Number.isInteger(idx) && inp.ids[idx] != null)
+    ? inp.ids[idx]
+    : tokenEl.getAttribute('data-token-id');
+  const display = piece.replace(/ /g, '·').replace(/\n/g, '↵').replace(/\t/g, '→') || '·';
+  const selectEl = document.getElementById(`select-${key}`);
+  if (selectEl) {
+    selectEl.textContent = (id !== '' && id != null)
+      ? `Seleccionat: «${display}» · ID ${id}`
+      : `Seleccionat: «${display}»`;
+  }
+}
+
+function bindTokenClicks(key) {
+  const tokensEl = document.getElementById(`tokens-${key}`);
+  if (!tokensEl || tokensEl.dataset.bound === '1') return;
+  tokensEl.dataset.bound = '1';
+  tokensEl.addEventListener('click', (e) => {
+    const tokenEl = e.target.closest('.token');
+    if (!tokenEl || !tokensEl.contains(tokenEl)) return;
+    setTokenSelection(key, tokenEl);
+  });
+}
+
+function topCostLanguages() {
+  const counts = {
+    ca: state.inputs.ca.count,
+    en: state.inputs.en.count,
+    es: state.inputs.es.count,
+  };
+  const max = Math.max(counts.ca, counts.en, counts.es);
+  return Object.keys(counts).filter(lang => counts[lang] === max && max > 0);
+}
+
+function langLabel(lang) {
+  const meta = LANG_META.find(m => m.lang === lang);
+  return meta ? meta.label : lang;
+}
+
+function setHeroVeiled(veiled) {
+  const hero = document.getElementById('heroSection');
+  if (!hero) return;
+  hero.classList.toggle('is-veiled', veiled);
+  hero.hidden = veiled;
+}
+
+function syncEvidenceReveal() {
+  const evidence = document.getElementById('evidenceSection');
+  const note = document.getElementById('sectionNote');
+  const hint = evidence && evidence.querySelector('.section-hint');
+  const revealed = state.comparisonRevealed;
+  if (evidence) evidence.classList.toggle('results-veiled', !revealed);
+  if (note) {
+    note.textContent = revealed
+      ? 'Cada peça ombrejada és un token. Fes clic o toca una peça per veure l\'identificador numèric: després d\'aquesta etapa, el model ja no veu text, només una llista d\'enters.'
+      : 'Llegeix les tres versions de la mateixa idea. Després predieu quina tindrà més tokens — encara no es mostren els comptes ni les peces.';
+  }
+  if (hint) hint.textContent = revealed ? 'edita per explorar' : 'llegeix i compara';
+}
+
+function syncPredictPanel() {
+  const panel = document.getElementById('predictPanel');
+  const actions = document.getElementById('predictActions');
+  const feedback = document.getElementById('predictFeedback');
+  if (!panel || !actions || !feedback) return;
+
+  const presetKey = state.activePreset || state.lastPreset || DEFAULT_PRESET;
+  const already = Boolean(state.revealedPresets[presetKey]);
+
+  if (!state.comparisonRevealed || !already) {
+    panel.hidden = false;
+    actions.hidden = false;
+    if (!state.comparisonRevealed) feedback.textContent = '';
+    setHeroVeiled(true);
+  } else {
+    panel.hidden = false;
+    actions.hidden = true;
+    setHeroVeiled(false);
+  }
+  syncEvidenceReveal();
+}
+
+function revealComparison(guess) {
+  const presetKey = state.activePreset || state.lastPreset || DEFAULT_PRESET;
+  state.comparisonRevealed = true;
+  state.revealedPresets[presetKey] = true;
+  state.lastGuess = guess;
+  setHeroVeiled(false);
+  syncEvidenceReveal();
+
+  const actions = document.getElementById('predictActions');
+  const feedback = document.getElementById('predictFeedback');
+  if (actions) actions.hidden = true;
+
+  updateHero();
+
+  const hero = document.getElementById('heroSection');
+  if (hero) hero.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+
+  if (!feedback) return;
+  if (!guess) {
+    feedback.textContent = 'Comparació revelada. Ara mira els comptes i les fronteres dels tokens.';
+    return;
+  }
+  const winners = topCostLanguages();
+  const correct = winners.includes(guess);
+  if (correct) {
+    feedback.textContent = 'La teva predicció coincideix amb aquest exemple. Ara mira on apareixen les fronteres.';
+  } else {
+    const winnerLabels = winners.map(langLabel).join(' / ');
+    feedback.textContent = `Has triat ${langLabel(guess)}, però aquí guanya ${winnerLabels}. Això és útil: les fronteres reals sovint contradiuen la intuïció.`;
+  }
+}
+
+function resetPredictForPreset(presetId) {
+  state.comparisonRevealed = Boolean(state.revealedPresets[presetId]);
+  state.lastGuess = null;
+  const feedback = document.getElementById('predictFeedback');
+  if (feedback) {
+    feedback.textContent = state.comparisonRevealed
+      ? 'Comparació ja revelada per aquest exemple. Edita o mira els tokens a baix.'
+      : '';
+  }
+  syncPredictPanel();
+}
+
+function bindPredictPanel() {
+  const panel = document.getElementById('predictPanel');
+  if (!panel || panel.dataset.bound === '1') return;
+  panel.dataset.bound = '1';
+  panel.querySelectorAll('.predict-btn[data-guess]').forEach(btn => {
+    btn.addEventListener('click', () => revealComparison(btn.getAttribute('data-guess')));
+  });
+  const skip = document.getElementById('predictSkip');
+  if (skip) skip.addEventListener('click', () => revealComparison(null));
+}
+
+function bindReflectionForm() {
+  const form = document.getElementById('reflectionForm');
+  if (!form || form.dataset.bound === '1') return;
+  form.dataset.bound = '1';
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const feedback = document.getElementById('reflectionFeedback');
+    const selected = form.querySelector('input[name="reflection"]:checked');
+    if (!feedback) return;
+    if (!selected) {
+      feedback.className = 'reflection-feedback is-wrong';
+      feedback.textContent = 'Selecciona una resposta abans de comprovar-la.';
+      return;
+    }
+    if (selected.value === 'dependent') {
+      feedback.className = 'reflection-feedback is-correct';
+      feedback.textContent = 'Exacte. El resultat depèn del text concret i de la codificació; no és una propietat fixa del català, ni un token equival a una paraula.';
+      form.querySelectorAll('input[name="reflection"]').forEach(input => { input.disabled = true; });
+      const submit = form.querySelector('button[type="submit"]');
+      if (submit) {
+        submit.disabled = true;
+        submit.textContent = 'Resposta correcta';
+      }
+      return;
+    }
+    feedback.className = 'reflection-feedback is-wrong';
+    feedback.textContent = selected.value === 'always'
+      ? 'Torna-ho a mirar: canvia d\'exemple o edita el text i veuràs que la diferència no és sempre la mateixa.'
+      : 'Torna a inspeccionar les peces: alguns tokens són fragments de paraula, espais o signes.';
+  });
+}
+
+function applyPreset(presetId, { focusToolbar } = {}) {
+  const preset = PRESETS[presetId];
+  if (!preset) return;
+  state.activePreset = presetId;
+  state.lastPreset = presetId;
+  LANG_META.forEach(({ lang }) => {
+    state.inputs[lang].text = preset.texts[lang];
+    const textarea = document.getElementById(`input-${lang}`);
+    if (textarea) {
+      textarea.value = preset.texts[lang];
+      autoGrowTextarea(textarea);
+    }
+    updateInputDisplay(lang);
+  });
+  resetPredictForPreset(presetId);
+  updateHero();
+  syncPresetToolbar();
+  if (focusToolbar) {
+    const active = document.querySelector(`.preset-btn[data-preset="${presetId}"]`);
+    if (active) active.focus();
+  }
+}
+
+function resetActivePreset() {
+  applyPreset(state.lastPreset || DEFAULT_PRESET, { focusToolbar: true });
+}
+
+function ensurePresetToolbar() {
+  const toolbar = document.getElementById('presetToolbar');
+  if (!toolbar || toolbar.dataset.ready === '1') return;
+  toolbar.dataset.ready = '1';
+  const presetButtons = Object.values(PRESETS).map(preset => `
+    <button type="button"
+      class="preset-btn"
+      data-preset="${preset.id}"
+      aria-pressed="false"
+      aria-controls="evidenceGrid">
+      ${escapeHtml(preset.label)}
+    </button>
+  `).join('');
+  toolbar.innerHTML = `
+    ${presetButtons}
+    <button type="button" class="reset-btn" id="resetPresetBtn" disabled>Restableix l'exemple</button>
+  `;
+  toolbar.querySelectorAll('.preset-btn').forEach(btn => {
+    btn.addEventListener('click', () => applyPreset(btn.getAttribute('data-preset')));
+  });
+  const resetBtn = document.getElementById('resetPresetBtn');
+  if (resetBtn) resetBtn.addEventListener('click', resetActivePreset);
+}
+
+function syncPresetToolbar() {
+  ensurePresetToolbar();
+  const toolbar = document.getElementById('presetToolbar');
+  if (!toolbar) return;
+  toolbar.querySelectorAll('.preset-btn').forEach(btn => {
+    const id = btn.getAttribute('data-preset');
+    btn.setAttribute('aria-pressed', state.activePreset === id ? 'true' : 'false');
+  });
+  const resetBtn = document.getElementById('resetPresetBtn');
+  if (resetBtn) resetBtn.disabled = isPresetClean();
 }
 
 function renderEvidenceCards() {
   const grid = document.getElementById('evidenceGrid');
   grid.innerHTML = '';
-  SEEDS.forEach(seed => {
-    const key = seed.lang;
+  LANG_META.forEach(meta => {
+    const key = meta.lang;
     const card = document.createElement('div');
     card.className = 'evidence-card';
-    card.setAttribute('data-lang', seed.lang);
+    card.setAttribute('data-lang', meta.lang);
     card.innerHTML = `
       <div class="evidence-header">
         <div class="evidence-lang">
           <span class="lang-flag" aria-hidden="true"></span>
-          <span>${escapeHtml(seed.label)}</span>
+          <span>${escapeHtml(meta.label)}</span>
         </div>
         <div>
           <span class="evidence-count" id="count-${key}">0</span><span class="evidence-count-label">tokens</span>
         </div>
       </div>
       <div class="evidence-body">
-        <textarea class="evidence-input" id="input-${key}" rows="2" aria-label="Text en ${escapeHtml(seed.label)}">${escapeHtml(seed.text)}</textarea>
+        <textarea class="evidence-input" id="input-${key}" rows="3" aria-label="Text en ${escapeHtml(meta.label)}">${escapeHtml(state.inputs[key].text)}</textarea>
         <div class="evidence-tokens" id="tokens-${key}" aria-label="Visualització de tokens"></div>
         <div class="evidence-stats">
+          <span class="evidence-select" id="select-${key}" aria-live="polite"></span>
           <span id="ratio-${key}">0,00 tokens/caràcter</span>
         </div>
       </div>
     `;
     grid.appendChild(card);
     const textarea = document.getElementById(`input-${key}`);
+    autoGrowTextarea(textarea);
+    bindTokenClicks(key);
     let debounceTimer;
     textarea.addEventListener('input', (e) => {
       clearTimeout(debounceTimer);
+      autoGrowTextarea(e.target);
       debounceTimer = setTimeout(() => {
         state.inputs[key].text = e.target.value;
+        state.activePreset = null;
+        syncPresetToolbar();
         updateInputDisplay(key);
         updateHero();
       }, 150);
@@ -815,6 +1504,7 @@ function renderEvidenceCards() {
 function renderWorkbench() {
   const wb = document.getElementById('workbench');
   wb.innerHTML = `
+    <p class="workbench-hint">Prova qualsevol text (català o barrejat). Aquesta caixa no mou la comparació de dalt: serveix només per inspeccionar tokens.</p>
     <div class="workbench-row">
       <div class="workbench-side">
         <div class="workbench-label">El teu text</div>
@@ -828,14 +1518,18 @@ function renderWorkbench() {
     <div class="workbench-stats">
       <div>
         <span class="workbench-count" id="count-free">0</span><span class="workbench-count-label">tokens</span>
+        <span class="workbench-select" id="select-free" aria-live="polite"></span>
       </div>
       <div class="workbench-ratio" id="ratio-free">0,00 tokens/caràcter</div>
     </div>
   `;
   const textarea = document.getElementById('input-free');
+  autoGrowTextarea(textarea);
+  bindTokenClicks('free');
   let debounceTimer;
   textarea.addEventListener('input', (e) => {
     clearTimeout(debounceTimer);
+    autoGrowTextarea(e.target);
     debounceTimer = setTimeout(() => {
       state.inputs.free.text = e.target.value;
       updateInputDisplay('free');
@@ -847,11 +1541,13 @@ function updateInputDisplay(key) {
   const inp = state.inputs[key];
   const result = tokeniseText(inp.text);
   inp.pieces = result.pieces;
+  inp.ids = result.ids;
   inp.count = result.ids.length;
   const tokensEl = document.getElementById(`tokens-${key}`);
   const countEl = document.getElementById(`count-${key}`);
   const ratioEl = document.getElementById(`ratio-${key}`);
-  if (tokensEl) tokensEl.innerHTML = renderTokenStream(result.pieces);
+  if (tokensEl) tokensEl.innerHTML = renderTokenStream(result.pieces, result.ids);
+  clearTokenSelection(key);
   if (countEl) countEl.textContent = result.ids.length;
   if (ratioEl) {
     const charCount = inp.text.length;
@@ -871,9 +1567,18 @@ function updateHero() {
   const numEl = document.getElementById('heroNum');
   const captionEl = document.getElementById('heroCaption');
   const secondaryEl = document.getElementById('heroSecondary');
-  
+
   numEl.classList.remove('negative', 'zero', 'empty');
-  
+
+  if (!state.comparisonRevealed) {
+    numEl.classList.add('empty');
+    numEl.textContent = '·';
+    captionEl.innerHTML = 'Fes una predicció sobre els textos de dalt (o salta) per revelar la comparació.';
+    secondaryEl.innerHTML = '';
+    updateHeroBars({ veiled: true });
+    return;
+  }
+
   if (en === 0 || ca === 0) {
     numEl.classList.add('empty');
     numEl.textContent = '·';
@@ -886,17 +1591,21 @@ function updateHero() {
   } else {
     const diff = ca - en;
     const pct = Math.round((diff / en) * 100);
+    const gameLink = presetLinkHtml('petició de joc');
     if (pct > 0) {
       numEl.textContent = `+${pct}\u202F%`;
-      captionEl.innerHTML = `La mateixa idea, expressada en <strong>català</strong>, costa més tokens que en anglès.`;
+      captionEl.innerHTML = `El català costa <strong>${diff} tokens més</strong> que l'anglès (${pct}\u202F%). Compte: ${ca} vs ${en}.`;
+      if (pct < 30) {
+        captionEl.innerHTML += ` Amb aquest text la diferència és petita; prova l'exemple de ${gameLink}.`;
+      }
     } else if (pct < 0) {
       numEl.classList.add('negative');
       numEl.textContent = `${pct}\u202F%`;
-      captionEl.innerHTML = `Aquesta vegada el <strong>català</strong> costa menys tokens que l'anglès. És poc habitual: prova-ho amb un text més llarg o variat.`;
+      captionEl.innerHTML = `Aquesta vegada el català costa <strong>${Math.abs(diff)} tokens menys</strong> que l'anglès (${pct}\u202F%). Compte: ${ca} vs ${en}. És poc habitual: prova l'exemple de ${gameLink}.`;
     } else {
       numEl.classList.add('zero');
       numEl.textContent = `0\u202F%`;
-      captionEl.innerHTML = `Aquesta vegada el <strong>català</strong> i l'anglès costen exactament el mateix.`;
+      captionEl.innerHTML = `Aquesta vegada català i anglès costen el mateix (${ca} tokens). Prova l'exemple de ${gameLink}.`;
     }
     if (es > 0) {
       const diffEs = es - en;
@@ -910,15 +1619,21 @@ function updateHero() {
       } else {
         spanishMark = `0\u202F%`;
       }
-      secondaryEl.innerHTML = `El castellà davant l'anglès, <span class="figure-mini${spanishClass}">${spanishMark}</span>.`;
+      const esDelta = diffEs > 0
+        ? `${diffEs} tokens més`
+        : diffEs < 0
+          ? `${Math.abs(diffEs)} tokens menys`
+          : 'els mateixos tokens';
+      secondaryEl.innerHTML = `El castellà davant l'anglès: ${esDelta} (<span class="figure-mini${spanishClass}">${spanishMark}</span>) · ${es} vs ${en}.`;
     } else {
       secondaryEl.innerHTML = '';
     }
   }
-  updateHeroBars();
+  bindHeroPresetLinks();
+  updateHeroBars({ veiled: false });
 }
 
-function updateHeroBars() {
+function updateHeroBars({ veiled } = { veiled: !state.comparisonRevealed }) {
   const ca = state.inputs.ca.count;
   const en = state.inputs.en.count;
   const es = state.inputs.es.count;
@@ -933,9 +1648,9 @@ function updateHeroBars() {
     <div class="bar-row" data-lang="${d.lang}">
       <div class="bar-label">${escapeHtml(d.label)}</div>
       <div class="bar-track">
-        <div class="bar-fill" style="width: ${(d.count / maxCount * 100).toFixed(1)}%;"></div>
+        <div class="bar-fill" style="width: ${veiled ? 40 : (d.count / maxCount * 100).toFixed(1)}%;"></div>
       </div>
-      <div class="bar-value">${d.count}</div>
+      <div class="bar-value">${veiled ? '·' : d.count}</div>
     </div>
   `).join('');
 }
@@ -945,7 +1660,7 @@ function boot() {
     document.getElementById('loaderArea').innerHTML = `
       <div style="color: #b91c1c;">
         <strong>No s'ha pogut carregar el tokenitzador.</strong><br>
-        Comprova la teva connexió a internet i recarrega la pàgina.
+        Comprova que el fitxer <code>o200k_base.js</code> és al mateix directori que aquesta pàgina i recarrega.
       </div>
     `;
     return;
@@ -953,9 +1668,14 @@ function boot() {
   state.encoder = GPTTokenizer_o200k_base;
   document.getElementById('loaderArea').style.display = 'none';
   document.getElementById('mainContent').style.display = 'block';
+  bindPredictPanel();
+  bindReflectionForm();
   renderEvidenceCards();
+  ensurePresetToolbar();
+  syncPresetToolbar();
   renderWorkbench();
   Object.keys(state.inputs).forEach(key => updateInputDisplay(key));
+  syncPredictPanel();
   updateHero();
 }
 
