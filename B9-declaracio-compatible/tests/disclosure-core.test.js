@@ -127,6 +127,23 @@ test("the long vague preset is complete and truthful but remains ambiguous", () 
   assert.ok(result.compatible.length > 1);
 });
 
+test("a vague required field cannot pass even after other fields isolate the target", () => {
+  const result = evaluate("outline-own-text", {
+    tool: "tool-generic",
+    purpose: "purpose-structure",
+    extent: "extent-outline-only",
+    human: "human-reviewed",
+  });
+
+  assert.equal(result.truthful, true);
+  assert.equal(result.complete, true);
+  assert.equal(result.compatible.length, 1);
+  assert.deepEqual(result.vagueGroupIds, ["human"]);
+  assert.equal(result.specific, false);
+  assert.equal(result.success, false);
+  assert.equal(result.state, "ambiguous");
+});
+
 test("tool provenance and generic review do not separate the teaching cases", () => {
   const tool = getOption(
     DISCLOSURE_GROUPS,

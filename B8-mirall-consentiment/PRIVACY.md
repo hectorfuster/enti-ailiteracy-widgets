@@ -2,11 +2,11 @@
 
 ## Resum per a l’alumnat
 
-Les respostes, els motius, les revisions i el text opcional es processen al
-navegador. Es conserven a `sessionStorage`, és a dir, només a la pestanya
-actual, per permetre recuperar el pas després d’una recàrrega. Reiniciar
-l’activitat n’elimina la còpia. Tancar la pestanya o la sessió del navegador
-normalment també l’elimina.
+Les decisions es processen al navegador. Es conserven a `sessionStorage`, és a
+dir, només a la pestanya actual, per permetre recuperar el pas després d’una
+recàrrega. Reiniciar l’activitat n’elimina la còpia. Tancar la pestanya o la
+sessió del navegador normalment també l’elimina. El widget no demana text
+lliure.
 
 L’activitat no carrega analítica, fonts web, píxels, anuncis ni recursos de
 tercers. Els enllaços de fonts oficials només generen una petició externa quan
@@ -15,20 +15,19 @@ mateix s’aplica a l’enllaç HTTPS de la política del curs: no es precarrega
 
 ## Dades locals
 
-Clau de sessió: `enti-b8-consent-mirror-v2`.
+Clau de sessió: `enti-b8-consent-mirror-v3`.
 
 La còpia local inclou:
 
 - pas actual i identificador aleatori de l’intent;
-- decisions actuals i primeres decisions;
-- predicció, motius i disposició;
-- notes opcionals;
-- cas de transferència i compromís final;
+- decisions dels dos rols i predicció;
+- marca de revisió del mirall;
+- cas de transferència i estàndard final;
 - marques de finalització i d’emissió.
 
 No s’utilitzen cookies, `localStorage`, IndexedDB ni emmagatzematge de servidor.
-La còpia no està xifrada: no s’hi ha d’escriure informació personal, sensible
-o confidencial.
+La còpia no està xifrada i no s’ha de reutilitzar per afegir informació
+personal, sensible o confidencial.
 
 ## Dades que pot rebre Moodle
 

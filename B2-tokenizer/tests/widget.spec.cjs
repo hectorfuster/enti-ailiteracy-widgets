@@ -101,8 +101,8 @@ test("completes the guided learning flow and can start over", async ({
   await expect(page.locator("#tokenInspector")).toBeVisible();
   await expect(page.locator("#inspectorIds")).toHaveText(/^\d+(?:, \d+)*$/);
 
-  await revealScenario(page, "Exemple 2 Correu", "Anglès");
-  await revealScenario(page, "Exemple 3 Depuració", "Castellà");
+  await revealScenario(page, "Petició 2 Correu", "Anglès");
+  await revealScenario(page, "Petició 3 Depuració", "Castellà");
 
   await expect(page.locator("#corpusSection")).toBeVisible();
   await expect(page.locator("#reflectionSection")).toBeVisible();
@@ -116,7 +116,7 @@ test("completes the guided learning flow and can start over", async ({
 
   await page
     .getByRole("radio", {
-      name: "El recompte depèn del text concret i de la codificació; una petició real també pot afegir tokens que aquí no es veuen.",
+      name: "El recompte depèn del text i de la codificació. Una petició completa pot incloure tokens addicionals que aquesta comparació no mostra.",
       exact: true,
     })
     .check();
@@ -216,8 +216,8 @@ test("resets obsolete 2.1 progress without carrying a locked reflection forward"
   expect(sanitizedState.completed).toBe(false);
 
   await revealScenario(page, null, "Català");
-  await revealScenario(page, "Exemple 2 Correu", "Anglès");
-  await revealScenario(page, "Exemple 3 Depuració", "Castellà");
+  await revealScenario(page, "Petició 2 Correu", "Anglès");
+  await revealScenario(page, "Petició 3 Depuració", "Castellà");
 
   await expect(
     page.getByRole("button", { name: "Comprova la resposta", exact: true }),
@@ -293,12 +293,12 @@ test("opens scenario-only deep links and copies no learner or Moodle state", asy
 
   await page
     .getByRole("button", {
-      name: "Copia l’enllaç d’aquest exemple",
+      name: "Copia l’enllaç d’aquesta petició",
       exact: true,
     })
     .click();
   await expect(page.locator("#liveRegion")).toContainText(
-    "Només inclou l’identificador de l’exemple",
+    "Només inclou l’identificador de la petició",
   );
 
   const copied = await page.evaluate(() => window.__copiedScenarioUrl);
@@ -375,6 +375,18 @@ test("compares encodings and estimates learner-defined context and API cost with
   );
   expect(estimatedCost).toBeCloseTo(0.836, 6);
   await expect(page.locator("#estimatedCostResult")).toContainText("en total");
+  const cavemanLink = page.getByRole("link", {
+    name: "Explora el repositori Caveman (s’obre en una pestanya nova)",
+    exact: true,
+  });
+  await expect(cavemanLink).toBeVisible();
+  await expect(cavemanLink).toHaveAttribute(
+    "href",
+    "https://github.com/juliusbrussee/caveman",
+  );
+  await expect(page.locator(".real-example")).toContainText(
+    "no redueix automàticament els tokens d’entrada ni de raonament",
+  );
 
   await page
     .locator('#freeTokenStream .token-chip[data-group-start="1"]')
@@ -480,7 +492,7 @@ test("supports the core flow in a logical keyboard order with visible focus", as
 
   await page.keyboard.press("Tab");
   const firstScenario = page.getByRole("button", {
-    name: "Exemple 1 Resum",
+    name: "Petició 1 Resum",
     exact: true,
   });
   await expect(firstScenario).toBeFocused();
@@ -493,7 +505,7 @@ test("supports the core flow in a logical keyboard order with visible focus", as
 
   for (let index = 0; index < 6; index += 1) await page.keyboard.press("Tab");
   await expect(
-    page.getByRole("button", { name: "Exemple 7 Comparació", exact: true }),
+    page.getByRole("button", { name: "Petició 7 Comparació", exact: true }),
   ).toBeFocused();
 
   await page.keyboard.press("Tab");

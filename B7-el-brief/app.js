@@ -9,7 +9,7 @@
 
   const STORAGE_KEY = "enti-b7-el-brief-v2";
   const WIDGET_ID = "b7-el-brief";
-  const WIDGET_VERSION = "2.0.0";
+  const WIDGET_VERSION = "2.1.0";
 
   const app = document.getElementById("app");
   const activityStatus = document.getElementById("activityStatus");
@@ -353,19 +353,41 @@
   function createConsequence(roundIndex) {
     const result = Core.evaluateRound(roundIndex, state.rounds[roundIndex]);
     const previousRound = Data.ROUNDS[roundIndex];
-    const aside = element("aside", `consequence status-panel-${result.status}`);
-    const top = element("div", "consequence-header");
-    top.append(
-      element("p", "stamp", "Mentrestant, conseqüències"),
-      createStatusBadge(result.status, result.statusLabel),
+    const details = element(
+      "details",
+      `consequence consequence-${result.status}`,
     );
-    aside.append(
-      top,
-      element("h3", "", previousRound.title),
-      element("p", "consequence-title", result.statusTitle),
+    const summary = element("summary", "consequence-summary");
+    const summaryCopy = element("span", "consequence-summary-copy");
+    summaryCopy.append(
+      element("span", "summary-label", `Resultat del brief ${roundIndex + 1}`),
+      element(
+        "strong",
+        "consequence-summary-title",
+        previousRound.title.replace(/^Brief \d+:\s*/, ""),
+      ),
+      element("span", "consequence-summary-verdict", result.statusTitle),
+    );
+    summary.append(
+      summaryCopy,
+      createStatusBadge(result.status, result.statusLabel),
+      element("span", "disclosure-label", "Veure conseqüència"),
+    );
+
+    const body = element("div", "consequence-body");
+    const outcomeGrid = element("div", "consequence-outcome-grid");
+    const benefit = element("section", "outcome-point");
+    benefit.append(
+      element("h3", "", "Què ha funcionat"),
       element("p", "", result.benefit),
+    );
+    const tradeoff = element("section", "outcome-point");
+    tradeoff.append(
+      element("h3", "", "Què ha costat"),
       element("p", "", result.tradeoff),
     );
+    outcomeGrid.append(benefit, tradeoff);
+
     const safeguardLine = element("p", "evidence-line");
     safeguardLine.append(
       element("strong", "", "Salvaguarda: "),
@@ -377,37 +399,52 @@
       document.createTextNode(result.reconsider),
       document.createTextNode("."),
     );
-    aside.append(safeguardLine, reconsiderLine);
-    return aside;
+    body.append(outcomeGrid, safeguardLine, reconsiderLine);
+    details.append(summary, body);
+    return details;
   }
 
   function renderRoundBrief() {
     const round = currentRound();
     const { section, heading } = screenShell({
-      stamp: round.stamp,
+      stamp: `${round.stamp} · Nou encàrrec`,
       title: round.title,
-      lead: round.brief,
+      lead:
+        state.roundIndex === 0
+          ? "Comença per la situació actual i els quatre fets que condicionen aquest encàrrec."
+          : "Aquest és un encàrrec nou. El resultat anterior queda separat després dels fets.",
+      className: "round-brief-screen",
     });
 
-    if (state.roundIndex > 0) {
-      section.insertBefore(
-        createConsequence(state.roundIndex - 1),
-        section.children[2],
-      );
+    const facts = element("section", "brief-facts new-brief-panel");
+    facts.append(
+      element("p", "new-brief-label", "Informació del nou brief"),
+      element("h3", "", "Situació nova"),
+      element("p", "brief-context", round.brief),
+      element("h3", "facts-heading", "Fets nous per decidir"),
+    );
+    const factGrid = element("dl", "brief-fact-grid");
+    for (const fact of round.facts) {
+      const separator = fact.indexOf(":");
+      const label = separator > 0 ? fact.slice(0, separator) : "Condició";
+      const description =
+        separator > 0 ? fact.slice(separator + 1).trim() : fact;
+      const item = element("div", "brief-fact");
+      item.append(element("dt", "", label), element("dd", "", description));
+      factGrid.append(item);
     }
-
-    const facts = element("section", "brief-facts");
-    facts.append(element("h3", "", "El que ja saps"));
-    const list = element("ul", "");
-    for (const fact of round.facts) list.append(element("li", "", fact));
-    facts.append(list);
+    facts.append(factGrid);
     section.append(facts);
 
-    const note = element("p", "instruction-note");
+    if (state.roundIndex > 0) {
+      section.append(createConsequence(state.roundIndex - 1));
+    }
+
+    const note = element("p", "decision-prompt");
     note.append(
-      element("strong", "", "No hi ha una família guanyadora. "),
+      element("strong", "", "Objectiu de decisió: "),
       document.createTextNode(
-        "El teu objectiu és fer explícit què protegeixes, què assumes i com ho comprovaràs.",
+        "explicita què protegeixes, què assumeixes i com ho comprovaràs.",
       ),
     );
     section.append(note);
@@ -719,18 +756,47 @@
 
   function createLedgerCard(round, selection, result, index) {
     const card = element(
-      "article",
+      "details",
       `ledger-card status-panel-${result.status}`,
     );
-    const header = element("div", "ledger-header");
-    header.append(
-      element("p", "stamp", `Brief ${index + 1}`),
+    const priorityMatch = selection.priorities.filter((id) =>
+      round.pressure.includes(id),
+    ).length;
+    const summary = element("summary", "ledger-summary");
+    const briefSummary = element("span", "ledger-summary-brief");
+    briefSummary.append(
+      element("span", "summary-label", `Brief ${index + 1}`),
+      element(
+        "strong",
+        "ledger-summary-title",
+        round.title.replace(/^Brief \d+:\s*/, ""),
+      ),
+    );
+    const verdictSummary = element("span", "ledger-summary-verdict");
+    verdictSummary.append(
+      element("span", "summary-label", "Resultat"),
       createStatusBadge(result.status, result.statusLabel),
     );
-    card.append(
-      header,
-      element("h3", "", round.title),
-      element("p", "consequence-title", result.statusTitle),
+    const flowSummary = element("span", "ledger-summary-flow");
+    flowSummary.append(
+      element("span", "summary-label", "Flux triat"),
+      element("span", "", result.workflow.title),
+    );
+    const fitSummary = element("span", "ledger-summary-fit");
+    fitSummary.append(
+      element("span", "summary-label", "Prioritats clau"),
+      element(
+        "strong",
+        "",
+        `${priorityMatch}/${round.pressure.length} cobertes`,
+      ),
+    );
+    summary.append(
+      briefSummary,
+      verdictSummary,
+      flowSummary,
+      fitSummary,
+      element("span", "ledger-disclosure-label", "Obre l’anàlisi"),
     );
 
     const definitionList = element("dl", "decision-list");
@@ -744,36 +810,75 @@
       ["Salvaguarda", result.safeguard.title],
     ];
     for (const [term, description] of entries) {
-      definitionList.append(
-        element("dt", "", term),
-        element("dd", "", description),
-      );
+      const pair = element("div", "decision-pair");
+      pair.append(element("dt", "", term), element("dd", "", description));
+      definitionList.append(pair);
     }
-    card.append(
-      definitionList,
-      element("p", "", result.alignment),
-      element("p", "evidence-line", result.evidence),
-      element("p", "", result.benefit),
-      element("p", "", result.tradeoff),
-      element("p", "safeguard-line", result.safeguardEffect),
+
+    const analysis = element("div", "ledger-analysis-grid");
+    const analysisItems = [
+      ["A favor", result.benefit, "analysis-benefit"],
+      ["Límit o cost", result.tradeoff, "analysis-tradeoff"],
+      ["Salvaguarda", result.safeguardEffect, "analysis-safeguard"],
+    ];
+    for (const [label, copy, className] of analysisItems) {
+      const item = element("section", `analysis-point ${className}`);
+      item.append(element("h4", "", label), element("p", "", copy));
+      analysis.append(item);
+    }
+
+    const context = element("div", "ledger-context-grid");
+    const evidence = element("section", "ledger-context-card");
+    evidence.append(
+      element("h4", "", "Evidència que vas obtenir"),
+      element("p", "", result.question.reveal),
     );
-    const reconsider = element("p", "reconsider-line");
+    const alignment = element("section", "ledger-context-card");
+    alignment.append(
+      element("h4", "", "Alineació de prioritats"),
+      element(
+        "p",
+        "",
+        `El brief pressionava ${Core.formatList(Core.dimensionNames(round.pressure))}. En vas prioritzar ${priorityMatch} de ${round.pressure.length}.`,
+      ),
+    );
+    context.append(evidence, alignment);
+
+    const reconsider = element("aside", "reconsider-card");
     reconsider.append(
-      element("strong", "", "Revisa la decisió "),
-      document.createTextNode(result.reconsider),
-      document.createTextNode("."),
+      element("h4", "", "Revisa aquesta decisió si…"),
+      element("p", "", `${result.reconsider}.`),
     );
-    card.append(reconsider);
+
+    const body = element("div", "ledger-body");
+    body.append(
+      element("h3", "", `Anàlisi del brief ${index + 1}`),
+      element("p", "ledger-body-verdict", result.statusTitle),
+      definitionList,
+      analysis,
+      context,
+      reconsider,
+    );
+    card.append(summary, body);
     return card;
   }
 
   function renderDebrief() {
     const { section, heading } = screenShell({
       stamp: "Mes 18 · Auditoria del projecte",
-      title: "Informe de decisions, no marcador de respostes",
-      lead: "Una mateixa família pot ser proporcionada en un brief i poc contrastada en un altre. El valor és veure quina condició sostenia cada decisió.",
+      title: "Mapa de les teves decisions",
+      lead: "Compara resultat, flux i prioritats d’un cop d’ull. Obre només la decisió que vulguis analitzar.",
       className: "debrief-screen",
     });
+
+    const guide = element("p", "report-guide");
+    guide.append(
+      element("strong", "", "Les etiquetes no són una nota. "),
+      document.createTextNode(
+        "Descriuen com encaixa cada decisió amb les condicions que vas investigar.",
+      ),
+    );
+    section.append(guide);
 
     const ledger = element("div", "ledger");
     Data.ROUNDS.forEach((round, index) => {
@@ -788,8 +893,12 @@
     });
     section.append(ledger);
 
-    const sampling = element("aside", "callout callout-key");
+    const sampling = element("details", "method-note callout-key");
     sampling.append(
+      element("summary", "", "Nota de mètode · Què pot dir una mostra de 200?"),
+    );
+    const samplingBody = element("div", "method-note-body");
+    samplingBody.append(
       element("h3", "", "La precisió importa més que l’eslògan"),
       element(
         "p",
@@ -797,6 +906,7 @@
         "Una mostra aleatòria de 200 pot representar una proporció global amb una incertesa aproximada de ±6,9 punts en el pitjor cas. El problema no és «mostra o població»: és si el mètode respon la pregunta, cobreix segments i pot detectar esdeveniments rars.",
       ),
     );
+    sampling.append(samplingBody);
     section.append(sampling);
 
     const transfer = createButton(

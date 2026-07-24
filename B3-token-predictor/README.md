@@ -14,9 +14,8 @@ i el bucle autoregressiu.
   abans d'agrupar la cua només per visualitzar.
 - Les mostres repetides són extraccions independents. Mai no s'afegeixen a una
   frase sense una distribució nova condicionada pel context resultant.
-- El progrés es manté visible en un panell flotant compacte que indica
-  l'evidència següent; en mòbil es condensa sense ocultar-ne el significat
-  accessible.
+- El progrés es manté visible en una franja flotant discreta: recompte, barra i
+  cinc passos; només el pas actual rep èmfasi.
 - No hi ha dependències, fonts, analítica ni crides de model en temps
   d'execució.
 

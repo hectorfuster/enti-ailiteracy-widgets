@@ -9,7 +9,7 @@
       content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
     >
     <meta name="enti-parent-origin" content="">
-    <title>Una declaració que informa · ENTI-UB AI Literacy</title>
+    <title>Què és compatible amb això? · ENTI-UB</title>
     <link rel="stylesheet" href="./styles.css">
     <script defer src="./widget.js"></script>
   </head>
@@ -18,444 +18,117 @@
 
     <main class="widget-frame" id="activity" tabindex="-1">
       <header class="widget-header">
-        <div class="widget-eyebrow">Activitat B9 · Alfabetització en IA</div>
-        <h1>Una declaració que informa</h1>
-        <p class="widget-subtitle">
-          Dir que has fet servir IA no explica encara què va passar.
+        <p class="eyebrow">Activitat B9 · Alfabetització en IA</p>
+        <h1>Què és compatible amb això?</h1>
+        <p class="subtitle">
+          Fes que una declaració genèrica expliqui un procés concret.
         </p>
       </header>
 
-      <section class="orientation" aria-labelledby="orientation-title">
-        <div>
-          <h2 id="orientation-title">Objectiu</h2>
-          <p>
-            Aprendràs a descriure <strong>què va aportar l'eina</strong>,
-            <strong>què vas fer tu</strong> i <strong>quina part del treball</strong>
-            en va quedar afectada.
-          </p>
-        </div>
-        <p class="time-note">
-          <span aria-hidden="true">◷</span> 5–7 minuts · pràctica sense nota
-        </p>
-      </section>
-
-      <nav class="activity-progress" aria-label="Progrés de l'activitat">
-        <ol>
-          <li data-progress-step="1" aria-current="step">
-            <span class="progress-number">1</span>
-            <span>Prediu</span>
-          </li>
-          <li data-progress-step="2">
-            <span class="progress-number">2</span>
-            <span>Construeix</span>
-          </li>
-          <li data-progress-step="3">
-            <span class="progress-number">3</span>
-            <span>Explica</span>
-          </li>
-          <li data-progress-step="4">
-            <span class="progress-number">4</span>
-            <span>Transfereix</span>
-          </li>
-          <li data-progress-step="5">
-            <span class="progress-number">5</span>
-            <span>Emporta-t'ho</span>
-          </li>
-        </ol>
-      </nav>
-
       <noscript>
         <div class="notice notice-error">
-          Aquesta activitat necessita JavaScript per comparar els casos. El text
-          de suport i la política del curs continuen disponibles a Moodle.
+          Aquesta activitat necessita JavaScript per comparar els casos.
         </div>
       </noscript>
 
-      <div class="notice notice-insight" id="startup-status">
+      <div class="notice notice-info" id="startup-status">
         <strong>Carregant l'activitat…</strong>
         <p>
-          Si aquest missatge no desapareix, el fitxer <code>widget.js</code> no
-          s'ha pogut carregar. Torna a copiar o publicar la carpeta completa.
+          Si aquest missatge no desapareix, falta el fitxer
+          <code>widget.js</code>.
         </p>
       </div>
 
-      <section class="activity-step" id="step-1" data-step="1">
-        <header class="step-header">
-          <p class="step-kicker">Pas 1 de 5 · Prediu abans de mirar</p>
-          <h2 tabindex="-1">Quantes realitats hi caben?</h2>
+      <section class="case-panel" aria-labelledby="case-title">
+        <div>
+          <p class="section-label">El procés que hem de declarar</p>
+          <h2 id="case-title"></h2>
+        </div>
+        <ul id="case-facts"></ul>
+      </section>
+
+      <section class="comparison" aria-labelledby="worlds-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-label">El conjunt de comparació</p>
+            <h2 id="worlds-title">Vuit processos diferents</h2>
+          </div>
           <p>
-            Un company entrega un document de disseny amb aquesta declaració:
+            Al principi, la frase «He fet servir IA per ajudar-me amb el
+            document» encaixa amb tots vuit.
           </p>
-        </header>
+        </div>
+        <div class="world-grid" id="worlds"></div>
+      </section>
 
-        <blockquote class="declaration-card declaration-card-large">
-          «He fet servir IA per ajudar-me amb el document.»
-        </blockquote>
+      <section class="workbench" aria-labelledby="builder-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-label">La prova</p>
+            <h2 id="builder-title">Concreta la declaració</h2>
+          </div>
+          <p>
+            Tria una finalitat, un abast i una contribució humana. Els casos
+            s'actualitzen a mesura que decideixes.
+          </p>
+        </div>
 
-        <form id="prediction-form">
-          <fieldset class="question-card">
-            <legend>
-              Quants processos diferents creus que podrien encaixar amb la frase?
-            </legend>
-            <p class="field-help" id="prediction-help">
-              Tria una resposta abans de revelar els casos.
+        <div class="declaration-card">
+          <p class="section-label">Declaració actual</p>
+          <p id="declaration-preview"></p>
+          <button
+            class="button button-secondary"
+            id="copy-declaration"
+            type="button"
+            hidden
+          >
+            Copia la declaració
+          </button>
+          <p class="copy-status" id="copy-status" role="status"></p>
+        </div>
+
+        <div class="workbench-grid">
+          <form id="builder-form">
+            <div id="groups"></div>
+            <div class="button-row">
+              <button class="button button-secondary" id="load-vague" type="button">
+                Prova una frase llarga però vaga
+              </button>
+              <button class="button button-secondary" id="reset" type="button">
+                Reinicia
+              </button>
+            </div>
+          </form>
+
+          <aside class="result-panel" aria-labelledby="result-title">
+            <p class="compatible-count">
+              <strong id="compatible-count">8</strong>
+              <span>de 8 casos compatibles</span>
             </p>
             <div
-              class="choice-grid choice-grid-compact"
-              aria-describedby="prediction-help"
+              class="result-message"
+              id="result-message"
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
             >
-              <label class="choice">
-                <input type="radio" name="prediction" value="1">
-                <span><strong>1</strong><small>Només un procés</small></span>
-              </label>
-              <label class="choice">
-                <input type="radio" name="prediction" value="2">
-                <span><strong>2</strong><small>Un parell</small></span>
-              </label>
-              <label class="choice">
-                <input type="radio" name="prediction" value="4">
-                <span><strong>4</strong><small>La meitat</small></span>
-              </label>
-              <label class="choice">
-                <input type="radio" name="prediction" value="8">
-                <span><strong>8</strong><small>Tots vuit</small></span>
-              </label>
+              <h2 id="result-title">Encara no has concretat el procés</h2>
+              <p id="result-detail"></p>
             </div>
-          </fieldset>
-          <div class="action-row">
-            <button class="button button-primary" type="submit">
-              Revela els casos
-            </button>
-          </div>
-        </form>
-
-        <div id="prediction-result" hidden>
-          <div
-            class="notice notice-insight"
-            id="prediction-status"
-            role="status"
-            aria-live="polite"
-            aria-atomic="true"
-          ></div>
-          <div class="world-grid" id="opening-worlds"></div>
-          <div class="takeaway">
-            <p class="takeaway-label">Idea clau</p>
-            <p>
-              La frase és certa en tots vuit casos, però amaga diferències enormes.
-              <strong>La llargada no és el mateix que la precisió.</strong>
-            </p>
-          </div>
-          <div class="action-row action-row-end">
-            <button class="button button-primary" id="to-step-2" type="button">
-              Construeix una declaració
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <section class="activity-step" id="step-2" data-step="2" hidden>
-        <header class="step-header">
-          <p class="step-kicker">Pas 2 de 5 · Cas guiat</p>
-          <h2 tabindex="-1">Construeix una declaració fidel</h2>
-          <p>
-            Ara sí que sabem què va passar. La teva declaració ha de mantenir aquest
-            cas possible, completar els quatre camps i descartar les alternatives.
-          </p>
-        </header>
-
-        <article class="case-card" aria-labelledby="worked-case-title">
-          <p class="case-label">Què va passar de debò</p>
-          <h3 id="worked-case-title"></h3>
-          <ul id="worked-case-facts"></ul>
-        </article>
-
-        <div class="builder-tools">
-          <button class="text-button" id="load-vague" type="button">
-            Carrega un exemple llarg però vague
-          </button>
-          <span aria-hidden="true">·</span>
-          <button class="text-button" id="reset-worked" type="button">
-            Reinicia les tries
-          </button>
-        </div>
-
-        <div id="worked-builder" data-builder-id="worked"></div>
-
-        <div class="step-footer-actions">
-          <button class="button button-quiet" data-go-step="1" type="button">
-            Enrere
-          </button>
-          <button
-            class="button button-primary"
-            id="to-step-3"
-            type="button"
-            hidden
-          >
-            Explica què has descobert
-          </button>
-        </div>
-      </section>
-
-      <section class="activity-step" id="step-3" data-step="3" hidden>
-        <header class="step-header">
-          <p class="step-kicker">Pas 3 de 5 · Recupera la idea</p>
-          <h2 tabindex="-1">Què descriu millor el procés?</h2>
-        </header>
-
-        <form id="reflection-form">
-          <fieldset class="question-card">
-            <legend>
-              Quina combinació ajuda més un lector a entendre què va passar?
-            </legend>
-            <div class="choice-list">
-              <label class="choice choice-wide">
-                <input type="radio" name="reflection" value="tool">
-                <span>
-                  <strong>El producte, el model i la data</strong>
-                  <small>Procedència de l'eina</small>
-                </span>
-              </label>
-              <label class="choice choice-wide">
-                <input type="radio" name="reflection" value="length">
-                <span>
-                  <strong>Una declaració més llarga</strong>
-                  <small>Més paraules i més formalitat</small>
-                </span>
-              </label>
-              <label class="choice choice-wide">
-                <input type="radio" name="reflection" value="process">
-                <span>
-                  <strong>La part afectada, l'abast i la contribució humana</strong>
-                  <small>Com es reparteix realment el procés</small>
-                </span>
-              </label>
-            </div>
-          </fieldset>
-          <div class="action-row">
-            <button class="button button-primary" type="submit">
-              Comprova la resposta
-            </button>
-          </div>
-        </form>
-
-        <div
-          class="notice"
-          id="reflection-feedback"
-          role="status"
-          aria-live="polite"
-          aria-atomic="true"
-          hidden
-        ></div>
-
-        <div class="step-footer-actions">
-          <button class="button button-quiet" data-go-step="2" type="button">
-            Enrere
-          </button>
-          <button
-            class="button button-primary"
-            id="to-step-4"
-            type="button"
-            hidden
-          >
-            Aplica-ho a un cas nou
-          </button>
-        </div>
-      </section>
-
-      <section class="activity-step" id="step-4" data-step="4" hidden>
-        <header class="step-header">
-          <p class="step-kicker">Pas 4 de 5 · Transfereix</p>
-          <h2 tabindex="-1">Resol un cas diferent</h2>
-          <p>
-            Tria un cas i construeix una declaració sense copiar la solució guiada.
-          </p>
-        </header>
-
-        <form id="scenario-form">
-          <fieldset class="question-card">
-            <legend>Quin cas vols resoldre?</legend>
-            <div class="choice-grid" id="scenario-choices"></div>
-          </fieldset>
-        </form>
-
-        <div id="transfer-workspace" hidden>
-          <article class="case-card" aria-labelledby="transfer-case-title">
-            <p class="case-label">Nou cas</p>
-            <h3 id="transfer-case-title"></h3>
-            <p id="transfer-case-summary"></p>
-            <ul id="transfer-case-facts"></ul>
-          </article>
-
-          <div id="transfer-builder" data-builder-id="transfer"></div>
-        </div>
-
-        <div class="step-footer-actions">
-          <button class="button button-quiet" data-go-step="3" type="button">
-            Enrere
-          </button>
-          <button
-            class="button button-primary"
-            id="to-step-5"
-            type="button"
-            hidden
-          >
-            Acaba i emporta-t'ho
-          </button>
-        </div>
-      </section>
-
-      <section class="activity-step" id="step-5" data-step="5" hidden>
-        <header class="step-header">
-          <p class="step-kicker">Pas 5 de 5 · Emporta-t'ho</p>
-          <h2 tabindex="-1">Ja tens una regla reutilitzable</h2>
-          <p>
-            Una bona declaració no intenta sonar impressionant: permet entendre el
-            procés i comprovar què és teu.
-          </p>
-        </header>
-
-        <div class="completion-banner" role="status">
-          <span class="completion-mark" aria-hidden="true">✓</span>
-          <div>
-            <strong>Activitat completada</strong>
-            <p>Has resolt un cas guiat i un cas de transferència.</p>
-          </div>
-        </div>
-
-        <section class="output-card" aria-labelledby="final-declaration-title">
-          <div class="output-heading">
-            <div>
-              <p class="case-label">La teva declaració del cas nou</p>
-              <h3 id="final-declaration-title">Text per revisar o copiar</h3>
-            </div>
-            <button class="button button-quiet" id="copy-declaration" type="button">
-              Copia
-            </button>
-          </div>
-          <p class="final-declaration" id="final-declaration"></p>
-          <p
-            class="copy-status"
-            id="copy-status"
-            role="status"
-            aria-live="polite"
-          ></p>
-        </section>
-
-        <section class="checklist-card" aria-labelledby="checklist-title">
-          <h3 id="checklist-title">Revisa abans d'entregar</h3>
-          <ul class="final-checklist">
-            <li><span aria-hidden="true">□</span> Tot el que afirmo és cert?</li>
-            <li>
-              <span aria-hidden="true">□</span> Queda clar per a què vaig fer servir
-              l'eina?
-            </li>
-            <li>
-              <span aria-hidden="true">□</span> He delimitat la part i l'abast
-              afectats?
-            </li>
-            <li>
-              <span aria-hidden="true">□</span> He dit què vaig escriure, canviar,
-              descartar o verificar?
-            </li>
-            <li>
-              <span aria-hidden="true">□</span> La consigna demana també model,
-              prompts, fonts o un enllaç?
-            </li>
-            <li>
-              <span aria-hidden="true">□</span> Aquest ús estava permès en
-              l'activitat?
-            </li>
-          </ul>
-        </section>
-
-        <div class="notice notice-policy">
-          <strong>Important:</strong> aquesta activitat practica una convenció de
-          declaració. No substitueix la política de l'assignatura ni decideix si un
-          ús estava permès.
-        </div>
-
-        <div class="action-row action-row-between">
-          <button class="button button-quiet" id="try-another" type="button">
-            Prova un altre cas
-          </button>
-          <button class="button button-primary" id="restart-activity" type="button">
-            Torna a començar
-          </button>
+            <p class="transition-note" id="transition-note"></p>
+          </aside>
         </div>
       </section>
 
       <footer class="widget-footer">
         <p>
-          ENTI-UB · Activitat B9 · Casos ficticis. No s'envia ni es desa el text de
-          les declaracions. Aquesta versió no fa peticions a tercers.
+          L'objectiu és descriure el procés amb fidelitat, no escriure més.
+          Declarar un ús no decideix si estava permès: això depèn de la consigna.
         </p>
         <p>
-          Si Moodle configura una integració, només s'hi comuniquen el pas i la
-          finalització; mai les tries ni el text. El resultat no compta per a cap
-          nota.
+          Casos ficticis · Sense nota · No es desa ni s'envia cap tria o text.
         </p>
       </footer>
     </main>
-
-    <template id="builder-template">
-      <div class="builder-layout">
-        <div class="builder-question">
-          <div class="builder-group-heading">
-            <p class="step-kicker" data-role="group-position"></p>
-            <h3 data-role="group-title"></h3>
-            <p class="field-help" data-role="group-help"></p>
-          </div>
-          <div data-role="group-host"></div>
-          <div class="action-row action-row-between builder-navigation">
-            <button
-              class="button button-quiet"
-              data-role="previous-group"
-              type="button"
-            >
-              Camp anterior
-            </button>
-            <button
-              class="button button-primary"
-              data-role="next-group"
-              type="button"
-            >
-              Camp següent
-            </button>
-          </div>
-        </div>
-
-        <aside class="builder-summary" aria-label="Resultat de les tries">
-          <div class="summary-section">
-            <p class="summary-label">Declaració actual</p>
-            <p class="declaration-preview" data-role="declaration">
-              Tria una opció per començar.
-            </p>
-          </div>
-
-          <div
-            class="builder-status"
-            data-role="status"
-            role="status"
-            aria-live="polite"
-            aria-atomic="true"
-            tabindex="-1"
-          ></div>
-
-          <ul class="quality-checks" data-role="quality-checks"></ul>
-
-          <div class="transition-note" data-role="transition"></div>
-
-          <details class="compatible-details" open>
-            <summary data-role="world-summary"></summary>
-            <ol class="compatible-list" data-role="world-list"></ol>
-          </details>
-
-          <nav class="field-jump" aria-label="Revisa els camps">
-            <p class="summary-label">Revisa un camp</p>
-            <div data-role="group-jump"></div>
-          </nav>
-        </aside>
-      </div>
-    </template>
   </body>
 </html>

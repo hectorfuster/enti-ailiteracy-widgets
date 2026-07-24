@@ -1,7 +1,7 @@
 (function exposeBriefData(globalScope) {
   "use strict";
 
-  const CONTENT_VERSION = "2.0.0";
+  const CONTENT_VERSION = "2.1.0";
   const CONTENT_REVIEW_DATE = "2026-07-24";
 
   const DIMENSIONS = [
@@ -349,8 +349,8 @@
       facts: [
         "Històric: 40.000 ressenyes; flux nou: unes 1.200 per setmana.",
         "Objectius diferents: prevalença general i alertes rares.",
-        "Idiomes i plataformes no estan repartits uniformement.",
-        "Les ressenyes són públiques, però noms d’usuari i metadades no són necessaris.",
+        "Distribució: idiomes i plataformes no estan repartits uniformement.",
+        "Minimització: les ressenyes són públiques, però noms d’usuari i metadades no són necessaris.",
       ],
       pressure: ["cost", "control"],
       questions: [

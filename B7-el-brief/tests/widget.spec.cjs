@@ -211,6 +211,52 @@ test("moves focus to every new screen and supports deliberate revision", async (
   await expectNoAxeViolations(page);
 });
 
+test("keeps new brief facts separate from the previous consequence", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page
+    .getByRole("button", {
+      name: "Comença el primer brief",
+      exact: true,
+    })
+    .click();
+  await completeRound(page, decisions[0]);
+
+  await expect(
+    page.getByRole("heading", {
+      name: "Brief 2: el guió del tràiler",
+    }),
+  ).toBeVisible();
+  const newBrief = page.locator(".new-brief-panel");
+  const previousResult = page.locator("details.consequence");
+  await expect(newBrief.getByText("Informació del nou brief")).toBeVisible();
+  await expect(
+    newBrief.getByRole("heading", { name: "Fets nous per decidir" }),
+  ).toBeVisible();
+  await expect(newBrief.locator(".brief-fact")).toHaveCount(4);
+  await expect(previousResult).not.toHaveAttribute("open", "");
+  await expect(
+    previousResult.locator("summary").getByText("Resultat del brief 1"),
+  ).toBeVisible();
+
+  const positions = await page.evaluate(() => {
+    const facts = document.querySelector(".new-brief-panel");
+    const consequence = document.querySelector("details.consequence");
+    return {
+      facts: facts.getBoundingClientRect().top,
+      consequence: consequence.getBoundingClientRect().top,
+    };
+  });
+  expect(positions.facts).toBeLessThan(positions.consequence);
+
+  await previousResult.locator("summary").click();
+  await expect(previousResult).toHaveAttribute("open", "");
+  await expect(
+    previousResult.getByRole("heading", { name: "Què ha funcionat" }),
+  ).toBeVisible();
+});
+
 test("restores valid session progress and rejects corrupt state", async ({
   page,
 }) => {
@@ -265,15 +311,35 @@ test("explains the sampling trade-off without calling the sample biased", async 
 }) => {
   await page.goto("/");
   await completeThreeRounds(page);
-  const samplingNote = page.locator(".callout-key");
+  const decisionRows = page.locator("details.ledger-card");
+  const samplingNote = page.locator("details.method-note");
   await expect(
     page.getByRole("heading", {
-      name: "Informe de decisions, no marcador de respostes",
+      name: "Mapa de les teves decisions",
+    }),
+  ).toBeVisible();
+  await expect(decisionRows).toHaveCount(3);
+  await expect(page.locator("details.ledger-card[open]")).toHaveCount(0);
+  await decisionRows.first().locator("summary").click();
+  await expect(decisionRows.first()).toHaveAttribute("open", "");
+  await expect(
+    decisionRows.first().getByRole("heading", {
+      name: "Anàlisi del brief 1",
+    }),
+  ).toBeVisible();
+
+  await expect(samplingNote).not.toHaveAttribute("open", "");
+  await samplingNote.locator("summary").click();
+  await expect(samplingNote).toHaveAttribute("open", "");
+  await expect(
+    samplingNote.getByRole("heading", {
+      name: "La precisió importa més que l’eslògan",
     }),
   ).toBeVisible();
   await expect(samplingNote).toContainText("±6,9 punts");
   await expect(samplingNote).toContainText("Una mostra aleatòria de 200");
   await expect(samplingNote).not.toContainText("és esbiaixada");
+  await expectNoAxeViolations(page);
 
   await completeTransfer(page);
   const restartButton = page.getByRole("button", {
@@ -325,6 +391,42 @@ test.describe("320 CSS pixel reflow", () => {
       .click();
     await page
       .getByRole("button", { name: "Construeix el brief", exact: true })
+      .click();
+    dimensions = await page.evaluate(() => ({
+      clientWidth: document.documentElement.clientWidth,
+      scrollWidth: document.documentElement.scrollWidth,
+    }));
+    expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth);
+    await expectNoAxeViolations(page);
+
+    await page.evaluate((key) => {
+      const data = window.B7Data;
+      const state = window.B7Core.createInitialState();
+      state.rounds = data.ROUNDS.map((round) => ({
+        priorities: [...round.pressure],
+        question: round.questions[0].id,
+        workflow: round.workflows[0].id,
+        safeguard: round.safeguards[0].id,
+        committed: true,
+      }));
+      state.roundIndex = data.ROUNDS.length - 1;
+      state.screen = "debrief";
+      window.sessionStorage.setItem(key, JSON.stringify(state));
+    }, STORAGE_KEY);
+    await page.reload();
+    await expect(
+      page.getByRole("heading", { name: "Mapa de les teves decisions" }),
+    ).toBeVisible();
+    dimensions = await page.evaluate(() => ({
+      clientWidth: document.documentElement.clientWidth,
+      scrollWidth: document.documentElement.scrollWidth,
+    }));
+    expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth);
+
+    await page
+      .locator("details.ledger-card")
+      .first()
+      .locator("summary")
       .click();
     dimensions = await page.evaluate(() => ({
       clientWidth: document.documentElement.clientWidth,
@@ -422,7 +524,7 @@ test("emits only validated, privacy-preserving iframe events", async ({
         data: {
           type: "enti-widget-complete",
           widget: "b7-el-brief",
-          version: "2.0.0",
+          version: "2.1.0",
           outcome: { completed: true, restored: false },
         },
         origin: window.location.origin,

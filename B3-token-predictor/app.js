@@ -65,7 +65,6 @@
     progressBar: document.getElementById("progressBar"),
     progressCount: document.getElementById("progressCount"),
     progressFill: document.getElementById("progressFill"),
-    progressNext: document.getElementById("progressNext"),
     promptText: document.getElementById("promptText"),
     promptTokenList: document.getElementById("promptTokenList"),
     randomCaption: document.getElementById("randomCaption"),
@@ -887,34 +886,22 @@
     elements.progressFill.style.width = `${
       (progress.completedCount / progress.totalMilestones) * 100
     }%`;
-    if (state.completed) {
-      elements.progressNext.textContent =
-        "Activitat completada. Ja pots tornar al curs.";
-    } else if (!progress.milestones.predictions) {
-      const remaining = Math.max(0, 3 - progress.predictedScenarios);
-      elements.progressNext.textContent = `Següent: prediu ${remaining} escenari${
-        remaining === 1 ? "" : "s"
-      } més.`;
-    } else if (!progress.milestones.samples) {
-      const remaining = Math.max(0, 10 - progress.sampleCount);
-      elements.progressNext.textContent = `Següent: fes ${remaining} mostra${
-        remaining === 1 ? "" : "es"
-      } més.`;
-    } else if (!progress.milestones.temperatures) {
-      elements.progressNext.textContent =
-        "Següent: mostreja en una altra zona de temperatura.";
-    } else if (!progress.milestones.reflection) {
-      elements.progressNext.textContent = "Següent: respon la reflexió final.";
-    } else {
-      elements.progressNext.textContent = "Tot a punt: finalitza l'activitat.";
-    }
 
+    let currentAssigned = false;
     Object.entries(progress.milestones).forEach(([name, complete]) => {
       const item = elements.milestoneList.querySelector(
         `[data-milestone="${name}"]`,
       );
       if (!item) return;
+      const current = !complete && !currentAssigned && !state.completed;
+      if (current) currentAssigned = true;
       item.classList.toggle("complete", complete);
+      item.classList.toggle("current", current);
+      if (current) {
+        item.setAttribute("aria-current", "step");
+      } else {
+        item.removeAttribute("aria-current");
+      }
       const mark = item.querySelector(".milestone-mark");
       mark.textContent = complete
         ? "✓"
@@ -922,7 +909,7 @@
       item.setAttribute(
         "aria-label",
         `${item.querySelector("strong").textContent}: ${
-          complete ? "completat" : "pendent"
+          complete ? "completat" : current ? "pas actual" : "pendent"
         }`,
       );
     });

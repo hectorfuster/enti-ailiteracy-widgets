@@ -179,6 +179,10 @@ test("reduced-motion preference collapses interface transitions", async ({
       Number.parseFloat(getComputedStyle(element).transitionDuration),
     );
   expect(transitionSeconds).toBeLessThanOrEqual(0.001);
+  const caretAnimation = await page
+    .locator("#promptText")
+    .evaluate((element) => getComputedStyle(element, "::after").animationName);
+  expect(caretAnimation).toBe("none");
 });
 
 test("learning evidence remains visible as a compact sticky progress dock", async ({
@@ -194,11 +198,15 @@ test("learning evidence remains visible as a compact sticky progress dock", asyn
       height: box.height,
       visibleTitle:
         element.querySelector("#progressTitle")?.textContent.trim() ?? "",
+      currentStep:
+        element.querySelector(".milestone-list .current strong")?.textContent ??
+        "",
     };
   });
   expect(dock.position).toBe("sticky");
   expect(dock.top).toBeGreaterThanOrEqual(0);
   expect(dock.top).toBeLessThanOrEqual(12);
-  expect(dock.height).toBeLessThan(180);
+  expect(dock.height).toBeLessThan(130);
   expect(dock.visibleTitle).toBe("Cinc evidències d'aprenentatge");
+  expect(dock.currentStep).toBe("Prediu");
 });

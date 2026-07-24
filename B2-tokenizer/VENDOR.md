@@ -29,6 +29,6 @@ npm.cmd run check
 
 `npm.cmd run vendor:check` rebuilds both artifacts and fails if either committed byte sequence differs. `npm.cmd run size:check` enforces a 2,100,000-byte per-bundle budget and rejects dead source-map references.
 
-`npm.cmd run crosscheck:tiktoken` compares 24 complete token-ID sequences—12 fixtures under each encoding—against the independently pinned Python `tiktoken@0.13.0` reference. Its install is recorded in `requirements-crosscheck.txt`.
+`npm.cmd run crosscheck:tiktoken` compares 30 complete token-ID sequences—15 fixtures under each encoding—against the independently pinned Python `tiktoken@0.13.0` reference. Its install is recorded in `requirements-crosscheck.txt`.
 
 See [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) for runtime and development-tool licenses.

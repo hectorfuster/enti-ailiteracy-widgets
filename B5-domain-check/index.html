@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'sha256-AP75D8HHyONQEfRrcCLcZuN+IWkz00RTi8SXN+DLgiw='; script-src 'sha256-Yxs5zS9YBE+Xx5ApyAsKBLWS9NJoKj5oVJ7dKPi83gY='; img-src data:; connect-src 'none'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'sha256-kovPXKvTcsAyPhFzRchGJujI2beQdTwys8ZMrWLaaXI='; script-src 'sha256-9klsSPFzaeN3Ua9VN707vKSFVHPtsdSSAv80yCBTPco='; img-src data:; connect-src 'none'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
     <title>El corrector · ENTI-UB AI Literacy</title>
     <link
       rel="icon"
@@ -12,28 +12,24 @@
     />
     <style>
       :root {
-  --bg: #f4efe6;
-  --bg-card: #ffffff;
-  --bg-soft: #faf6ec;
-  --bg-deep: #e9dfc9;
-  --ink: #1a1814;
-  --ink-soft: #49443b;
-  --ink-faint: #655e53;
-  --accent: #a11d1d;
-  --accent-deep: #771515;
-  --accent-soft: #f8dddd;
-  --blue: #173e67;
-  --blue-soft: #e2edf7;
-  --green: #245b3a;
-  --green-soft: #e3f1e8;
-  --amber: #704b08;
-  --amber-soft: #fff1c9;
-  --rule: #1a1814;
-  --rule-soft: #81796d;
-  --shadow: 0 8px 30px rgb(49 40 23 / 8%);
+  color-scheme: light;
+  --paper: #f4efe6;
+  --card: #fffdfa;
+  --soft: #f8f5ee;
+  --ink: #1b1916;
+  --ink-soft: #514c44;
+  --ink-faint: #6a6359;
+  --rule: #29251f;
+  --rule-soft: #b9b0a2;
+  --blue: #173b67;
+  --blue-soft: #e8f0f8;
+  --green: #17613e;
+  --green-soft: #e5f2e9;
+  --red: #8a241f;
+  --red-soft: #f8e9e5;
+  --sans: Inter, Aptos, "Segoe UI", Arial, sans-serif;
   --serif: Georgia, "Times New Roman", serif;
-  --sans: Inter, Aptos, "Segoe UI", system-ui, sans-serif;
-  --mono: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 
 * {
@@ -41,56 +37,52 @@
 }
 
 html {
-  background: var(--bg);
-  color: var(--ink);
-  font-family: var(--serif);
-  font-size: 18px;
-  line-height: 1.55;
-  -webkit-font-smoothing: antialiased;
-  text-size-adjust: 100%;
+  background: var(--paper);
+  font-size: 100%;
 }
 
 body {
   margin: 0;
-  min-width: 0;
+  background:
+    linear-gradient(rgb(244 239 230 / 94%), rgb(244 239 230 / 94%)),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 31px,
+      rgb(41 37 31 / 3%) 32px
+    );
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.55;
 }
 
 button,
+select,
 input {
   font: inherit;
 }
 
-button,
-a,
-input {
-  touch-action: manipulation;
-}
-
 a {
   color: var(--blue);
-  text-underline-offset: 0.16em;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
 }
 
 a:hover {
-  color: var(--accent-deep);
-}
-
-:focus-visible {
-  outline: 3px solid var(--blue);
-  outline-offset: 3px;
+  text-decoration-thickness: 2px;
 }
 
 .skip-link {
   position: fixed;
-  z-index: 20;
+  z-index: 10;
   top: 8px;
   left: 8px;
   padding: 10px 14px;
-  transform: translateY(-150%);
+  transform: translateY(-180%);
   background: var(--ink);
-  color: var(--bg-card);
+  color: white;
   font-family: var(--sans);
-  font-weight: 700;
 }
 
 .skip-link:focus {
@@ -98,282 +90,194 @@ a:hover {
 }
 
 .widget-frame {
-  width: min(100%, 1080px);
+  width: min(100% - 32px, 940px);
   margin: 0 auto;
-  padding: 24px 24px 40px;
+  padding: clamp(26px, 5vw, 58px) 0 28px;
 }
 
 .widget-header {
-  margin-bottom: 20px;
-  padding-bottom: 16px;
+  margin-bottom: 18px;
+  padding-bottom: 18px;
   border-bottom: 2px solid var(--rule);
 }
 
 .widget-eyebrow,
-.pill,
-.progress-label,
-.section-label,
-.metric-label,
-.confidence-label,
-.source-kicker {
+.output-label,
+.section-label {
+  margin: 0 0 7px;
+  color: var(--ink-faint);
   font-family: var(--mono);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.12em;
-  line-height: 1.4;
   text-transform: uppercase;
 }
 
-.widget-eyebrow {
-  margin: 0 0 6px;
-  color: var(--ink-soft);
-}
-
 .widget-title {
-  margin: 0 0 6px;
-  font-size: clamp(2rem, 5vw, 3.4rem);
-  font-weight: 600;
-  letter-spacing: -0.025em;
-  line-height: 1;
+  margin: 0;
+  font-size: clamp(2.6rem, 8vw, 4.25rem);
+  line-height: 0.95;
+  letter-spacing: -0.045em;
 }
 
 .widget-subtitle {
-  max-width: 760px;
-  margin: 0;
+  max-width: 720px;
+  margin: 10px 0 0;
   color: var(--ink-soft);
-  font-size: 1rem;
+  font-size: clamp(1rem, 2vw, 1.12rem);
   font-style: italic;
 }
 
 .privacy-note {
-  margin-bottom: 20px;
-  padding: 14px 18px;
-  border-left: 4px solid var(--blue);
-  background: var(--bg-card);
-  box-shadow: var(--shadow);
+  margin: 0 0 18px;
+  border-left: 3px solid var(--blue);
+  background: rgb(255 253 250 / 72%);
+  color: var(--ink-soft);
+  font-family: var(--sans);
+  font-size: 0.78rem;
 }
 
-.privacy-note h2 {
-  margin: 0 0 4px;
-  font-family: var(--sans);
-  font-size: 0.8rem;
+.privacy-note summary {
+  min-height: 42px;
+  padding: 10px 14px;
+  color: var(--ink);
+  cursor: pointer;
+  font-weight: 700;
 }
 
 .privacy-note p {
-  margin: 0;
-  color: var(--ink-soft);
-  font-family: var(--sans);
-  font-size: 0.8rem;
-  line-height: 1.5;
+  margin: -2px 0 0;
+  padding: 0 14px 12px;
 }
 
 .card {
-  margin-bottom: 18px;
-  padding: clamp(20px, 4vw, 34px);
+  padding: clamp(22px, 4.5vw, 42px);
   border: 1px solid var(--rule-soft);
-  background: var(--bg-card);
-  box-shadow: var(--shadow);
+  background: rgb(255 253 250 / 97%);
+  box-shadow: 10px 12px 0 rgb(41 37 31 / 5%);
 }
 
-.card > :first-child,
-.feedback-panel > :first-child,
-.evidence-card > :first-child {
+.card-compact {
+  max-width: 800px;
+}
+
+.card > :first-child {
   margin-top: 0;
 }
 
-.card > :last-child,
-.feedback-panel > :last-child,
-.evidence-card > :last-child {
+.card > :last-child {
   margin-bottom: 0;
 }
 
 .stage-title {
   margin: 0 0 12px;
-  font-size: clamp(1.45rem, 3vw, 2rem);
-  line-height: 1.15;
+  font-size: clamp(1.65rem, 4vw, 2.35rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+
+.stage-title:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 5px;
 }
 
 .lead {
-  max-width: 760px;
+  max-width: 720px;
+  margin: 0 0 16px;
   color: var(--ink-soft);
-  font-size: 1.06rem;
-}
-
-.takeaway-list {
-  display: grid;
-  gap: 8px;
-  margin: 18px 0;
-  padding-left: 1.25em;
+  font-size: 1.02rem;
 }
 
 .duration {
-  padding: 12px 14px;
-  border-left: 3px solid var(--rule);
-  background: var(--bg-soft);
-  color: var(--ink-soft);
+  margin: 16px 0 0;
+  color: var(--ink-faint);
   font-family: var(--sans);
-  font-size: 0.84rem;
+  font-size: 0.82rem;
 }
 
 .button-row {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 22px;
+  margin-top: 24px;
+}
+
+.button-row-end {
+  justify-content: flex-end;
 }
 
 .button {
   min-height: 46px;
-  padding: 10px 16px;
+  padding: 10px 18px;
   border: 2px solid var(--rule);
   border-radius: 0;
-  background: var(--bg-card);
+  background: var(--card);
   color: var(--ink);
   cursor: pointer;
   font-family: var(--sans);
   font-size: 0.88rem;
   font-weight: 750;
-  line-height: 1.25;
 }
 
 .button:hover {
-  background: var(--bg-deep);
+  background: var(--soft);
 }
 
 .button-primary {
   background: var(--ink);
-  color: var(--bg-card);
+  color: white;
 }
 
 .button-primary:hover {
-  border-color: var(--accent-deep);
-  background: var(--accent-deep);
+  background: var(--blue);
 }
 
-.button-secondary {
-  border-color: var(--blue);
-  color: var(--blue);
+.button-quiet {
+  border-color: var(--rule-soft);
 }
 
-.button-danger {
-  border-color: var(--accent);
-  color: var(--accent-deep);
-}
-
-.button[disabled] {
-  cursor: not-allowed;
-  opacity: 0.55;
-}
-
-.rating-intro {
-  max-width: 760px;
-  color: var(--ink-soft);
-}
-
-.rating-list {
-  display: grid;
-  gap: 14px;
-  margin: 20px 0;
-}
-
-.rating-group,
-.answer-fieldset,
-.confidence-fieldset,
-.reflection-fieldset,
-.transfer-fieldset {
-  min-width: 0;
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
-
-.rating-group {
-  padding: 16px;
-  border: 1px solid var(--rule-soft);
-  background: var(--bg-soft);
-}
-
-.rating-group legend,
-.answer-fieldset legend,
-.confidence-fieldset legend,
-.reflection-fieldset legend,
-.transfer-fieldset legend {
-  max-width: 100%;
-  padding: 0;
-  font-weight: 700;
-}
-
-.domain-description {
-  display: block;
-  margin: 3px 0 12px;
-  color: var(--ink-soft);
-  font-family: var(--sans);
-  font-size: 0.78rem;
-  font-weight: 400;
-}
-
-.rating-options {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 8px;
-}
-
-.rating-option {
-  position: relative;
-  display: flex;
-  min-height: 54px;
-  align-items: center;
-  justify-content: center;
-  padding: 7px 4px;
-  border: 2px solid var(--rule-soft);
-  background: var(--bg-card);
-  cursor: pointer;
-  font-family: var(--sans);
-  font-size: 0.78rem;
-  font-weight: 700;
-  text-align: center;
-}
-
-.rating-option:hover {
-  border-color: var(--rule);
-}
-
-.rating-option:has(input:checked) {
-  border-color: var(--blue);
-  background: var(--blue-soft);
-  color: var(--blue);
-}
-
-.rating-option input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-}
-
-.rating-option:has(input:focus-visible) {
+.button:focus-visible,
+select:focus-visible,
+summary:focus-visible,
+input:focus-visible {
   outline: 3px solid var(--blue);
   outline-offset: 3px;
 }
 
-.rating-scale {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 7px;
-  color: var(--ink-faint);
+.domain-pickers {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 22px;
+}
+
+.select-field {
+  display: grid;
+  gap: 7px;
+  color: var(--ink-soft);
   font-family: var(--sans);
-  font-size: 0.72rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.select-field select {
+  width: 100%;
+  min-height: 50px;
+  padding: 9px 36px 9px 12px;
+  border: 2px solid var(--rule);
+  border-radius: 0;
+  background: var(--card);
+  color: var(--ink);
 }
 
 .form-error {
-  margin: 14px 0 0;
-  padding: 12px 14px;
-  border: 2px solid var(--accent);
-  background: var(--accent-soft);
-  color: var(--accent-deep);
+  margin: 16px 0 0;
+  padding: 10px 12px;
+  border-left: 4px solid var(--red);
+  background: var(--red-soft);
+  color: var(--red);
   font-family: var(--sans);
-  font-size: 0.86rem;
+  font-size: 0.84rem;
   font-weight: 700;
 }
 
@@ -383,60 +287,43 @@ a:hover {
 
 .stage-meta {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 9px 12px;
-  margin-bottom: 14px;
+  gap: 12px;
+  margin-bottom: 12px;
 }
 
 .pill {
   display: inline-flex;
-  min-height: 30px;
+  min-height: 28px;
   align-items: center;
-  padding: 4px 10px;
+  padding: 3px 9px;
   border: 1px solid var(--blue);
   background: var(--blue-soft);
   color: var(--blue);
+  font-family: var(--mono);
+  font-size: 0.69rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
-.pill-neutral {
-  border-color: var(--rule-soft);
-  background: var(--bg-deep);
-  color: var(--ink);
-}
-
-.domain-role {
-  color: var(--ink-soft);
-  font-family: var(--sans);
-  font-size: 0.78rem;
-}
-
-.progress-block {
-  margin: 12px 0 22px;
-}
-
-.progress-label {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 6px;
-  color: var(--ink-soft);
+.progress-line {
+  flex: 1;
 }
 
 progress {
   display: block;
   width: 100%;
-  height: 12px;
-  overflow: hidden;
-  border: 1px solid var(--rule-soft);
+  height: 7px;
+  border: 0;
   border-radius: 0;
-  background: var(--bg-deep);
+  background: #ded7cc;
   color: var(--blue);
   accent-color: var(--blue);
 }
 
 progress::-webkit-progress-bar {
-  background: var(--bg-deep);
+  background: #ded7cc;
 }
 
 progress::-webkit-progress-value {
@@ -447,379 +334,332 @@ progress::-moz-progress-bar {
   background: var(--blue);
 }
 
-.synthetic-output {
-  margin: 18px 0;
-  padding: clamp(16px, 3vw, 24px);
-  border-left: 5px solid var(--rule);
-  background: var(--bg-soft);
+.judgment-fieldset,
+.transfer-fieldset {
+  min-width: 0;
+  margin: 22px 0 0;
+  padding: 0;
+  border: 0;
 }
 
-.section-label {
-  margin: 0 0 8px;
-  color: var(--ink-faint);
+.judgment-fieldset legend,
+.transfer-fieldset legend {
+  margin-bottom: 9px;
+  padding: 0;
+  color: var(--ink-soft);
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.synthetic-output {
+  overflow: hidden;
+  border: 1px solid var(--rule-soft);
+  border-left: 5px solid var(--rule);
+  background: var(--soft);
+}
+
+.synthetic-output > .output-label {
+  margin: 0;
+  padding: 14px 16px 0;
 }
 
 .item-context {
-  margin: 0 0 16px;
-  color: var(--ink-soft);
-  font-size: 0.95rem;
+  margin: 4px 0 12px;
+  padding: 0 16px;
+  color: var(--ink-faint);
+  font-size: 0.86rem;
   font-style: italic;
 }
 
-.answer-fieldset {
-  margin-top: 20px;
+.claim-lines {
+  border-top: 1px solid var(--rule-soft);
 }
 
-.choice-list,
-.confidence-options,
-.transfer-options {
-  display: grid;
-  gap: 10px;
-  margin-top: 12px;
-}
-
-.choice-card,
-.confidence-option,
-.transfer-option,
-.reflection-option {
+.claim-line {
   position: relative;
   display: grid;
-  grid-template-columns: 24px minmax(0, 1fr);
-  gap: 12px;
-  min-height: 54px;
+  grid-template-columns: 22px 28px minmax(0, 1fr);
+  gap: 10px;
+  min-height: 58px;
   align-items: center;
-  padding: 12px 14px;
-  border: 2px solid var(--rule-soft);
-  background: var(--bg-card);
+  margin: 0;
+  padding: 11px 16px;
+  border-bottom: 1px solid #d8d0c4;
+  background: var(--card);
   cursor: pointer;
 }
 
-.choice-card:hover,
-.confidence-option:hover,
-.transfer-option:hover,
-.reflection-option:hover {
-  border-color: var(--rule);
-  background: var(--bg-soft);
+.claim-line:last-child {
+  border-bottom: 0;
 }
 
-.choice-card:has(input:checked),
-.confidence-option:has(input:checked),
-.transfer-option:has(input:checked),
-.reflection-option:has(input:checked) {
-  border-color: var(--blue);
+.claim-line:hover {
+  background: #f1ede5;
+}
+
+.claim-line:has(input:checked) {
   background: var(--blue-soft);
+  box-shadow: inset 4px 0 0 var(--blue);
 }
 
-.choice-card:has(input:focus-visible),
-.confidence-option:has(input:focus-visible),
-.transfer-option:has(input:focus-visible),
-.reflection-option:has(input:focus-visible) {
+.claim-line:has(input:focus-visible) {
   outline: 3px solid var(--blue);
-  outline-offset: 3px;
+  outline-offset: -4px;
 }
 
-.choice-card input,
-.confidence-option input,
-.transfer-option input,
-.reflection-option input {
+.claim-line input,
+.clean-option input,
+.transfer-option input {
   width: 20px;
   height: 20px;
   margin: 0;
   accent-color: var(--blue);
 }
 
-.choice-number {
-  display: block;
-  margin-bottom: 2px;
+.claim-number {
+  display: inline-grid;
+  width: 25px;
+  height: 25px;
+  place-items: center;
+  border: 1px solid var(--rule-soft);
   color: var(--ink-faint);
   font-family: var(--mono);
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.choice-copy {
-  min-width: 0;
-}
-
-.confidence-fieldset {
-  margin-top: 20px;
-}
-
-.confidence-options {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.confidence-option {
-  grid-template-columns: 20px minmax(0, 1fr);
-  padding: 10px 12px;
-  font-family: var(--sans);
-  font-size: 0.82rem;
-  font-weight: 700;
-}
-
-.feedback-heading {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-  margin: 0 0 12px;
-}
-
-.feedback-heading h2 {
-  margin: 0;
-}
-
-.feedback-badge,
-.answer-marker {
-  display: inline-flex;
-  align-items: center;
-  padding: 3px 8px;
-  border: 1px solid currentColor;
-  font-family: var(--sans);
   font-size: 0.72rem;
-  font-weight: 800;
-  line-height: 1.3;
+  font-weight: 700;
 }
 
-.feedback-correct {
-  color: var(--green);
-}
-
-.feedback-incorrect {
-  color: var(--accent-deep);
-}
-
-.feedback-panel {
-  margin: 16px 0;
-  padding: 16px 18px;
-  border: 1px solid var(--rule-soft);
-  background: var(--bg-soft);
-}
-
-.feedback-panel.correct {
-  border-left: 5px solid var(--green);
-  background: var(--green-soft);
-}
-
-.feedback-panel.incorrect {
-  border-left: 5px solid var(--accent);
-  background: var(--accent-soft);
-}
-
-.claim-review {
-  display: grid;
-  gap: 8px;
-  margin: 16px 0;
-  padding: 0;
-  list-style: none;
-}
-
-.claim-review li {
-  padding: 12px 14px;
-  border: 1px solid var(--rule-soft);
-  background: var(--bg-card);
-}
-
-.claim-review li.is-error {
-  border-left: 5px solid var(--accent);
-}
-
-.claim-review li.is-learner {
-  box-shadow: inset 0 0 0 2px var(--blue);
-}
-
-.claim-markers {
+.clean-option {
   display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin-top: 7px;
+  min-height: 50px;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-top: 1px solid var(--rule);
+  background: var(--paper);
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 0.86rem;
+  font-weight: 700;
 }
 
-.marker-error {
-  color: var(--accent-deep);
-}
-
-.marker-learner {
+.clean-option:has(input:checked) {
+  background: var(--blue-soft);
+  box-shadow: inset 4px 0 0 var(--blue);
   color: var(--blue);
 }
 
-.verification-action {
-  margin: 16px 0;
-  padding: 14px 16px;
-  border-left: 4px solid var(--amber);
-  background: var(--amber-soft);
+.clean-option:has(input:focus-visible) {
+  outline: 3px solid var(--blue);
+  outline-offset: -4px;
 }
 
-.verification-action strong {
+.reviewed-output {
+  margin: 18px 0 14px;
+}
+
+.claim-review-line {
+  grid-template-columns: 28px minmax(0, 1fr);
+  cursor: default;
+}
+
+.claim-review-line:hover {
+  background: var(--card);
+}
+
+.claim-review-line.is-selected {
+  background: var(--blue-soft);
+  box-shadow: inset 4px 0 0 var(--blue);
+}
+
+.claim-review-line.is-error {
+  background: var(--red-soft);
+  box-shadow: inset 4px 0 0 var(--red);
+}
+
+.claim-review-line.is-error.is-selected {
+  background: linear-gradient(90deg, var(--red-soft), var(--blue-soft));
+  box-shadow:
+    inset 4px 0 0 var(--red),
+    inset 8px 0 0 var(--blue);
+}
+
+.claim-note {
   display: block;
-  font-family: var(--sans);
-  font-size: 0.8rem;
-}
-
-.source-card,
-.evidence-card {
-  padding: 14px 16px;
-  border: 1px solid var(--rule-soft);
-  background: var(--bg-card);
-}
-
-.source-kicker {
-  margin: 0 0 4px;
+  margin-top: 3px;
   color: var(--ink-faint);
-}
-
-.source-card p,
-.evidence-card p {
-  margin: 4px 0;
-}
-
-.source-link {
-  display: inline-flex;
-  min-height: 44px;
-  align-items: center;
   font-family: var(--sans);
-  font-size: 0.82rem;
+  font-size: 0.72rem;
+  font-weight: 750;
+}
+
+.clean-review {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 10px;
+  min-height: 48px;
+  align-items: center;
+  padding: 10px 16px;
+  border-top: 1px solid var(--rule);
+  background: var(--paper);
+  font-family: var(--sans);
+  font-size: 0.84rem;
   font-weight: 700;
 }
 
-.transfer-claim {
+.clean-review .claim-note {
+  margin: 0;
+}
+
+.clean-review.is-correct {
+  box-shadow: inset 4px 0 0 var(--green);
+}
+
+.clean-review.is-selected {
+  box-shadow: inset 4px 0 0 var(--blue);
+}
+
+.text-correct {
+  color: var(--green);
+}
+
+.text-incorrect {
+  color: var(--red);
+}
+
+.correction-strip {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  border-left: 4px solid;
+  font-size: 0.94rem;
+}
+
+.correction-strip p {
+  margin: 0;
+}
+
+.correction-strip.correct {
+  border-color: var(--green);
+  background: var(--green-soft);
+}
+
+.correction-strip.incorrect {
+  border-color: var(--red);
+  background: var(--red-soft);
+}
+
+.verify-line {
+  margin: 12px 0 0;
+  color: var(--ink-soft);
+  font-family: var(--sans);
+  font-size: 0.79rem;
+}
+
+.evidence-card {
   margin: 18px 0;
   padding: 16px 18px;
-  border-left: 5px solid var(--rule);
-  background: var(--bg-soft);
-  font-size: 1.08rem;
-}
-
-.reflection-options {
-  display: grid;
-  gap: 10px;
-  margin-top: 16px;
-}
-
-.reflection-option {
-  font-family: var(--sans);
-  font-size: 0.9rem;
-}
-
-.results-intro {
-  max-width: 780px;
-  margin-bottom: 20px;
-  padding: 16px 18px;
+  border: 1px solid var(--rule-soft);
   border-left: 5px solid var(--blue);
   background: var(--blue-soft);
 }
 
-.domain-results,
-.outcome-grid,
-.confidence-grid,
-.verification-grid {
-  display: grid;
-  gap: 12px;
-  margin: 16px 0 24px;
+.evidence-card p {
+  margin: 6px 0;
 }
 
-.domain-results {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.outcome-grid {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-}
-
-.confidence-grid,
-.verification-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.result-card,
-.metric-card,
-.plan-card {
-  min-width: 0;
-  padding: 16px;
-  border: 1px solid var(--rule-soft);
-  background: var(--bg-soft);
-}
-
-.result-card h3,
-.plan-card h3 {
-  margin: 0 0 5px;
-  font-size: 1rem;
-}
-
-.result-score,
-.metric-value {
-  margin: 7px 0;
-  font-family: var(--mono);
-  font-size: clamp(1.5rem, 4vw, 2.3rem);
-  font-weight: 800;
-  line-height: 1;
-}
-
-.result-card p,
-.metric-card p,
-.plan-card p {
-  margin: 5px 0 0;
-  color: var(--ink-soft);
+.evidence-source {
   font-family: var(--sans);
-  font-size: 0.78rem;
-  line-height: 1.45;
+  font-size: 0.8rem;
 }
 
-.review-section {
-  margin-top: 26px;
+.transfer-claim {
+  margin: 18px 0;
+  font-size: 1.1rem;
 }
 
-.review-section > h3 {
-  margin-bottom: 10px;
+.transfer-options {
+  display: grid;
+  gap: 8px;
 }
 
-.review-item {
-  margin-bottom: 10px;
+.transfer-option {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 10px;
+  min-height: 50px;
+  align-items: center;
+  padding: 10px 12px;
   border: 1px solid var(--rule-soft);
-  background: var(--bg-card);
-}
-
-.review-item summary {
-  min-height: 48px;
-  padding: 12px 16px;
+  background: var(--card);
   cursor: pointer;
   font-family: var(--sans);
   font-size: 0.86rem;
-  font-weight: 750;
 }
 
-.review-item summary:hover {
-  background: var(--bg-soft);
+.transfer-option:has(input:checked) {
+  border-color: var(--blue);
+  background: var(--blue-soft);
 }
 
-.review-body {
-  padding: 0 16px 16px;
+.transfer-option:has(input:focus-visible) {
+  outline: 3px solid var(--blue);
+  outline-offset: 2px;
 }
 
-.review-body p {
-  margin: 8px 0;
+.simple-comparison {
+  margin: 22px 0 18px;
+  border-top: 2px solid var(--rule);
+  border-bottom: 2px solid var(--rule);
+}
+
+.simple-comparison p {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0;
+  padding: 12px 4px;
+  border-bottom: 1px solid var(--rule-soft);
+}
+
+.simple-comparison p:last-child {
+  border-bottom: 0;
+}
+
+.simple-comparison strong {
+  white-space: nowrap;
+  font-family: var(--mono);
+  font-size: 1.2rem;
+}
+
+.results-intro {
+  max-width: 700px;
+  margin: 0 0 20px;
+}
+
+.takeaway {
+  margin: 18px 0;
+  padding: 18px;
+  border-left: 5px solid var(--blue);
+  background: var(--blue-soft);
+}
+
+.takeaway p {
+  margin: 5px 0 0;
 }
 
 .completion-note {
-  margin-top: 24px;
-  padding: 16px 18px;
-  border: 2px solid var(--green);
-  background: var(--green-soft);
-  color: var(--green);
+  color: var(--ink-faint);
   font-family: var(--sans);
-  font-size: 0.86rem;
-  font-weight: 750;
+  font-size: 0.76rem;
 }
 
 .widget-footer {
-  margin-top: 24px;
-  padding-top: 16px;
-  border-top: 1px solid var(--rule-soft);
-  color: var(--ink-soft);
-  font-size: 0.75rem;
-  font-style: italic;
+  margin-top: 20px;
+  color: var(--ink-faint);
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  text-align: center;
 }
 
 .sr-only {
@@ -834,72 +674,52 @@ progress::-moz-progress-bar {
   border: 0 !important;
 }
 
-[hidden] {
-  display: none !important;
-}
-
-@media (max-width: 880px) {
-  .outcome-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 640px) {
-  html {
-    font-size: 17px;
-  }
-
+@media (max-width: 620px) {
   .widget-frame {
-    padding: 16px 14px 30px;
+    width: min(100% - 20px, 940px);
+    padding-top: 22px;
+  }
+
+  .widget-header {
+    margin-bottom: 12px;
+    padding-bottom: 14px;
+  }
+
+  .widget-title {
+    font-size: clamp(2.35rem, 13vw, 3.5rem);
   }
 
   .card {
-    padding: 18px 16px;
+    padding: 20px 14px;
+    box-shadow: 5px 6px 0 rgb(41 37 31 / 5%);
   }
 
-  .rating-options {
-    grid-template-columns: repeat(5, minmax(44px, 1fr));
-    overflow-x: auto;
-    padding: 4px;
-  }
-
-  .confidence-options,
-  .domain-results,
-  .confidence-grid,
-  .verification-grid {
+  .domain-pickers {
     grid-template-columns: 1fr;
+    gap: 12px;
   }
 
-  .outcome-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .claim-line {
+    grid-template-columns: 20px 25px minmax(0, 1fr);
+    gap: 8px;
+    padding: 11px 10px;
   }
 
-  .button-row {
-    align-items: stretch;
-    flex-direction: column;
+  .claim-review-line {
+    grid-template-columns: 25px minmax(0, 1fr);
+  }
+
+  .clean-option {
+    padding-inline: 10px;
+  }
+
+  .button-row,
+  .button-row-end {
+    justify-content: stretch;
   }
 
   .button {
-    width: 100%;
-  }
-
-  .progress-label {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 2px;
-  }
-}
-
-@media (max-width: 380px) {
-  .outcome-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .choice-card,
-  .confidence-option,
-  .transfer-option,
-  .reflection-option {
-    padding: 11px 10px;
+    flex: 1 1 auto;
   }
 }
 
@@ -915,11 +735,9 @@ progress::-moz-progress-bar {
 }
 
 @media (forced-colors: active) {
-  .choice-card:has(input:checked),
-  .confidence-option:has(input:checked),
-  .transfer-option:has(input:checked),
-  .reflection-option:has(input:checked),
-  .rating-option:has(input:checked) {
+  .claim-line:has(input:checked),
+  .clean-option:has(input:checked),
+  .transfer-option:has(input:checked) {
     outline: 3px solid Highlight;
   }
 
@@ -938,10 +756,10 @@ progress::-moz-progress-bar {
         <p class="widget-subtitle" id="widget-subtitle"></p>
       </header>
 
-      <aside class="privacy-note" aria-labelledby="privacy-title">
-        <h2 id="privacy-title">Privacitat i finalització</h2>
+      <details class="privacy-note">
+        <summary>Privacitat i finalització</summary>
         <p id="privacy-copy"></p>
-      </aside>
+      </details>
 
       <div id="stage"></div>
       <div
@@ -971,13 +789,15 @@ progress::-moz-progress-bar {
   "use strict";
 
   const ITEM_BANK = JSON.parse("{\"schemaVersion\":1,\"locale\":\"ca\",\"verifiedAt\":\"2026-07-24\",\"reviewPolicy\":{\"sourceReview\":\"completed\",\"sourceReviewer\":\"Codex implementation review\",\"subjectMatterSignoff\":\"pending ENTI-UB subject reviewer\",\"languageSignoff\":\"pending ENTI-UB Catalan reviewer\"},\"practice\":{\"id\":\"practice-upload-limit\",\"domain\":\"practica\",\"tag\":\"Pràctica\",\"context\":\"Regla d'aquest exemple: el campus només accepta fitxers de 10 MB o menys.\",\"claims\":[\"Un fitxer de 8 MB compleix el límit.\",\"Un fitxer de 12 MB també compleix el límit.\",\"El límit inclou els fitxers que ocupen exactament 10 MB.\"],\"errorIndex\":1,\"explanation\":\"La segona frase contradiu la regla: 12 MB supera el límit de 10 MB.\",\"verificationAction\":\"Aquí n'hi havia prou de comparar cada xifra amb la regla visible.\",\"source\":{\"type\":\"activity-defined\",\"publisher\":\"ENTI-UB\",\"title\":\"Regla definida dins de l'activitat\",\"url\":\"\",\"checkedAt\":\"2026-07-24\"},\"provenance\":\"Exemple sintètic escrit per ensenyar el control de resposta.\",\"review\":{\"factual\":\"source-checked\",\"language\":\"pending-human-signoff\"}},\"domains\":[{\"id\":\"videojocs\",\"label\":\"Desenvolupament de videojocs\",\"shortLabel\":\"Videojocs\",\"description\":\"Rendiment, temps i matemàtiques habituals en motors de joc.\",\"items\":[{\"id\":\"games-fixed-update\",\"difficulty\":\"transfer\",\"context\":\"En un motor amb pas de física fix, el renderitzat i la simulació no han d'avançar necessàriament al mateix ritme.\",\"claims\":[\"FixedUpdate s'executa exactament una vegada per cada fotograma renderitzat.\",\"Un pas fix de 0,02 segons equival a 50 actualitzacions de física per segon de joc.\",\"Un fotograma pot contenir zero, una o diverses actualitzacions de física segons el temps acumulat.\"],\"errorIndex\":0,\"explanation\":\"La primera frase és falsa. Les actualitzacions de física segueixen el pas fix, no una relació obligatòria d'una per fotograma.\",\"verificationAction\":\"Consulta la documentació del bucle temporal del motor i diferencia renderitzat de simulació.\",\"source\":{\"type\":\"authoritative\",\"publisher\":\"Unity Technologies\",\"title\":\"Time and frame rate management\",\"url\":\"https://docs.unity3d.com/2023.2/Documentation/Manual/TimeFrameManagement.html\",\"checkedAt\":\"2026-07-24\"},\"provenance\":\"Resposta sintètica basada en documentació oficial de Unity.\",\"review\":{\"factual\":\"source-checked\",\"language\":\"pending-human-signoff\"}},{\"id\":\"games-delta-time\",\"difficulty\":\"introductory\",\"context\":\"Unity crida Update una vegada per fotograma i exposa el temps transcorregut des de l'últim fotograma.\",\"claims\":[\"Time.deltaTime expressa en segons el temps transcorregut des del fotograma anterior.\",\"Moure un objecte una distància fixa a cada Update garanteix una velocitat constant encara que canviïn els FPS.\",\"Multiplicar una velocitat per Time.deltaTime ajuda a fer el moviment independent de la taxa de fotogrames.\"],\"errorIndex\":1,\"explanation\":\"La segona frase és falsa. Una distància fixa per fotograma fa que la velocitat canviï quan canvien els FPS.\",\"verificationAction\":\"Comprova les unitats: metres per segon × segons per fotograma = metres per fotograma.\",\"source\":{\"type\":\"authoritative\",\"publisher\":\"Unity Technologies\",\"title\":\"Time and frame rate management\",\"url\":\"https://docs.unity3d.com/2023.2/Documentation/Manual/TimeFrameManagement.html\",\"checkedAt\":\"2026-07-24\"},\"provenance\":\"Resposta sintètica basada en documentació oficial de Unity.\",\"review\":{\"factual\":\"source-checked\",\"language\":\"pending-human-signoff\"}},{\"id\":\"games-frame-budget\",\"difficulty\":\"introductory\",\"context\":\"El pressupost teòric d'un fotograma es calcula dividint 1.000 mil·lisegons pels FPS objectiu.\",\"claims\":[\"A 30 FPS, cada fotograma disposa d'uns 33,33 ms.\",\"A 60 FPS, cada fotograma disposa d'uns 16,67 ms.\",\"A 120 FPS, cada fotograma disposa de 12 ms.\"],\"errorIndex\":2,\"explanation\":\"La tercera frase és falsa: 1.000 ÷ 120 són aproximadament 8,33 ms, no 12 ms.\",\"verificationAction\":\"Aquest error es pot verificar directament amb el càlcul 1.000 ÷ FPS.\",\"source\":{\"type\":\"authoritative\",\"publisher\":\"Unity Technologies\",\"title\":\"Handling variation in time\",\"url\":\"https://docs.unity3d.com/6000.0/Documentation/Manual/time-handling-variations.html\",\"checkedAt\":\"2026-07-24\"},\"provenance\":\"Resposta sintètica; les xifres es deriven de la fórmula indicada.\",\"review\":{\"factual\":\"source-checked\",\"language\":\"pending-human-signoff\"}},{\"id\":\"games-vector-normalization\",\"difficulty\":\"transfer\",\"context\":\"Considera un vector diferent de zero i la seva versió normalitzada.\",\"claims\":[\"El vector normalitzat manté la direcció de l'original.\",\"La magnitud del vector normalitzat és 1.\",\"Multiplicar-lo per una velocitat escalar produeix un vector amb aquella magnitud.\"],\"errorIndex\":null,\"explanation\":\"Les tres frases són correctes per a un vector diferent de zero.\",\"verificationAction\":\"Revisa la definició matemàtica o la documentació de Vector3.normalized.\",\"source\":{\"type\":\"authoritative\",\"publisher\":\"Unity Technologies\",\"title\":\"Vector3.normalized\",\"url\":\"https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Vector3-normalized.html\",\"checkedAt\":\"2026-07-24\"},\"provenance\":\"Resposta sintètica amb la condició de vector no nul explicitada.\",\"review\":{\"factual\":\"source-checked\",\"language\":\"pending-human-signoff\"}},{\"id\":\"games-collider-bounds\",\"difficulty\":\"transfer\",\"context\":\"Unity exposa Collider.bounds com el volum delimitador del col·lisionador en l'espai del món.\",\"claims\":[\"Collider.bounds descriu un volum delimitador en coordenades de món.\",\"El volum encapsula el col·lisionador encara que no n'ajusti exactament la forma.\",\"Un col·lisionador desactivat o un GameObject inactiu pot retornar un volum buit.\"],\"errorIndex\":null,\"explanation\":\"Les tres frases són coherents amb la definició de Collider.bounds.\",\"verificationAction\":\"Consulta la referència exacta de la propietat en lloc d'inferir-la pel nom.\",\"source\":{\"type\":\"authoritative\",\"publisher\":\"Unity Technologies\",\"title\":\"Collider.bounds\",\"url\":\"https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Collider-bounds.html\",\"checkedAt\":\"2026-07-24\"},\"provenance\":\"Resposta sintètica basada en documentació oficial de Unity.\",\"review\":{\"factual\":\"source-checked\",\"language\":\"pending-human-signoff\"}}]},{\"id\":\"musica\",\"label\":\"Música\",\"shortLabel\":\"Música\",\"description\":\"Mètrica, intervals, freqüència i història musical.\",\"items\":[{\"id\":\"music-time-signature\",\"difficulty\":\"transfer\",\"context\":\"En la mètrica simple occidental, les dues xifres del compàs descriuen aspectes diferents.\",\"claims\":[\"En una indicació 3/4, la xifra inferior indica que hi ha tres pulsacions a cada compàs.\",\"En una indicació 3/4, una negra representa una pulsació de referència.\",\"En una indicació 3/4, la xifra superior 3 correspon a una mètrica triple simple.\"],\"errorIndex\":0,\"explanation\":\"La primera frase és falsa. El nombre de pulsacions el dona la xifra superior; el 4 inferior identifica la negra com a valor de pulsació.\",\"verificationAction\":\"Separa sempre les funcions del numerador i del denominador.\",\"source\":{\"type\":\"authoritative\",\"publisher\":\"Open Music Theory\",\"title\":\"Meter and time signatures\",\"url\":\"https://openmusictheory.github.io/meter.html\",\"checkedAt\":\"2026-07-24\"},\"provenance\":\"Resposta sintètica basada en un manual obert de teoria musical.\",\"review\":{\"factual\":\"source-checked\",\"language\":\"pending-human-signoff\"}},{\"id\":\"music-octave-frequency\",\"difficulty\":\"introductory\",\"context\":\"En afinació de referència, A4 (la4) té una freqüència de 440 Hz i una octava duplica la freqüència.\",\"claims\":[\"Si A4 s'afina a 440 Hz, A5 és una octava per sobre i conserva la mateixa classe de nota.\",\"Si A4 s'afina a 440 Hz, la freqüència d'A5 és 660 Hz segons la relació entre octaves.\",\"Si A4 s'afina a 440 Hz, A3 és una octava per sota i té una freqüència de 220 Hz.\"],\"errorIndex\":1,\"explanation\":\"La segona frase és falsa. Una octava duplica 440 Hz, de manera que A5 és 880 Hz.\",\"verificationAction\":\"Aplica la relació d'octava ×2 o ÷2 i comprova les unitats en hertzs.\",\"source\":{\"type\":\"authoritative\",\"publisher\":\"OpenStax\",\"title\":\"Contemporary Mathematics — Math and Music\",\"url\":\"https://openstax.org/books/contemporary-mathematics/pages/13-4-math-and-music\",\"checkedAt\":\"2026-07-24\"},\"provenance\":\"Resposta sintètica basada en material educatiu d'OpenStax.\",\"review\":{\"factual\":\"source-checked\",\"language\":\"pending-human-signoff\"}},{\"id\":\"music-vivaldi\",\"difficulty\":\"introductory\",\"context\":\"Les quatre estacions formen part de l'opus 8 d'Antonio Vivaldi.\",\"claims\":[\"La col·lecció coneguda com Les quatre estacions és un conjunt de quatre concerts per a violí.\",\"La primera edició de la col·lecció es va publicar a Amsterdam l'any 1725.\",\"Vivaldi va publicar aquesta col·lecció a mitjan segle XIX, dècades després de morir.\"],\"errorIndex\":2,\"explanation\":\"La tercera frase és falsa. L'edició de 1725 pertany al segle XVIII.\",\"verificationAction\":\"Per a una data històrica, consulta un catàleg o una col·lecció patrimonial.\",\"source\":{\"type\":\"authoritative\",\"publisher\":\"Library of Congress\",\"title\":\"The Four Seasons — National Recording Registry essay\",\"url\":\"https://www.loc.gov/static/programs/national-recording-preservation-board/documents/The-Four-Seasons_Furuya.pdf\",\"checkedAt\":\"2026-07-24\"},\"provenance\":\"Resposta sintètica basada en la fitxa patrimonial de la Library of Congress.\",\"review\":{\"factual\":\"source-checked\",\"language\":\"pending-human-signoff\"}},{\"id\":\"music-intervals\",\"difficulty\":\"transfer\",\"context\":\"Els intervals cromàtics es poden comptar en semitons.\",\"claims\":[\"En el sistema occidental de dotze notes per octava, de C4 a E4 hi ha quatre semitons.\",\"En aquest mateix sistema, quatre semitons formen l'interval d'una tercera major.\",\"Una octava justa, com la que va de C4 a C5, abasta un total de dotze semitons.\"],\"errorIndex\":null,\"explanation\":\"Les tres frases són correctes.\",\"verificationAction\":\"Compta els passos cromàtics i contrasta el nom de l'interval.\",\"source\":{\"type\":\"authoritative\",\"publisher\":\"Open Music Theory\",\"title\":\"Intervals and dyads\",\"url\":\"https://openmusictheory.github.io/intervals.html\",\"checkedAt\":\"2026-07-24\"},\"provenance\":\"Resposta sintètica basada en un manual obert de teoria musical.\",\"review\":{\"factual\":\"source-checked\",\"language\":\"pending-human-signoff\"}},{\"id\":\"music-six-eight\",\"difficulty\":\"transfer\",\"context\":\"Considera la interpretació habitual de 6/8 com a compàs compost.\",\"claims\":[\"El 6 superior indica sis subdivisions escrites com a corxeres.\",\"Aquestes subdivisions s'agrupen habitualment en dues pulsacions de tres corxeres.\",\"Per això 6/8 és un exemple de mètrica binària composta.\"],\"errorIndex\":null,\"explanation\":\"Les tres frases són correctes dins de la interpretació composta habitual de 6/8.\",\"verificationAction\":\"Diferencia subdivisions escrites i pulsacions percebudes.\",\"source\":{\"type\":\"authoritative\",\"publisher\":\"Open Music Theory\",\"title\":\"Meter and time signatures\",\"url\":\"https://openmusictheory.github.io/meter.html\",\"checkedAt\":\"2026-07-24\"},\"provenance\":\"Resposta sintètica basada en un manual obert de teoria musical.\",\"review\":{\"factual\":\"source-checked\",\"language\":\"pending-human-signoff\"}}]},{\"id\":\"astronomia\",\"label\":\"Astronomia\",\"shortLabel\":\"Astronomia\",\"description\":\"Moviments, distàncies i fenòmens del sistema solar.\",\"items\":[{\"id\":\"astronomy-seasons\",\"difficulty\":\"transfer\",\"context\":\"Les estacions terrestres depenen de com arriba la llum solar a cada hemisferi.\",\"claims\":[\"La causa principal de les estacions és que la Terra s'acosta i s'allunya molt del Sol cada sis mesos.\",\"La inclinació de l'eix terrestre canvia l'angle amb què arriben els rajos solars.\",\"Quan un hemisferi rep els rajos més directament, hi és estiu.\"],\"errorIndex\":0,\"explanation\":\"La primera frase és falsa. El mecanisme principal és la inclinació axial, no un gran canvi semestral de distància.\",\"verificationAction\":\"Busca una explicació física que compari inclinació, angle d'incidència i òrbita.\",\"source\":{\"type\":\"authoritative\",\"publisher\":\"NASA Science\",\"title\":\"Seasons on Earth, Mars, and Beyond\",\"url\":\"https://science.nasa.gov/helio-and-you-seasons-on-earth-mars-and-beyond/\",\"checkedAt\":\"2026-07-24\"},\"provenance\":\"Resposta sintètica basada en material educatiu de NASA Science.\",\"review\":{\"factual\":\"source-checked\",\"language\":\"pending-human-signoff\"}},{\"id\":\"astronomy-moon-phases\",\"difficulty\":\"introductory\",\"context\":\"Una meitat de la Lluna està il·luminada pel Sol gairebé sempre.\",\"claims\":[\"Les fases descriuen quina part de la meitat il·luminada veiem des de la Terra.\",\"Les fases ordinàries les causa l'ombra de la Terra sobre la Lluna.\",\"L'ombra de la Terra sí que intervé en un eclipsi lunar.\"],\"errorIndex\":1,\"explanation\":\"La segona frase és falsa. L'ombra terrestre només explica els eclipsis lunars, no les fases habituals.\",\"verificationAction\":\"Compara un diagrama de fases amb un diagrama d'eclipsi.\",\"source\":{\"type\":\"authoritative\",\"publisher\":\"NASA Science\",\"title\":\"Top Moon Questions\",\"url\":\"https://science.nasa.gov/moon/top-moon-questions/\",\"checkedAt\":\"2026-07-24\"},\"provenance\":\"Resposta sintètica basada en material educatiu de NASA Science.\",\"review\":{\"factual\":\"source-checked\",\"language\":\"pending-human-signoff\"}},{\"id\":\"astronomy-mars-moons\",\"difficulty\":\"introductory\",\"context\":\"Mart té dos satèl·lits naturals petits: Fobos i Deimos.\",\"claims\":[\"Fobos és el més gran dels dos satèl·lits de Mart.\",\"Fobos completa aproximadament tres òrbites cada dia marcià.\",\"Fobos i Deimos són tots dos més grans que la Lluna terrestre.\"],\"errorIndex\":2,\"explanation\":\"La tercera frase és falsa. Fobos fa aproximadament 22 km en la dimensió mitjana i Deimos uns 12 km; la Lluna terrestre és molt més gran.\",\"verificationAction\":\"Contrasta mides i períodes orbitals en una font astronòmica.\",\"source\":{\"type\":\"authoritative\",\"publisher\":\"NASA Science\",\"title\":\"Moons of Mars\",\"url\":\"https://science.nasa.gov/mars/moons/\",\"checkedAt\":\"2026-07-24\"},\"provenance\":\"Resposta sintètica basada en dades de NASA Science.\",\"review\":{\"factual\":\"source-checked\",\"language\":\"pending-human-signoff\"}},{\"id\":\"astronomy-light-year\",\"difficulty\":\"transfer\",\"context\":\"Un any llum combina el temps d'un any amb la velocitat de la llum per definir una distància.\",\"claims\":[\"Un any llum és una unitat de longitud, no de durada.\",\"Equival a la distància que la llum recorre en un any.\",\"Són aproximadament 9,46 bilions de quilòmetres (9,46 × 10¹² km).\"],\"errorIndex\":null,\"explanation\":\"Les tres frases són correctes.\",\"verificationAction\":\"Comprova la definició i la notació científica en una font astronòmica.\",\"source\":{\"type\":\"authoritative\",\"publisher\":\"NASA Science\",\"title\":\"What is a light-year?\",\"url\":\"https://science.nasa.gov/exoplanets/what-is-a-light-year/\",\"checkedAt\":\"2026-07-24\"},\"provenance\":\"Resposta sintètica basada en dades de NASA Science.\",\"review\":{\"factual\":\"source-checked\",\"language\":\"pending-human-signoff\"}},{\"id\":\"astronomy-venus-day\",\"difficulty\":\"transfer\",\"context\":\"NASA diferencia el període de rotació de Venus del temps entre una sortida de Sol i la següent.\",\"claims\":[\"La rotació de Venus dura uns 243 dies terrestres.\",\"Una òrbita de Venus al voltant del Sol dura uns 225 dies terrestres.\",\"Per tant, el període de rotació de Venus és més llarg que el seu any.\"],\"errorIndex\":null,\"explanation\":\"Les tres frases són correctes quan «dia» es refereix al període de rotació.\",\"verificationAction\":\"Comprova quina definició de dia utilitza la font: rotació o dia solar.\",\"source\":{\"type\":\"authoritative\",\"publisher\":\"NASA Science\",\"title\":\"Venus Facts\",\"url\":\"https://science.nasa.gov/venus/venus-facts/\",\"checkedAt\":\"2026-07-24\"},\"provenance\":\"Resposta sintètica amb la definició de rotació explicitada.\",\"review\":{\"factual\":\"source-checked\",\"language\":\"pending-human-signoff\"}}]},{\"id\":\"comptabilitat\",\"label\":\"Comptabilitat\",\"shortLabel\":\"Comptabilitat\",\"description\":\"Conceptes financers i IVA en el règim general espanyol.\",\"items\":[{\"id\":\"accounting-asset\",\"difficulty\":\"transfer\",\"context\":\"El Marc conceptual IFRS defineix els elements dels estats financers.\",\"claims\":[\"Qualsevol ingrés futur esperat és un actiu, encara que l'entitat no controli cap recurs present.\",\"Un actiu és un recurs econòmic present controlat per l'entitat com a resultat de successos passats.\",\"Un recurs econòmic és un dret amb potencial per produir beneficis econòmics.\"],\"errorIndex\":0,\"explanation\":\"La primera frase és falsa. L'expectativa d'ingressos, tota sola, no compleix la definició d'actiu.\",\"verificationAction\":\"Consulta la definició normativa vigent, no una fórmula memoritzada d'una edició antiga.\",\"source\":{\"type\":\"authoritative\",\"publisher\":\"IFRS Foundation\",\"title\":\"Conceptual Framework for Financial Reporting\",\"url\":\"https://www.ifrs.org/issued-standards/list-of-standards/conceptual-framework/\",\"checkedAt\":\"2026-07-24\"},\"provenance\":\"Resposta sintètica basada en el Marc conceptual IFRS vigent.\",\"review\":{\"factual\":\"source-checked\",\"language\":\"pending-human-signoff\"}},{\"id\":\"accounting-vat\",\"difficulty\":\"introductory\",\"context\":\"En el règim general de l'IVA espanyol, distingim les quotes repercutides i les suportades deduïbles.\",\"claims\":[\"L'empresa repercuteix IVA als clients en les vendes o prestacions de serveis subjectes.\",\"L'IVA repercutit és el que l'empresa paga als proveïdors quan compra.\",\"Si el resultat de restar l'IVA suportat deduïble al repercutit és positiu, s'ingressa al Tresor.\"],\"errorIndex\":1,\"explanation\":\"La segona frase és falsa. L'IVA pagat als proveïdors és l'IVA suportat; el repercutit es carrega als clients.\",\"verificationAction\":\"Comprova la jurisdicció i el règim fiscal abans d'aplicar la regla.\",\"source\":{\"type\":\"authoritative\",\"publisher\":\"Agencia Tributaria\",\"title\":\"Funcionamiento general del impuesto\",\"url\":\"https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/manual-iva-2025/capitulo-02-introduccion/funcionamiento-general-impuesto.html\",\"checkedAt\":\"2026-07-24\"},\"provenance\":\"Resposta sintètica limitada al règim general espanyol i a IVA suportat deduïble.\",\"review\":{\"factual\":\"source-checked\",\"language\":\"pending-human-signoff\"}},{\"id\":\"accounting-statements\",\"difficulty\":\"introductory\",\"context\":\"IAS 1 enumera els components d'un conjunt complet d'estats financers.\",\"claims\":[\"L'estat de situació financera informa de la posició al final del període.\",\"L'estat del resultat i altre resultat integral informa sobre un període.\",\"L'estat de fluxos d'efectiu descriu només un únic instant al final del període.\"],\"errorIndex\":2,\"explanation\":\"La tercera frase és falsa. L'estat de fluxos d'efectiu informa dels fluxos durant el període.\",\"verificationAction\":\"Fixa't si cada estat descriu una data concreta o moviments al llarg d'un període.\",\"source\":{\"type\":\"authoritative\",\"publisher\":\"IFRS Foundation\",\"title\":\"IAS 1 Presentation of Financial Statements\",\"url\":\"https://www.ifrs.org/issued-standards/list-of-standards/ias-1-presentation-of-financial-statements/\",\"checkedAt\":\"2026-07-24\"},\"provenance\":\"Resposta sintètica basada en IAS 1.\",\"review\":{\"factual\":\"source-checked\",\"language\":\"pending-human-signoff\"}},{\"id\":\"accounting-depreciation\",\"difficulty\":\"transfer\",\"context\":\"IAS 16 regula la depreciació de l'immobilitzat material.\",\"claims\":[\"La depreciació distribueix sistemàticament l'import depreciable al llarg de la vida útil.\",\"El mètode ha de reflectir el patró esperat de consum dels beneficis econòmics de l'actiu.\",\"IAS 16 no considera apropiat un mètode basat només en els ingressos generats.\"],\"errorIndex\":null,\"explanation\":\"Les tres frases són correctes dins del marc d'IAS 16.\",\"verificationAction\":\"Consulta l'estàndard aplicable i diferencia cost, valor residual i vida útil.\",\"source\":{\"type\":\"authoritative\",\"publisher\":\"IFRS Foundation\",\"title\":\"IAS 16 Property, Plant and Equipment\",\"url\":\"https://www.ifrs.org/issued-standards/list-of-standards/ias-16-property-plant-and-equipment/\",\"checkedAt\":\"2026-07-24\"},\"provenance\":\"Resposta sintètica basada en IAS 16.\",\"review\":{\"factual\":\"source-checked\",\"language\":\"pending-human-signoff\"}},{\"id\":\"accounting-income-expense\",\"difficulty\":\"transfer\",\"context\":\"El Marc conceptual IFRS defineix ingressos i despeses mitjançant canvis en actius, passius i patrimoni.\",\"claims\":[\"Els ingressos poden resultar d'augments d'actius o disminucions de passius que augmenten el patrimoni.\",\"Les aportacions dels propietaris no es classifiquen com a ingressos.\",\"Les distribucions als propietaris no es classifiquen com a despeses.\"],\"errorIndex\":null,\"explanation\":\"Les tres frases són correctes segons les definicions del Marc conceptual.\",\"verificationAction\":\"Comprova les exclusions explícites de les definicions, no només la direcció del canvi.\",\"source\":{\"type\":\"authoritative\",\"publisher\":\"IFRS Foundation\",\"title\":\"Conceptual Framework for Financial Reporting\",\"url\":\"https://www.ifrs.org/issued-standards/list-of-standards/conceptual-framework/\",\"checkedAt\":\"2026-07-24\"},\"provenance\":\"Resposta sintètica basada en el Marc conceptual IFRS vigent.\",\"review\":{\"factual\":\"source-checked\",\"language\":\"pending-human-signoff\"}}]}],\"transfers\":[{\"id\":\"transfer-moon-shadow\",\"tag\":\"Verificar amb evidència\",\"sourceSummary\":\"Resum de NASA Science: les fases mostren com canvia la nostra perspectiva sobre la meitat il·luminada de la Lluna. L'ombra de la Terra només hi intervé durant un eclipsi lunar.\",\"claim\":\"Les fases ordinàries de la Lluna les produeix l'ombra de la Terra.\",\"expected\":\"contradicts\",\"explanation\":\"L'evidència contradiu l'afirmació: reserva l'ombra terrestre per als eclipsis lunars.\",\"source\":{\"type\":\"authoritative\",\"publisher\":\"NASA Science\",\"title\":\"Top Moon Questions\",\"url\":\"https://science.nasa.gov/moon/top-moon-questions/\",\"checkedAt\":\"2026-07-24\"},\"provenance\":\"Cas de transferència escrit a partir del resum oficial de NASA Science.\",\"review\":{\"factual\":\"source-checked\",\"language\":\"pending-human-signoff\"}},{\"id\":\"transfer-insufficient-distance\",\"tag\":\"Verificar amb evidència\",\"sourceSummary\":\"Resum de NASA Science: un any llum és la distància que la llum recorre en un any, aproximadament 9,46 × 10¹² km.\",\"claim\":\"Pròxima Centauri és exactament a 4,10 anys llum de la Terra.\",\"expected\":\"insufficient\",\"explanation\":\"L'evidència només defineix la unitat; no dona cap distància de Pròxima Centauri. Cal una altra font.\",\"source\":{\"type\":\"authoritative\",\"publisher\":\"NASA Science\",\"title\":\"What is a light-year?\",\"url\":\"https://science.nasa.gov/exoplanets/what-is-a-light-year/\",\"checkedAt\":\"2026-07-24\"},\"provenance\":\"Cas de transferència escrit per distingir una definició d'una dada no aportada.\",\"review\":{\"factual\":\"source-checked\",\"language\":\"pending-human-signoff\"}}]}");
-  const CONTENT = JSON.parse("{\"schemaVersion\":1,\"locale\":\"ca\",\"widget\":{\"eyebrow\":\"Mòdul 2 · Capítol 3 · Activitat B5\",\"title\":\"El corrector\",\"subtitle\":\"No es tracta de desconfiar de tot. Es tracta de saber què pots verificar.\",\"privacy\":\"Les respostes es guarden només en aquesta pestanya per poder reprendre l'activitat i no es transmeten. Si el curs té el receptor configurat, Moodle rep només un avís de finalització sense respostes ni puntuacions.\",\"footer\":\"ENTI-UB · Curs d'alfabetització en IA · Activitat B5. Aquesta activitat il·lustra una pràctica de verificació; no diagnostica la teva capacitat ni cap biaix.\"},\"intro\":{\"title\":\"Quan «sembla correcte» no és prou\",\"body\":\"Compararàs respostes sintètiques en dos àmbits que tu mateix valoraràs. Després practicaràs com suplir els límits del coneixement propi amb evidència fiable.\",\"duration\":\"Durada orientativa: 5–7 minuts. No compta la puntuació; compta completar el procés.\",\"start\":\"Comença\"},\"reflection\":{\"question\":\"Una resposta sona precisa, però no coneixes prou l'àmbit per comprovar-la. Quina és la millor acció?\",\"options\":[{\"id\":\"accept\",\"label\":\"Acceptar-la perquè està ben redactada.\",\"correct\":false,\"feedback\":\"La fluïdesa no és evidència de veritat.\"},{\"id\":\"reject\",\"label\":\"Rebutjar-la automàticament.\",\"correct\":false,\"feedback\":\"La desconfiança automàtica tampoc verifica la resposta.\"},{\"id\":\"verify\",\"label\":\"Buscar una font independent o revisió experta adequada al risc.\",\"correct\":true,\"feedback\":\"Exacte. Quan el coneixement propi no basta, cal ampliar la verificació.\"}]}}");
+  const CONTENT = JSON.parse("{\"schemaVersion\":1,\"locale\":\"ca\",\"widget\":{\"eyebrow\":\"Mòdul 2 · Capítol 3 · Activitat B5\",\"title\":\"El corrector\",\"subtitle\":\"No es tracta de desconfiar de tot. Es tracta de saber què pots verificar.\",\"privacy\":\"Les respostes es guarden només en aquesta pestanya per poder reprendre l'activitat i no es transmeten. Si el curs té el receptor configurat, Moodle rep només un avís de finalització sense respostes ni puntuacions.\",\"footer\":\"ENTI-UB · Curs d'alfabetització en IA · Activitat B5. Aquesta activitat il·lustra una pràctica de verificació; no diagnostica la teva capacitat ni cap biaix.\"},\"intro\":{\"title\":\"Quan «sembla correcte» no és prou\",\"body\":\"Marca directament la frase que et sembli falsa. Compararàs dos àmbits que tu mateix triïs i acabaràs comprovant una afirmació amb una font.\",\"duration\":\"Durada orientativa: 3–4 minuts. No és un examen.\",\"start\":\"Comença\"}}");
 
   const WIDGET_ID = "B5-domain-check";
-  const WIDGET_VERSION = 2;
+  const WIDGET_VERSION = 3;
   const MESSAGE_SCHEMA_VERSION = 1;
-  const STORAGE_KEY = "enti-b5-domain-check-v2";
-  const CORE_ITEM_COUNT = 10;
+  const STORAGE_KEY = "enti-b5-domain-check-v3";
+  const ITEMS_PER_DOMAIN = 3;
+  const CORE_ITEM_COUNT = ITEMS_PER_DOMAIN * 2;
+  const TRANSFER_ITEM_COUNT = 1;
   const VALID_STAGES = new Set([
     "intro",
     "familiarity",
@@ -985,29 +805,28 @@ progress::-moz-progress-bar {
     "practice-feedback",
     "core",
     "core-feedback",
-    "transfer-intro",
     "transfer",
     "transfer-feedback",
-    "reflection",
-    "reflection-feedback",
     "results",
   ]);
+  const VALID_OUTCOMES = new Set([
+    "localized",
+    "missedError",
+    "wrongLocation",
+    "cleanAccepted",
+    "falseAlarm",
+  ]);
   const OUTCOME_LABELS = {
-    localized: "Error trobat i localitzat",
-    missedError: "Error no detectat",
-    wrongLocation: "Error detectat, frase equivocada",
-    cleanAccepted: "Resposta neta acceptada",
-    falseAlarm: "Falsa alarma",
-  };
-  const CONFIDENCE_LABELS = {
-    low: "Baixa",
-    medium: "Mitjana",
-    high: "Alta",
+    localized: "Has localitzat l'error.",
+    missedError: "Hi havia un error.",
+    wrongLocation: "L'error era en una altra frase.",
+    cleanAccepted: "La resposta era correcta.",
+    falseAlarm: "La resposta no contenia cap error.",
   };
   const TRANSFER_LABELS = {
-    supports: "L'evidència dona suport a l'afirmació",
-    contradicts: "L'evidència contradiu l'afirmació",
-    insufficient: "L'evidència no és suficient",
+    supports: "La font hi dona suport",
+    contradicts: "La font ho contradiu",
+    insufficient: "La font no permet decidir-ho",
   };
 
   const stage = document.getElementById("stage");
@@ -1021,34 +840,6 @@ progress::-moz-progress-bar {
     ),
   );
 
-  function defaultState() {
-    return {
-      version: WIDGET_VERSION,
-      stage: "intro",
-      seed: createSeed(),
-      ratings: {},
-      highDomainId: null,
-      lowDomainId: null,
-      itemOrder: [],
-      coreIndex: 0,
-      responses: [],
-      practiceResponse: null,
-      transferIndex: 0,
-      transferResponses: [],
-      reflectionHistory: [],
-      milestones: {
-        started: false,
-        familiarity: false,
-        practice: false,
-        core: false,
-        transfer: false,
-        reflection: false,
-      },
-      completed: false,
-      completionSent: false,
-    };
-  }
-
   function createSeed() {
     try {
       const values = new Uint32Array(1);
@@ -1057,6 +848,39 @@ progress::-moz-progress-bar {
     } catch {
       return Date.now() >>> 0 || 1;
     }
+  }
+
+  function defaultState() {
+    return {
+      version: WIDGET_VERSION,
+      stage: "intro",
+      seed: createSeed(),
+      highDomainId: null,
+      lowDomainId: null,
+      itemOrder: [],
+      coreIndex: 0,
+      responses: [],
+      practiceResponse: null,
+      transferResponses: [],
+      milestones: {
+        started: false,
+        familiarity: false,
+        practice: false,
+        core: false,
+        transfer: false,
+      },
+      completed: false,
+      completionSent: false,
+    };
+  }
+
+  function validResponse(response) {
+    return (
+      response &&
+      itemById.has(response.itemId) &&
+      VALID_OUTCOMES.has(response.outcome) &&
+      (response.role === "high" || response.role === "low")
+    );
   }
 
   function loadState() {
@@ -1072,71 +896,38 @@ progress::-moz-progress-bar {
 
       const clean = { ...defaultState(), ...parsed };
       clean.stage = VALID_STAGES.has(parsed.stage) ? parsed.stage : "intro";
-      clean.ratings =
-        parsed.ratings && typeof parsed.ratings === "object"
-          ? parsed.ratings
-          : {};
-      clean.ratings = Object.fromEntries(
-        ITEM_BANK.domains
-          .filter((domain) => {
-            const value = Number(clean.ratings[domain.id]);
-            return Number.isInteger(value) && value >= 1 && value <= 5;
-          })
-          .map((domain) => [domain.id, Number(clean.ratings[domain.id])]),
-      );
-      clean.itemOrder = Array.isArray(parsed.itemOrder)
-        ? parsed.itemOrder.filter(
-            (entry) =>
-              entry &&
-              itemById.has(entry.itemId) &&
-              (entry.role === "high" || entry.role === "low"),
-          )
-        : [];
-      clean.responses = Array.isArray(parsed.responses)
-        ? parsed.responses.filter(
-            (response) => response && itemById.has(response.itemId),
-          )
-        : [];
-      clean.transferResponses = Array.isArray(parsed.transferResponses)
-        ? parsed.transferResponses.slice(0, ITEM_BANK.transfers.length)
-        : [];
-      clean.reflectionHistory = Array.isArray(parsed.reflectionHistory)
-        ? parsed.reflectionHistory
-        : [];
       clean.milestones = {
         ...defaultState().milestones,
         ...(parsed.milestones || {}),
       };
+      clean.responses = Array.isArray(parsed.responses)
+        ? parsed.responses.filter(validResponse).slice(0, CORE_ITEM_COUNT)
+        : [];
+      clean.transferResponses = Array.isArray(parsed.transferResponses)
+        ? parsed.transferResponses.slice(0, TRANSFER_ITEM_COUNT)
+        : [];
+      clean.practiceResponse =
+        parsed.practiceResponse &&
+        VALID_OUTCOMES.has(parsed.practiceResponse.outcome)
+          ? parsed.practiceResponse
+          : null;
       clean.coreIndex = Math.max(
         0,
         Math.min(Number(parsed.coreIndex) || 0, CORE_ITEM_COUNT - 1),
       );
-      clean.transferIndex = Math.max(
-        0,
-        Math.min(
-          Number(parsed.transferIndex) || 0,
-          ITEM_BANK.transfers.length - 1,
-        ),
-      );
 
-      if (
-        !domainById.has(clean.highDomainId) ||
-        !domainById.has(clean.lowDomainId) ||
-        clean.highDomainId === clean.lowDomainId
-      ) {
+      const validDomains =
+        domainById.has(clean.highDomainId) &&
+        domainById.has(clean.lowDomainId) &&
+        clean.highDomainId !== clean.lowDomainId;
+      if (!validDomains) {
         clean.highDomainId = null;
         clean.lowDomainId = null;
         clean.itemOrder = [];
         if (!["intro", "familiarity"].includes(clean.stage)) {
           clean.stage = "familiarity";
         }
-      }
-
-      if (
-        clean.itemOrder.length !== CORE_ITEM_COUNT &&
-        clean.highDomainId &&
-        clean.lowDomainId
-      ) {
+      } else {
         clean.itemOrder = buildItemOrder(
           clean.highDomainId,
           clean.lowDomainId,
@@ -1144,112 +935,47 @@ progress::-moz-progress-bar {
         );
       }
 
-      const allRatingsPresent = ITEM_BANK.domains.every((domain) =>
-        Number.isInteger(clean.ratings[domain.id]),
-      );
-      const ratingsDiffer = new Set(Object.values(clean.ratings)).size >= 2;
-      const rankedRatings = ITEM_BANK.domains
-        .map((domain, index) => ({
-          id: domain.id,
-          rating: clean.ratings[domain.id],
-          index,
-        }))
-        .sort((a, b) => b.rating - a.rating || a.index - b.index);
-      const reverseRankedRatings = [...rankedRatings].sort(
-        (a, b) => a.rating - b.rating || b.index - a.index,
-      );
-      const expectedHighDomainId = rankedRatings[0]?.id;
-      const expectedLowDomainId = reverseRankedRatings.find(
-        (entry) => entry.id !== expectedHighDomainId,
-      )?.id;
-      const selectedDomainsMatchRatings =
-        clean.highDomainId === expectedHighDomainId &&
-        clean.lowDomainId === expectedLowDomainId;
-      const validPracticeResponse =
-        clean.practiceResponse &&
-        [
-          "localized",
-          "missedError",
-          "wrongLocation",
-          "cleanAccepted",
-          "falseAlarm",
-        ].includes(clean.practiceResponse.outcome);
-      const coreResponsesMatch =
-        selectedDomainsMatchRatings &&
+      const responsesMatch =
         clean.itemOrder.length === CORE_ITEM_COUNT &&
-        clean.responses.length <= CORE_ITEM_COUNT &&
         clean.responses.every(
           (response, index) =>
-            clean.itemOrder[index]?.itemId === response.itemId &&
-            clean.itemOrder[index]?.role === response.role &&
-            [
-              "localized",
-              "missedError",
-              "wrongLocation",
-              "cleanAccepted",
-              "falseAlarm",
-            ].includes(response.outcome),
+            response.itemId === clean.itemOrder[index]?.itemId &&
+            response.role === clean.itemOrder[index]?.role,
         );
-      const lastReflection =
-        clean.reflectionHistory[clean.reflectionHistory.length - 1];
-
+      const comparisonReady =
+        validDomains && clean.itemOrder.length === CORE_ITEM_COUNT;
       const stageIsCoherent = {
         intro: true,
         familiarity: true,
-        practice:
-          allRatingsPresent &&
-          ratingsDiffer &&
-          selectedDomainsMatchRatings &&
-          clean.itemOrder.length === CORE_ITEM_COUNT,
-        "practice-feedback":
-          allRatingsPresent &&
-          ratingsDiffer &&
-          selectedDomainsMatchRatings &&
-          clean.itemOrder.length === CORE_ITEM_COUNT &&
-          validPracticeResponse,
+        practice: comparisonReady,
+        "practice-feedback": comparisonReady && Boolean(clean.practiceResponse),
         core:
-          validPracticeResponse &&
+          comparisonReady &&
           clean.milestones.practice &&
-          coreResponsesMatch &&
+          responsesMatch &&
           clean.responses.length === clean.coreIndex,
         "core-feedback":
-          validPracticeResponse &&
+          comparisonReady &&
           clean.milestones.practice &&
-          coreResponsesMatch &&
+          responsesMatch &&
           clean.responses.length === clean.coreIndex + 1,
-        "transfer-intro":
-          clean.milestones.core &&
-          coreResponsesMatch &&
-          clean.responses.length === CORE_ITEM_COUNT,
         transfer:
           clean.milestones.core &&
-          coreResponsesMatch &&
+          responsesMatch &&
           clean.responses.length === CORE_ITEM_COUNT &&
-          clean.transferResponses.length === clean.transferIndex,
+          clean.transferResponses.length === 0,
         "transfer-feedback":
           clean.milestones.core &&
-          coreResponsesMatch &&
+          responsesMatch &&
           clean.responses.length === CORE_ITEM_COUNT &&
-          clean.transferResponses.length === clean.transferIndex + 1,
-        reflection:
-          clean.milestones.transfer &&
-          clean.transferResponses.length === ITEM_BANK.transfers.length,
-        "reflection-feedback":
-          clean.milestones.transfer &&
-          clean.transferResponses.length === ITEM_BANK.transfers.length &&
-          Boolean(lastReflection),
+          clean.transferResponses.length === TRANSFER_ITEM_COUNT,
         results:
-          clean.milestones.reflection &&
+          clean.milestones.transfer &&
           clean.responses.length === CORE_ITEM_COUNT &&
-          clean.transferResponses.length === ITEM_BANK.transfers.length &&
-          lastReflection?.correct === true,
+          clean.transferResponses.length === TRANSFER_ITEM_COUNT,
       };
 
-      if (!stageIsCoherent[clean.stage]) {
-        return defaultState();
-      }
-
-      return clean;
+      return stageIsCoherent[clean.stage] ? clean : defaultState();
     } catch {
       return defaultState();
     }
@@ -1289,77 +1015,35 @@ progress::-moz-progress-bar {
   }
 
   function focusStage(selector = "#stage-title") {
-    const target = stage.querySelector(selector);
-    if (!target) return;
-    target.focus({ preventScroll: false });
+    stage.querySelector(selector)?.focus({ preventScroll: false });
   }
 
   function render(options = {}) {
     const { focus = false, announce = "" } = options;
-    let markup;
+    const screens = {
+      intro: renderIntro,
+      familiarity: renderFamiliarity,
+      practice: renderPractice,
+      "practice-feedback": renderPracticeFeedback,
+      core: renderCore,
+      "core-feedback": renderCoreFeedback,
+      transfer: renderTransfer,
+      "transfer-feedback": renderTransferFeedback,
+      results: renderResults,
+    };
+    stage.innerHTML = (screens[state.stage] || renderIntro)();
 
-    switch (state.stage) {
-      case "familiarity":
-        markup = renderFamiliarity();
-        break;
-      case "practice":
-        markup = renderPractice();
-        break;
-      case "practice-feedback":
-        markup = renderPracticeFeedback();
-        break;
-      case "core":
-        markup = renderCore();
-        break;
-      case "core-feedback":
-        markup = renderCoreFeedback();
-        break;
-      case "transfer-intro":
-        markup = renderTransferIntro();
-        break;
-      case "transfer":
-        markup = renderTransfer();
-        break;
-      case "transfer-feedback":
-        markup = renderTransferFeedback();
-        break;
-      case "reflection":
-        markup = renderReflection();
-        break;
-      case "reflection-feedback":
-        markup = renderReflectionFeedback();
-        break;
-      case "results":
-        markup = renderResults();
-        break;
-      default:
-        markup = renderIntro();
-    }
-
-    stage.innerHTML = markup;
-
-    if (state.stage === "results") {
-      completeActivity();
-    }
-    if (focus) {
-      focusStage();
-    }
-    if (announce) {
-      setStatus(announce);
-    }
+    if (state.stage === "results") completeActivity();
+    if (focus) focusStage();
+    if (announce) setStatus(announce);
     scheduleResize();
   }
 
   function renderIntro() {
     return `
-      <section class="card" aria-labelledby="stage-title">
+      <section class="card card-compact" aria-labelledby="stage-title">
         <h2 class="stage-title" id="stage-title" tabindex="-1">${escapeHTML(CONTENT.intro.title)}</h2>
         <p class="lead">${escapeHTML(CONTENT.intro.body)}</p>
-        <ul class="takeaway-list">
-          <li>Tu decideixes quins àmbits coneixes més i menys.</li>
-          <li>Primer jutges amb el que saps; després treballes amb evidència.</li>
-          <li>El resultat descriu aquesta mostra, no et diagnostica.</li>
-        </ul>
         <p class="duration">${escapeHTML(CONTENT.intro.duration)}</p>
         <div class="button-row">
           <button class="button button-primary" type="button" data-action="start" data-testid="start">
@@ -1370,61 +1054,47 @@ progress::-moz-progress-bar {
     `;
   }
 
-  function ratingLabel(value) {
-    if (value === 1) return "1 · Gens";
-    if (value === 3) return "3 · Una mica";
-    if (value === 5) return "5 · Molt";
-    return String(value);
+  function domainOptions(selectedId) {
+    return [
+      '<option value="">Tria un àmbit</option>',
+      ...ITEM_BANK.domains.map(
+        (domain) => `
+          <option value="${escapeHTML(domain.id)}" ${selectedId === domain.id ? "selected" : ""}>
+            ${escapeHTML(domain.label)}
+          </option>
+        `,
+      ),
+    ].join("");
   }
 
   function renderFamiliarity() {
-    const groups = ITEM_BANK.domains
-      .map((domain) => {
-        const options = [1, 2, 3, 4, 5]
-          .map(
-            (value) => `
-              <label class="rating-option">
-                <input
-                  type="radio"
-                  name="rating-${escapeHTML(domain.id)}"
-                  value="${value}"
-                  data-rating-domain="${escapeHTML(domain.id)}"
-                  data-testid="rating-${escapeHTML(domain.id)}-${value}"
-                  ${Number(state.ratings[domain.id]) === value ? "checked" : ""}
-                />
-                <span>${escapeHTML(ratingLabel(value))}</span>
-              </label>
-            `,
-          )
-          .join("");
-
-        return `
-          <fieldset class="rating-group" data-rating-group="${escapeHTML(domain.id)}">
-            <legend>
-              ${escapeHTML(domain.label)}
-              <span class="domain-description">${escapeHTML(domain.description)}</span>
-            </legend>
-            <div class="rating-options">${options}</div>
-            <div class="rating-scale" aria-hidden="true"><span>Menys familiar</span><span>Més familiar</span></div>
-          </fieldset>
-        `;
-      })
-      .join("");
-
     return `
-      <section class="card" aria-labelledby="stage-title">
-        <h2 class="stage-title" id="stage-title" tabindex="-1">Situa el teu punt de partida</h2>
-        <p class="rating-intro">
-          Valora la teva familiaritat actual. No és un examen ni un perfil: només serveix per
-          triar dos bancs comparables. Cal que almenys dues valoracions siguin diferents.
+      <section class="card card-compact" aria-labelledby="stage-title">
+        <h2 class="stage-title" id="stage-title" tabindex="-1">Tria els dos àmbits</h2>
+        <p class="lead">
+          Un que coneguis més i un que coneguis menys. Tu poses el punt de partida;
+          l'activitat no et crea cap perfil.
         </p>
-        <div class="rating-list">${groups}</div>
+        <div class="domain-pickers">
+          <label class="select-field" for="high-domain">
+            <span>En conec més</span>
+            <select id="high-domain" data-testid="high-domain">
+              ${domainOptions(state.highDomainId)}
+            </select>
+          </label>
+          <label class="select-field" for="low-domain">
+            <span>En conec menys</span>
+            <select id="low-domain" data-testid="low-domain">
+              ${domainOptions(state.lowDomainId)}
+            </select>
+          </label>
+        </div>
         <p class="form-error" id="form-error" role="alert" hidden></p>
         <div class="button-row">
           <button class="button button-primary" type="button" data-action="save-familiarity" data-testid="save-familiarity">
-            Continua amb una pràctica
+            Continua
           </button>
-          <button class="button" type="button" data-action="back-intro">Enrere</button>
+          <button class="button button-quiet" type="button" data-action="back-intro">Enrere</button>
         </div>
       </section>
     `;
@@ -1432,9 +1102,8 @@ progress::-moz-progress-bar {
 
   function renderPractice() {
     return renderJudgmentForm(ITEM_BANK.practice, {
-      title: "Practica el control",
-      tag: "Exemple sense puntuació",
-      progress: null,
+      title: "Prova-ho una vegada",
+      tag: "Exemple",
       submitAction: "submit-practice",
       submitTestId: "submit-practice",
     });
@@ -1444,19 +1113,12 @@ progress::-moz-progress-bar {
     const orderEntry = state.itemOrder[state.coreIndex];
     const item = itemById.get(orderEntry.itemId);
     const domain = domainById.get(item.domainId);
-    const roleText =
-      orderEntry.role === "high"
-        ? `Valoració més alta: ${state.ratings[domain.id]} de 5`
-        : `Valoració més baixa: ${state.ratings[domain.id]} de 5`;
-
     return renderJudgmentForm(item, {
-      title: `Decisió ${state.coreIndex + 1} de ${CORE_ITEM_COUNT}`,
+      title: `Resposta ${state.coreIndex + 1} de ${CORE_ITEM_COUNT}`,
       tag: domain.shortLabel,
-      roleText,
       progress: {
         value: state.coreIndex,
         max: CORE_ITEM_COUNT,
-        label: `${state.coreIndex} de ${CORE_ITEM_COUNT} decisions completades`,
       },
       submitAction: "submit-core",
       submitTestId: "submit-core",
@@ -1464,49 +1126,22 @@ progress::-moz-progress-bar {
   }
 
   function renderJudgmentForm(item, config) {
-    const answerOptions = [
-      `
-        <label class="choice-card">
-          <input type="radio" name="answer" value="clean" data-testid="answer-clean" />
-          <span class="choice-copy">
-            <span class="choice-number">Resposta completa</span>
-            No hi ha cap error
-          </span>
-        </label>
-      `,
-      ...item.claims.map(
-        (claim, index) => `
-          <label class="choice-card">
-            <input type="radio" name="answer" value="${index}" data-testid="answer-${index}" />
-            <span class="choice-copy">
-              <span class="choice-number">Frase ${index + 1}</span>
-              ${escapeHTML(claim)}
-            </span>
-          </label>
-        `,
-      ),
-    ].join("");
-
-    const confidence = Object.entries(CONFIDENCE_LABELS)
+    const claims = item.claims
       .map(
-        ([value, label]) => `
-          <label class="confidence-option">
-            <input type="radio" name="confidence" value="${value}" data-testid="confidence-${value}" />
-            <span>${escapeHTML(label)}</span>
+        (claim, index) => `
+          <label class="claim-line">
+            <input type="radio" name="answer" value="${index}" data-testid="answer-${index}" />
+            <span class="claim-number" aria-hidden="true">${index + 1}</span>
+            <span>${escapeHTML(claim)}</span>
           </label>
         `,
       )
       .join("");
-
     const progress = config.progress
       ? `
-        <div class="progress-block">
-          <div class="progress-label">
-            <span>Progrés</span>
-            <span>${escapeHTML(config.progress.label)}</span>
-          </div>
+        <div class="progress-line">
           <progress max="${config.progress.max}" value="${config.progress.value}">
-            ${escapeHTML(config.progress.label)}
+            ${config.progress.value} de ${config.progress.max}
           </progress>
         </div>
       `
@@ -1515,28 +1150,24 @@ progress::-moz-progress-bar {
     return `
       <section class="card" aria-labelledby="stage-title">
         <div class="stage-meta">
-          <span class="pill ${config.progress ? "" : "pill-neutral"}">${escapeHTML(config.tag)}</span>
-          ${config.roleText ? `<span class="domain-role">${escapeHTML(config.roleText)}</span>` : ""}
+          <span class="pill">${escapeHTML(config.tag)}</span>
+          ${progress}
         </div>
         <h2 class="stage-title" id="stage-title" tabindex="-1">${escapeHTML(config.title)}</h2>
-        ${progress}
-        <div class="synthetic-output">
-          <p class="section-label">Resposta sintètica</p>
-          <p class="item-context">${escapeHTML(item.context)}</p>
-          <ol>
-            ${item.claims.map((claim) => `<li>${escapeHTML(claim)}</li>`).join("")}
-          </ol>
-        </div>
-        <fieldset class="answer-fieldset">
-          <legend>Quina és la teva decisió?</legend>
-          <div class="choice-list">${answerOptions}</div>
-        </fieldset>
-        <fieldset class="confidence-fieldset">
-          <legend>Quina confiança tens en la decisió?</legend>
-          <div class="confidence-options">${confidence}</div>
+        <fieldset class="judgment-fieldset">
+          <legend>Marca la frase falsa, si n'hi ha una</legend>
+          <div class="synthetic-output">
+            <p class="output-label">Sortida sintètica</p>
+            <p class="item-context">${escapeHTML(item.context)}</p>
+            <div class="claim-lines">${claims}</div>
+            <label class="clean-option">
+              <input type="radio" name="answer" value="clean" data-testid="answer-clean" />
+              <span>No hi ha cap error</span>
+            </label>
+          </div>
         </fieldset>
         <p class="form-error" id="form-error" role="alert" hidden></p>
-        <div class="button-row">
+        <div class="button-row button-row-end">
           <button
             class="button button-primary"
             type="button"
@@ -1552,10 +1183,9 @@ progress::-moz-progress-bar {
 
   function renderPracticeFeedback() {
     return renderJudgmentFeedback(ITEM_BANK.practice, state.practiceResponse, {
-      title: "Retorn de la pràctica",
-      tag: "Exemple sense puntuació",
+      tag: "Exemple",
       nextAction: "begin-core",
-      nextLabel: "Comença les decisions",
+      nextLabel: "Comença",
       nextTestId: "begin-core",
     });
   }
@@ -1565,66 +1195,90 @@ progress::-moz-progress-bar {
     const item = itemById.get(response.itemId);
     const domain = domainById.get(response.domainId);
     const isLast = state.coreIndex === CORE_ITEM_COUNT - 1;
-
     return renderJudgmentFeedback(item, response, {
-      title: response.correct ? "Decisió revisada" : "Revisa què ha passat",
       tag: domain.shortLabel,
       nextAction: isLast ? "finish-core" : "next-core",
-      nextLabel: isLast ? "Passa a verificar amb evidència" : "Decisió següent",
+      nextLabel: isLast ? "Comprova amb una font" : "Següent",
       nextTestId: isLast ? "finish-core" : "next-core",
     });
   }
 
-  function renderJudgmentFeedback(item, response, config) {
+  function renderReviewedOutput(item, response) {
     const selectedIndex =
       response.answer === "clean" ? null : Number(response.answer);
-    const claimReview = item.claims
+    const claims = item.claims
       .map((claim, index) => {
         const isError = item.errorIndex === index;
-        const isLearner = selectedIndex === index;
+        const isSelected = selectedIndex === index;
+        let note = "";
+        if (isError && isSelected) note = "La teva tria · aquí era l'error";
+        else if (isError) note = "Aquí era l'error";
+        else if (isSelected) note = "La teva tria";
         return `
-          <li class="${isError ? "is-error" : ""} ${isLearner ? "is-learner" : ""}">
-            <span class="choice-number">Frase ${index + 1}</span>
-            ${escapeHTML(claim)}
-            <span class="claim-markers">
-              ${isError ? '<span class="answer-marker marker-error">Frase incorrecta</span>' : ""}
-              ${isLearner ? '<span class="answer-marker marker-learner">La teva tria</span>' : ""}
+          <div class="claim-line claim-review-line ${isError ? "is-error" : ""} ${isSelected ? "is-selected" : ""}">
+            <span class="claim-number" aria-hidden="true">${index + 1}</span>
+            <span>
+              ${escapeHTML(claim)}
+              ${note ? `<span class="claim-note">${escapeHTML(note)}</span>` : ""}
             </span>
-          </li>
+          </div>
         `;
       })
       .join("");
+    const cleanState =
+      item.errorIndex === null && response.answer === "clean"
+        ? "La teva tria · resposta correcta"
+        : item.errorIndex === null
+          ? "No hi havia cap error"
+          : response.answer === "clean"
+            ? "La teva tria"
+            : "";
 
-    const source = renderSource(item.source);
-    const cleanMarker =
-      response.answer === "clean"
-        ? '<span class="answer-marker marker-learner">La teva tria: cap error</span>'
-        : "";
-    const correctAnswer =
-      item.errorIndex === null
-        ? "La resposta no contenia cap error."
-        : `L'error era a la frase ${item.errorIndex + 1}.`;
+    return `
+      <div class="synthetic-output reviewed-output">
+        <p class="output-label">Sortida sintètica</p>
+        <p class="item-context">${escapeHTML(item.context)}</p>
+        <div class="claim-lines">${claims}</div>
+        ${
+          cleanState
+            ? `<div class="clean-review ${item.errorIndex === null ? "is-correct" : "is-selected"}">
+                No hi ha cap error
+                <span class="claim-note">${escapeHTML(cleanState)}</span>
+              </div>`
+            : ""
+        }
+      </div>
+    `;
+  }
 
+  function compactSource(source) {
+    if (!source.url) {
+      return "<span>regla definida dins de l’activitat</span>";
+    }
+    return `
+      <a class="source-link" href="${escapeHTML(source.url)}" target="_blank" rel="noopener noreferrer">
+        ${escapeHTML(source.publisher)}<span class="sr-only"> (s'obre en una pestanya nova)</span>
+      </a>
+    `;
+  }
+
+  function renderJudgmentFeedback(item, response, config) {
+    const heading = response.correct ? "Ben vist" : "Revisa-ho";
     return `
       <section class="card" aria-labelledby="stage-title">
         <div class="stage-meta"><span class="pill">${escapeHTML(config.tag)}</span></div>
-        <div class="feedback-heading ${response.correct ? "feedback-correct" : "feedback-incorrect"}">
-          <h2 class="stage-title" id="stage-title" tabindex="-1">${escapeHTML(config.title)}</h2>
-          <span class="feedback-badge">${response.correct ? "Decisió correcta" : "Decisió a revisar"}</span>
+        <h2 class="stage-title ${response.correct ? "text-correct" : "text-incorrect"}" id="stage-title" tabindex="-1">
+          ${heading}
+        </h2>
+        ${renderReviewedOutput(item, response)}
+        <div class="correction-strip ${response.correct ? "correct" : "incorrect"}">
+          <p><strong>${escapeHTML(OUTCOME_LABELS[response.outcome])}</strong> ${escapeHTML(item.explanation)}</p>
         </div>
-        <div class="feedback-panel ${response.correct ? "correct" : "incorrect"}">
-          <p><strong>${escapeHTML(OUTCOME_LABELS[response.outcome])}.</strong> ${escapeHTML(correctAnswer)}</p>
-          <p>${escapeHTML(item.explanation)}</p>
-          ${cleanMarker}
-        </div>
-        <ol class="claim-review">${claimReview}</ol>
-        <div class="verification-action">
-          <strong>Com ho pots verificar?</strong>
-          ${escapeHTML(item.verificationAction)}
-        </div>
-        ${source}
-        <p class="confidence-label">Confiança declarada: ${escapeHTML(CONFIDENCE_LABELS[response.confidence])}</p>
-        <div class="button-row">
+        <p class="verify-line">
+          <strong>Per comprovar-ho:</strong> ${escapeHTML(item.verificationAction)}
+          <span aria-hidden="true">·</span> ${compactSource(item.source)}
+        </p>
+        <div class="button-row button-row-end">
           <button
             class="button button-primary"
             type="button"
@@ -1638,62 +1292,8 @@ progress::-moz-progress-bar {
     `;
   }
 
-  function renderSource(source, visibleBeforeAnswer = false) {
-    const label = visibleBeforeAnswer
-      ? "Evidència disponible"
-      : "Font de comprovació";
-    const link = source.url
-      ? `
-        <a class="source-link" href="${escapeHTML(source.url)}" target="_blank" rel="noopener noreferrer">
-          Obre la font original<span class="sr-only"> (s'obre en una pestanya nova)</span>
-        </a>
-      `
-      : "<p>La regla estava definida dins de l'activitat.</p>";
-
-    return `
-      <aside class="source-card">
-        <p class="source-kicker">${escapeHTML(label)}</p>
-        <p><strong>${escapeHTML(source.publisher)}:</strong> ${escapeHTML(source.title)}</p>
-        ${link}
-      </aside>
-    `;
-  }
-
-  function renderTransferIntro() {
-    return `
-      <section class="card" aria-labelledby="stage-title">
-        <span class="pill">Canvi de mètode</span>
-        <h2 class="stage-title" id="stage-title" tabindex="-1">Ara no cal que ja ho sàpigues</h2>
-        <p class="lead">
-          Detectar els límits del coneixement propi és només el primer pas. En les dues
-          decisions següents tindràs evidència disponible i hauràs de decidir què permet
-          concloure exactament.
-        </p>
-        <div class="verification-grid">
-          <article class="plan-card">
-            <h3>1 · Llegeix</h3>
-            <p>Identifica què afirma realment l'evidència.</p>
-          </article>
-          <article class="plan-card">
-            <h3>2 · Compara</h3>
-            <p>Busca si dona suport o contradiu l'afirmació.</p>
-          </article>
-          <article class="plan-card">
-            <h3>3 · Limita</h3>
-            <p>Si no n'hi ha prou, no omplis el buit amb una suposició.</p>
-          </article>
-        </div>
-        <div class="button-row">
-          <button class="button button-primary" type="button" data-action="begin-transfer" data-testid="begin-transfer">
-            Treballa amb evidència
-          </button>
-        </div>
-      </section>
-    `;
-  }
-
   function renderTransfer() {
-    const item = ITEM_BANK.transfers[state.transferIndex];
+    const item = ITEM_BANK.transfers[0];
     const options = Object.entries(TRANSFER_LABELS)
       .map(
         ([value, label]) => `
@@ -1706,44 +1306,23 @@ progress::-moz-progress-bar {
       .join("");
 
     return `
-      <section class="card" aria-labelledby="stage-title">
-        <div class="stage-meta">
-          <span class="pill">${escapeHTML(item.tag)}</span>
-          <span class="domain-role">Cas ${state.transferIndex + 1} de ${ITEM_BANK.transfers.length}</span>
-        </div>
-        <h2 class="stage-title" id="stage-title" tabindex="-1">Què permet concloure la font?</h2>
-        <div class="progress-block">
-          <div class="progress-label">
-            <span>Transferència</span>
-            <span>${state.transferIndex} de ${ITEM_BANK.transfers.length} casos completats</span>
-          </div>
-          <progress max="${ITEM_BANK.transfers.length}" value="${state.transferIndex}">
-            ${state.transferIndex} de ${ITEM_BANK.transfers.length}
-          </progress>
-        </div>
-        <aside class="evidence-card">
-          <p class="source-kicker">Resum de l'evidència</p>
+      <section class="card card-compact" aria-labelledby="stage-title">
+        <span class="pill">Amb evidència</span>
+        <h2 class="stage-title" id="stage-title" tabindex="-1">Ara no cal endevinar</h2>
+        <div class="evidence-card">
+          <p class="output-label">La font diu</p>
           <p>${escapeHTML(item.sourceSummary)}</p>
-          ${renderSource(
-            {
-              type: "authoritative",
-              publisher: item.source.publisher,
-              title: item.source.title,
-              url: item.source.url,
-              checkedAt: item.source.checkedAt,
-            },
-            true,
-          )}
-        </aside>
+          <p class="evidence-source">${compactSource(item.source)}</p>
+        </div>
         <p class="transfer-claim"><strong>Afirmació:</strong> ${escapeHTML(item.claim)}</p>
         <fieldset class="transfer-fieldset">
-          <legend>Tria la conclusió més rigorosa</legend>
+          <legend>Què permet concloure la font?</legend>
           <div class="transfer-options">${options}</div>
         </fieldset>
         <p class="form-error" id="form-error" role="alert" hidden></p>
-        <div class="button-row">
+        <div class="button-row button-row-end">
           <button class="button button-primary" type="button" data-action="submit-transfer" data-testid="submit-transfer">
-            Comprova la conclusió
+            Comprova
           </button>
         </div>
       </section>
@@ -1751,101 +1330,23 @@ progress::-moz-progress-bar {
   }
 
   function renderTransferFeedback() {
-    const item = ITEM_BANK.transfers[state.transferIndex];
-    const response =
-      state.transferResponses[state.transferResponses.length - 1];
-    const isLast = state.transferIndex === ITEM_BANK.transfers.length - 1;
-
+    const item = ITEM_BANK.transfers[0];
+    const response = state.transferResponses[0];
     return `
-      <section class="card" aria-labelledby="stage-title">
-        <div class="feedback-heading ${response.correct ? "feedback-correct" : "feedback-incorrect"}">
-          <h2 class="stage-title" id="stage-title" tabindex="-1">Conclusió revisada</h2>
-          <span class="feedback-badge">${response.correct ? "Lectura rigorosa" : "Cal limitar la conclusió"}</span>
+      <section class="card card-compact" aria-labelledby="stage-title">
+        <h2 class="stage-title ${response.correct ? "text-correct" : "text-incorrect"}" id="stage-title" tabindex="-1">
+          ${response.correct ? "Exacte" : "Mira el límit de la font"}
+        </h2>
+        <div class="correction-strip ${response.correct ? "correct" : "incorrect"}">
+          <p>
+            <strong>${escapeHTML(TRANSFER_LABELS[item.expected])}.</strong>
+            ${escapeHTML(item.explanation)}
+          </p>
         </div>
-        <div class="feedback-panel ${response.correct ? "correct" : "incorrect"}">
-          <p><strong>Has triat:</strong> ${escapeHTML(TRANSFER_LABELS[response.answer])}.</p>
-          <p><strong>La millor conclusió:</strong> ${escapeHTML(TRANSFER_LABELS[item.expected])}.</p>
-          <p>${escapeHTML(item.explanation)}</p>
-        </div>
-        ${renderSource({
-          type: "authoritative",
-          publisher: item.source.publisher,
-          title: item.source.title,
-          url: item.source.url,
-          checkedAt: item.source.checkedAt,
-        })}
-        <div class="button-row">
-          <button
-            class="button button-primary"
-            type="button"
-            data-action="${isLast ? "finish-transfer" : "next-transfer"}"
-            data-testid="${isLast ? "finish-transfer" : "next-transfer"}"
-          >
-            ${isLast ? "Tanca amb una decisió pràctica" : "Cas següent"}
-          </button>
-        </div>
-      </section>
-    `;
-  }
-
-  function renderReflection() {
-    const options = CONTENT.reflection.options
-      .map(
-        (option) => `
-          <label class="reflection-option">
-            <input type="radio" name="reflection-answer" value="${escapeHTML(option.id)}" data-testid="reflection-${escapeHTML(option.id)}" />
-            <span>${escapeHTML(option.label)}</span>
-          </label>
-        `,
-      )
-      .join("");
-
-    return `
-      <section class="card" aria-labelledby="stage-title">
-        <span class="pill pill-neutral">Transferència final</span>
-        <h2 class="stage-title" id="stage-title" tabindex="-1">Què faràs quan no ho puguis verificar?</h2>
-        <fieldset class="reflection-fieldset">
-          <legend>${escapeHTML(CONTENT.reflection.question)}</legend>
-          <div class="reflection-options">${options}</div>
-        </fieldset>
-        <p class="form-error" id="form-error" role="alert" hidden></p>
-        <div class="button-row">
-          <button class="button button-primary" type="button" data-action="submit-reflection" data-testid="submit-reflection">
-            Confirma l'estratègia
-          </button>
-        </div>
-      </section>
-    `;
-  }
-
-  function renderReflectionFeedback() {
-    const last = state.reflectionHistory[state.reflectionHistory.length - 1];
-    const option = CONTENT.reflection.options.find(
-      (candidate) => candidate.id === last.answer,
-    );
-
-    return `
-      <section class="card" aria-labelledby="stage-title">
-        <div class="feedback-heading ${last.correct ? "feedback-correct" : "feedback-incorrect"}">
-          <h2 class="stage-title" id="stage-title" tabindex="-1">${last.correct ? "Estratègia adequada" : "Encara no és verificació"}</h2>
-          <span class="feedback-badge">${last.correct ? "Transferència completada" : "Revisa la resposta"}</span>
-        </div>
-        <div class="feedback-panel ${last.correct ? "correct" : "incorrect"}">
-          <p>${escapeHTML(option.feedback)}</p>
-          ${
-            last.correct
-              ? "<p>El grau de verificació ha de créixer amb el risc: una dada trivial no demana el mateix que una decisió mèdica, legal o financera.</p>"
-              : "<p>Pots tornar a triar. No compta com una penalització.</p>"
-          }
-        </div>
-        <div class="button-row">
-          <button
-            class="button button-primary"
-            type="button"
-            data-action="${last.correct ? "show-results" : "retry-reflection"}"
-            data-testid="${last.correct ? "show-results" : "retry-reflection"}"
-          >
-            ${last.correct ? "Veure el resum" : "Torna-ho a provar"}
+        <p class="verify-line">${compactSource(item.source)}</p>
+        <div class="button-row button-row-end">
+          <button class="button button-primary" type="button" data-action="show-results" data-testid="show-results">
+            Acaba
           </button>
         </div>
       </section>
@@ -1869,127 +1370,42 @@ progress::-moz-progress-bar {
     ).length;
     const interpretation =
       highCorrect > lowCorrect
-        ? `En aquests ítems has pres més decisions correctes a ${highDomain.shortLabel} (${highCorrect} de 5) que a ${lowDomain.shortLabel} (${lowCorrect} de 5). És una observació d'aquesta mostra, no una mesura personal.`
+        ? `En aquesta mostra curta has detectat millor els errors a ${highDomain.shortLabel}.`
         : lowCorrect > highCorrect
-          ? `En aquests ítems t'ha anat millor a ${lowDomain.shortLabel} (${lowCorrect} de 5) que a ${highDomain.shortLabel} (${highCorrect} de 5). Una mostra tan petita pot dependre de cada pregunta; no contradiu la necessitat de verificar.`
-          : `Has obtingut el mateix recompte als dos àmbits (${highCorrect} de 5). Aquesta mostra no mostra cap diferència i no pretén mesurar-te.`;
-
-    const domainCards = [
-      { domain: highDomain, responses: highResponses, correct: highCorrect },
-      { domain: lowDomain, responses: lowResponses, correct: lowCorrect },
-    ]
-      .map(
-        ({ domain, responses, correct }) => `
-          <article class="result-card">
-            <h3>${escapeHTML(domain.shortLabel)}</h3>
-            <p class="result-score">${correct} de ${responses.length}</p>
-            <p>Familiaritat declarada: ${state.ratings[domain.id]} de 5.</p>
-          </article>
-        `,
-      )
-      .join("");
-
-    const outcomeCounts = Object.keys(OUTCOME_LABELS).reduce(
-      (counts, outcome) => {
-        counts[outcome] = state.responses.filter(
-          (response) => response.outcome === outcome,
-        ).length;
-        return counts;
-      },
-      {},
-    );
-    const outcomeCards = Object.entries(OUTCOME_LABELS)
-      .map(
-        ([outcome, label]) => `
-          <article class="metric-card">
-            <p class="metric-label">${escapeHTML(label)}</p>
-            <p class="metric-value">${outcomeCounts[outcome]}</p>
-          </article>
-        `,
-      )
-      .join("");
-
-    const confidenceCards = Object.entries(CONFIDENCE_LABELS)
-      .map(([confidence, label]) => {
-        const responses = state.responses.filter(
-          (response) => response.confidence === confidence,
-        );
-        const correct = responses.filter((response) => response.correct).length;
-        return `
-          <article class="metric-card">
-            <p class="metric-label">Confiança ${escapeHTML(label.toLowerCase())}</p>
-            <p class="metric-value">${correct} de ${responses.length}</p>
-            <p>Decisions correctes dins d'aquest nivell declarat.</p>
-          </article>
-        `;
-      })
-      .join("");
-
-    const missed = state.responses.filter((response) => !response.correct);
-    const review =
-      missed.length === 0
-        ? '<p class="completion-note">No hi ha decisions incorrectes per revisar en aquesta mostra.</p>'
-        : missed
-            .map((response) => {
-              const item = itemById.get(response.itemId);
-              const domain = domainById.get(response.domainId);
-              return `
-                <details class="review-item">
-                  <summary>${escapeHTML(domain.shortLabel)} · ${escapeHTML(OUTCOME_LABELS[response.outcome])}</summary>
-                  <div class="review-body">
-                    <p><strong>La teva resposta:</strong> ${escapeHTML(answerLabel(item, response.answer))}</p>
-                    <p><strong>Resposta correcta:</strong> ${escapeHTML(correctAnswerLabel(item))}</p>
-                    <p>${escapeHTML(item.explanation)}</p>
-                    <p><strong>Acció de verificació:</strong> ${escapeHTML(item.verificationAction)}</p>
-                    ${renderSource(item.source)}
-                  </div>
-                </details>
-              `;
-            })
-            .join("");
+          ? `En aquesta mostra curta t'ha anat millor a ${lowDomain.shortLabel}.`
+          : "En aquesta mostra curta no hi ha hagut cap diferència entre els dos àmbits.";
 
     return `
-      <section class="card" aria-labelledby="stage-title">
-        <span class="pill">Activitat completada</span>
-        <h2 class="stage-title" id="stage-title" tabindex="-1">El teu resum de verificació</h2>
-        <p class="results-intro">${escapeHTML(interpretation)}</p>
-
-        <h3>Els dos àmbits que has comparat</h3>
-        <div class="domain-results">${domainCards}</div>
-
-        <h3>Què ha passat en les deu decisions</h3>
-        <div class="outcome-grid">${outcomeCards}</div>
-
-        <h3>Confiança i encert</h3>
-        <div class="confidence-grid">${confidenceCards}</div>
-
-        <h3>Una pauta per endur-te</h3>
-        <div class="verification-grid">
-          <article class="plan-card">
-            <h3>Ho puc comprovar</h3>
-            <p>Calcula, contrasta definicions o revisa l'evidència que ja controles.</p>
-          </article>
-          <article class="plan-card">
-            <h3>Necessito una font</h3>
-            <p>Busca una font independent, autoritzada i prou específica per a l'afirmació.</p>
-          </article>
-          <article class="plan-card">
-            <h3>Necessito una persona experta</h3>
-            <p>Escala la revisió quan el risc o la complexitat superen el que una font ràpida resol.</p>
-          </article>
+      <section class="card card-compact" aria-labelledby="stage-title">
+        <span class="pill">Fet</span>
+        <h2 class="stage-title" id="stage-title" tabindex="-1">Queda't amb això</h2>
+        <div class="simple-comparison" aria-label="Resultat per àmbit">
+          <p>
+            <span>${escapeHTML(highDomain.shortLabel)}</span>
+            <strong>${highCorrect} de ${ITEMS_PER_DOMAIN}</strong>
+          </p>
+          <p>
+            <span>${escapeHTML(lowDomain.shortLabel)}</span>
+            <strong>${lowCorrect} de ${ITEMS_PER_DOMAIN}</strong>
+          </p>
         </div>
-
-        <section class="review-section" aria-labelledby="review-title">
-          <h3 id="review-title">Revisa les decisions que no han coincidit amb l'evidència</h3>
-          ${review}
-        </section>
-
-        <p class="completion-note" id="completion-note">
-          Has completat els judicis, la verificació amb evidència i la transferència final.
-          Moodle rep només l'avís de finalització, si el curs té el receptor configurat.
+        <p class="results-intro">
+          ${escapeHTML(interpretation)} Són només tres preguntes per àmbit, no una
+          mesura de la teva capacitat.
+        </p>
+        <div class="takeaway">
+          <p class="output-label">Idea clau</p>
+          <p>
+            Si pots comprovar una resposta, comprova-la. Si no pots, busca una font
+            independent o una persona experta adequada al risc.
+          </p>
+        </div>
+        <p class="completion-note">
+          Activitat completada. Moodle rep només l'avís de finalització, si el curs
+          té el receptor configurat.
         </p>
         <div class="button-row">
-          <button class="button button-danger" type="button" data-action="restart" data-testid="restart">
+          <button class="button button-quiet" type="button" data-action="restart" data-testid="restart">
             Torna a començar
           </button>
         </div>
@@ -2004,33 +1420,23 @@ progress::-moz-progress-bar {
       error.hidden = false;
     }
     setStatus(message);
-    const target = focusSelector ? stage.querySelector(focusSelector) : null;
-    target?.focus();
+    stage.querySelector(focusSelector)?.focus();
   }
 
   function classify(item, answer) {
-    if (item.errorIndex === null && answer === "clean") {
-      return "cleanAccepted";
-    }
-    if (item.errorIndex === null) {
-      return "falseAlarm";
-    }
-    if (answer === "clean") {
-      return "missedError";
-    }
-    if (Number(answer) === item.errorIndex) {
-      return "localized";
-    }
+    if (item.errorIndex === null && answer === "clean") return "cleanAccepted";
+    if (item.errorIndex === null) return "falseAlarm";
+    if (answer === "clean") return "missedError";
+    if (Number(answer) === item.errorIndex) return "localized";
     return "wrongLocation";
   }
 
-  function makeResponse(item, answer, confidence, extra = {}) {
+  function makeResponse(item, answer, extra = {}) {
     const outcome = classify(item, answer);
     return {
       itemId: item.id,
       domainId: item.domainId || "practice",
       answer,
-      confidence,
       outcome,
       correct: outcome === "localized" || outcome === "cleanAccepted",
       ...extra,
@@ -2039,110 +1445,69 @@ progress::-moz-progress-bar {
 
   function readJudgmentForm() {
     const answer = stage.querySelector('input[name="answer"]:checked');
-    const confidence = stage.querySelector('input[name="confidence"]:checked');
     if (!answer) {
       showFormError(
-        "Tria «No hi ha cap error» o una de les tres frases.",
+        "Marca una frase o tria «No hi ha cap error».",
         'input[name="answer"]',
       );
       return null;
     }
-    if (!confidence) {
-      showFormError(
-        "Indica quina confiança tens en la decisió.",
-        'input[name="confidence"]',
-      );
-      return null;
-    }
-    return { answer: answer.value, confidence: confidence.value };
+    return answer.value;
   }
 
   function handleSaveFamiliarity() {
-    const missing = ITEM_BANK.domains.find(
-      (domain) => !Number(state.ratings[domain.id]),
-    );
-    if (missing) {
+    const highDomainId = document.getElementById("high-domain").value;
+    const lowDomainId = document.getElementById("low-domain").value;
+    if (!highDomainId || !lowDomainId) {
       showFormError(
-        `Valora també l'àmbit «${missing.label}».`,
-        `input[name="rating-${missing.id}"]`,
+        "Tria un àmbit a cada camp.",
+        !highDomainId ? "#high-domain" : "#low-domain",
       );
       return;
     }
-
-    const values = ITEM_BANK.domains.map((domain) =>
-      Number(state.ratings[domain.id]),
-    );
-    if (new Set(values).size === 1) {
-      showFormError(
-        "Per comparar dos punts de partida, indica almenys una diferència entre els àmbits.",
-        "input[data-rating-domain]",
-      );
+    if (highDomainId === lowDomainId) {
+      showFormError("Tria dos àmbits diferents.", "#low-domain");
       return;
     }
 
-    const ranked = ITEM_BANK.domains
-      .map((domain, index) => ({
-        id: domain.id,
-        rating: Number(state.ratings[domain.id]),
-        index,
-      }))
-      .sort((a, b) => b.rating - a.rating || a.index - b.index);
-    const reverseRanked = [...ranked].sort(
-      (a, b) => a.rating - b.rating || b.index - a.index,
-    );
-
-    state.highDomainId = ranked[0].id;
-    state.lowDomainId = reverseRanked.find(
-      (entry) => entry.id !== state.highDomainId,
-    ).id;
-    state.itemOrder = buildItemOrder(
-      state.highDomainId,
-      state.lowDomainId,
-      state.seed,
-    );
+    state.highDomainId = highDomainId;
+    state.lowDomainId = lowDomainId;
+    state.itemOrder = buildItemOrder(highDomainId, lowDomainId, state.seed);
     state.milestones.familiarity = true;
     state.stage = "practice";
     saveState();
-    render({
-      focus: true,
-      announce: "Familiaritat registrada. Comença l'exemple de pràctica.",
-    });
+    render({ focus: true, announce: "Àmbits triats. Prova el control." });
   }
 
   function handleSubmitPractice() {
-    const form = readJudgmentForm();
-    if (!form) return;
+    const answer = readJudgmentForm();
+    if (answer === null) return;
     state.practiceResponse = makeResponse(
       { ...ITEM_BANK.practice, domainId: "practice" },
-      form.answer,
-      form.confidence,
+      answer,
     );
     state.stage = "practice-feedback";
     saveState();
     render({
       focus: true,
       announce: state.practiceResponse.correct
-        ? "Decisió de pràctica correcta. S'ha mostrat l'explicació."
-        : "Decisió de pràctica a revisar. S'ha mostrat l'explicació.",
+        ? "Resposta correcta."
+        : "Resposta a revisar.",
     });
   }
 
   function handleSubmitCore() {
-    const form = readJudgmentForm();
-    if (!form) return;
+    const answer = readJudgmentForm();
+    if (answer === null) return;
     const orderEntry = state.itemOrder[state.coreIndex];
     const item = itemById.get(orderEntry.itemId);
-    const response = makeResponse(item, form.answer, form.confidence, {
-      role: orderEntry.role,
-    });
+    const response = makeResponse(item, answer, { role: orderEntry.role });
     state.responses.push(response);
     state.stage = "core-feedback";
     saveState();
     render({
       focus: true,
-      announce: response.correct
-        ? "Decisió correcta. S'ha mostrat l'evidència."
-        : "Decisió a revisar. S'ha mostrat l'evidència.",
+      announce: response.correct ? "Resposta correcta." : "Resposta a revisar.",
     });
   }
 
@@ -2152,66 +1517,28 @@ progress::-moz-progress-bar {
     );
     if (!selected) {
       showFormError(
-        "Tria què permet concloure l'evidència.",
+        "Tria què permet concloure la font.",
         'input[name="transfer-answer"]',
       );
       return;
     }
-    const item = ITEM_BANK.transfers[state.transferIndex];
-    const response = {
-      itemId: item.id,
-      answer: selected.value,
-      correct: selected.value === item.expected,
-    };
-    state.transferResponses.push(response);
+    const item = ITEM_BANK.transfers[0];
+    state.transferResponses = [
+      {
+        itemId: item.id,
+        answer: selected.value,
+        correct: selected.value === item.expected,
+      },
+    ];
     state.stage = "transfer-feedback";
     saveState();
     render({
       focus: true,
-      announce: response.correct
-        ? "Conclusió correcta."
-        : "Conclusió a revisar.",
+      announce:
+        selected.value === item.expected
+          ? "Conclusió correcta."
+          : "Conclusió a revisar.",
     });
-  }
-
-  function handleSubmitReflection() {
-    const selected = stage.querySelector(
-      'input[name="reflection-answer"]:checked',
-    );
-    if (!selected) {
-      showFormError(
-        "Tria una estratègia abans de continuar.",
-        'input[name="reflection-answer"]',
-      );
-      return;
-    }
-    const option = CONTENT.reflection.options.find(
-      (candidate) => candidate.id === selected.value,
-    );
-    state.reflectionHistory.push({
-      answer: selected.value,
-      correct: Boolean(option.correct),
-    });
-    state.stage = "reflection-feedback";
-    saveState();
-    render({
-      focus: true,
-      announce: option.correct
-        ? "Estratègia de verificació adequada."
-        : "Aquesta estratègia encara no verifica la resposta.",
-    });
-  }
-
-  function answerLabel(item, answer) {
-    return answer === "clean"
-      ? "No hi ha cap error"
-      : `Frase ${Number(answer) + 1}: ${item.claims[Number(answer)]}`;
-  }
-
-  function correctAnswerLabel(item) {
-    return item.errorIndex === null
-      ? "No hi ha cap error"
-      : `Frase ${item.errorIndex + 1}: ${item.claims[item.errorIndex]}`;
   }
 
   function hashString(value) {
@@ -2245,27 +1572,36 @@ progress::-moz-progress-bar {
   }
 
   function buildItemOrder(highDomainId, lowDomainId, seed) {
+    const matchedSets = [
+      [0, 1, 3],
+      [1, 2, 4],
+      [2, 0, 3],
+    ];
+    const indices = matchedSets[seed % matchedSets.length];
+    const select = (domainId) =>
+      indices.map((index) => domainById.get(domainId).items[index]);
     const highItems = shuffled(
-      domainById.get(highDomainId).items,
+      select(highDomainId),
       seed ^ hashString(highDomainId),
     );
     const lowItems = shuffled(
-      domainById.get(lowDomainId).items,
+      select(lowDomainId),
       seed ^ hashString(lowDomainId),
     );
     const highFirst = (seed & 1) === 0;
     const order = [];
-    for (let index = 0; index < 5; index += 1) {
-      const pair = highFirst
-        ? [
-            { itemId: highItems[index].id, role: "high" },
-            { itemId: lowItems[index].id, role: "low" },
-          ]
-        : [
-            { itemId: lowItems[index].id, role: "low" },
-            { itemId: highItems[index].id, role: "high" },
-          ];
-      order.push(...pair);
+    for (let index = 0; index < ITEMS_PER_DOMAIN; index += 1) {
+      order.push(
+        ...(highFirst
+          ? [
+              { itemId: highItems[index].id, role: "high" },
+              { itemId: lowItems[index].id, role: "low" },
+            ]
+          : [
+              { itemId: lowItems[index].id, role: "low" },
+              { itemId: highItems[index].id, role: "high" },
+            ]),
+      );
     }
     return order;
   }
@@ -2274,9 +1610,7 @@ progress::-moz-progress-bar {
     const configured = new URLSearchParams(window.location.search).get(
       "parentOrigin",
     );
-    const candidates = [configured, document.referrer];
-
-    for (const candidate of candidates) {
+    for (const candidate of [configured, document.referrer]) {
       if (!candidate) continue;
       try {
         const url = new URL(candidate, window.location.href);
@@ -2303,25 +1637,20 @@ progress::-moz-progress-bar {
         ),
         coreItemsAnswered: state.responses.length,
         transferItemsAnswered: state.transferResponses.length,
-        reflectionCompleted: state.milestones.reflection,
       },
     };
   }
 
   function completeActivity() {
-    if (!state.completed) {
-      state.completed = true;
-    }
+    state.completed = true;
     if (state.completionSent) {
       saveState();
       return;
     }
-
     const payload = completionPayload();
     document.dispatchEvent(
       new CustomEvent("enti-widget-complete", { detail: payload }),
     );
-
     const parentOrigin = validParentOrigin();
     if (window.parent && window.parent !== window && parentOrigin) {
       window.parent.postMessage(payload, parentOrigin);
@@ -2337,28 +1666,18 @@ progress::-moz-progress-bar {
     resizeTimer = window.setTimeout(() => {
       const parentOrigin = validParentOrigin();
       if (!parentOrigin || window.parent === window) return;
-      const height = Math.ceil(document.documentElement.scrollHeight);
       window.parent.postMessage(
         {
           type: "enti-widget-resize",
           schemaVersion: MESSAGE_SCHEMA_VERSION,
           widget: WIDGET_ID,
           version: WIDGET_VERSION,
-          height,
+          height: Math.ceil(document.documentElement.scrollHeight),
         },
         parentOrigin,
       );
     }, 80);
   }
-
-  stage.addEventListener("change", (event) => {
-    const input = event.target.closest("input[data-rating-domain]");
-    if (!input) return;
-    state.ratings[input.dataset.ratingDomain] = Number(input.value);
-    saveState();
-    const error = document.getElementById("form-error");
-    if (error) error.hidden = true;
-  });
 
   stage.addEventListener("click", (event) => {
     const button = event.target.closest("button[data-action]");
@@ -2369,10 +1688,7 @@ progress::-moz-progress-bar {
         state.milestones.started = true;
         state.stage = "familiarity";
         saveState();
-        render({
-          focus: true,
-          announce: "Valora la familiaritat dels àmbits.",
-        });
+        render({ focus: true, announce: "Tria dos àmbits." });
         break;
       case "back-intro":
         state.stage = "intro";
@@ -2390,7 +1706,7 @@ progress::-moz-progress-bar {
         state.stage = "core";
         state.coreIndex = 0;
         saveState();
-        render({ focus: true, announce: "Comença la primera decisió." });
+        render({ focus: true, announce: "Primera resposta." });
         break;
       case "submit-core":
         handleSubmitCore();
@@ -2401,52 +1717,20 @@ progress::-moz-progress-bar {
         saveState();
         render({
           focus: true,
-          announce: `Decisió ${state.coreIndex + 1} de ${CORE_ITEM_COUNT}.`,
+          announce: `Resposta ${state.coreIndex + 1} de ${CORE_ITEM_COUNT}.`,
         });
         break;
       case "finish-core":
         state.milestones.core = true;
-        state.stage = "transfer-intro";
-        saveState();
-        render({
-          focus: true,
-          announce: "Judicis completats. Ara treballaràs amb evidència.",
-        });
-        break;
-      case "begin-transfer":
         state.stage = "transfer";
-        state.transferIndex = 0;
         saveState();
-        render({ focus: true, announce: "Primer cas amb evidència." });
+        render({ focus: true, announce: "Ara treballa amb una font." });
         break;
       case "submit-transfer":
         handleSubmitTransfer();
         break;
-      case "next-transfer":
-        state.transferIndex += 1;
-        state.stage = "transfer";
-        saveState();
-        render({
-          focus: true,
-          announce: `Cas ${state.transferIndex + 1} de ${ITEM_BANK.transfers.length}.`,
-        });
-        break;
-      case "finish-transfer":
-        state.milestones.transfer = true;
-        state.stage = "reflection";
-        saveState();
-        render({ focus: true, announce: "Transferència final." });
-        break;
-      case "submit-reflection":
-        handleSubmitReflection();
-        break;
-      case "retry-reflection":
-        state.stage = "reflection";
-        saveState();
-        render({ focus: true, announce: "Torna a triar una estratègia." });
-        break;
       case "show-results":
-        state.milestones.reflection = true;
+        state.milestones.transfer = true;
         state.stage = "results";
         saveState();
         render({ focus: true, announce: "Activitat completada." });
@@ -2477,8 +1761,7 @@ progress::-moz-progress-bar {
   });
 
   if ("ResizeObserver" in window) {
-    const resizeObserver = new ResizeObserver(scheduleResize);
-    resizeObserver.observe(document.documentElement);
+    new ResizeObserver(scheduleResize).observe(document.documentElement);
   } else {
     window.addEventListener("resize", scheduleResize);
   }
@@ -2491,7 +1774,7 @@ progress::-moz-progress-bar {
   document.getElementById("privacy-copy").textContent = CONTENT.widget.privacy;
   document.getElementById("widget-footer").textContent = CONTENT.widget.footer;
 
-  render({ focus: false });
+  render();
 })();
     </script>
   </body>

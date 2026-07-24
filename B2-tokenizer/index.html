@@ -29,8 +29,9 @@
             <h2 class="intro-title">Què descobriràs</h2>
             <p>
               Primer faràs una predicció. Després revelaràs el recompte real,
-              inspeccionaràs les fronteres dels tokens i compararàs diversos
-              exemples paral·lels.
+              inspeccionaràs les fronteres dels tokens i compararàs diverses
+              peticions paral·leles. Al final relacionaràs el recompte amb el
+              context, el cost d’una API i un cas real d’ús.
             </p>
             <p>
               <strong>Important:</strong> cada resultat descriu el text concret
@@ -69,11 +70,11 @@
           <div class="section-heading">
             <div>
               <p class="section-kicker">Experiment guiat</p>
-              <h2 id="guidedTitle">Prediu, revela i inspecciona</h2>
+              <h2 id="guidedTitle">Prediu, revela i compara</h2>
             </div>
             <p class="section-hint">
-              Les traduccions d’aquest mode han estat preparades com a
-              equivalents.
+              Les tres versions expressen la mateixa petició en llengües
+              diferents.
             </p>
           </div>
 
@@ -108,8 +109,8 @@
 
           <nav class="scenario-nav" aria-labelledby="scenarioTitle">
             <div class="scenario-nav-heading">
-              <h3 id="scenarioTitle">Tria un exemple</h3>
-              <span id="scenarioCounter">Exemple 1 de 7</span>
+              <h3 id="scenarioTitle">Tria una petició a una IA</h3>
+              <span id="scenarioCounter">Petició 1 de 7</span>
             </div>
             <div id="scenarioButtons" class="scenario-buttons"></div>
           </nav>
@@ -162,14 +163,14 @@
                 type="button"
                 hidden
               >
-                Prova un altre exemple
+                Prova una altra petició
               </button>
               <button
                 class="button button-secondary"
                 id="shareScenarioButton"
                 type="button"
               >
-                Copia l’enllaç d’aquest exemple
+                Copia l’enllaç d’aquesta petició
               </button>
             </div>
 
@@ -181,7 +182,7 @@
             >
               <div class="result-hero">
                 <div>
-                  <p class="result-kicker">Resultat d’aquest exemple</p>
+                  <p class="result-kicker">Resultat d’aquesta petició</p>
                   <h3 id="resultTitle" tabindex="-1">
                     La predicció i el recompte
                   </h3>
@@ -250,7 +251,7 @@
         >
           <div class="section-heading">
             <div>
-              <p class="section-kicker">Canvia l’escala</p>
+              <p class="section-kicker">Vista de conjunt</p>
               <h2 id="corpusTitle">Un exemple no és una regla</h2>
             </div>
             <p class="section-hint">
@@ -262,11 +263,11 @@
           <div class="table-wrap">
             <table id="corpusTable">
               <caption>
-                Tokens de cada versió per exemple i mitjana global
+                Tokens de cada versió per petició i mitjana global
               </caption>
               <thead>
                 <tr>
-                  <th scope="col">Exemple</th>
+                  <th scope="col">Petició</th>
                   <th scope="col">Català</th>
                   <th scope="col">Anglès</th>
                   <th scope="col">Castellà</th>
@@ -295,7 +296,7 @@
               <h2 id="reflectionTitle">Quina conclusió és més acurada?</h2>
             </div>
             <p class="section-hint">
-              Pots tornar a mirar els exemples abans de respondre. En acabar,
+              Pots tornar a mirar les peticions abans de respondre. En acabar,
               desbloquejaràs el laboratori lliure.
             </p>
           </div>
@@ -310,9 +311,9 @@
               <label class="reflection-option">
                 <input type="radio" name="reflection" value="dependent" />
                 <span
-                  >El recompte depèn del text concret i de la codificació; una
-                  petició real també pot afegir tokens que aquí no es
-                  veuen.</span
+                  >El recompte depèn del text i de la codificació. Una petició
+                  completa pot incloure tokens addicionals que aquesta
+                  comparació no mostra.</span
                 >
               </label>
               <label class="reflection-option">
@@ -466,7 +467,7 @@ Una mica de pa amb tomàquet i una mica d’oli d’oliva.</textarea
 
               <details id="applicationDetails" class="application-details">
                 <summary>
-                  Mode avançat: codificació, context i cost d’una API
+                  Aplicació pràctica: codificació, context i cost d’una API
                 </summary>
                 <div class="application-content">
                   <section
@@ -476,13 +477,13 @@ Una mica de pa amb tomàquet i una mica d’oli d’oliva.</textarea
                     <div>
                       <p class="section-kicker">La codificació també importa</p>
                       <h3 id="encodingExplorerTitle">
-                        1. Compta el mateix text amb una altra codificació
+                        1. Compara dues codificacions
                       </h3>
                       <p>
+                        Una codificació decideix on es divideix el text.
                         <code>o200k_base</code> i <code>cl100k_base</code> poden
-                        dividir exactament el mateix text de maneres diferents.
-                        La segona codificació només es descarrega si actives
-                        aquesta comparació.
+                        donar recomptes diferents per al mateix text. Activa la
+                        comparació per veure-ho sense sortir del navegador.
                       </p>
                     </div>
                     <button
@@ -509,11 +510,11 @@ Una mica de pa amb tomàquet i una mica d’oli d’oliva.</textarea
                     <div>
                       <p class="section-kicker">Espai disponible</p>
                       <h3 id="contextExplorerTitle">
-                        2. Quina part del límit de context ocupa?
+                        2. Quin percentatge del context ocupa?
                       </h3>
                       <p>
-                        Escriu el límit de context del model que vols estudiar.
-                        Compararem aquest límit amb els tokens del text actual.
+                        Introdueix el límit de context del model. Calcularem
+                        quin percentatge ocupa el text actual.
                       </p>
                     </div>
                     <div class="estimator-inputs">
@@ -552,12 +553,12 @@ Una mica de pa amb tomàquet i una mica d’oli d’oliva.</textarea
                     <div>
                       <p class="section-kicker">Preus definits per tu</p>
                       <h3 id="costExplorerTitle">
-                        3. Quant costaria enviar-lo a una API?
+                        3. Quant costarien aquestes peticions en una API?
                       </h3>
                       <p>
-                        Copia els preus publicats pel proveïdor per cada milió
-                        de tokens. No precarreguem cap tarifa perquè varia
-                        segons el model, el proveïdor i la data.
+                        Introdueix els preus publicats pel proveïdor per cada
+                        milió de tokens. No hi ha cap tarifa predefinida perquè
+                        varia segons el model, el proveïdor i la data.
                       </p>
                     </div>
                     <div class="estimator-inputs cost-inputs">
@@ -645,10 +646,42 @@ Una mica de pa amb tomàquet i una mica d’oli d’oliva.</textarea
                       </p>
                     </div>
                     <p class="method-note">
-                      Estimació genèrica: no inclou memòria cau, lots, eines,
-                      imatges, àudio, impostos ni altres regles específiques del
-                      proveïdor. Confirma sempre la factura real.
+                      Aquesta estimació no inclou memòria cau, lots, eines,
+                      imatges, àudio, impostos ni altres regles del proveïdor.
+                      Confirma sempre la factura real.
                     </p>
+                    <aside class="real-example" aria-labelledby="cavemanTitle">
+                      <p class="section-kicker">
+                        Exemple real · projecte extern
+                      </p>
+                      <h4 id="cavemanTitle">
+                        Caveman: reduir la verbositat de les respostes
+                      </h4>
+                      <p>
+                        <strong>Caveman</strong> és una habilitat per a agents
+                        de codi que elimina farciment i manté intactes el codi,
+                        les ordres i els errors. És una aplicació directa del
+                        que acabes de mesurar: una resposta més breu pot
+                        utilitzar menys tokens de sortida i ser més ràpida de
+                        llegir.
+                      </p>
+                      <p>
+                        <strong>Què no fa:</strong> no redueix automàticament
+                        els tokens d’entrada ni de raonament. El mateix projecte
+                        adverteix que, en tasques ja breus, la instrucció extra
+                        pot no compensar. Mesura-ho sempre en el teu cas.
+                      </p>
+                      <a
+                        class="project-link"
+                        href="https://github.com/juliusbrussee/caveman"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >Explora el repositori Caveman
+                        <span class="new-tab-note"
+                          >(s’obre en una pestanya nova)</span
+                        ></a
+                      >
+                    </aside>
                   </section>
                 </div>
               </details>
@@ -710,7 +743,7 @@ Una mica de pa amb tomàquet i una mica d’oli d’oliva.</textarea
       <footer class="widget-footer">
         <p>ENTI-UB · Curs d’alfabetització en IA · Mòdul 1, Capítol 2.</p>
         <p id="completionStatus">
-          Completa tres exemples i la reflexió final per acabar l’activitat.
+          Completa tres peticions i la reflexió final per acabar l’activitat.
         </p>
       </footer>
     </div>

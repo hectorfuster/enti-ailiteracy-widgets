@@ -1,6 +1,6 @@
 # Governança de contingut de B7
 
-Versió d’escenari: 2.0.0  
+Versió d’escenari: 2.1.0
 Data de revisió: 2026-07-24
 
 ## Font de veritat del curs

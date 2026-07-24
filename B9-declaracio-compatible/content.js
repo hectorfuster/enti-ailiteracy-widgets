@@ -1,5 +1,5 @@
 export const WIDGET_ID = "B9-declaracio-compatible";
-export const WIDGET_VERSION = "2.0.0";
+export const WIDGET_VERSION = "2.1.0";
 
 export const ACTIVITY_CONVENTION = Object.freeze({
   id: "b9-activity-convention",

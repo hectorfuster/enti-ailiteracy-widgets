@@ -40,6 +40,8 @@ assert.match(index, /engine\.js/);
 assert.match(index, /app\.js/);
 assert.match(styles, /prefers-reduced-motion:\s*reduce/);
 assert.match(styles, /:focus-visible/);
+assert.match(styles, /\.prompt::after[\s\S]*prompt-caret-blink/);
+assert.match(styles, /@keyframes prompt-caret-blink/);
 assert.doesNotMatch(styles, /@import/i);
 assert.doesNotMatch(
   runtime,

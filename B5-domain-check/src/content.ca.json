@@ -10,31 +10,8 @@
   },
   "intro": {
     "title": "Quan «sembla correcte» no és prou",
-    "body": "Compararàs respostes sintètiques en dos àmbits que tu mateix valoraràs. Després practicaràs com suplir els límits del coneixement propi amb evidència fiable.",
-    "duration": "Durada orientativa: 5–7 minuts. No compta la puntuació; compta completar el procés.",
+    "body": "Marca directament la frase que et sembli falsa. Compararàs dos àmbits que tu mateix triïs i acabaràs comprovant una afirmació amb una font.",
+    "duration": "Durada orientativa: 3–4 minuts. No és un examen.",
     "start": "Comença"
-  },
-  "reflection": {
-    "question": "Una resposta sona precisa, però no coneixes prou l'àmbit per comprovar-la. Quina és la millor acció?",
-    "options": [
-      {
-        "id": "accept",
-        "label": "Acceptar-la perquè està ben redactada.",
-        "correct": false,
-        "feedback": "La fluïdesa no és evidència de veritat."
-      },
-      {
-        "id": "reject",
-        "label": "Rebutjar-la automàticament.",
-        "correct": false,
-        "feedback": "La desconfiança automàtica tampoc verifica la resposta."
-      },
-      {
-        "id": "verify",
-        "label": "Buscar una font independent o revisió experta adequada al risc.",
-        "correct": true,
-        "feedback": "Exacte. Quan el coneixement propi no basta, cal ampliar la verificació."
-      }
-    ]
   }
 }

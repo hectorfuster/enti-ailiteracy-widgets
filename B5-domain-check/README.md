@@ -6,14 +6,14 @@ your own knowledge with independent evidence.
 
 ## Learner flow
 
-1. Rate current familiarity with four domains.
+1. Choose one domain you know better and one you know less well.
 2. Complete an unscored control practice.
-3. Judge five matched items from the highest-rated and lowest-rated domains.
-4. State confidence, inspect the exact correction, and see an authoritative
-   source after each judgment.
-5. Resolve two new cases with evidence already available.
-6. Choose an appropriate verification action and receive a non-diagnostic
-   summary using counts rather than percentages.
+3. In six matched outputs, select the false sentence directly inside the text
+   or choose “No hi ha cap error”.
+4. Review one in-place correction and one authoritative source after each
+   judgment.
+5. Compare one new claim with supplied evidence and finish with two counts, one
+   cautious interpretation, and one takeaway.
 
 Completion never depends on score.
 
@@ -46,6 +46,9 @@ review status. Each five-item domain bank must preserve:
 - three erroneous and two clean items;
 - one error in each claim position;
 - the same difficulty pattern as all other domains.
+
+Each session uses a matched three-item subset from both selected domains: two
+outputs with an error and one clean output per domain.
 
 Run `npm run validate:items` after any content change. Source and language
 status must reflect reality: do not change a pending sign-off to approved until
@@ -104,8 +107,8 @@ index.html?parentOrigin=https%3A%2F%2Fcampus.example.edu
 
 The widget then sends two versioned messages only to that origin:
 
-- `enti-widget-complete` once, with milestone booleans and item counts but no
-  answers, confidence values, ratings, or scores;
+- `enti-widget-complete` once, with completed milestone names and item counts
+  but no answers, selected domains, or scores;
 - `enti-widget-resize` when its document height changes.
 
 The parent may acknowledge completion with:
@@ -122,7 +125,7 @@ when the query parameter is absent. It never sends to `*`.
 
 ## Privacy and state
 
-Responses remain in `sessionStorage` under `enti-b5-domain-check-v2` so a
+Responses remain in `sessionStorage` under `enti-b5-domain-check-v3` so a
 reload in the same tab can resume. Restarting removes that entry. No
 `localStorage`, analytics, cookies, web fonts, or response-bearing network
 messages are used.
@@ -137,7 +140,6 @@ Automated checks complement but do not replace:
 - a representative 20-person item pilot;
 - completion verification in the actual Moodle theme with a student account.
 
-Record those outcomes in `VALIDATION.md`.
 Use `RELEASE-CHECKLIST.md` for the exact reviewer, assistive-technology,
 Moodle, and aggregate learner-pilot evidence required before production
 sign-off.

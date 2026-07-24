@@ -32,8 +32,10 @@ En acabar, l’estudiant hauria de poder:
    - tria un flux;
    - afegeix una salvaguarda;
    - revisa i compromet la hipòtesi.
-4. Rep les conseqüències amb retard al brief següent.
-5. Revisa el mapa complet, sense puntuació ni “família guanyadora”.
+4. Al brief següent, llegeix primer tots els fets nous i consulta la
+   conseqüència anterior en un bloc separat i desplegable.
+5. Compara les tres decisions en un mapa compacte i obre només l’anàlisi que
+   necessitis, sense puntuació ni “família guanyadora”.
 6. Aplica l’estructura a un cas nou de moderació de comunitat.
 
 ## Principis de contingut
@@ -150,7 +152,7 @@ Exemple de finalització:
 {
   "type": "enti-widget-complete",
   "widget": "b7-el-brief",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "outcome": {
     "completed": true,
     "restored": false
@@ -186,11 +188,10 @@ Serveix el directori complet sota HTTPS i UTF-8. La capçalera de producció ha 
 - desactivar càmera, micròfon i geolocalització;
 - aplicar `nosniff` i una política de referència restrictiva.
 
-La versió actual de contingut és `2.0.0`, revisada el 2026-07-24.
+La versió actual de contingut és `2.1.0`, revisada el 2026-07-24.
 
 ## Documents
 
-- [Full de ruta i auditoria original](IMPROVEMENT-ROADMAP.md)
 - [Governança de contingut](CONTENT-GOVERNANCE.md)
 - [Validació](VALIDATION.md)
 - [Avisos de tercers](THIRD-PARTY-NOTICES.md)

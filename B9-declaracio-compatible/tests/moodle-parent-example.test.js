@@ -12,7 +12,7 @@ const baseMessage = {
   namespace: "enti.ai-literacy.widget",
   protocolVersion: 1,
   widgetId: "B9-declaracio-compatible",
-  widgetVersion: "2.0.0",
+  widgetVersion: "2.1.0",
 };
 
 function fakeHost() {
@@ -55,8 +55,8 @@ test("message validator enforces namespace, version, type, and payload", () => {
     validateWidgetMessage({
       ...baseMessage,
       type: "enti.widget.progress",
-      step: 4,
-      total: 5,
+      step: 1,
+      total: 1,
     }),
     true,
   );
@@ -65,7 +65,7 @@ test("message validator enforces namespace, version, type, and payload", () => {
       ...baseMessage,
       type: "enti.widget.progress",
       step: 7,
-      total: 5,
+      total: 1,
     }),
     false,
   );
@@ -142,16 +142,16 @@ test("parent bridge validates origin/source, resizes, reports progress, and comp
     data: {
       ...baseMessage,
       type: "enti.widget.progress",
-      step: 4,
-      total: 5,
+      step: 1,
+      total: 1,
     },
   });
-  assert.deepEqual(progress, [{ step: 4, total: 5 }]);
+  assert.deepEqual(progress, [{ step: 1, total: 1 }]);
 
   const completionMessage = {
     ...baseMessage,
     type: "enti.widget.complete",
-    milestone: "transfer-case-complete",
+    milestone: "disclosure-case-complete",
   };
   hostWindow.send({
     origin: "https://widgets.example.edu",
@@ -165,9 +165,9 @@ test("parent bridge validates origin/source, resizes, reports progress, and comp
   });
   assert.equal(completions.length, 1);
   assert.deepEqual(completions[0], {
-    milestone: "transfer-case-complete",
+    milestone: "disclosure-case-complete",
     widgetId: "B9-declaracio-compatible",
-    widgetVersion: "2.0.0",
+    widgetVersion: "2.1.0",
   });
 
   bridge.disconnect();

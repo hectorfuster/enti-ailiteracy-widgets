@@ -18,6 +18,8 @@ The guided aggregate reports the mean, median, and range for each language. Its 
 
 The API estimator deliberately ships without provider prices. Learners enter the current price per million input and output tokens, an expected output size, request volume, and currency. The estimate covers the current plain-text input plus the assumed output and clearly excludes provider-specific cache, batch, tool, image, audio, tax, and billing rules.
 
+The estimator also links to [Caveman](https://github.com/juliusbrussee/caveman) as a concrete example of reducing verbose agent output. The activity explains both its usefulness—shorter output can be easier to read and use fewer output tokens—and its limit: it does not automatically reduce input or reasoning tokens, so learners should measure the whole workflow rather than assume a saving.
+
 ## Run locally
 
 Serve the repository over HTTP; workers are not reliably available from `file://` URLs.
@@ -57,17 +59,15 @@ npm.cmd run check:all
 
 An interactive iframe test page is also available at `tests/iframe-harness.html`.
 
-See [VALIDATION.md](VALIDATION.md) for the recorded automated/manual evidence and the external course-owner, assistive-technology, learner, and Moodle acceptance checks.
+## Share a reviewed request
 
-## Share a reviewed scenario
-
-Every guided example has a “Copia l’enllaç d’aquest exemple” control. A deep link contains only the reviewed scenario ID:
+Every guided request has a “Copia l’enllaç d’aquesta petició” control. A deep link contains only its reviewed ID:
 
 ```text
 index.html?scenario=pla-estudi
 ```
 
-The query parameter overrides the locally remembered current scenario when it is valid. Unknown IDs are ignored. The copied URL removes all other query parameters and fragments, including `parentOrigin`, and never contains learner text, predictions, completion state, or free-lab settings.
+The query parameter overrides the locally remembered request when it is valid. Unknown IDs are ignored. The copied URL removes all other query parameters and fragments, including `parentOrigin`, and never contains learner text, predictions, completion state, or free-lab settings.
 
 ## Moodle integration
 

@@ -5,7 +5,6 @@ const outputUrl = new URL("widget.js", root);
 const sourceFiles = [
   "content.js",
   "disclosure-core.js",
-  "activity-flow.js",
   "app.js",
 ];
 

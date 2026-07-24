@@ -86,10 +86,13 @@ export function evaluateDisclosure({
     const option = optionId ? getOption(groups, groupId, optionId) : undefined;
     return !option?.fulfills;
   });
+  const vagueGroupIds = clauses
+    .filter(({ option }) => option.vague)
+    .map(({ group }) => group.id);
 
   const truthful = compatibleIds.has(targetWorldId);
   const complete = missingGroupIds.length === 0;
-  const specific = compatible.length === 1;
+  const specific = compatible.length === 1 && vagueGroupIds.length === 0;
   const selectedCount = clauses.length;
 
   let state = "empty";
@@ -112,6 +115,7 @@ export function evaluateDisclosure({
     declaration: buildDeclaration(groups, selections),
     falseClauses,
     missingGroupIds,
+    vagueGroupIds,
     truthful,
     complete,
     specific,

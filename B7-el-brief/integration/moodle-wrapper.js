@@ -2,7 +2,7 @@
   "use strict";
 
   const WIDGET_ID = "b7-el-brief";
-  const SUPPORTED_VERSION = "2.0.0";
+  const SUPPORTED_VERSION = "2.1.0";
   const MESSAGE_TYPES = new Set([
     "enti-widget-progress",
     "enti-widget-complete",

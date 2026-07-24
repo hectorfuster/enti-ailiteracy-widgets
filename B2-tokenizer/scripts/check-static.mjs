@@ -10,10 +10,8 @@ const htmlFiles = [
 ];
 const markdownFiles = [
   resolve(projectDirectory, "README.md"),
-  resolve(projectDirectory, "VALIDATION.md"),
   resolve(projectDirectory, "VENDOR.md"),
   resolve(projectDirectory, "THIRD-PARTY-NOTICES.md"),
-  resolve(projectDirectory, "IMPROVEMENT-ROADMAP.md"),
 ];
 const requiredAssets = [
   "app.js",

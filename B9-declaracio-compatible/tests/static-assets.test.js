@@ -17,17 +17,18 @@ test("HTML declares Catalan, responsive metadata, and the local bundle", async (
   assert.match(html, /name="enti-parent-origin"/);
   assert.match(html, /<script defer src="\.\/widget\.js"><\/script>/);
   assert.match(html, /<link rel="stylesheet" href="\.\/styles\.css">/);
-  assert.match(html, /id="builder-template"/);
   assert.match(html, /aria-live="polite"/);
-  assert.equal(
-    html.match(
-      /Quants processos diferents creus que podrien encaixar amb la frase\?/g,
-    )?.length,
-    1,
-  );
-  assert.doesNotMatch(html, /processos de sota/);
   assert.doesNotMatch(html, /<script(?![^>]*\bsrc=)[^>]*>/);
   assert.doesNotMatch(html, /\sstyle="/);
+});
+
+test("comparison cases are visible before the single builder and quizzes are absent", async () => {
+  const html = await read("index.html");
+
+  assert.ok(html.indexOf('id="worlds"') < html.indexOf('id="builder-form"'));
+  assert.doesNotMatch(html, /prediction|reflection|activity-progress|Pas \d de/i);
+  assert.match(html, /Vuit processos diferents/);
+  assert.match(html, /Concreta la declaració/);
 });
 
 test("shipped runtime is a parseable classic script with a startup fail-safe", async () => {
@@ -36,18 +37,15 @@ test("shipped runtime is a parseable classic script with a startup fail-safe", a
     read("widget.js"),
   ]);
 
-  assert.match(html, /<div class="notice notice-insight" id="startup-status">/);
+  assert.match(html, /<div class="notice notice-info" id="startup-status">/);
   assert.doesNotMatch(html, /id="startup-status"[^>]*\shidden/);
   assert.doesNotMatch(bundle, /^\s*(?:import|export)\s/m);
   assert.doesNotThrow(() => new vm.Script(bundle, { filename: "widget.js" }));
-  assert.match(
-    bundle,
-    /byId\("prediction-form"\)\.addEventListener\("submit"/,
-  );
-  assert.match(bundle, /byId\("prediction-result"\)\.hidden = false/);
+  assert.match(bundle, /byId\("load-vague"\)\.addEventListener\("click"/);
+  assert.match(bundle, /byId\("worlds"\)\.replaceChildren/);
   assert.match(bundle, /byId\("startup-status"\)\.hidden = true/);
   assert.ok(
-    bundle.indexOf('byId("prediction-form").addEventListener("submit"') <
+    bundle.indexOf('byId("load-vague").addEventListener("click"') <
       bundle.indexOf('byId("startup-status").hidden = true'),
     "Startup notice must remain visible until event handlers are registered",
   );
@@ -76,23 +74,14 @@ test("static HTML IDs are unique and local references resolve", async () => {
   }
 });
 
-test("app literal ID and data-role lookups resolve against the HTML template", async () => {
+test("app literal ID lookups resolve against the HTML", async () => {
   const [html, app] = await Promise.all([read("index.html"), read("app.js")]);
   const ids = new Set(
     [...html.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]),
   );
-  const roles = new Set(
-    [...html.matchAll(/\sdata-role="([^"]+)"/g)].map((match) => match[1]),
-  );
 
   for (const match of app.matchAll(/\bbyId\("([^"]+)"\)/g)) {
     assert.ok(ids.has(match[1]), `App references missing ID: ${match[1]}`);
-  }
-  for (const match of app.matchAll(/\[data-role="([^"]+)"\]/g)) {
-    assert.ok(
-      roles.has(match[1]),
-      `App references missing template role: ${match[1]}`,
-    );
   }
 });
 
@@ -122,7 +111,7 @@ test("Moodle bridge uses an exact configured origin and excludes learner text", 
   const app = await read("app.js");
   const bridge = app.slice(
     app.indexOf("class MoodleBridge"),
-    app.indexOf("class DisclosureBuilder"),
+    app.indexOf("const contentErrors"),
   );
   assert.match(bridge, /this\.parentOrigin/);
   assert.match(bridge, /window\.parent\.postMessage/);
@@ -166,10 +155,9 @@ test("defined text, focus, state, and control-boundary colors meet their thresho
   const checks = [
     ["#181612", "#f3eee5", 4.5, "ink/page"],
     ["#504a42", "#f3eee5", 4.5, "soft/page"],
-    ["#6b645a", "#f3eee5", 4.5, "faint/page"],
     ["#746c60", "#ffffff", 3, "control boundary/card"],
-    ["#9b2020", "#f3eee5", 3, "focus/page"],
-    ["#9b2020", "#ffffff", 3, "focus/card"],
+    ["#8d1c1c", "#f3eee5", 3, "focus/page"],
+    ["#8d1c1c", "#ffffff", 3, "focus/card"],
     ["#2f673d", "#eaf4e9", 4.5, "success/success-soft"],
     ["#83520a", "#fff3d8", 4.5, "warning/warning-soft"],
     ["#8d1c1c", "#fbe7e5", 4.5, "danger/danger-soft"],

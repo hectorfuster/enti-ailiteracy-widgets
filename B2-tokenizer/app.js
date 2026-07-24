@@ -580,7 +580,7 @@
           data-scenario-id="${scenario.id}"
           aria-current="${isCurrent ? "true" : "false"}"
         >
-          <span>Exemple ${index + 1}</span>
+          <span>Petició ${index + 1}</span>
           <strong>${escapeHtml(scenario.short)}</strong>
         </button>
       `;
@@ -608,7 +608,7 @@
   async function renderCurrentScenario() {
     const scenario = currentScenario();
     const index = SCENARIOS.indexOf(scenario);
-    elements.scenarioCounter.textContent = `Exemple ${index + 1} de ${SCENARIOS.length}`;
+    elements.scenarioCounter.textContent = `Petició ${index + 1} de ${SCENARIOS.length}`;
     elements.scenarioCategory.textContent = scenario.category;
     elements.scenarioName.textContent = scenario.title;
     renderTranslationPreview(scenario);
@@ -703,7 +703,7 @@
         "Activitat completada. El progrés ha quedat registrat en aquest navegador.";
       elements.completionStatus.classList.add("completion-success");
     } else {
-      elements.completionStatus.textContent = `Has explorat ${state.revealedIds.length} de ${REQUIRED_REVEALS} exemples necessaris.`;
+      elements.completionStatus.textContent = `Has explorat ${state.revealedIds.length} de ${REQUIRED_REVEALS} peticions necessàries.`;
       elements.completionStatus.classList.remove("completion-success");
     }
   }
@@ -775,7 +775,7 @@
     const highest = topLanguages(results);
     const highestNames = highest
       .map((language) => LANGUAGES[language].name.toLowerCase())
-      .join(" i ");
+      .join(" i en ");
     const englishCount = counts.en;
     const catalanDifference = counts.ca - englishCount;
     const catalanPercent =
@@ -783,19 +783,22 @@
         ? Math.round((catalanDifference / englishCount) * 100)
         : 0;
     let comparison =
-      "En aquest exemple, català i anglès tenen el mateix recompte.";
+      "En aquesta petició, les versions en català i en anglès tenen el mateix recompte.";
     if (catalanDifference > 0) {
-      comparison = `En aquest exemple, el català utilitza ${catalanDifference} ${catalanDifference === 1 ? "token" : "tokens"} més que l’anglès (${catalanPercent} %).`;
+      comparison = `En aquesta petició, la versió en català utilitza ${catalanDifference} ${catalanDifference === 1 ? "token" : "tokens"} més que la versió en anglès (${catalanPercent} %).`;
     } else if (catalanDifference < 0) {
-      comparison = `En aquest exemple, el català utilitza ${Math.abs(catalanDifference)} ${Math.abs(catalanDifference) === 1 ? "token" : "tokens"} menys que l’anglès (${Math.abs(catalanPercent)} %).`;
+      comparison = `En aquesta petició, la versió en català utilitza ${Math.abs(catalanDifference)} ${Math.abs(catalanDifference) === 1 ? "token" : "tokens"} menys que la versió en anglès (${Math.abs(catalanPercent)} %).`;
     }
 
-    elements.resultSummary.textContent = `${comparison} La versió amb el recompte més alt és ${highestNames}.`;
+    elements.resultSummary.textContent =
+      highest.length === 1
+        ? `${comparison} El recompte més alt correspon a la versió en ${highestNames}.`
+        : `${comparison} Els recomptes més alts corresponen a les versions en ${highestNames}.`;
     const prediction = state.predictions[scenario.id];
     const predictionCorrect = highest.includes(prediction);
     elements.predictionFeedback.textContent = predictionCorrect
-      ? "La teva predicció coincideix amb aquest exemple. Ara mira on apareixen les fronteres."
-      : "La teva predicció no coincidia, i això és útil: les fronteres reals sovint contradiuen la intuïció.";
+      ? "La teva predicció coincideix amb el recompte d’aquesta petició. Ara observa on apareixen les fronteres."
+      : "La teva predicció no coincideix amb el recompte, i això també és útil: les fronteres reals sovint contradiuen la intuïció.";
 
     const maximum = Math.max(...Object.values(counts), 1);
     elements.barChart.setAttribute(
@@ -999,7 +1002,7 @@
   async function renderCorpus() {
     if (corpusRendered || !tokenizerReady) return;
     elements.corpusSummary.innerHTML =
-      '<p class="load-status">Calculant el conjunt d’exemples…</p>';
+      '<p class="load-status">Calculant el conjunt de peticions…</p>';
     try {
       await Promise.all(
         SCENARIOS.map((scenario) => ensureScenarioResults(scenario)),
@@ -1106,7 +1109,7 @@
       elements.reflectionFeedback.className = "reflection-feedback is-wrong";
       elements.reflectionFeedback.textContent =
         selected.value === "always"
-          ? "Torna-ho a mirar: els exemples mostren que la diferència canvia amb la formulació."
+          ? "Torna-ho a mirar: les peticions mostren que la diferència canvia amb la formulació."
           : "Torna a inspeccionar els fragments: alguns tokens són parts de paraula, espais o signes.";
       announce(elements.reflectionFeedback.textContent);
       return;
@@ -1534,8 +1537,8 @@
     const copied = await copyToClipboard(url.toString());
     announce(
       copied
-        ? "Enllaç copiat. Només inclou l’identificador de l’exemple; no inclou text, respostes ni progrés."
-        : "No s’ha pogut copiar l’enllaç de l’exemple.",
+        ? "Enllaç copiat. Només inclou l’identificador de la petició; no inclou text, respostes ni progrés."
+        : "No s’ha pogut copiar l’enllaç de la petició.",
     );
   }
 

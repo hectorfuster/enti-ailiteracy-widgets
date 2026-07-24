@@ -1,7 +1,7 @@
 const NAMESPACE = "enti.ai-literacy.widget";
 const PROTOCOL_VERSION = 1;
 const WIDGET_ID = "B9-declaracio-compatible";
-const WIDGET_VERSION = "2.0.0";
+const WIDGET_VERSION = "2.1.0";
 const ALLOWED_TYPES = new Set([
   "enti.widget.ready",
   "enti.widget.resize",
@@ -49,13 +49,13 @@ export function validateWidgetMessage(data) {
     return (
       Number.isInteger(data.step) &&
       Number.isInteger(data.total) &&
-      data.step >= 1 &&
-      data.total === 5 &&
+      data.step >= 0 &&
+      data.total === 1 &&
       data.step <= data.total
     );
   }
 
-  return data.milestone === "transfer-case-complete";
+  return data.milestone === "disclosure-case-complete";
 }
 
 export function clampWidgetHeight(height) {

@@ -1,7 +1,7 @@
 const { test, expect } = require("@playwright/test");
 const AxeBuilder = require("@axe-core/playwright").default;
 
-const STORAGE_KEY = "enti-b5-domain-check-v2";
+const STORAGE_KEY = "enti-b5-domain-check-v3";
 
 async function expectStageFocus(surface) {
   await expect(surface.locator("#stage-title")).toBeFocused();
@@ -10,78 +10,43 @@ async function expectStageFocus(surface) {
 async function tabTo(page, locator, maximumTabs = 20) {
   expect(await locator.count()).toBe(1);
   for (let index = 0; index <= maximumTabs; index += 1) {
-    const focused = await locator.evaluate(
-      (element) => element === document.activeElement,
-    );
-    if (focused) return;
+    if (
+      await locator.evaluate((element) => element === document.activeElement)
+    ) {
+      return;
+    }
     await page.keyboard.press("Tab");
   }
   await expect(locator).toBeFocused();
 }
 
-async function chooseRatingWithKeyboard(page, domainId, value) {
-  const first = page.getByTestId(`rating-${domainId}-1`);
-  await tabTo(page, first);
-  await page.keyboard.press("Space");
-  for (let index = 1; index < value; index += 1) {
-    await page.keyboard.press("ArrowRight");
-  }
-  const selected = page.getByTestId(`rating-${domainId}-${value}`);
-  await expect(selected).toBeFocused();
-  await expect(selected).toBeChecked();
-}
-
-async function chooseFamiliarity(surface) {
-  await surface.getByTestId("rating-videojocs-5").check({ force: true });
-  await surface.getByTestId("rating-musica-1").check({ force: true });
-  await surface.getByTestId("rating-astronomia-3").check({ force: true });
-  await surface.getByTestId("rating-comptabilitat-2").check({ force: true });
+async function chooseDomains(surface) {
+  await surface.getByTestId("high-domain").selectOption("videojocs");
+  await surface.getByTestId("low-domain").selectOption("musica");
   await surface.getByTestId("save-familiarity").click();
-}
-
-async function answerJudgment(
-  surface,
-  answer = "clean",
-  confidence = "medium",
-) {
-  await surface.getByTestId(`answer-${answer}`).check();
-  await surface.getByTestId(`confidence-${confidence}`).check();
 }
 
 async function completeFlow(surface, options = {}) {
   const { pauseAfterFirstCore = false } = options;
   await surface.getByTestId("start").click();
-  await chooseFamiliarity(surface);
-  await answerJudgment(surface, "1", "medium");
+  await chooseDomains(surface);
+  await surface.getByTestId("answer-1").check();
   await surface.getByTestId("submit-practice").click();
   await surface.getByTestId("begin-core").click();
 
-  for (let index = 0; index < 10; index += 1) {
-    await answerJudgment(
-      surface,
-      index % 3 === 0 ? "0" : "clean",
-      index % 2 === 0 ? "high" : "low",
-    );
+  for (let index = 0; index < 6; index += 1) {
+    await surface
+      .getByTestId(index % 2 === 0 ? "answer-0" : "answer-clean")
+      .check();
     await surface.getByTestId("submit-core").click();
     if (pauseAfterFirstCore && index === 0) return;
     await surface
-      .getByTestId(index === 9 ? "finish-core" : "next-core")
+      .getByTestId(index === 5 ? "finish-core" : "next-core")
       .click();
   }
 
-  await surface.getByTestId("begin-transfer").click();
   await surface.getByTestId("transfer-contradicts").check();
   await surface.getByTestId("submit-transfer").click();
-  await surface.getByTestId("next-transfer").click();
-  await surface.getByTestId("transfer-insufficient").check();
-  await surface.getByTestId("submit-transfer").click();
-  await surface.getByTestId("finish-transfer").click();
-
-  await surface.getByTestId("reflection-accept").check();
-  await surface.getByTestId("submit-reflection").click();
-  await surface.getByTestId("retry-reflection").click();
-  await surface.getByTestId("reflection-verify").check();
-  await surface.getByTestId("submit-reflection").click();
   await surface.getByTestId("show-results").click();
 }
 
@@ -92,7 +57,7 @@ async function expectNoAxeViolations(page) {
   );
 }
 
-test("completes the guided flow without leaking answers or making external requests", async ({
+test("completes the short flow without leaking answers or making external requests", async ({
   page,
 }) => {
   const runtimeErrors = [];
@@ -127,12 +92,12 @@ test("completes the guided flow without leaking answers or making external reque
   await completeFlow(page);
 
   await expect(
-    page.getByRole("heading", { name: "El teu resum de verificació" }),
+    page.getByRole("heading", { name: "Queda't amb això" }),
   ).toBeVisible();
-  await expect(
-    page.getByText("Activitat completada", { exact: true }),
-  ).toBeVisible();
-  await expect(page.locator(".outcome-grid .metric-card")).toHaveCount(5);
+  await expect(page.locator(".simple-comparison > p")).toHaveCount(2);
+  await expect(page.locator(".simple-comparison")).toContainText("de 3");
+  await expect(page.locator(".takeaway")).toContainText("Idea clau");
+  await expect(page.locator(".outcome-grid, .confidence-grid")).toHaveCount(0);
   await expectNoAxeViolations(page);
 
   const persisted = await page.evaluate((key) => {
@@ -146,8 +111,8 @@ test("completes the guided flow without leaking answers or making external reque
   }, STORAGE_KEY);
   expect(persisted).toEqual({
     completed: true,
-    responseCount: 10,
-    transferCount: 2,
+    responseCount: 6,
+    transferCount: 1,
     localStorageLength: 0,
   });
   const completionEvents = await page.evaluate(
@@ -162,22 +127,30 @@ test("completes the guided flow without leaking answers or making external reque
   expect(runtimeErrors).toEqual([]);
 });
 
-test("keeps evidence hidden until commitment and exposes a safe source link afterward", async ({
+test("selects a sentence inside the output and keeps feedback in place", async ({
   page,
 }) => {
   await page.goto("/");
   await page.getByTestId("start").click();
-  await chooseFamiliarity(page);
+  await chooseDomains(page);
 
-  await expect(page.locator(".source-card")).toHaveCount(0);
-  await answerJudgment(page, "1");
+  const output = page.locator(".synthetic-output");
+  await expect(output.locator(".claim-line")).toHaveCount(3);
+  await expect(output.locator(".source-link")).toHaveCount(0);
+  await output.locator(".claim-line").nth(1).click();
+  await expect(page.getByTestId("answer-1")).toBeChecked();
+  await expect(output.locator(".claim-line:has(input:checked)")).toHaveCount(1);
+
   await page.getByTestId("submit-practice").click();
-  await expect(page.locator(".source-card")).toBeVisible();
+  await expect(page.locator(".reviewed-output .claim-review-line")).toHaveCount(
+    3,
+  );
+  await expect(page.locator(".correction-strip")).toHaveCount(1);
+  await expect(page.locator(".claim-review-list, .source-card")).toHaveCount(0);
   await page.getByTestId("begin-core").click();
 
-  await expect(page.locator(".source-card")).toHaveCount(0);
   await expect(page.locator(".source-link")).toHaveCount(0);
-  await answerJudgment(page);
+  await page.getByTestId("answer-clean").check();
   await page.getByTestId("submit-core").click();
   const sourceLink = page.locator(".source-link");
   await expect(sourceLink).toBeVisible();
@@ -186,47 +159,50 @@ test("keeps evidence hidden until commitment and exposes a safe source link afte
   await expect(sourceLink).toHaveAttribute("href", /^https:\/\//);
 });
 
-test("validates required choices, manages focus, resumes, and rejects incoherent state", async ({
+test("validates choices, manages focus, resumes, and rejects incoherent state", async ({
   page,
 }) => {
   await page.goto("/");
   await page.getByTestId("start").click();
   await expectStageFocus(page);
-  await expectNoAxeViolations(page);
   await page.getByTestId("save-familiarity").click();
   await expect(page.locator("#form-error")).toBeVisible();
-  await expect(page.getByTestId("rating-videojocs-1")).toBeFocused();
+  await expect(page.getByTestId("high-domain")).toBeFocused();
 
-  await chooseFamiliarity(page);
+  await page.getByTestId("high-domain").selectOption("videojocs");
+  await page.getByTestId("low-domain").selectOption("videojocs");
+  await page.getByTestId("save-familiarity").click();
+  await expect(page.locator("#form-error")).toContainText(
+    "Tria dos àmbits diferents",
+  );
+  await expect(page.getByTestId("low-domain")).toBeFocused();
+
+  await page.getByTestId("low-domain").selectOption("musica");
+  await page.getByTestId("save-familiarity").click();
   await expectStageFocus(page);
-  await expectNoAxeViolations(page);
-  await answerJudgment(page, "1");
+  await page.getByTestId("answer-1").check();
   await page.getByTestId("submit-practice").click();
-  await expectNoAxeViolations(page);
   await page.getByTestId("begin-core").click();
-  await answerJudgment(page);
+  await page.getByTestId("answer-clean").check();
   await page.getByTestId("submit-core").click();
   await page.reload();
   await expect(
-    page.getByRole("heading", {
-      name: /Decisió revisada|Revisa què ha passat/,
-    }),
+    page.getByRole("heading", { name: /Ben vist|Revisa-ho/ }),
   ).toBeVisible();
   await page.getByTestId("next-core").click();
   await expect(
-    page.getByRole("heading", { name: "Decisió 2 de 10" }),
+    page.getByRole("heading", { name: "Resposta 2 de 6" }),
   ).toBeVisible();
 
   await page.evaluate((key) => {
     window.sessionStorage.setItem(
       key,
       JSON.stringify({
-        version: 2,
+        version: 3,
         stage: "results",
         highDomainId: "videojocs",
         lowDomainId: "musica",
-        ratings: { videojocs: 5, musica: 1, astronomia: 3, comptabilitat: 2 },
-        milestones: { reflection: true },
+        milestones: { started: true, transfer: true },
       }),
     );
   }, STORAGE_KEY);
@@ -236,24 +212,29 @@ test("validates required choices, manages focus, resumes, and rejects incoherent
   ).toBeVisible();
 });
 
-test("reflows at 320 CSS pixels with operable, non-overlapping controls", async ({
+test("reflows at 320 CSS pixels with large, non-overlapping sentence controls", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 320, height: 740 });
   await page.goto("/");
   await page.getByTestId("start").click();
-  await chooseFamiliarity(page);
+  await chooseDomains(page);
 
   const layout = await page.evaluate(() => ({
     clientWidth: document.documentElement.clientWidth,
     scrollWidth: document.documentElement.scrollWidth,
-    controls: [...document.querySelectorAll(".choice-card")].map((element) => {
-      const box = element.getBoundingClientRect();
-      return { top: box.top, bottom: box.bottom, height: box.height };
-    }),
+    htmlMinWidth: getComputedStyle(document.documentElement).minWidth,
+    controls: [...document.querySelectorAll(".claim-line, .clean-option")].map(
+      (element) => {
+        const box = element.getBoundingClientRect();
+        return { top: box.top, bottom: box.bottom, height: box.height };
+      },
+    ),
   }));
   expect(layout.scrollWidth).toBeLessThanOrEqual(layout.clientWidth);
-  expect(layout.controls.every((control) => control.height >= 44)).toBe(true);
+  expect(layout.htmlMinWidth).not.toBe("320px");
+  expect(layout.controls).toHaveLength(4);
+  expect(layout.controls.every((control) => control.height >= 50)).toBe(true);
   for (let index = 1; index < layout.controls.length; index += 1) {
     expect(layout.controls[index].top).toBeGreaterThanOrEqual(
       layout.controls[index - 1].bottom,
@@ -269,81 +250,53 @@ test("completes the entire activity using only native keyboard interaction", asy
   await page.keyboard.press("Enter");
   await expectStageFocus(page);
 
-  await chooseRatingWithKeyboard(page, "videojocs", 5);
-  await chooseRatingWithKeyboard(page, "musica", 1);
-  await chooseRatingWithKeyboard(page, "astronomia", 3);
-  await chooseRatingWithKeyboard(page, "comptabilitat", 2);
+  await tabTo(page, page.getByTestId("high-domain"));
+  await page.keyboard.press("ArrowDown");
+  await expect(page.getByTestId("high-domain")).toHaveValue("videojocs");
+  await page.keyboard.press("Tab");
+  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("ArrowDown");
+  await expect(page.getByTestId("low-domain")).toHaveValue("musica");
   await tabTo(page, page.getByTestId("save-familiarity"));
   await page.keyboard.press("Enter");
   await expectStageFocus(page);
 
-  await tabTo(page, page.getByTestId("answer-clean"));
-  await page.keyboard.press("ArrowRight");
+  await tabTo(page, page.getByTestId("answer-0"));
   await page.keyboard.press("ArrowRight");
   await expect(page.getByTestId("answer-1")).toBeChecked();
-  await tabTo(page, page.getByTestId("confidence-low"));
-  await page.keyboard.press("ArrowRight");
-  await expect(page.getByTestId("confidence-medium")).toBeChecked();
   await tabTo(page, page.getByTestId("submit-practice"));
   await page.keyboard.press("Enter");
-  await expectStageFocus(page);
   await tabTo(page, page.getByTestId("begin-core"));
   await page.keyboard.press("Enter");
 
-  for (let index = 0; index < 10; index += 1) {
+  for (let index = 0; index < 6; index += 1) {
     await expectStageFocus(page);
-    await tabTo(page, page.getByTestId("answer-clean"));
+    await tabTo(page, page.getByTestId("answer-0"));
     await page.keyboard.press("Space");
-    await expect(page.getByTestId("answer-clean")).toBeChecked();
-    await tabTo(page, page.getByTestId("confidence-low"));
-    await page.keyboard.press("Space");
-    await expect(page.getByTestId("confidence-low")).toBeChecked();
+    await expect(page.getByTestId("answer-0")).toBeChecked();
     await tabTo(page, page.getByTestId("submit-core"));
     await page.keyboard.press("Enter");
     await expectStageFocus(page);
     await tabTo(
       page,
-      page.getByTestId(index === 9 ? "finish-core" : "next-core"),
+      page.getByTestId(index === 5 ? "finish-core" : "next-core"),
     );
     await page.keyboard.press("Enter");
   }
 
   await expectStageFocus(page);
-  await tabTo(page, page.getByTestId("begin-transfer"));
-  await page.keyboard.press("Enter");
-
   await tabTo(page, page.getByTestId("transfer-supports"));
   await page.keyboard.press("Space");
   await page.keyboard.press("ArrowRight");
   await expect(page.getByTestId("transfer-contradicts")).toBeChecked();
   await tabTo(page, page.getByTestId("submit-transfer"));
   await page.keyboard.press("Enter");
-  await tabTo(page, page.getByTestId("next-transfer"));
-  await page.keyboard.press("Enter");
-
-  await tabTo(page, page.getByTestId("transfer-supports"));
-  await page.keyboard.press("Space");
-  await page.keyboard.press("ArrowRight");
-  await page.keyboard.press("ArrowRight");
-  await expect(page.getByTestId("transfer-insufficient")).toBeChecked();
-  await tabTo(page, page.getByTestId("submit-transfer"));
-  await page.keyboard.press("Enter");
-  await tabTo(page, page.getByTestId("finish-transfer"));
-  await page.keyboard.press("Enter");
-
-  await tabTo(page, page.getByTestId("reflection-accept"));
-  await page.keyboard.press("Space");
-  await page.keyboard.press("ArrowRight");
-  await page.keyboard.press("ArrowRight");
-  await expect(page.getByTestId("reflection-verify")).toBeChecked();
-  await tabTo(page, page.getByTestId("submit-reflection"));
-  await page.keyboard.press("Enter");
   await tabTo(page, page.getByTestId("show-results"));
   await page.keyboard.press("Enter");
 
   await expectStageFocus(page);
   await expect(
-    page.getByRole("heading", { name: "El teu resum de verificació" }),
+    page.getByRole("heading", { name: "Queda't amb això" }),
   ).toBeVisible();
 });
 
@@ -360,7 +313,7 @@ test("preserves reflow and selected state at 200% CSS zoom in forced colors", as
     document.documentElement.style.zoom = "2";
   });
   await page.getByTestId("start").click();
-  await chooseFamiliarity(page);
+  await chooseDomains(page);
   await page.getByTestId("answer-clean").check();
 
   const metrics = await page.evaluate(() => {
@@ -400,6 +353,7 @@ test("uses the versioned exact-origin iframe completion and resize contract", as
     .frames()
     .find((frame) => frame.url().includes("/index.html?parentOrigin="));
   expect(widgetFrame).toBeTruthy();
+
   await page.evaluate(() => {
     const iframe = document.getElementById("widget");
     window.dispatchEvent(
@@ -437,8 +391,8 @@ test("uses the versioned exact-origin iframe completion and resize contract", as
   await expect(widget.locator("#activity-status")).not.toHaveText(
     "El curs ha confirmat la finalització de l'activitat.",
   );
-  await completeFlow(widget);
 
+  await completeFlow(widget);
   await expect
     .poll(() =>
       page.evaluate(() =>
@@ -453,27 +407,25 @@ test("uses the versioned exact-origin iframe completion and resize contract", as
     (message) => message.type === "enti-widget-complete",
   );
   expect(completions).toHaveLength(1);
-  const [completion] = completions;
-  expect(completion).toMatchObject({
+  expect(completions[0]).toMatchObject({
     schemaVersion: 1,
     widget: "B5-domain-check",
-    version: 2,
+    version: 3,
     outcome: {
       completed: true,
-      coreItemsAnswered: 10,
-      transferItemsAnswered: 2,
-      reflectionCompleted: true,
+      coreItemsAnswered: 6,
+      transferItemsAnswered: 1,
     },
   });
   for (const privateField of [
     "answers",
     "responses",
-    "ratings",
     "confidence",
+    "ratings",
     "scores",
   ]) {
-    expect(completion).not.toHaveProperty(privateField);
-    expect(completion.outcome).not.toHaveProperty(privateField);
+    expect(completions[0]).not.toHaveProperty(privateField);
+    expect(completions[0].outcome).not.toHaveProperty(privateField);
   }
   expect(
     messages.some(
@@ -500,7 +452,7 @@ test("uses the versioned exact-origin iframe completion and resize contract", as
 
   await widgetFrame.goto(widgetFrame.url());
   await expect(
-    widget.getByRole("heading", { name: "El teu resum de verificació" }),
+    widget.getByRole("heading", { name: "Queda't amb això" }),
   ).toBeVisible();
   await expect
     .poll(() =>
