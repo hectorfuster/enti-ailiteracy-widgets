@@ -1,0 +1,26 @@
+{
+  "name": "enti-b8-consent-mirror",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Activitat Moodle sobre reciprocitat, consentiment i pràctiques responsables amb IA.",
+  "license": "MIT",
+  "scripts": {
+    "format": "prettier --write \"**/*.{cjs,css,html,js,json,md,mjs}\"",
+    "format:check": "prettier --check \"**/*.{cjs,css,html,js,json,md,mjs}\"",
+    "static:check": "node scripts/check-static.mjs",
+    "sources:check": "node scripts/check-sources.mjs",
+    "test": "npm run test:unit",
+    "test:unit": "node --test tests/*.test.cjs",
+    "test:browser": "playwright test",
+    "check": "npm run format:check && npm run static:check && npm run test:unit",
+    "check:all": "npm run check && npm run test:browser"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.12.1",
+    "@playwright/test": "1.61.1",
+    "prettier": "3.6.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
