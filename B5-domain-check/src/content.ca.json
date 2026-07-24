@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "locale": "ca",
+  "widget": {
+    "eyebrow": "Mòdul 2 · Capítol 3 · Activitat B5",
+    "title": "El corrector",
+    "subtitle": "No es tracta de desconfiar de tot. Es tracta de saber què pots verificar.",
+    "privacy": "Les respostes es guarden només en aquesta pestanya per poder reprendre l'activitat i no es transmeten. Si el curs té el receptor configurat, Moodle rep només un avís de finalització sense respostes ni puntuacions.",
+    "footer": "ENTI-UB · Curs d'alfabetització en IA · Activitat B5. Aquesta activitat il·lustra una pràctica de verificació; no diagnostica la teva capacitat ni cap biaix."
+  },
+  "intro": {
+    "title": "Quan «sembla correcte» no és prou",
+    "body": "Compararàs respostes sintètiques en dos àmbits que tu mateix valoraràs. Després practicaràs com suplir els límits del coneixement propi amb evidència fiable.",
+    "duration": "Durada orientativa: 5–7 minuts. No compta la puntuació; compta completar el procés.",
+    "start": "Comença"
+  },
+  "reflection": {
+    "question": "Una resposta sona precisa, però no coneixes prou l'àmbit per comprovar-la. Quina és la millor acció?",
+    "options": [
+      {
+        "id": "accept",
+        "label": "Acceptar-la perquè està ben redactada.",
+        "correct": false,
+        "feedback": "La fluïdesa no és evidència de veritat."
+      },
+      {
+        "id": "reject",
+        "label": "Rebutjar-la automàticament.",
+        "correct": false,
+        "feedback": "La desconfiança automàtica tampoc verifica la resposta."
+      },
+      {
+        "id": "verify",
+        "label": "Buscar una font independent o revisió experta adequada al risc.",
+        "correct": true,
+        "feedback": "Exacte. Quan el coneixement propi no basta, cal ampliar la verificació."
+      }
+    ]
+  }
+}
