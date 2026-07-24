@@ -1,0 +1,35 @@
+name: B2 tokenizer
+
+on:
+  pull_request:
+    paths:
+      - "B2-tokenizer/**"
+      - ".github/workflows/b2-tokenizer.yml"
+  push:
+    paths:
+      - "B2-tokenizer/**"
+      - ".github/workflows/b2-tokenizer.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: B2-tokenizer
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: B2-tokenizer/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: npm ci --ignore-scripts
+      - run: python -m pip install -r requirements-crosscheck.txt
+      - run: npx playwright install --with-deps chromium
+      - run: npm run check:all

@@ -1,0 +1,33 @@
+{
+  "name": "enti-b2-tokenizer",
+  "version": "2.2.0",
+  "private": true,
+  "description": "Local-first Moodle companion activity for learning how tokenization represents equivalent texts.",
+  "license": "MIT",
+  "scripts": {
+    "vendor:tokenizer": "node scripts/vendor-tokenizer.mjs",
+    "vendor:check": "node scripts/vendor-tokenizer.mjs --check",
+    "size:check": "node scripts/check-size.mjs",
+    "static:check": "node scripts/check-static.mjs",
+    "format": "prettier --write \"**/*.{cjs,css,html,js,json,md,mjs,yml}\"",
+    "format:check": "prettier --check \"**/*.{cjs,css,html,js,json,md,mjs,yml}\"",
+    "crosscheck:tiktoken": "node scripts/crosscheck-tiktoken.mjs",
+    "test": "npm run test:unit",
+    "test:unit": "node --test tests/*.test.cjs",
+    "test:browser": "playwright test",
+    "check": "npm run format:check && npm run static:check && npm run vendor:check && npm run size:check && npm run test:unit",
+    "check:all": "npm run check && npm run crosscheck:tiktoken && npm run test:browser"
+  },
+  "dependencies": {
+    "gpt-tokenizer": "3.4.0"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.12.1",
+    "@playwright/test": "1.61.1",
+    "esbuild": "^0.25.6",
+    "prettier": "^3.6.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

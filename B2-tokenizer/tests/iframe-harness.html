@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ca">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>B2 iframe test harness</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+      }
+      #events {
+        position: fixed;
+        z-index: 2;
+        right: 8px;
+        bottom: 8px;
+        max-width: 420px;
+        max-height: 180px;
+        overflow: auto;
+        background: #fff;
+        border: 2px solid #000;
+        padding: 8px;
+        font-size: 12px;
+      }
+      iframe {
+        width: 100%;
+        min-height: 800px;
+        border: 0;
+      }
+    </style>
+    <script src="../integration/moodle-wrapper.js" defer></script>
+    <script src="iframe-harness.js" defer></script>
+  </head>
+  <body>
+    <iframe id="widget" title="B2 Tokenizer under test"></iframe>
+    <pre id="events" aria-live="polite">Esperant esdeveniments…</pre>
+  </body>
+</html>

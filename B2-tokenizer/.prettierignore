@@ -1,0 +1,9 @@
+node_modules/
+.crosscheck/
+.tiktoken-cache/
+test-results/
+playwright-report/
+blob-report/
+o200k_base.js
+cl100k_base.js
+IMPROVEMENT-ROADMAP.md
