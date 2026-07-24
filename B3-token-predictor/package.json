@@ -1,0 +1,27 @@
+{
+  "name": "enti-b3-token-predictor",
+  "version": "3.0.0",
+  "private": true,
+  "description": "Local-first Moodle learning activity for next-token prediction, sampling, and temperature.",
+  "license": "MIT",
+  "scripts": {
+    "format": "prettier --write \"**/*.{css,html,js,json,md,cjs}\"",
+    "format:check": "prettier --check \"**/*.{css,html,js,json,md,cjs}\"",
+    "static:check": "node scripts/check-static.cjs",
+    "size:check": "node scripts/check-size.cjs",
+    "test": "npm run test:unit",
+    "test:unit": "node --test tests/*.test.cjs",
+    "test:browser": "playwright test",
+    "check": "npm run format:check && npm run static:check && npm run size:check && npm run test:unit",
+    "check:all": "npm run check && npm run test:browser"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.12.1",
+    "@playwright/test": "1.61.1",
+    "gpt-tokenizer": "3.4.0",
+    "prettier": "3.6.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
