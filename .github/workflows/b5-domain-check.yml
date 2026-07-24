@@ -1,0 +1,32 @@
+name: B5 domain check
+
+on:
+  pull_request:
+    paths:
+      - "B5-domain-check/**"
+      - ".github/workflows/b5-domain-check.yml"
+  push:
+    paths:
+      - "B5-domain-check/**"
+      - ".github/workflows/b5-domain-check.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: B5-domain-check
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: B5-domain-check/package-lock.json
+      - run: npm ci --ignore-scripts
+      - run: npx playwright install --with-deps chromium
+      - run: npm run check:all
+      - run: npm run check:sources:online

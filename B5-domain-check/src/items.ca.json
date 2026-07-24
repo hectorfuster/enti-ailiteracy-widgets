@@ -1,0 +1,613 @@
+{
+  "schemaVersion": 1,
+  "locale": "ca",
+  "verifiedAt": "2026-07-24",
+  "reviewPolicy": {
+    "sourceReview": "completed",
+    "sourceReviewer": "Codex implementation review",
+    "subjectMatterSignoff": "pending ENTI-UB subject reviewer",
+    "languageSignoff": "pending ENTI-UB Catalan reviewer"
+  },
+  "practice": {
+    "id": "practice-upload-limit",
+    "domain": "practica",
+    "tag": "Pràctica",
+    "context": "Regla d'aquest exemple: el campus només accepta fitxers de 10 MB o menys.",
+    "claims": [
+      "Un fitxer de 8 MB compleix el límit.",
+      "Un fitxer de 12 MB també compleix el límit.",
+      "El límit inclou els fitxers que ocupen exactament 10 MB."
+    ],
+    "errorIndex": 1,
+    "explanation": "La segona frase contradiu la regla: 12 MB supera el límit de 10 MB.",
+    "verificationAction": "Aquí n'hi havia prou de comparar cada xifra amb la regla visible.",
+    "source": {
+      "type": "activity-defined",
+      "publisher": "ENTI-UB",
+      "title": "Regla definida dins de l'activitat",
+      "url": "",
+      "checkedAt": "2026-07-24"
+    },
+    "provenance": "Exemple sintètic escrit per ensenyar el control de resposta.",
+    "review": {
+      "factual": "source-checked",
+      "language": "pending-human-signoff"
+    }
+  },
+  "domains": [
+    {
+      "id": "videojocs",
+      "label": "Desenvolupament de videojocs",
+      "shortLabel": "Videojocs",
+      "description": "Rendiment, temps i matemàtiques habituals en motors de joc.",
+      "items": [
+        {
+          "id": "games-fixed-update",
+          "difficulty": "transfer",
+          "context": "En un motor amb pas de física fix, el renderitzat i la simulació no han d'avançar necessàriament al mateix ritme.",
+          "claims": [
+            "FixedUpdate s'executa exactament una vegada per cada fotograma renderitzat.",
+            "Un pas fix de 0,02 segons equival a 50 actualitzacions de física per segon de joc.",
+            "Un fotograma pot contenir zero, una o diverses actualitzacions de física segons el temps acumulat."
+          ],
+          "errorIndex": 0,
+          "explanation": "La primera frase és falsa. Les actualitzacions de física segueixen el pas fix, no una relació obligatòria d'una per fotograma.",
+          "verificationAction": "Consulta la documentació del bucle temporal del motor i diferencia renderitzat de simulació.",
+          "source": {
+            "type": "authoritative",
+            "publisher": "Unity Technologies",
+            "title": "Time and frame rate management",
+            "url": "https://docs.unity3d.com/2023.2/Documentation/Manual/TimeFrameManagement.html",
+            "checkedAt": "2026-07-24"
+          },
+          "provenance": "Resposta sintètica basada en documentació oficial de Unity.",
+          "review": {
+            "factual": "source-checked",
+            "language": "pending-human-signoff"
+          }
+        },
+        {
+          "id": "games-delta-time",
+          "difficulty": "introductory",
+          "context": "Unity crida Update una vegada per fotograma i exposa el temps transcorregut des de l'últim fotograma.",
+          "claims": [
+            "Time.deltaTime expressa en segons el temps transcorregut des del fotograma anterior.",
+            "Moure un objecte una distància fixa a cada Update garanteix una velocitat constant encara que canviïn els FPS.",
+            "Multiplicar una velocitat per Time.deltaTime ajuda a fer el moviment independent de la taxa de fotogrames."
+          ],
+          "errorIndex": 1,
+          "explanation": "La segona frase és falsa. Una distància fixa per fotograma fa que la velocitat canviï quan canvien els FPS.",
+          "verificationAction": "Comprova les unitats: metres per segon × segons per fotograma = metres per fotograma.",
+          "source": {
+            "type": "authoritative",
+            "publisher": "Unity Technologies",
+            "title": "Time and frame rate management",
+            "url": "https://docs.unity3d.com/2023.2/Documentation/Manual/TimeFrameManagement.html",
+            "checkedAt": "2026-07-24"
+          },
+          "provenance": "Resposta sintètica basada en documentació oficial de Unity.",
+          "review": {
+            "factual": "source-checked",
+            "language": "pending-human-signoff"
+          }
+        },
+        {
+          "id": "games-frame-budget",
+          "difficulty": "introductory",
+          "context": "El pressupost teòric d'un fotograma es calcula dividint 1.000 mil·lisegons pels FPS objectiu.",
+          "claims": [
+            "A 30 FPS, cada fotograma disposa d'uns 33,33 ms.",
+            "A 60 FPS, cada fotograma disposa d'uns 16,67 ms.",
+            "A 120 FPS, cada fotograma disposa de 12 ms."
+          ],
+          "errorIndex": 2,
+          "explanation": "La tercera frase és falsa: 1.000 ÷ 120 són aproximadament 8,33 ms, no 12 ms.",
+          "verificationAction": "Aquest error es pot verificar directament amb el càlcul 1.000 ÷ FPS.",
+          "source": {
+            "type": "authoritative",
+            "publisher": "Unity Technologies",
+            "title": "Handling variation in time",
+            "url": "https://docs.unity3d.com/6000.0/Documentation/Manual/time-handling-variations.html",
+            "checkedAt": "2026-07-24"
+          },
+          "provenance": "Resposta sintètica; les xifres es deriven de la fórmula indicada.",
+          "review": {
+            "factual": "source-checked",
+            "language": "pending-human-signoff"
+          }
+        },
+        {
+          "id": "games-vector-normalization",
+          "difficulty": "transfer",
+          "context": "Considera un vector diferent de zero i la seva versió normalitzada.",
+          "claims": [
+            "El vector normalitzat manté la direcció de l'original.",
+            "La magnitud del vector normalitzat és 1.",
+            "Multiplicar-lo per una velocitat escalar produeix un vector amb aquella magnitud."
+          ],
+          "errorIndex": null,
+          "explanation": "Les tres frases són correctes per a un vector diferent de zero.",
+          "verificationAction": "Revisa la definició matemàtica o la documentació de Vector3.normalized.",
+          "source": {
+            "type": "authoritative",
+            "publisher": "Unity Technologies",
+            "title": "Vector3.normalized",
+            "url": "https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Vector3-normalized.html",
+            "checkedAt": "2026-07-24"
+          },
+          "provenance": "Resposta sintètica amb la condició de vector no nul explicitada.",
+          "review": {
+            "factual": "source-checked",
+            "language": "pending-human-signoff"
+          }
+        },
+        {
+          "id": "games-collider-bounds",
+          "difficulty": "transfer",
+          "context": "Unity exposa Collider.bounds com el volum delimitador del col·lisionador en l'espai del món.",
+          "claims": [
+            "Collider.bounds descriu un volum delimitador en coordenades de món.",
+            "El volum encapsula el col·lisionador encara que no n'ajusti exactament la forma.",
+            "Un col·lisionador desactivat o un GameObject inactiu pot retornar un volum buit."
+          ],
+          "errorIndex": null,
+          "explanation": "Les tres frases són coherents amb la definició de Collider.bounds.",
+          "verificationAction": "Consulta la referència exacta de la propietat en lloc d'inferir-la pel nom.",
+          "source": {
+            "type": "authoritative",
+            "publisher": "Unity Technologies",
+            "title": "Collider.bounds",
+            "url": "https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Collider-bounds.html",
+            "checkedAt": "2026-07-24"
+          },
+          "provenance": "Resposta sintètica basada en documentació oficial de Unity.",
+          "review": {
+            "factual": "source-checked",
+            "language": "pending-human-signoff"
+          }
+        }
+      ]
+    },
+    {
+      "id": "musica",
+      "label": "Música",
+      "shortLabel": "Música",
+      "description": "Mètrica, intervals, freqüència i història musical.",
+      "items": [
+        {
+          "id": "music-time-signature",
+          "difficulty": "transfer",
+          "context": "En la mètrica simple occidental, les dues xifres del compàs descriuen aspectes diferents.",
+          "claims": [
+            "En una indicació 3/4, la xifra inferior indica que hi ha tres pulsacions a cada compàs.",
+            "En una indicació 3/4, una negra representa una pulsació de referència.",
+            "En una indicació 3/4, la xifra superior 3 correspon a una mètrica triple simple."
+          ],
+          "errorIndex": 0,
+          "explanation": "La primera frase és falsa. El nombre de pulsacions el dona la xifra superior; el 4 inferior identifica la negra com a valor de pulsació.",
+          "verificationAction": "Separa sempre les funcions del numerador i del denominador.",
+          "source": {
+            "type": "authoritative",
+            "publisher": "Open Music Theory",
+            "title": "Meter and time signatures",
+            "url": "https://openmusictheory.github.io/meter.html",
+            "checkedAt": "2026-07-24"
+          },
+          "provenance": "Resposta sintètica basada en un manual obert de teoria musical.",
+          "review": {
+            "factual": "source-checked",
+            "language": "pending-human-signoff"
+          }
+        },
+        {
+          "id": "music-octave-frequency",
+          "difficulty": "introductory",
+          "context": "En afinació de referència, A4 (la4) té una freqüència de 440 Hz i una octava duplica la freqüència.",
+          "claims": [
+            "Si A4 s'afina a 440 Hz, A5 és una octava per sobre i conserva la mateixa classe de nota.",
+            "Si A4 s'afina a 440 Hz, la freqüència d'A5 és 660 Hz segons la relació entre octaves.",
+            "Si A4 s'afina a 440 Hz, A3 és una octava per sota i té una freqüència de 220 Hz."
+          ],
+          "errorIndex": 1,
+          "explanation": "La segona frase és falsa. Una octava duplica 440 Hz, de manera que A5 és 880 Hz.",
+          "verificationAction": "Aplica la relació d'octava ×2 o ÷2 i comprova les unitats en hertzs.",
+          "source": {
+            "type": "authoritative",
+            "publisher": "OpenStax",
+            "title": "Contemporary Mathematics — Math and Music",
+            "url": "https://openstax.org/books/contemporary-mathematics/pages/13-4-math-and-music",
+            "checkedAt": "2026-07-24"
+          },
+          "provenance": "Resposta sintètica basada en material educatiu d'OpenStax.",
+          "review": {
+            "factual": "source-checked",
+            "language": "pending-human-signoff"
+          }
+        },
+        {
+          "id": "music-vivaldi",
+          "difficulty": "introductory",
+          "context": "Les quatre estacions formen part de l'opus 8 d'Antonio Vivaldi.",
+          "claims": [
+            "La col·lecció coneguda com Les quatre estacions és un conjunt de quatre concerts per a violí.",
+            "La primera edició de la col·lecció es va publicar a Amsterdam l'any 1725.",
+            "Vivaldi va publicar aquesta col·lecció a mitjan segle XIX, dècades després de morir."
+          ],
+          "errorIndex": 2,
+          "explanation": "La tercera frase és falsa. L'edició de 1725 pertany al segle XVIII.",
+          "verificationAction": "Per a una data històrica, consulta un catàleg o una col·lecció patrimonial.",
+          "source": {
+            "type": "authoritative",
+            "publisher": "Library of Congress",
+            "title": "The Four Seasons — National Recording Registry essay",
+            "url": "https://www.loc.gov/static/programs/national-recording-preservation-board/documents/The-Four-Seasons_Furuya.pdf",
+            "checkedAt": "2026-07-24"
+          },
+          "provenance": "Resposta sintètica basada en la fitxa patrimonial de la Library of Congress.",
+          "review": {
+            "factual": "source-checked",
+            "language": "pending-human-signoff"
+          }
+        },
+        {
+          "id": "music-intervals",
+          "difficulty": "transfer",
+          "context": "Els intervals cromàtics es poden comptar en semitons.",
+          "claims": [
+            "En el sistema occidental de dotze notes per octava, de C4 a E4 hi ha quatre semitons.",
+            "En aquest mateix sistema, quatre semitons formen l'interval d'una tercera major.",
+            "Una octava justa, com la que va de C4 a C5, abasta un total de dotze semitons."
+          ],
+          "errorIndex": null,
+          "explanation": "Les tres frases són correctes.",
+          "verificationAction": "Compta els passos cromàtics i contrasta el nom de l'interval.",
+          "source": {
+            "type": "authoritative",
+            "publisher": "Open Music Theory",
+            "title": "Intervals and dyads",
+            "url": "https://openmusictheory.github.io/intervals.html",
+            "checkedAt": "2026-07-24"
+          },
+          "provenance": "Resposta sintètica basada en un manual obert de teoria musical.",
+          "review": {
+            "factual": "source-checked",
+            "language": "pending-human-signoff"
+          }
+        },
+        {
+          "id": "music-six-eight",
+          "difficulty": "transfer",
+          "context": "Considera la interpretació habitual de 6/8 com a compàs compost.",
+          "claims": [
+            "El 6 superior indica sis subdivisions escrites com a corxeres.",
+            "Aquestes subdivisions s'agrupen habitualment en dues pulsacions de tres corxeres.",
+            "Per això 6/8 és un exemple de mètrica binària composta."
+          ],
+          "errorIndex": null,
+          "explanation": "Les tres frases són correctes dins de la interpretació composta habitual de 6/8.",
+          "verificationAction": "Diferencia subdivisions escrites i pulsacions percebudes.",
+          "source": {
+            "type": "authoritative",
+            "publisher": "Open Music Theory",
+            "title": "Meter and time signatures",
+            "url": "https://openmusictheory.github.io/meter.html",
+            "checkedAt": "2026-07-24"
+          },
+          "provenance": "Resposta sintètica basada en un manual obert de teoria musical.",
+          "review": {
+            "factual": "source-checked",
+            "language": "pending-human-signoff"
+          }
+        }
+      ]
+    },
+    {
+      "id": "astronomia",
+      "label": "Astronomia",
+      "shortLabel": "Astronomia",
+      "description": "Moviments, distàncies i fenòmens del sistema solar.",
+      "items": [
+        {
+          "id": "astronomy-seasons",
+          "difficulty": "transfer",
+          "context": "Les estacions terrestres depenen de com arriba la llum solar a cada hemisferi.",
+          "claims": [
+            "La causa principal de les estacions és que la Terra s'acosta i s'allunya molt del Sol cada sis mesos.",
+            "La inclinació de l'eix terrestre canvia l'angle amb què arriben els rajos solars.",
+            "Quan un hemisferi rep els rajos més directament, hi és estiu."
+          ],
+          "errorIndex": 0,
+          "explanation": "La primera frase és falsa. El mecanisme principal és la inclinació axial, no un gran canvi semestral de distància.",
+          "verificationAction": "Busca una explicació física que compari inclinació, angle d'incidència i òrbita.",
+          "source": {
+            "type": "authoritative",
+            "publisher": "NASA Science",
+            "title": "Seasons on Earth, Mars, and Beyond",
+            "url": "https://science.nasa.gov/helio-and-you-seasons-on-earth-mars-and-beyond/",
+            "checkedAt": "2026-07-24"
+          },
+          "provenance": "Resposta sintètica basada en material educatiu de NASA Science.",
+          "review": {
+            "factual": "source-checked",
+            "language": "pending-human-signoff"
+          }
+        },
+        {
+          "id": "astronomy-moon-phases",
+          "difficulty": "introductory",
+          "context": "Una meitat de la Lluna està il·luminada pel Sol gairebé sempre.",
+          "claims": [
+            "Les fases descriuen quina part de la meitat il·luminada veiem des de la Terra.",
+            "Les fases ordinàries les causa l'ombra de la Terra sobre la Lluna.",
+            "L'ombra de la Terra sí que intervé en un eclipsi lunar."
+          ],
+          "errorIndex": 1,
+          "explanation": "La segona frase és falsa. L'ombra terrestre només explica els eclipsis lunars, no les fases habituals.",
+          "verificationAction": "Compara un diagrama de fases amb un diagrama d'eclipsi.",
+          "source": {
+            "type": "authoritative",
+            "publisher": "NASA Science",
+            "title": "Top Moon Questions",
+            "url": "https://science.nasa.gov/moon/top-moon-questions/",
+            "checkedAt": "2026-07-24"
+          },
+          "provenance": "Resposta sintètica basada en material educatiu de NASA Science.",
+          "review": {
+            "factual": "source-checked",
+            "language": "pending-human-signoff"
+          }
+        },
+        {
+          "id": "astronomy-mars-moons",
+          "difficulty": "introductory",
+          "context": "Mart té dos satèl·lits naturals petits: Fobos i Deimos.",
+          "claims": [
+            "Fobos és el més gran dels dos satèl·lits de Mart.",
+            "Fobos completa aproximadament tres òrbites cada dia marcià.",
+            "Fobos i Deimos són tots dos més grans que la Lluna terrestre."
+          ],
+          "errorIndex": 2,
+          "explanation": "La tercera frase és falsa. Fobos fa aproximadament 22 km en la dimensió mitjana i Deimos uns 12 km; la Lluna terrestre és molt més gran.",
+          "verificationAction": "Contrasta mides i períodes orbitals en una font astronòmica.",
+          "source": {
+            "type": "authoritative",
+            "publisher": "NASA Science",
+            "title": "Moons of Mars",
+            "url": "https://science.nasa.gov/mars/moons/",
+            "checkedAt": "2026-07-24"
+          },
+          "provenance": "Resposta sintètica basada en dades de NASA Science.",
+          "review": {
+            "factual": "source-checked",
+            "language": "pending-human-signoff"
+          }
+        },
+        {
+          "id": "astronomy-light-year",
+          "difficulty": "transfer",
+          "context": "Un any llum combina el temps d'un any amb la velocitat de la llum per definir una distància.",
+          "claims": [
+            "Un any llum és una unitat de longitud, no de durada.",
+            "Equival a la distància que la llum recorre en un any.",
+            "Són aproximadament 9,46 bilions de quilòmetres (9,46 × 10¹² km)."
+          ],
+          "errorIndex": null,
+          "explanation": "Les tres frases són correctes.",
+          "verificationAction": "Comprova la definició i la notació científica en una font astronòmica.",
+          "source": {
+            "type": "authoritative",
+            "publisher": "NASA Science",
+            "title": "What is a light-year?",
+            "url": "https://science.nasa.gov/exoplanets/what-is-a-light-year/",
+            "checkedAt": "2026-07-24"
+          },
+          "provenance": "Resposta sintètica basada en dades de NASA Science.",
+          "review": {
+            "factual": "source-checked",
+            "language": "pending-human-signoff"
+          }
+        },
+        {
+          "id": "astronomy-venus-day",
+          "difficulty": "transfer",
+          "context": "NASA diferencia el període de rotació de Venus del temps entre una sortida de Sol i la següent.",
+          "claims": [
+            "La rotació de Venus dura uns 243 dies terrestres.",
+            "Una òrbita de Venus al voltant del Sol dura uns 225 dies terrestres.",
+            "Per tant, el període de rotació de Venus és més llarg que el seu any."
+          ],
+          "errorIndex": null,
+          "explanation": "Les tres frases són correctes quan «dia» es refereix al període de rotació.",
+          "verificationAction": "Comprova quina definició de dia utilitza la font: rotació o dia solar.",
+          "source": {
+            "type": "authoritative",
+            "publisher": "NASA Science",
+            "title": "Venus Facts",
+            "url": "https://science.nasa.gov/venus/venus-facts/",
+            "checkedAt": "2026-07-24"
+          },
+          "provenance": "Resposta sintètica amb la definició de rotació explicitada.",
+          "review": {
+            "factual": "source-checked",
+            "language": "pending-human-signoff"
+          }
+        }
+      ]
+    },
+    {
+      "id": "comptabilitat",
+      "label": "Comptabilitat",
+      "shortLabel": "Comptabilitat",
+      "description": "Conceptes financers i IVA en el règim general espanyol.",
+      "items": [
+        {
+          "id": "accounting-asset",
+          "difficulty": "transfer",
+          "context": "El Marc conceptual IFRS defineix els elements dels estats financers.",
+          "claims": [
+            "Qualsevol ingrés futur esperat és un actiu, encara que l'entitat no controli cap recurs present.",
+            "Un actiu és un recurs econòmic present controlat per l'entitat com a resultat de successos passats.",
+            "Un recurs econòmic és un dret amb potencial per produir beneficis econòmics."
+          ],
+          "errorIndex": 0,
+          "explanation": "La primera frase és falsa. L'expectativa d'ingressos, tota sola, no compleix la definició d'actiu.",
+          "verificationAction": "Consulta la definició normativa vigent, no una fórmula memoritzada d'una edició antiga.",
+          "source": {
+            "type": "authoritative",
+            "publisher": "IFRS Foundation",
+            "title": "Conceptual Framework for Financial Reporting",
+            "url": "https://www.ifrs.org/issued-standards/list-of-standards/conceptual-framework/",
+            "checkedAt": "2026-07-24"
+          },
+          "provenance": "Resposta sintètica basada en el Marc conceptual IFRS vigent.",
+          "review": {
+            "factual": "source-checked",
+            "language": "pending-human-signoff"
+          }
+        },
+        {
+          "id": "accounting-vat",
+          "difficulty": "introductory",
+          "context": "En el règim general de l'IVA espanyol, distingim les quotes repercutides i les suportades deduïbles.",
+          "claims": [
+            "L'empresa repercuteix IVA als clients en les vendes o prestacions de serveis subjectes.",
+            "L'IVA repercutit és el que l'empresa paga als proveïdors quan compra.",
+            "Si el resultat de restar l'IVA suportat deduïble al repercutit és positiu, s'ingressa al Tresor."
+          ],
+          "errorIndex": 1,
+          "explanation": "La segona frase és falsa. L'IVA pagat als proveïdors és l'IVA suportat; el repercutit es carrega als clients.",
+          "verificationAction": "Comprova la jurisdicció i el règim fiscal abans d'aplicar la regla.",
+          "source": {
+            "type": "authoritative",
+            "publisher": "Agencia Tributaria",
+            "title": "Funcionamiento general del impuesto",
+            "url": "https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/manual-iva-2025/capitulo-02-introduccion/funcionamiento-general-impuesto.html",
+            "checkedAt": "2026-07-24"
+          },
+          "provenance": "Resposta sintètica limitada al règim general espanyol i a IVA suportat deduïble.",
+          "review": {
+            "factual": "source-checked",
+            "language": "pending-human-signoff"
+          }
+        },
+        {
+          "id": "accounting-statements",
+          "difficulty": "introductory",
+          "context": "IAS 1 enumera els components d'un conjunt complet d'estats financers.",
+          "claims": [
+            "L'estat de situació financera informa de la posició al final del període.",
+            "L'estat del resultat i altre resultat integral informa sobre un període.",
+            "L'estat de fluxos d'efectiu descriu només un únic instant al final del període."
+          ],
+          "errorIndex": 2,
+          "explanation": "La tercera frase és falsa. L'estat de fluxos d'efectiu informa dels fluxos durant el període.",
+          "verificationAction": "Fixa't si cada estat descriu una data concreta o moviments al llarg d'un període.",
+          "source": {
+            "type": "authoritative",
+            "publisher": "IFRS Foundation",
+            "title": "IAS 1 Presentation of Financial Statements",
+            "url": "https://www.ifrs.org/issued-standards/list-of-standards/ias-1-presentation-of-financial-statements/",
+            "checkedAt": "2026-07-24"
+          },
+          "provenance": "Resposta sintètica basada en IAS 1.",
+          "review": {
+            "factual": "source-checked",
+            "language": "pending-human-signoff"
+          }
+        },
+        {
+          "id": "accounting-depreciation",
+          "difficulty": "transfer",
+          "context": "IAS 16 regula la depreciació de l'immobilitzat material.",
+          "claims": [
+            "La depreciació distribueix sistemàticament l'import depreciable al llarg de la vida útil.",
+            "El mètode ha de reflectir el patró esperat de consum dels beneficis econòmics de l'actiu.",
+            "IAS 16 no considera apropiat un mètode basat només en els ingressos generats."
+          ],
+          "errorIndex": null,
+          "explanation": "Les tres frases són correctes dins del marc d'IAS 16.",
+          "verificationAction": "Consulta l'estàndard aplicable i diferencia cost, valor residual i vida útil.",
+          "source": {
+            "type": "authoritative",
+            "publisher": "IFRS Foundation",
+            "title": "IAS 16 Property, Plant and Equipment",
+            "url": "https://www.ifrs.org/issued-standards/list-of-standards/ias-16-property-plant-and-equipment/",
+            "checkedAt": "2026-07-24"
+          },
+          "provenance": "Resposta sintètica basada en IAS 16.",
+          "review": {
+            "factual": "source-checked",
+            "language": "pending-human-signoff"
+          }
+        },
+        {
+          "id": "accounting-income-expense",
+          "difficulty": "transfer",
+          "context": "El Marc conceptual IFRS defineix ingressos i despeses mitjançant canvis en actius, passius i patrimoni.",
+          "claims": [
+            "Els ingressos poden resultar d'augments d'actius o disminucions de passius que augmenten el patrimoni.",
+            "Les aportacions dels propietaris no es classifiquen com a ingressos.",
+            "Les distribucions als propietaris no es classifiquen com a despeses."
+          ],
+          "errorIndex": null,
+          "explanation": "Les tres frases són correctes segons les definicions del Marc conceptual.",
+          "verificationAction": "Comprova les exclusions explícites de les definicions, no només la direcció del canvi.",
+          "source": {
+            "type": "authoritative",
+            "publisher": "IFRS Foundation",
+            "title": "Conceptual Framework for Financial Reporting",
+            "url": "https://www.ifrs.org/issued-standards/list-of-standards/conceptual-framework/",
+            "checkedAt": "2026-07-24"
+          },
+          "provenance": "Resposta sintètica basada en el Marc conceptual IFRS vigent.",
+          "review": {
+            "factual": "source-checked",
+            "language": "pending-human-signoff"
+          }
+        }
+      ]
+    }
+  ],
+  "transfers": [
+    {
+      "id": "transfer-moon-shadow",
+      "tag": "Verificar amb evidència",
+      "sourceSummary": "Resum de NASA Science: les fases mostren com canvia la nostra perspectiva sobre la meitat il·luminada de la Lluna. L'ombra de la Terra només hi intervé durant un eclipsi lunar.",
+      "claim": "Les fases ordinàries de la Lluna les produeix l'ombra de la Terra.",
+      "expected": "contradicts",
+      "explanation": "L'evidència contradiu l'afirmació: reserva l'ombra terrestre per als eclipsis lunars.",
+      "source": {
+        "type": "authoritative",
+        "publisher": "NASA Science",
+        "title": "Top Moon Questions",
+        "url": "https://science.nasa.gov/moon/top-moon-questions/",
+        "checkedAt": "2026-07-24"
+      },
+      "provenance": "Cas de transferència escrit a partir del resum oficial de NASA Science.",
+      "review": {
+        "factual": "source-checked",
+        "language": "pending-human-signoff"
+      }
+    },
+    {
+      "id": "transfer-insufficient-distance",
+      "tag": "Verificar amb evidència",
+      "sourceSummary": "Resum de NASA Science: un any llum és la distància que la llum recorre en un any, aproximadament 9,46 × 10¹² km.",
+      "claim": "Pròxima Centauri és exactament a 4,10 anys llum de la Terra.",
+      "expected": "insufficient",
+      "explanation": "L'evidència només defineix la unitat; no dona cap distància de Pròxima Centauri. Cal una altra font.",
+      "source": {
+        "type": "authoritative",
+        "publisher": "NASA Science",
+        "title": "What is a light-year?",
+        "url": "https://science.nasa.gov/exoplanets/what-is-a-light-year/",
+        "checkedAt": "2026-07-24"
+      },
+      "provenance": "Cas de transferència escrit per distingir una definició d'una dada no aportada.",
+      "review": {
+        "factual": "source-checked",
+        "language": "pending-human-signoff"
+      }
+    }
+  ]
+}

@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://enti.example/schemas/b5-items.schema.json",
+  "title": "B5 Domain Check item bank",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "locale",
+    "verifiedAt",
+    "reviewPolicy",
+    "practice",
+    "domains",
+    "transfers"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "locale": { "const": "ca" },
+    "verifiedAt": { "type": "string", "format": "date" },
+    "reviewPolicy": {
+      "type": "object",
+      "required": [
+        "sourceReview",
+        "sourceReviewer",
+        "subjectMatterSignoff",
+        "languageSignoff"
+      ]
+    },
+    "practice": { "$ref": "#/$defs/item" },
+    "domains": {
+      "type": "array",
+      "minItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "required": ["id", "label", "shortLabel", "description", "items"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "label": { "type": "string", "minLength": 2 },
+          "shortLabel": { "type": "string", "minLength": 2 },
+          "description": { "type": "string", "minLength": 10 },
+          "items": {
+            "type": "array",
+            "minItems": 5,
+            "maxItems": 5,
+            "items": { "$ref": "#/$defs/item" }
+          }
+        }
+      }
+    },
+    "transfers": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "tag",
+          "sourceSummary",
+          "claim",
+          "expected",
+          "explanation",
+          "source",
+          "provenance",
+          "review"
+        ],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "tag": { "type": "string", "minLength": 2 },
+          "sourceSummary": { "type": "string", "minLength": 10 },
+          "claim": { "type": "string", "minLength": 10 },
+          "expected": {
+            "enum": ["supports", "contradicts", "insufficient"]
+          },
+          "explanation": { "type": "string", "minLength": 10 },
+          "source": { "$ref": "#/$defs/source" },
+          "provenance": { "type": "string", "minLength": 10 },
+          "review": { "$ref": "#/$defs/review" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "required": ["type", "publisher", "title", "url", "checkedAt"],
+      "properties": {
+        "type": { "enum": ["authoritative", "activity-defined"] },
+        "publisher": { "type": "string", "minLength": 2 },
+        "title": { "type": "string", "minLength": 2 },
+        "url": { "type": "string" },
+        "checkedAt": { "type": "string", "format": "date" }
+      }
+    },
+    "item": {
+      "type": "object",
+      "required": [
+        "id",
+        "context",
+        "claims",
+        "errorIndex",
+        "explanation",
+        "verificationAction",
+        "source",
+        "provenance",
+        "review"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+        "difficulty": {
+          "enum": ["introductory", "transfer"]
+        },
+        "context": { "type": "string", "minLength": 10 },
+        "claims": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": { "type": "string", "minLength": 10 }
+        },
+        "errorIndex": {
+          "anyOf": [
+            { "type": "null" },
+            { "type": "integer", "minimum": 0, "maximum": 2 }
+          ]
+        },
+        "explanation": { "type": "string", "minLength": 10 },
+        "verificationAction": { "type": "string", "minLength": 10 },
+        "source": { "$ref": "#/$defs/source" },
+        "provenance": { "type": "string", "minLength": 10 },
+        "review": { "$ref": "#/$defs/review" }
+      }
+    },
+    "review": {
+      "type": "object",
+      "required": ["factual", "language"],
+      "properties": {
+        "factual": { "enum": ["source-checked"] },
+        "language": {
+          "enum": ["human-approved", "pending-human-signoff"]
+        }
+      }
+    }
+  }
+}

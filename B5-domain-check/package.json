@@ -1,0 +1,32 @@
+{
+  "name": "enti-b5-domain-check",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Evidence-led Moodle companion activity for practising domain-aware verification.",
+  "license": "MIT",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "build:check": "node scripts/build.mjs --check",
+    "validate:items": "node scripts/validate-items.mjs",
+    "sources:list": "node scripts/source-checklist.mjs",
+    "sources:check": "node scripts/source-checklist.mjs --check",
+    "check:sources": "node scripts/check-sources.mjs",
+    "check:sources:online": "node scripts/check-sources.mjs --online",
+    "check:size": "node scripts/check-size.mjs",
+    "format": "prettier --write \"**/*.{cjs,css,html,js,json,md,mjs}\"",
+    "format:check": "prettier --check \"**/*.{cjs,css,html,js,json,md,mjs}\"",
+    "test": "npm run test:unit",
+    "test:unit": "node --test tests/*.test.cjs",
+    "test:browser": "playwright test",
+    "check": "npm run format:check && npm run validate:items && npm run sources:check && npm run check:sources && npm run check:size && npm run build:check && npm run test:unit",
+    "check:all": "npm run check && npm run test:browser"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.12.1",
+    "@playwright/test": "1.61.1",
+    "prettier": "3.6.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
