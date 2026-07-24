@@ -5,61 +5,109 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>L'auditoria de la fuga · ENTI-UB AI Literacy</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 :root{
 --bg:#f4efe6;--bg-card:#ffffff;--bg-soft:#faf6ec;--bg-deep:#ede4cf;
 --ink:#1a1814;--ink-soft:#4a463e;--ink-faint:#8a8478;
 --rule:#1a1814;--rule-soft:#c9c2b3;
 --accent:#b91c1c;--accent-deep:#8b1414;--accent-soft:#f5d8d8;--accent-2:#1e3a5f;
 --ok:#3d6b3d;--ok-soft:#f2f6ee;
+--miss:#8b1414;--miss-soft:#f8e8e8;
+--fp:#6b5a2e;--fp-soft:#f5f0e0;
+--font-serif:Georgia,"Times New Roman",serif;
+--font-mono:ui-monospace,Cascadia Code,"Segoe UI Mono",Menlo,Consolas,monospace;
+--font-sans:system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
 }
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'EB Garamond',Georgia,serif;font-size:18px;line-height:1.5;-webkit-font-smoothing:antialiased}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--font-serif);font-size:18px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.skip{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+.skip:focus{left:16px;top:16px;width:auto;height:auto;z-index:10;padding:8px 12px;background:var(--ink);color:var(--bg);font-family:var(--font-mono);font-size:12px;text-decoration:none}
 .widget-frame{max-width:1080px;margin:0 auto;padding:24px 24px 40px}
 .widget-header{border-bottom:2px solid var(--rule);padding-bottom:14px;margin-bottom:22px}
-.widget-eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
-.widget-title{font-family:'EB Garamond',Georgia,serif;font-size:32px;font-weight:600;line-height:1.1;letter-spacing:-.01em;margin:0 0 6px}
+.widget-eyebrow{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+.widget-title{font-family:var(--font-serif);font-size:32px;font-weight:600;line-height:1.1;letter-spacing:-.01em;margin:0 0 6px}
 .widget-subtitle{color:var(--ink-soft);font-size:16px;font-style:italic;max-width:720px;margin:0}
 .widget-intro{background:var(--bg-card);border-left:3px solid var(--accent-2);padding:14px 18px;margin-bottom:22px;font-size:15px;line-height:1.55;color:var(--ink-soft)}
 .widget-intro strong{color:var(--ink);font-weight:600}
-.section-label{display:flex;justify-content:space-between;align-items:baseline;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 12px;padding-bottom:6px;border-bottom:1px solid var(--rule-soft)}
-.section-hint{font-family:'EB Garamond',Georgia,serif;font-size:12px;font-weight:400;font-style:italic;letter-spacing:.04em;text-transform:none;color:var(--ink-faint)}
+.section-label{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 12px;padding-bottom:6px;border-bottom:1px solid var(--rule-soft)}
+.section-hint{font-family:var(--font-serif);font-size:13px;font-weight:400;font-style:italic;letter-spacing:.02em;text-transform:none;color:var(--ink-faint);white-space:nowrap}
+.legend{display:none;flex-wrap:wrap;gap:8px 14px;font-family:var(--font-mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px;padding:8px 0}
+.legend.show{display:flex}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{display:inline-block;width:10px;height:10px;border-left:3px solid;flex-shrink:0}
+.legend .l-caught i{border-color:var(--ok);background:var(--ok-soft)}
+.legend .l-missed i{border-color:var(--miss);background:var(--miss-soft)}
+.legend .l-fp i{border-color:var(--fp);background:var(--fp-soft)}
+.legend .l-clean i{border-color:var(--rule-soft);background:var(--bg-card)}
 .msgs{list-style:none;margin:0 0 16px;padding:0}
-.msg{display:flex;gap:12px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--rule-soft);border-left:3px solid var(--rule-soft);padding:10px 12px;margin-bottom:7px;transition:background .15s ease,border-color .15s ease}
+.msg{display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap;background:var(--bg-card);border:1px solid var(--rule-soft);border-left:3px solid var(--rule-soft);padding:8px 10px;margin-bottom:5px;transition:background .15s ease,border-color .15s ease}
 .msg:hover{border-color:var(--rule)}
 .msg.marked{border-left-color:var(--accent);background:var(--accent-soft)}
 .msg.gone{display:none}
-.msg input{margin-top:5px;width:17px;height:17px;accent-color:var(--accent);flex-shrink:0}
-.msg label{cursor:pointer;font-size:15px;line-height:1.45}
-.msg .n{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:var(--ink-soft);display:block;letter-spacing:.16em;margin-bottom:3px}
-button{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.msg.audited{pointer-events:none}
+.msg.audited input{visibility:hidden;width:0;margin:0;padding:0}
+.msg.caught{border-left-color:var(--ok);background:var(--ok-soft)}
+.msg.missed{border-left-color:var(--miss);background:var(--miss-soft)}
+.msg.fp{border-left-color:var(--fp);background:var(--fp-soft)}
+.msg.clean-ok{border-left-color:var(--rule-soft);background:var(--bg-card)}
+.msg .tag{font-family:var(--font-mono);font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-left:auto;flex-shrink:0;padding-top:2px}
+.msg.caught .tag{color:var(--ok)}
+.msg.missed .tag{color:var(--miss)}
+.msg.fp .tag{color:var(--fp)}
+.msg.clean-ok .tag{color:var(--ink-faint)}
+.msg .chips{display:none;width:100%;flex-basis:100%;gap:4px;flex-wrap:wrap;padding-left:26px}
+.msg.audited.caught .chips,.msg.audited.missed .chips{display:flex}
+.chip{font-family:var(--font-mono);font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--rule-soft);padding:2px 6px;color:var(--ink-soft);background:var(--bg)}
+.msg .alt{display:none;width:100%;flex-basis:100%;padding-left:26px;font-size:13px;font-style:italic;color:var(--ink-soft);line-height:1.35}
+.msg.audited.missed .alt{display:block}
+.msg input{margin-top:4px;width:16px;height:16px;accent-color:var(--accent);flex-shrink:0}
+.msg label{cursor:pointer;font-size:14px;line-height:1.4;flex:1;min-width:0}
+.msg .n{font-family:var(--font-mono);font-size:10px;font-weight:600;color:var(--ink-soft);display:block;letter-spacing:.16em;margin-bottom:2px}
+button{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
 .btn{background:var(--ink);color:var(--bg);border:1px solid var(--ink);padding:12px 20px;transition:all .15s ease}
 .btn:hover{background:var(--accent);border-color:var(--accent)}
 .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
 .btn.ghost:hover{background:var(--ink);color:var(--bg)}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .row{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
-.dossier{border:2px solid var(--ink);background:var(--bg-card);padding:20px 22px;margin-top:12px}
+.dossier{border:2px solid var(--ink);background:var(--bg-card);padding:18px 20px;margin-top:12px}
 .dossier h3{color:var(--ink);font-size:20px;margin:0 0 10px}
-.dossier p{margin-bottom:0}
-.fact{border-bottom:1px dashed var(--rule-soft);padding:8px 0}
+.dossier p{margin:0 0 10px}
+.dossier p:last-child{margin-bottom:0}
+.dossier .lesson{margin-top:12px;padding-top:12px;border-top:1px dashed var(--rule-soft);font-size:15px;color:var(--ink-soft)}
+.dossier .lesson strong{color:var(--ink)}
+.habit{margin-top:12px;padding:12px 14px;border-left:3px solid var(--accent-2);background:var(--bg-soft);font-size:15px;line-height:1.5;color:var(--ink-soft)}
+.habit strong{color:var(--ink)}
+.fact{border-bottom:1px dashed var(--rule-soft);padding:7px 0}
 .fact:last-of-type{border-bottom:none}
-.fact .k{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-soft)}
-.fact .v{font-weight:700;font-size:19px}
+.fact .k{font-family:var(--font-mono);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-soft)}
+.fact .v{font-weight:700;font-size:18px}
 .fact .src{font-size:14px;color:var(--ink-soft);font-style:italic}
-.tally{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;background:var(--bg-card);border:1px solid var(--rule-soft);border-left:3px solid var(--accent-2);padding:12px 14px;margin-bottom:10px}
+.fact .alt{font-size:13px;color:var(--ink-soft);margin-top:2px}
+.tally{font-family:var(--font-mono);font-size:11px;letter-spacing:.04em;background:var(--bg-card);border:1px solid var(--rule-soft);border-left:3px solid var(--accent-2);padding:12px 14px;margin-bottom:10px}
+.tally strong{font-weight:700}
+.note{font-family:var(--font-serif);font-size:14px;font-style:italic;letter-spacing:0;color:var(--ink-soft);margin-top:8px}
 .clean{border:2px solid var(--ok);background:var(--ok-soft);padding:18px 20px}
 .clean h3{color:var(--ok);font-size:20px;margin:0 0 8px}
-.clean p{margin:0}
+.clean p{margin:0 0 10px}
+.clean p:last-child{margin-bottom:0}
+.atura{border:2px solid var(--accent-2);background:var(--bg-card);padding:16px 18px;margin-top:12px}
+.atura .stamp{font-family:var(--font-mono);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-2);margin:0 0 4px}
+.atura h3{margin:0 0 10px;font-size:20px}
+.atura ol{margin:0;padding:0;list-style:none}
+.atura li{display:grid;grid-template-columns:28px 1fr;gap:8px;padding:6px 0;border-top:1px dashed var(--rule-soft);font-size:14px;color:var(--ink-soft)}
+.atura li:first-child{border-top:none}
+.atura .ltr{font-family:var(--font-mono);font-weight:700;font-size:16px;color:var(--accent-2)}
+.atura strong{color:var(--ink);font-family:var(--font-sans);font-size:13px;display:block}
 .widget-footer{margin-top:24px;padding-top:16px;border-top:1px solid var(--rule-soft);font-size:12px;color:var(--ink-soft);font-style:italic;line-height:1.5}
-.widget-footer a{color:var(--accent-2)}
 .hide{display:none}
-@media (max-width:880px){.widget-title{font-size:24px}}
-@media (max-width:480px){.widget-frame{padding:16px 14px 32px}.row{flex-direction:column}.btn{width:100%}}
+@media (max-width:880px){.widget-title{font-size:24px}.section-label{flex-wrap:wrap}}
+@media (max-width:480px){.widget-frame{padding:16px 14px 32px}.row{flex-direction:column}.btn{width:100%}.msg .tag{display:none}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+@media (forced-colors:active){.msg,.dossier,.clean,.atura,.tally,.habit,.chip{border:1px solid CanvasText}.msg.caught,.msg.missed,.msg.fp,.msg.marked{border-left-width:4px}}
 </style>
 </head>
 <body>
+<a class="skip" href="#msgs">Salta a les converses</a>
 <div class="widget-frame">
 <header class="widget-header">
 <div class="widget-eyebrow">Mòdul 3 · Capítol 1 · Activitat B6</div>
@@ -68,12 +116,18 @@ button{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;let
 </header>
 
 <div class="widget-intro">
-<strong>Com funciona aquesta eina.</strong> En Bru fa segon i ha fet servir un xat d'IA gratuït durant tot el semestre. Ara li han dit que potser ha filtrat coses del projecte i t'ha demanat que li facis una auditoria. Marca les converses que creus que filtren alguna cosa i després demana l'informe.
+<strong>Com funciona aquesta eina.</strong> En Bru fa pràctiques i ha fet servir un xat d'IA gratuït durant tot el semestre. Ara li han dit que potser ha filtrat coses del projecte i t'ha demanat que li facis una auditoria. Marca les converses que creus que filtren alguna cosa; després, l'informe reconstrueix el que has deixat passar i et diu què podria saber un desconegut.
 </div>
 
 <div class="section-label">
 <span>Quinze converses per revisar</span>
-<span class="section-hint">marca les sospitoses</span>
+<span class="section-hint" id="mark-count">0 marcades · 15 converses</span>
+</div>
+<div class="legend" id="legend" aria-live="polite">
+<span class="l-caught"><i></i> Enxampada</span>
+<span class="l-missed"><i></i> Passada</span>
+<span class="l-fp"><i></i> Falsa alarma</span>
+<span class="l-clean"><i></i> Neta</span>
 </div>
 <ul class="msgs" id="msgs"></ul>
 
@@ -85,7 +139,7 @@ button{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;let
 
 <div id="out" aria-live="polite"></div>
 
-<footer class="widget-footer">ENTI-UB · Curs d'alfabetització en IA · Mòdul 3, Capítol 1 · Activitat B6. Cas fictici, dades inventades. És una experiència individual de n=1: serveix per pensar, no per mesurar res. No es desa ni s'envia res enlloc, i el resultat no compta per a cap nota.</footer>
+<footer class="widget-footer">ENTI-UB · Curs d'alfabetització en IA · Mòdul 3, Capítol 1 · Activitat B6. Cas fictici, dades inventades. És una experiència individual de n=1: serveix per pensar, no per mesurar res. No es desa ni s'envia res enlloc, i el resultat no compta per a cap nota. Sense fonts ni serveis de tercers.</footer>
 </div>
 
 <script>
@@ -97,79 +151,286 @@ const FACTS=[
  {id:"equip",k:"Persones de l'equip",v:"Núria Sabaté i Marc Oller"},
  {id:"client",k:"Qui hi ha darrere, i quan",v:"l'estudi Nau Roja; demo el 14 de març"},
  {id:"plataforma",k:"Plataforma no anunciada",v:"un port a consola portàtil"},
- {id:"autor",k:"Qui és l'autor de tot plegat",v:"Bru Terrades, segon curs, ENTI-UB"}
+ {id:"autor",k:"Qui és l'autor de tot plegat",v:"Bru Terrades, estudiant en pràctiques, ENTI-UB"},
+ {id:"secret",k:"Una credencial del projecte",v:"el token DEMO_API_TOKEN"}
+];
+const TYPE_LABEL={personal:"personal",altri:"altri",IP:"IP",metadada:"metadada",credencial:"credencial"};
+const ATURA=[
+ {letter:"A",title:"Autorització",text:"És una eina aprovada per a aquest tipus de dades?"},
+ {letter:"T",title:"Tipus de dades",text:"Hi ha dades personals, confidencials, de tercers, secrets o propietat intel·lectual?"},
+ {letter:"U",title:"Ús del proveïdor",text:"Què diuen el contracte, la configuració, la retenció i els usos del servei?"},
+ {letter:"R",title:"Redueix i redacta",text:"Pots resoldre la tasca amb menys dades, dades sintètiques o marcadors?"},
+ {letter:"A",title:"Actua si ja ho has enviat",text:"Atura, documenta, elimina si escau, revoca o rota secrets i informa pel canal establert."}
 ];
 const MSGS=[
- {n:1,t:"Revisa'm l'ortografia d'aquest paràgraf sobre el ritme de les missions secundàries.",l:[]},
- {n:2,t:"T'enganxo dues pàgines del nostre document de disseny («VESSEL · GDD v0.9, capítol 3»): digues si el sistema d'economia és coherent.",l:[["titol","la capçalera del document que hi va enganxar"]]},
- {n:3,t:"Per què em surt aquest error? «NullReferenceException at Assets/Scripts/Vessel/TideController.cs:88» · Unity 6.1.3f1",l:[["titol","la ruta del fitxer dins de la traça de l'error"],["motor","la versió del motor que acompanyava la traça"]]},
- {n:4,t:"Tradueix aquest correu a l'anglès: «Benvolguts, us confirmem que la primera build jugable estarà llesta per al gener de 2027, tal com vam acordar amb Nau Roja.»",l:[["data","la data del correu que va fer traduir"],["client","el nom del destinatari dins del correu"]]},
- {n:5,t:"Fes-me un resum d'aquest article sobre disseny de nivells que he trobat en un blog.",l:[]},
- {n:6,t:"Reescriu aquest missatge perquè soni més professional: «Núria, el Marc encara no ha pujat els sprites nous i anem tard».",l:[["equip","els noms de pila i el context de feina del missatge"]]},
- {n:7,t:"Quina és la millor manera d'aprendre shaders des de zero?",l:[]},
- {n:8,t:"Si una consola portàtil té 12 GB de memòria compartida i el sistema en reserva 3, quant em queda per a textures?",l:[["plataforma","el perfil de maquinari, que identifica una màquina concreta"]]},
- {n:9,t:"Escriu-me una carta de presentació per a unes pràctiques: em dic Bru Terrades i estudio segon a ENTI-UB.",l:[["autor","les dades personals de la carta"]]},
- {n:10,t:"Explica'm com funciona l'algorisme A* de cerca de camí.",l:[]},
- {n:11,t:"Millora aquest text per a la pàgina de la botiga: «Vessel és un joc d'exploració submarina que arriba el primer trimestre de 2027».",l:[["titol","el text promocional"],["data","la data anunciada al mateix text"]]},
- {n:12,t:"Genera'm deu noms possibles per a una criatura marina d'un joc.",l:[]},
- {n:13,t:"Ajuda'm a redactar l'acta: assistents Núria Sabaté, Marc Oller i jo; vam decidir retardar el port a portàtil fins després del llançament.",l:[["equip","la llista d'assistents de l'acta"],["plataforma","la decisió que consta a l'acta"]]},
- {n:14,t:"Corregeix aquest codi: «// TODO: treure el mode debug abans de la demo a Nau Roja del 14 de març».",l:[["client","el comentari que va deixar dins del codi"]]},
- {n:15,t:"Quines eines gratuïtes hi ha per fer música de joc?",l:[]}
+ {n:1,t:"Revisa'm l'ortografia d'aquest paràgraf sobre el ritme de les missions secundàries.",l:[],types:[],alt:""},
+ {n:2,t:"T'enganxo dues pàgines del nostre document de disseny («VESSEL · GDD v0.9, capítol 3»): digues si el sistema d'economia és coherent.",l:[["titol","la capçalera del document que hi va enganxar"]],types:["IP"],alt:"Treballa amb una eina aprovada, o demana feedback sobre un fragment amb [TÍTOL] i sense el GDD sencer."},
+ {n:3,t:"Per què em surt aquest error? «NullReferenceException at Assets/Scripts/Vessel/TideController.cs:88» · Unity 6.1.3f1",l:[["titol","la ruta del fitxer dins de la traça de l'error"],["motor","la versió del motor que acompanyava la traça"]],types:["metadada","IP"],alt:"Redacta la ruta i la versió: pregunta amb «NullReferenceException a <ruta>:88» i un fragment mínim sense noms interns."},
+ {n:4,t:"Tradueix aquest correu a l'anglès: «Benvolguts, us confirmem que la primera build jugable estarà llesta per al gener de 2027, tal com vam acordar amb Nau Roja.»",l:[["data","la data del correu que va fer traduir"],["client","el nom del destinatari dins del correu"]],types:["IP","altri"],alt:"Usa l'eina de traducció aprovada, o un model amb [client] i [fita] que completis localment."},
+ {n:5,t:"Fes-me un resum d'aquest article sobre disseny de nivells que he trobat en un blog.",l:[],types:[],alt:""},
+ {n:6,t:"Reescriu aquest missatge perquè soni més professional: «Núria, el Marc encara no ha pujat els sprites nous i anem tard».",l:[["equip","els noms dels companys (dades d'altri) i el context de feina"]],types:["altri"],alt:"Demana un to professional amb [persona A] i [persona B]; substitueix els noms localment."},
+ {n:7,t:"Quina és la millor manera d'aprendre shaders des de zero?",l:[],types:[],alt:""},
+ {n:8,t:"Si una consola portàtil té 12 GB de memòria compartida i el sistema en reserva 3, quant em queda per a textures?",l:[["plataforma","el perfil de maquinari, que identifica una màquina concreta"]],types:["metadada"],alt:"Fes el càlcul localment, o pregunta amb variables: «Amb M GB i R reservats, quin pressupost queda?»"},
+ {n:9,t:"Escriu-me una carta de presentació per a unes pràctiques: em dic Bru Terrades i estudio segon a ENTI-UB.",l:[["autor","les dades personals de la carta"]],types:["personal"],alt:"Demana una plantilla per a [nom], estudiant de [centre], i omple els marcadors localment."},
+ {n:10,t:"Explica'm com funciona l'algorisme A* de cerca de camí.",l:[],types:[],alt:""},
+ {n:11,t:"Millora aquest text per a la pàgina de la botiga: «Vessel és un joc d'exploració submarina que arriba el primer trimestre de 2027».",l:[["titol","el text promocional"],["data","la data anunciada al mateix text"]],types:["IP"],alt:"Per al to en públic, usa «[TÍTOL] és un joc de [GÈNERE] que arribarà [FINESTRA]»; el text real, amb eina aprovada."},
+ {n:12,t:"Genera'm deu noms possibles per a una criatura marina d'un joc.",l:[],types:[],alt:""},
+ {n:13,t:"Ajuda'm a redactar l'acta: assistents Núria Sabaté, Marc Oller i jo; vam decidir retardar el port a portàtil fins després del llançament.",l:[["equip","els noms dels assistents (dades d'altri, no seves per prestar)"],["plataforma","la decisió que consta a l'acta"]],types:["altri","IP"],alt:"Usa l'eina aprovada per a actes, o una plantilla amb [data], [decisió] i [responsable]."},
+ {n:14,t:"Corregeix aquest codi: «// TODO: treure el mode debug abans de la demo a Nau Roja del 14 de març».",l:[["client","el comentari que va deixar dins del codi"]],types:["IP"],alt:"Redacta client i data del comentari abans d'enganxar el fragment."},
+ {n:15,t:"Corregeix aquest codi: const DEMO_API_TOKEN = \"nr_demo_7K4-XP9\"; fetch(url, { token: DEMO_API_TOKEN });",l:[["secret","el token d'API enganxat sencer al prompt"]],types:["credencial"],alt:"Revoca o rota el token si és real. Comparteix només const DEMO_API_TOKEN = \"<SECRET>\" i un exemple mínim."}
 ];
+const TAGS={caught:"Enxampada",missed:"Passada",fp:"Falsa alarma","clean-ok":"Neta"};
+const LEAKY=MSGS.filter(m=>m.l.length>0).map(m=>m.n);
+const LEAKY_SET=new Set(LEAKY);
+const LEAKY_N=LEAKY.length;
+
 function RECONSTRUCT(marked){
  const out=[];
  for(const f of FACTS){
   for(const m of MSGS){
    if(marked.has(m.n)) continue;
    const hit=m.l.find(x=>x[0]===f.id);
-   if(hit){ out.push({fact:f, n:m.n, how:hit[1]}); break; }
+   if(hit){ out.push({fact:f, n:m.n, how:hit[1], alt:m.alt}); break; }
   }
  }
  return out;
 }
-const LEAKY = MSGS.filter(m=>m.l.length>0).map(m=>m.n);
+
+function el(tag, cls, text){
+ const n=document.createElement(tag);
+ if(cls) n.className=cls;
+ if(text!=null) n.textContent=text;
+ return n;
+}
+
+function appendHabit(parent){
+ const h=el("div","habit");
+ h.appendChild(el("strong",null,"Abans del proper Enter. "));
+ h.appendChild(document.createTextNode("Fes-te una sola pregunta: em semblaria bé que aquest text aparegués demà en una web pública? Si la resposta és no, atura't. "));
+ h.appendChild(document.createTextNode("I recorda: un pla de pagament no canvia on van les dades; el contracte i el que envies, sí."));
+ parent.appendChild(h);
+}
+
+function appendAtura(parent){
+ if(parent.querySelector(".atura")) return;
+ const box=el("div","atura");
+ box.appendChild(el("div","stamp","Targeta de butxaca"));
+ box.appendChild(el("h3",null,"ATURA abans d'enviar"));
+ const ol=el("ol");
+ ATURA.forEach(item=>{
+  const li=el("li");
+  li.appendChild(el("span","ltr",item.letter));
+  const body=el("div");
+  body.appendChild(el("strong",null,item.title));
+  body.appendChild(document.createTextNode(item.text));
+  li.appendChild(body);
+  ol.appendChild(li);
+ });
+ box.appendChild(ol);
+ parent.appendChild(box);
+}
+
 if (typeof document !== "undefined") {
  const ul=document.getElementById("msgs");
+ const hint=document.getElementById("mark-count");
+ const legend=document.getElementById("legend");
+ const out=document.getElementById("out");
+ let audited=false;
+ let lastRes=[];
+
+ function updateCount(){
+  hint.textContent=marked().size+" marcades · 15 converses";
+ }
+
+ function marked(){
+  const s=new Set();
+  MSGS.forEach(m=>{ if(document.getElementById("c"+m.n).checked) s.add(m.n); });
+  return s;
+ }
+
+ function clearAnswerKey(){
+  audited=false;
+  lastRes=[];
+  legend.classList.remove("show");
+  MSGS.forEach(m=>{
+   const li=document.getElementById("m"+m.n);
+   li.classList.remove("audited","caught","missed","fp","clean-ok","gone","marked");
+   const tag=li.querySelector(".tag");
+   if(tag) tag.remove();
+   const chips=li.querySelector(".chips");
+   if(chips) chips.remove();
+   const alt=li.querySelector(".alt");
+   if(alt) alt.remove();
+   const cb=document.getElementById("c"+m.n);
+   cb.checked=false;
+   cb.disabled=false;
+  });
+ }
+
+ function applyAnswerKey(mk){
+  audited=true;
+  legend.classList.add("show");
+  MSGS.forEach(m=>{
+   const li=document.getElementById("m"+m.n);
+   const cb=document.getElementById("c"+m.n);
+   li.classList.remove("caught","missed","fp","clean-ok","marked");
+   const leaky=LEAKY_SET.has(m.n);
+   const isMarked=mk.has(m.n);
+   let state;
+   if(leaky && isMarked) state="caught";
+   else if(leaky && !isMarked) state="missed";
+   else if(!leaky && isMarked) state="fp";
+   else state="clean-ok";
+   li.classList.add("audited", state);
+   cb.disabled=true;
+   let tag=li.querySelector(".tag");
+   if(!tag){ tag=el("span","tag"); li.appendChild(tag); }
+   tag.textContent=TAGS[state];
+   let chips=li.querySelector(".chips");
+   if(chips) chips.remove();
+   let altEl=li.querySelector(".alt");
+   if(altEl) altEl.remove();
+   if(leaky && m.types.length){
+    chips=el("div","chips");
+    m.types.forEach(t=>chips.appendChild(el("span","chip",TYPE_LABEL[t]||t)));
+    li.appendChild(chips);
+   }
+   if(state==="missed" && m.alt){
+    altEl=el("div","alt","Millor: "+m.alt);
+    li.appendChild(altEl);
+   }
+  });
+ }
+
  MSGS.forEach(m=>{
-  const li=document.createElement("li"); li.className="msg"; li.id="m"+m.n;
-  const cb=document.createElement("input"); cb.type="checkbox"; cb.id="c"+m.n;
-  const lb=document.createElement("label"); lb.htmlFor="c"+m.n;
-  lb.innerHTML='<span class="n">CONVERSA '+m.n+'</span>'+m.t;
-  cb.addEventListener("change",()=>li.classList.toggle("marked",cb.checked));
-  li.appendChild(cb); li.appendChild(lb); ul.appendChild(li);
+  const li=el("li","msg");
+  li.id="m"+m.n;
+  const cb=document.createElement("input");
+  cb.type="checkbox";
+  cb.id="c"+m.n;
+  const lb=document.createElement("label");
+  lb.htmlFor="c"+m.n;
+  lb.appendChild(el("span","n","CONVERSA "+m.n));
+  lb.appendChild(document.createTextNode(m.t));
+  cb.addEventListener("change",()=>{
+   if(audited) return;
+   li.classList.toggle("marked", cb.checked);
+   updateCount();
+  });
+  li.appendChild(cb);
+  li.appendChild(lb);
+  ul.appendChild(li);
  });
- function marked(){const s=new Set();MSGS.forEach(m=>{if(document.getElementById("c"+m.n).checked)s.add(m.n);});return s;}
+
  document.getElementById("audit").addEventListener("click",()=>{
-  const mk=marked(), res=RECONSTRUCT(mk);
+  const mk=marked();
+  const res=RECONSTRUCT(mk);
+  lastRes=res;
   const caught=LEAKY.filter(n=>mk.has(n)).length;
-  const falsePos=[...mk].filter(n=>!LEAKY.includes(n)).length;
-  let html='<div class="tally">Has marcat '+mk.size+' converses de 15. De les 9 que filtraven alguna cosa, n\'has enxampat <strong>'+caught+'</strong>'+(falsePos?'; n\'has marcat '+falsePos+' que no filtraven res':'')+'.</div>';
-  if(res.length===0){
-   html+='<div class="clean"><h3>Auditoria impecable</h3><p>No queda res per reconstruir: has marcat totes les converses que filtraven alguna cosa. Ara fixa-t\'hi bé, perquè aquí hi ha la lliçó: per aconseguir-ho has hagut de marcar una traça d\'error, una traducció d\'un correu, un missatge a un company, un càlcul de memòria, una acta i un comentari dins del codi. Cap d\'aquestes converses no s\'assembla gens a «enganxar el document de disseny», i a la vida real gairebé ningú no les marca.</p></div>';
-  } else {
-   html+='<div class="dossier"><h3>Informe: què podria reconstruir un desconegut amb les converses que has deixat passar</h3>';
-   res.forEach(r=>{html+='<div class="fact"><span class="k">'+r.fact.k+'</span><div class="v">'+r.fact.v+'</div><div class="src">Conversa '+r.n+': '+r.how+'</div></div>';});
-   html+='<p style="margin-top:.9em">Cap d\'aquestes converses, per si sola, no semblava una fuga. El problema no és cap missatge concret: és la <strong>suma</strong>. Cada tros és innocu i el conjunt és una fitxa del projecte, de l\'equip i teva.</p></div>';
+  const falsePos=[...mk].filter(n=>!LEAKY_SET.has(n)).length;
+
+  applyAnswerKey(mk);
+  out.replaceChildren();
+
+  const tally=el("div","tally");
+  tally.appendChild(document.createTextNode("Has marcat "+mk.size+" converses de 15. De les "+LEAKY_N+" que filtraven alguna cosa, n'has enxampat "));
+  tally.appendChild(el("strong",null,String(caught)));
+  if(falsePos) tally.appendChild(document.createTextNode("; n'has marcat "+falsePos+" que no filtraven res"));
+  tally.appendChild(document.createTextNode("."));
+  if(falsePos){
+   tally.appendChild(el("div","note","La prudència està bé; l'habilitat és veure què filtra de debò, no marcar-ho tot."));
   }
-  document.getElementById("out").innerHTML=html;
+  out.appendChild(tally);
+
+  if(res.length===0){
+   const clean=el("div","clean");
+   clean.appendChild(el("h3",null,"Auditoria impecable"));
+   const p1=el("p");
+   p1.appendChild(document.createTextNode("No queda res per reconstruir: has marcat totes les converses que filtraven alguna cosa. Aquí hi ha la lliçó: has hagut de marcar una traça d'error, un correu, un missatge a un company, un càlcul de memòria, una acta, un comentari i un token d'API. Cap no s'assembla a «enganxar el GDD», i a la vida real gairebé ningú no les marca."));
+   clean.appendChild(p1);
+   const p2=el("p");
+   p2.appendChild(document.createTextNode("I un matís: els noms de la Núria i el Marc no són dades del Bru per prestar. "));
+   p2.appendChild(el("strong",null,"Les dades d'altri no es presten."));
+   clean.appendChild(p2);
+   out.appendChild(clean);
+  } else {
+   const dossier=el("div","dossier");
+   dossier.appendChild(el("h3",null,"Informe: què podria reconstruir un desconegut amb les converses que has deixat passar"));
+   res.forEach(r=>{
+    const fact=el("div","fact");
+    fact.appendChild(el("span","k",r.fact.k));
+    fact.appendChild(el("div","v",r.fact.v));
+    fact.appendChild(el("div","src","Conversa "+r.n+": "+r.how));
+    if(r.alt) fact.appendChild(el("div","alt","Millor: "+r.alt));
+    dossier.appendChild(fact);
+   });
+   const lesson=el("p","lesson");
+   lesson.appendChild(document.createTextNode("Cap d'aquestes converses, per si sola, no semblava una fuga. El problema no és cap missatge concret: és la "));
+   lesson.appendChild(el("strong",null,"suma"));
+   lesson.appendChild(document.createTextNode(". Cada tros és innocu i el conjunt és una fitxa del projecte, de l'equip i teva."));
+   dossier.appendChild(lesson);
+   const altri=el("p","lesson");
+   if(res.some(r=>r.fact.id==="equip")){
+    altri.appendChild(document.createTextNode("I mira els noms de l'equip: en Bru ha pres una decisió de privadesa "));
+    altri.appendChild(el("em",null,"per una altra persona"));
+    altri.appendChild(document.createTextNode(", sense preguntar. "));
+   } else {
+    altri.appendChild(document.createTextNode("Fins i tot quan no surten a l'informe: els noms dels companys no són seves per enganxar. "));
+   }
+   altri.appendChild(el("strong",null,"Les dades d'altri no es presten."));
+   dossier.appendChild(altri);
+   const caveat=el("p","lesson");
+   caveat.appendChild(document.createTextNode("Reconstrucció sota el supòsit d'un sol compte i historial; no és una prova que el proveïdor hagi llegit o entrenat amb això."));
+   dossier.appendChild(caveat);
+   out.appendChild(dossier);
+  }
+
+  appendHabit(out);
+  appendAtura(out);
   document.getElementById("erase").classList.remove("hide");
   document.getElementById("reset").classList.remove("hide");
  });
+
  document.getElementById("erase").addEventListener("click",()=>{
   marked().forEach(n=>document.getElementById("m"+n).classList.add("gone"));
-  const d=document.createElement("div");
-  d.className="dossier"; d.style.marginTop="12px";
-  d.innerHTML='<h3>Fet: converses esborrades</h3><p>Han desaparegut de la llista, com desapareixen del teu historial. Mira l\'informe de sobre: continua sencer. Esborrar treu la conversa de la vista, no desfà el que algú ja hagi pogut llegir, ni el que hagi entrat en un entrenament. La decisió amb control real era una altra, i era abans.</p>';
-  document.getElementById("out").appendChild(d);
+  const d=el("div","dossier");
+  d.appendChild(el("h3",null,"Fet: converses esborrades"));
+  const p=el("p");
+  p.appendChild(document.createTextNode("Han desaparegut de la llista, com desapareixen del teu historial. Mira l'informe de sobre: continua sencer. "));
+  p.appendChild(el("strong",null,"Esborrar no és desentrenar."));
+  p.appendChild(document.createTextNode(" Treu la conversa de la vista; no desfà retenció, revisió humana ni el que hagi entrat en un entrenament. La decisió amb control real es pren "));
+  p.appendChild(el("em",null,"abans"));
+  p.appendChild(document.createTextNode(" de prémer Enter."));
+  d.appendChild(p);
+  const secretExposed=lastRes.some(r=>r.fact.id==="secret");
+  const secretCaught=document.getElementById("c15").checked;
+  const rot=el("p");
+  if(secretExposed){
+   rot.appendChild(document.createTextNode("I hi havia un token a l'informe: "));
+   rot.appendChild(el("strong",null,"rota'l o revoca'l"));
+   rot.appendChild(document.createTextNode(" ara. Esborrar el xat no substitueix aquesta acció."));
+   d.appendChild(rot);
+  } else if(secretCaught){
+   rot.appendChild(document.createTextNode("Has enxampat el token: bé. Si mai n'envies un de real, "));
+   rot.appendChild(el("strong",null,"rota'l o revoca'l"));
+   rot.appendChild(document.createTextNode("; esborrar el xat no n'hi ha prou."));
+   d.appendChild(rot);
+  }
+  out.appendChild(d);
+  appendAtura(out);
   document.getElementById("erase").classList.add("hide");
  });
+
  document.getElementById("reset").addEventListener("click",()=>{
-  MSGS.forEach(m=>{const cb=document.getElementById("c"+m.n);cb.checked=false;const li=document.getElementById("m"+m.n);li.className="msg";});
-  document.getElementById("out").innerHTML="";
+  clearAnswerKey();
+  out.replaceChildren();
   document.getElementById("erase").classList.add("hide");
   document.getElementById("reset").classList.add("hide");
+  updateCount();
   window.scrollTo({top:0,behavior:"auto"});
  });
+
+ updateCount();
 }
 </script>
 </body>
