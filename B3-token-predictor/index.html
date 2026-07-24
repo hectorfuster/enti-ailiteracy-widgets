@@ -10,8 +10,6 @@
    ENTI-UB AI Literacy Course, Module 1, Chapter 2.
    ============================================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
-
 :root {
   --bg:           #f4efe6;
   --bg-card:      #ffffff;
@@ -28,7 +26,9 @@
   --accent-2:     #1e3a5f;
   --bar-bg:       #e8e2d3;
   --bar-fill:     #1a1814;
-  --bar-low:      #c9c2b3;
+  --bar-base:     #a89f8c;
+  --font-serif:   Georgia, 'Times New Roman', serif;
+  --font-mono:    'Consolas', 'Courier New', monospace;
 }
 
 * {
@@ -40,7 +40,7 @@ html, body {
   padding: 0;
   background: var(--bg);
   color: var(--ink);
-  font-family: 'EB Garamond', Georgia, serif;
+  font-family: var(--font-serif);
   font-size: 18px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -61,7 +61,7 @@ html, body {
 }
 
 .widget-eyebrow {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.16em;
@@ -71,7 +71,7 @@ html, body {
 }
 
 .widget-title {
-  font-family: 'EB Garamond', Georgia, serif;
+  font-family: var(--font-serif);
   font-weight: 600;
   font-size: 32px;
   line-height: 1.1;
@@ -104,14 +104,74 @@ html, body {
   font-weight: 600;
 }
 
+/* ---------------- observation route ---------------- */
+
+.route-section {
+  margin-bottom: 28px;
+}
+
+.route-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.route-step {
+  background: var(--bg-card);
+  border: 1px solid var(--rule-soft);
+  padding: 12px 14px;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-serif);
+  color: var(--ink);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.route-step:hover {
+  border-color: var(--rule);
+  background: var(--bg-soft);
+}
+
+.route-step.active {
+  border-color: var(--accent-2);
+  background: #eef2f7;
+}
+
+.route-num {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+  margin-bottom: 4px;
+}
+
+.route-title {
+  display: block;
+  font-size: 15px;
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+.route-hint {
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--ink-soft);
+  line-height: 1.35;
+}
+
 /* ---------------- scenario picker ---------------- */
 
 .scenario-section {
-  margin-bottom: 32px;
+  margin-bottom: 28px;
 }
 
 .section-label {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.16em;
@@ -120,6 +180,38 @@ html, body {
   margin-bottom: 12px;
   padding-bottom: 6px;
   border-bottom: 1px solid var(--rule-soft);
+}
+
+.category-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.category-tab {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 8px 12px;
+  border: 1px solid var(--rule-soft);
+  background: var(--bg-card);
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.category-tab:hover {
+  border-color: var(--rule);
+  color: var(--ink);
+}
+
+.category-tab.active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
 }
 
 .scenario-grid {
@@ -132,7 +224,7 @@ html, body {
   background: var(--bg-card);
   border: 1px solid var(--rule-soft);
   padding: 12px 14px;
-  font-family: 'EB Garamond', Georgia, serif;
+  font-family: var(--font-serif);
   font-size: 15px;
   text-align: left;
   cursor: pointer;
@@ -155,7 +247,7 @@ html, body {
 
 .scenario-btn .cat {
   display: block;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 9px;
   font-weight: 600;
   letter-spacing: 0.14em;
@@ -172,7 +264,7 @@ html, body {
   position: absolute;
   top: 8px;
   right: 10px;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 9px;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -185,14 +277,27 @@ html, body {
   opacity: 0.7;
 }
 
+.scenario-btn .hint {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  font-style: italic;
+  color: var(--ink-soft);
+  line-height: 1.3;
+}
+
+.scenario-btn.active .hint {
+  color: rgba(244, 239, 230, 0.65);
+}
+
 /* ---------------- prompt display ---------------- */
 
 .prompt-display {
   background: var(--bg-card);
   border: 1px solid var(--rule-soft);
   padding: 24px 28px;
-  margin-bottom: 24px;
-  font-family: 'EB Garamond', Georgia, serif;
+  margin-bottom: 12px;
+  font-family: var(--font-serif);
   font-size: 22px;
   line-height: 1.5;
   position: relative;
@@ -213,13 +318,32 @@ html, body {
   animation: blink 1s step-end infinite;
 }
 
-.sampled-token {
+.sample-result {
+  display: none;
+  background: var(--bg-soft);
+  border: 1px solid var(--rule-soft);
+  padding: 12px 16px;
+  margin-bottom: 24px;
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
+.sample-result.visible {
+  display: block;
+}
+
+.sample-result strong {
   color: var(--accent);
+  font-family: var(--font-mono);
   font-weight: 600;
-  background: rgba(185, 28, 28, 0.07);
-  padding: 0 3px;
-  border-radius: 2px;
-  animation: appear 0.3s ease-out;
+}
+
+.sample-result .note {
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+  font-style: italic;
 }
 
 @keyframes blink {
@@ -227,9 +351,70 @@ html, body {
   51%, 100% { opacity: 0; }
 }
 
-@keyframes appear {
-  from { background: rgba(185, 28, 28, 0.3); }
-  to { background: rgba(185, 28, 28, 0.07); }
+/* ---------------- prediction gate ---------------- */
+
+.prediction-panel {
+  display: none;
+  background: var(--bg-card);
+  border: 1px solid var(--rule-soft);
+  padding: 16px 18px;
+  margin-bottom: 24px;
+}
+
+.prediction-panel.visible {
+  display: block;
+}
+
+.prediction-prompt {
+  font-size: 16px;
+  margin: 0 0 12px;
+  color: var(--ink);
+}
+
+.prediction-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.prediction-option {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 10px 14px;
+  border: 1px solid var(--rule-soft);
+  background: var(--bg);
+  color: var(--ink);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.prediction-option:hover:not(:disabled) {
+  border-color: var(--rule);
+  background: var(--bg-soft);
+}
+
+.prediction-option:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.prediction-option.picked {
+  border-color: var(--accent-2);
+  background: #eef2f7;
+  opacity: 1;
+}
+
+.prediction-feedback {
+  margin-top: 12px;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--ink-soft);
+  display: none;
+}
+
+.prediction-feedback.visible {
+  display: block;
 }
 
 /* ---------------- controls ---------------- */
@@ -254,7 +439,7 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.14em;
@@ -263,7 +448,7 @@ html, body {
 }
 
 .temp-value {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 18px;
   font-weight: 700;
   color: var(--ink);
@@ -300,6 +485,35 @@ input[type="range"]::-moz-range-thumb {
   border-radius: 0;
 }
 
+.temp-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.temp-preset {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border: 1px solid var(--rule-soft);
+  background: var(--bg-card);
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.temp-preset:hover {
+  border-color: var(--rule);
+  color: var(--ink);
+}
+
+.temp-preset.active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+}
+
 .temp-hint {
   font-size: 13px;
   color: var(--ink-soft);
@@ -308,17 +522,36 @@ input[type="range"]::-moz-range-thumb {
 
 .action-group {
   display: flex;
+  flex-direction: column;
   gap: 8px;
   flex-shrink: 0;
+  align-items: stretch;
+}
+
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sample-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  text-align: right;
+  min-height: 1.2em;
 }
 
 .btn {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  padding: 12px 20px;
+  padding: 12px 16px;
   border: 1px solid var(--ink);
   background: transparent;
   color: var(--ink);
@@ -351,6 +584,11 @@ input[type="range"]::-moz-range-thumb {
   color: var(--ink);
 }
 
+.btn-primary:disabled:hover {
+  background: var(--ink);
+  color: var(--bg);
+}
+
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
@@ -359,7 +597,93 @@ input[type="range"]::-moz-range-thumb {
 /* ---------------- distribution display ---------------- */
 
 .dist-section {
-  margin-bottom: 32px;
+  margin-bottom: 24px;
+}
+
+.dist-section.locked .dist-body {
+  display: none;
+}
+
+.section-caption {
+  font-size: 13px;
+  font-style: italic;
+  color: var(--ink-soft);
+  margin: -6px 0 14px;
+  line-height: 1.4;
+}
+
+.bar-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.bar-legend span::before {
+  content: '';
+  display: inline-block;
+  width: 14px;
+  height: 8px;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.bar-legend .leg-base::before {
+  background: var(--bar-base);
+}
+
+.bar-legend .leg-adj::before {
+  background: var(--bar-fill);
+}
+
+.bias-ratio {
+  display: none;
+  background: var(--bg-soft);
+  border: 1px solid var(--rule-soft);
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.bias-ratio.visible {
+  display: block;
+}
+
+.bias-ratio .ratio-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+  margin-right: 10px;
+}
+
+.dist-header {
+  display: grid;
+  grid-template-columns: 140px 1fr 56px 56px 48px;
+  gap: 12px;
+  padding: 0 0 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  border-bottom: 1px solid var(--rule-soft);
+  margin-bottom: 4px;
+}
+
+.dist-header .h-right {
+  text-align: right;
 }
 
 .dist-list {
@@ -370,12 +694,17 @@ input[type="range"]::-moz-range-thumb {
 
 .dist-row {
   display: grid;
-  grid-template-columns: 200px 1fr 70px;
-  gap: 16px;
+  grid-template-columns: 140px 1fr 56px 56px 48px;
+  gap: 12px;
   align-items: center;
   padding: 8px 0;
   border-bottom: 1px solid var(--rule-soft);
   transition: background 0.2s ease;
+  cursor: pointer;
+}
+
+.dist-row:hover {
+  background: rgba(26, 24, 20, 0.03);
 }
 
 .dist-row:last-child {
@@ -383,11 +712,15 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .dist-row.highlighted {
-  background: rgba(185, 28, 28, 0.04);
+  background: rgba(185, 28, 28, 0.08);
+}
+
+.dist-row.forced {
+  background: rgba(30, 58, 95, 0.08);
 }
 
 .dist-token {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 14px;
   font-weight: 500;
   color: var(--ink);
@@ -406,22 +739,35 @@ input[type="range"]::-moz-range-thumb {
   margin-left: 1px;
 }
 
+.dist-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
 .dist-bar-container {
   position: relative;
-  height: 22px;
+  height: 10px;
   background: var(--bar-bg);
   overflow: hidden;
 }
 
 .dist-bar {
   height: 100%;
-  background: var(--bar-fill);
   transition: width 0.4s cubic-bezier(0.2, 0, 0, 1);
 }
 
+.dist-bar.base {
+  background: var(--bar-base);
+}
+
+.dist-bar.adj {
+  background: var(--bar-fill);
+}
+
 .dist-prob {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 13px;
+  font-family: var(--font-mono);
+  font-size: 12px;
   font-weight: 600;
   color: var(--ink);
   text-align: right;
@@ -433,13 +779,42 @@ input[type="range"]::-moz-range-thumb {
   font-weight: 400;
 }
 
+.dist-freq {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-soft);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.dist-click-hint {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--ink-faint);
+  margin-top: 10px;
+}
+
+.loop-note {
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: var(--bg-card);
+  border-left: 3px solid var(--rule-soft);
+  font-size: 13px;
+  font-style: italic;
+  color: var(--ink-soft);
+  line-height: 1.45;
+}
+
 /* ---------------- lesson box ---------------- */
+
+.lesson-wrap {
+  margin-bottom: 24px;
+}
 
 .lesson {
   background: var(--bg-card);
   border-left: 3px solid var(--accent-2);
   padding: 18px 22px;
-  margin-bottom: 24px;
   font-size: 16px;
   line-height: 1.55;
   color: var(--ink);
@@ -452,13 +827,40 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .lesson-label {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--accent-2);
   margin-bottom: 8px;
+}
+
+.lesson-reveal {
+  display: none;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 10px 16px;
+  border: 1px dashed var(--rule-soft);
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: all 0.15s ease;
+}
+
+.lesson-reveal.visible {
+  display: block;
+}
+
+.lesson-reveal:hover {
+  border-color: var(--accent-2);
+  color: var(--accent-2);
+  background: var(--bg-card);
 }
 
 @keyframes slide-in {
@@ -484,13 +886,22 @@ input[type="range"]::-moz-range-thumb {
   line-height: 1.5;
 }
 
-.widget-footer a { color: var(--accent-2); }
-
 /* ---------------- responsive ---------------- */
 
 @media (max-width: 880px) {
   .widget-title {
     font-size: 24px;
+  }
+  .route-steps {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .dist-header,
+  .dist-row {
+    grid-template-columns: 100px 1fr 48px 48px 40px;
+    gap: 8px;
   }
 }
 
@@ -501,14 +912,27 @@ input[type="range"]::-moz-range-thumb {
   .action-group {
     width: 100%;
   }
+  .action-buttons {
+    width: 100%;
+  }
   .btn {
     flex: 1;
-    padding: 12px 12px;
+    padding: 12px 10px;
+    font-size: 11px;
+  }
+  .sample-meta {
+    text-align: left;
+  }
+  .dist-header {
+    display: none;
   }
   .dist-row {
-    grid-template-columns: 110px 1fr 56px;
-    gap: 10px;
-    font-size: 13px;
+    grid-template-columns: 90px 1fr;
+    gap: 8px;
+  }
+  .dist-row .dist-prob,
+  .dist-row .dist-freq {
+    display: none;
   }
   .prompt-display {
     font-size: 18px;
@@ -543,11 +967,33 @@ input[type="range"]::-moz-range-thumb {
   </header>
 
   <div class="widget-intro">
-    <strong>Aclariment important:</strong> les probabilitats que veuràs aquí són il·lustratives, no la sortida real d'un model concret. Estan calibrades per fer visibles patrons que sí que es donen als models reals. Aquesta eina no fa cap crida a cap servei extern, no envia cap dada enlloc i funciona localment al teu navegador.
+    <strong>Aclariment important:</strong> això és una <strong>simulació didàctica</strong> amb un vocabulari tancat (una desena de candidats que sumen 100 %). No és la sortida d'un model real ni un softmax sobre desenes de milers de tokens: il·lustra la <em>forma</em> de la distribució i l'efecte de la temperatura. Tot funciona localment al navegador; no hi ha crides externes.
   </div>
+
+  <section class="route-section">
+    <div class="section-label">Ruta d'observació</div>
+    <div class="route-steps" id="routeSteps">
+      <button type="button" class="route-step" data-step="1">
+        <span class="route-num">Pas 1</span>
+        <span class="route-title">Compara Predictible vs Ambigua</span>
+        <span class="route-hint">Dita popular → obertura narrativa</span>
+      </button>
+      <button type="button" class="route-step" data-step="2">
+        <span class="route-num">Pas 2</span>
+        <span class="route-title">Força un token improbable</span>
+        <span class="route-hint">Predictible amb temperatura 1,5</span>
+      </button>
+      <button type="button" class="route-step" data-step="3">
+        <span class="route-num">Pas 3</span>
+        <span class="route-title">Biaix i al·lucinació</span>
+        <span class="route-hint">he/she, després Sagrada Família a 1,8</span>
+      </button>
+    </div>
+  </section>
 
   <section class="scenario-section">
     <div class="section-label">Tria un escenari</div>
+    <div class="category-tabs" id="categoryTabs" role="tablist"></div>
     <div class="scenario-grid" id="scenarioGrid"></div>
   </section>
 
@@ -556,7 +1002,14 @@ input[type="range"]::-moz-range-thumb {
     <div class="prompt-display">
       <span class="prompt-text" id="promptText">Selecciona un escenari per començar.</span><span class="prompt-cursor" id="promptCursor" style="display:none"></span>
     </div>
+    <div class="sample-result" id="sampleResult"></div>
   </section>
+
+  <div class="prediction-panel" id="predictionPanel">
+    <p class="prediction-prompt" id="predictionPrompt"></p>
+    <div class="prediction-options" id="predictionOptions"></div>
+    <div class="prediction-feedback" id="predictionFeedback"></div>
+  </div>
 
   <section class="controls">
     <div class="temp-control">
@@ -564,27 +1017,58 @@ input[type="range"]::-moz-range-thumb {
         <span>Temperatura</span>
         <span class="temp-value" id="tempValue">1.0</span>
       </div>
-      <input type="range" id="tempSlider" min="0" max="2" step="0.1" value="1.0">
+      <input type="range" id="tempSlider" min="0" max="2" step="0.1" value="1.0" aria-label="Temperatura">
+      <div class="temp-presets" id="tempPresets" role="group" aria-label="Valors ràpids de temperatura">
+        <button type="button" class="temp-preset" data-temp="0">0</button>
+        <button type="button" class="temp-preset" data-temp="0.5">0,5</button>
+        <button type="button" class="temp-preset active" data-temp="1">1</button>
+        <button type="button" class="temp-preset" data-temp="1.5">1,5</button>
+        <button type="button" class="temp-preset" data-temp="2">2</button>
+      </div>
       <div class="temp-hint" id="tempHint">Temperatura = 1: el model mostra la distribució natural.</div>
     </div>
     <div class="action-group">
-      <button class="btn btn-primary" id="sampleBtn" disabled>Mostreja un token</button>
-      <button class="btn" id="resetBtn" disabled>Reinicia</button>
+      <div class="action-buttons">
+        <button class="btn btn-primary" id="sampleBtn" disabled>Mostreja 1</button>
+        <button class="btn" id="sample10Btn" disabled>Mostreja 10</button>
+        <button class="btn" id="resetBtn" disabled>Reinicia</button>
+      </div>
+      <div class="sample-meta" id="sampleMeta"></div>
     </div>
   </section>
 
-  <section class="dist-section">
+  <section class="dist-section" id="distSection">
     <div class="section-label">Distribució de probabilitats sobre el token següent</div>
-    <div class="dist-list" id="distList">
-      <p style="color: var(--ink-soft); font-style: italic; padding: 24px 0; text-align: center;">
-        Tria un escenari per veure la distribució.
-      </p>
+    <p class="section-caption">Vocabulari tancat de simulació (suma 100 %). La temperatura repondera aquests candidats; en un model real el softmax cobreix tot el vocabulari.</p>
+    <div class="dist-body" id="distBody">
+      <div class="bar-legend">
+        <span class="leg-base">Base (T = 1)</span>
+        <span class="leg-adj">Ajustada (T actual)</span>
+      </div>
+      <div class="bias-ratio" id="biasRatio"></div>
+      <div class="dist-header">
+        <span>Token</span>
+        <span>Barres</span>
+        <span class="h-right">Base</span>
+        <span class="h-right">T</span>
+        <span class="h-right">Freq</span>
+      </div>
+      <div class="dist-list" id="distList">
+        <p style="color: var(--ink-soft); font-style: italic; padding: 24px 0; text-align: center;">
+          Tria un escenari per veure la distribució.
+        </p>
+      </div>
+      <p class="dist-click-hint" id="distClickHint" hidden>Fes clic a una fila per forçar aquell token (com si el model el triés).</p>
+      <p class="loop-note">Cada mostra és una extracció <strong>independent</strong> d'aquesta distribució. Un model real afegiria el token al context i <strong>recalcularia</strong> la probabilitat del següent; aquí no construïm una frase token a token.</p>
     </div>
   </section>
 
-  <div class="lesson" id="lessonBox">
-    <div class="lesson-label">Per què això importa</div>
-    <div id="lessonText"></div>
+  <div class="lesson-wrap">
+    <button type="button" class="lesson-reveal" id="lessonReveal">Mostra la lliçó</button>
+    <div class="lesson" id="lessonBox">
+      <div class="lesson-label">Per què això importa</div>
+      <div id="lessonText"></div>
+    </div>
   </div>
 
   <footer class="widget-footer">
@@ -597,7 +1081,7 @@ input[type="range"]::-moz-range-thumb {
 <script>
 // =============================================================
 // TOKEN DATA
-// (probabilities are illustrative, calibrated for pedagogy)
+// (probabilities are illustrative; normalized to sum 1 at boot)
 // =============================================================
 
 const TOKEN_DATA = [
@@ -607,6 +1091,7 @@ const TOKEN_DATA = [
     lang: 'ca',
     label: 'Una dita popular',
     prompt: 'Tant va el càntir a la',
+    predictionChoices: ['font', 'casa', 'porta'],
     tokens: [
       ['font', 0.91], ['cuina', 0.02], ['taula', 0.015], ['plaça', 0.012],
       ['paret', 0.010], ['casa', 0.008], ['boca', 0.006], ['terra', 0.005],
@@ -620,6 +1105,7 @@ const TOKEN_DATA = [
     lang: 'en',
     label: 'Un fet geogràfic comú',
     prompt: 'The capital of France is',
+    predictionChoices: ['Paris', 'Lyon', 'the'],
     tokens: [
       ['Paris', 0.94], ['the', 0.02], ['a', 0.012], ['located', 0.008],
       ['known', 0.006], ['actually', 0.005], ['called', 0.003], ['one', 0.002],
@@ -636,7 +1122,7 @@ const TOKEN_DATA = [
     tokens: [
       ['mercat', 0.31], ['cinema', 0.18], ['parc', 0.14], ['restaurant', 0.09],
       ['teatre', 0.07], ['supermercat', 0.06], ['camp', 0.05], ['poble', 0.04],
-      ['museu', 0.03], ['concert', 0.02]
+      ['museu', 0.03], ['concert', 0.03]
     ],
     lesson: "Una continuació narrativa amb diverses opcions raonables. La distribució és menys peaked que la dita popular: el model «sap» que una persona pot anar a molts llocs, però concentra la massa probable a destinacions habituals (mercat, cinema, parc)."
   },
@@ -646,9 +1132,10 @@ const TOKEN_DATA = [
     lang: 'ca',
     label: 'Una obertura narrativa oberta',
     prompt: 'Un cop, fa molt de temps,',
+    predictionChoices: ['hi', 'una', 'vivia'],
     tokens: [
       ['hi', 0.18], ['una', 0.14], ['en', 0.13], ['vivia', 0.11], ['un', 0.09],
-      ['els', 0.08], ['va', 0.07], ['existia', 0.06], ['havia', 0.05], ['quan', 0.04]
+      ['els', 0.08], ['va', 0.07], ['existia', 0.06], ['havia', 0.05], ['quan', 0.09]
     ],
     lesson: "Una obertura narrativa oberta produeix una distribució aplanada: deu tokens diferents tenen probabilitats similars. És en aquests casos que la temperatura té més efecte visible: a temperatura 0, sempre triaria «hi»; a temperatura alta, pots obtenir qualsevol dels deu i el text resultant pot anar en direccions molt diferents."
   },
@@ -661,7 +1148,7 @@ const TOKEN_DATA = [
     tokens: [
       ['to', 0.21], ['by', 0.19], ['through', 0.13], ['actually', 0.08],
       ['probably', 0.07], ['really', 0.06], ['simply', 0.05], ['just', 0.05],
-      ['definitely', 0.04], ['honestly', 0.03]
+      ['definitely', 0.04], ['honestly', 0.12]
     ],
     lesson: "Una opinió subjectiva no té cap continuació «correcta», així que la distribució és plana. Els mots gramaticals (to, by, through) lideren perquè estan gramaticalment forçats; la resta són matisos estilístics. Els models reals tendeixen molt cap a aquests matisos, i això és una de les fonts de la «pudor d'IA» que ja saps detectar."
   },
@@ -670,11 +1157,13 @@ const TOKEN_DATA = [
     category: 'BIAS',
     lang: 'en',
     label: 'Un biaix de gènere professional',
+    hint: 'doctor … he / she',
     prompt: 'The doctor walked into the room and',
+    predictionChoices: ['he', 'she', 'said'],
     tokens: [
       ['he', 0.39], ['the', 0.16], ['said', 0.12], ['looked', 0.08],
       ['greeted', 0.06], ['smiled', 0.05], ['she', 0.04], ['asked', 0.04],
-      ['turned', 0.03], ['sat', 0.025]
+      ['turned', 0.03], ['sat', 0.03]
     ],
     lesson: "«He» (ell) apareix amb un 39 % de probabilitat; «she» (ella) només amb un 4 %. El corpus d'entrenament en anglès conté moltíssimes més coocurrències de «doctor … he» que de «doctor … she». El model no és «sexista» en cap sentit deliberat; reflecteix patrons estadístics de dècades de textos. Com a futur dissenyador o desenvolupador de jocs, conèixer aquest valor per defecte et permet dissenyar-hi explícitament en contra quan la teva visió creativa ho requereixi."
   },
@@ -687,7 +1176,7 @@ const TOKEN_DATA = [
     tokens: [
       ['a', 0.27], ['the', 0.18], ['vows', 0.11], ['exchanging', 0.08],
       ['walking', 0.06], ['white', 0.05], ['rings', 0.05], ['music', 0.04],
-      ['flowers', 0.03], ['guests', 0.03]
+      ['flowers', 0.08], ['guests', 0.08]
     ],
     lesson: "Fixa't que «white» (blanc) apareix com un dels deu tokens més probables. Les dades d'entrenament estan dominades per descripcions occidentals, sovint angloamericanes, de bodes. Les tradicions de boda índies, xineses, nigerianes o iranianes no són «típiques» des de la perspectiva estadística del model. Quan demanes una descripció genèrica de boda, reps una de culturalment específica sense que el model l'etiqueti com a tal."
   },
@@ -696,13 +1185,15 @@ const TOKEN_DATA = [
     category: 'BIAS',
     lang: 'ca',
     label: 'Un biaix de gènere en català',
+    hint: 'enginyera … ell / ella',
     prompt: 'L\'enginyera va presentar el projecte i',
+    predictionChoices: ['ell', 'ella', 'va'],
     tokens: [
       ['el', 0.20], ['va', 0.18], ['després', 0.11], ['els', 0.09], ['ell', 0.08],
-      ['l\'equip', 0.07], ['ella', 0.06], ['va explicar', 0.05],
-      ['va respondre', 0.04], ['tothom', 0.03]
+      ['equip', 0.07], ['ella', 0.06], ['explicà', 0.05],
+      ['respongué', 0.04], ['tothom', 0.12]
     ],
-    lesson: "Encara que la frase comença explícitament amb «l'enginyera» (femení), el pronom «ell» apareix amb el doble de probabilitat que «ella» com a continuació. Aquest és un cas on el biaix es manifesta de forma especialment visible: el model prefereix estadísticament un patró que contradiu la informació gramatical concreta de la frase. Si fessis servir aquest text com a base per a un diàleg de joc, l'estereotip s'instal·laria sense que ho hagis decidit."
+    lesson: "Encara que la frase comença explícitament amb «l'enginyera» (femení), el pronom «ell» apareix amb més massa que «ella» com a continuació. Aquest és un cas on el biaix es manifesta de forma especialment visible: el model prefereix estadísticament un patró que contradiu la informació gramatical concreta de la frase. Si fessis servir aquest text com a base per a un diàleg de joc, l'estereotip s'instal·laria sense que ho hagis decidit."
   },
   {
     id: 'factual-ca-1',
@@ -710,12 +1201,28 @@ const TOKEN_DATA = [
     lang: 'ca',
     label: 'Un fet local concentrat',
     prompt: 'La Sagrada Família es troba a la ciutat de',
+    predictionChoices: ['Barcelona', 'Madrid', 'València'],
     tokens: [
       ['Barcelona', 0.96], ['Madrid', 0.012], ['Tarragona', 0.005],
       ['València', 0.005], ['Girona', 0.004], ['Lleida', 0.003],
-      ['Sevilla', 0.003], ['Bilbao', 0.002], ['Sant', 0.002], ['Reus', 0.002]
+      ['Sevilla', 0.003], ['Bilbao', 0.003], ['Sant', 0.0025], ['Reus', 0.0025]
     ],
     lesson: "Un fet molt comú: el model concentra la pràctica totalitat de la probabilitat al token correcte. Però fixa't que «Madrid», «Tarragona» i «València» tenen probabilitat no nul·la. A temperatura prou alta, el model podria generar «La Sagrada Família es troba a la ciutat de Madrid» amb el mateix to confiat. És exactament aquesta la mecànica de l'al·lucinació factual."
+  },
+  {
+    id: 'factual-en-sydney',
+    category: 'FACTUAL',
+    lang: 'en',
+    label: 'Probabilitat ≠ veritat',
+    hint: 'Sydney vs Canberra',
+    prompt: 'The capital of Australia is',
+    predictionChoices: ['Sydney', 'Canberra', 'Melbourne'],
+    tokens: [
+      ['Sydney', 0.40], ['Canberra', 0.34], ['Melbourne', 0.07],
+      ['Brisbane', 0.05], ['Perth', 0.03], ['the', 0.025],
+      ['Adelaide', 0.02], ['located', 0.02], ['a', 0.015], ['actually', 0.03]
+    ],
+    lesson: "Aquí «Sydney» va per davant de «Canberra», tot i que la capital real és Canberra. La massa de probabilitat reflecteix patrons del corpus (Sydney apareix més), no una verificació de fets. Baixar la temperatura fa més estable l'error; no el corregeix."
   },
   {
     id: 'factual-en-1',
@@ -726,7 +1233,7 @@ const TOKEN_DATA = [
     tokens: [
       ['Shakespeare', 0.97], ['Shakespeares', 0.008], ['Shake', 0.005],
       ['the', 0.004], ['Shakespeare\'s', 0.003], ['shakespeare', 0.002],
-      ['William', 0.002], ['S', 0.0015], ['Smith', 0.001], ['(', 0.001]
+      ['William', 0.002], ['S', 0.002], ['Smith', 0.002], ['(', 0.002]
     ],
     lesson: "Observació: nou dels deu tokens més probables són variants o fragments de la resposta correcta. El desè és «Smith», una alternativa improbable fins a la insignificança però tècnicament possible. La massa de probabilitat està tan concentrada que aquí l'al·lucinació és gairebé impossible, però el model no té cap mecanisme intern que distingeixi aquest cas dels casos en què SÍ que al·lucina. La confiança ve de la concentració de la probabilitat, no de la verificació."
   },
@@ -736,9 +1243,10 @@ const TOKEN_DATA = [
     lang: 'ca',
     label: 'Una porta que s\'obre',
     prompt: 'Quan vaig obrir la porta vaig veure',
+    predictionChoices: ['un', 'una', 'que'],
     tokens: [
       ['un', 0.22], ['una', 0.19], ['que', 0.14], ['el', 0.09], ['la', 0.08],
-      ['els', 0.05], ['les', 0.04], ['algú', 0.04], ['tothom', 0.03], ['dos', 0.025]
+      ['els', 0.05], ['les', 0.04], ['algú', 0.04], ['tothom', 0.08], ['dos', 0.07]
     ],
     lesson: "Un començament obert: la majoria de la probabilitat es reparteix entre articles i pronoms. Cap d'aquests tokens conté informació narrativa: només estructura sintàctica. La «creativitat» del model emergeix dels tokens que vindran després, i la diversitat resultant depèn molt de la temperatura. A temperatura 0, el text es repeteix idèntic cada vegada; a temperatura 1,5 cada generació pot anar a un lloc diferent."
   },
@@ -750,12 +1258,21 @@ const TOKEN_DATA = [
     prompt: 'The detective stared at the body and noticed',
     tokens: [
       ['something', 0.16], ['the', 0.14], ['a', 0.13], ['that', 0.11],
-      ['immediately', 0.07], ['the corner', 0.06], ['several', 0.05],
-      ['three', 0.04], ['nothing', 0.04], ['blood', 0.03]
+      ['immediately', 0.07], ['corner', 0.06], ['several', 0.05],
+      ['three', 0.04], ['nothing', 0.04], ['blood', 0.20]
     ],
-    lesson: "Una obertura de novel·la negra és un trop famós, així que la distribució es decanta cap a clixés de gènere. Fixa't que «blood» (sang) apareix com a opció dins el top 10, però domina «something» (alguna cosa) perquè l'escriptura de misteri prefereix retardar la revelació. Si fessis servir aquest text per redactar diàleg de joc, obtindries prosa que sona com una novel·la negra, perquè ho és, estadísticament. El trop ja viu dins del model."
+    lesson: "Una obertura de novel·la negra és un trop famós, així que la distribució es decanta cap a clixés de gènere. Fixa't que «blood» (sang) apareix com a opció dins el top 10, però «something» (alguna cosa) també és fort perquè l'escriptura de misteri prefereix retardar la revelació. Si fessis servir aquest text per redactar diàleg de joc, obtindries prosa que sona com una novel·la negra, perquè ho és, estadísticament. El trop ja viu dins del model."
   }
 ];
+
+TOKEN_DATA.forEach((scenario) => {
+  const sum = scenario.tokens.reduce((s, [, p]) => s + p, 0);
+  if (sum > 0 && Math.abs(sum - 1) > 1e-9) {
+    scenario.tokens = scenario.tokens.map(([t, p]) => [t, p / sum]);
+  }
+});
+
+const CATEGORY_ORDER = ['PEAKED', 'FLAT', 'BIAS', 'FACTUAL', 'CREATIVE'];
 
 const CATEGORY_LABELS = {
   PEAKED: 'Predictible',
@@ -765,44 +1282,114 @@ const CATEGORY_LABELS = {
   CREATIVE: 'Creativa'
 };
 
+const TEMP_PRESETS = [0, 0.5, 1, 1.5, 2];
+
+const ROUTE_CONFIG = {
+  1: { scenarioId: 'peaked-ca-1', temperature: 1.0 },
+  2: { scenarioId: 'peaked-ca-1', temperature: 1.5 },
+  3: { scenarioId: 'bias-en-1', temperature: 1.0, followUpId: 'factual-ca-1', followUpTemp: 1.8 }
+};
+
 // =============================================================
 // STATE
 // =============================================================
 
 let currentScenario = null;
-let currentTokens = null;        // tokens after temperature applied
-let baseTokens = null;            // original tokens (temperature = 1)
+let currentTokens = null;
+let baseTokens = null;
 let temperature = 1.0;
-let promptHistory = '';           // accumulated sampled tokens
+let sampledToken = null;
+let sampleCount = 0;
+let tokenCounts = {};
+let activeCategory = 'PEAKED';
+let lessonRevealed = false;
+let activeRouteStep = null;
+let routePhase3FollowUp = false;
+let predictionRevealed = true;
+let predictedChoice = null;
+
+// =============================================================
+// DOM
+// =============================================================
+
+const scenarioGrid = document.getElementById('scenarioGrid');
+const categoryTabs = document.getElementById('categoryTabs');
+const promptText = document.getElementById('promptText');
+const promptCursor = document.getElementById('promptCursor');
+const sampleResult = document.getElementById('sampleResult');
+const tempSlider = document.getElementById('tempSlider');
+const tempValue = document.getElementById('tempValue');
+const tempHint = document.getElementById('tempHint');
+const tempPresets = document.getElementById('tempPresets');
+const sampleBtn = document.getElementById('sampleBtn');
+const sample10Btn = document.getElementById('sample10Btn');
+const resetBtn = document.getElementById('resetBtn');
+const sampleMeta = document.getElementById('sampleMeta');
+const distSection = document.getElementById('distSection');
+const distList = document.getElementById('distList');
+const distClickHint = document.getElementById('distClickHint');
+const biasRatio = document.getElementById('biasRatio');
+const lessonBox = document.getElementById('lessonBox');
+const lessonText = document.getElementById('lessonText');
+const lessonReveal = document.getElementById('lessonReveal');
+const routeSteps = document.getElementById('routeSteps');
+const predictionPanel = document.getElementById('predictionPanel');
+const predictionPrompt = document.getElementById('predictionPrompt');
+const predictionOptions = document.getElementById('predictionOptions');
+const predictionFeedback = document.getElementById('predictionFeedback');
 
 // =============================================================
 // SETUP
 // =============================================================
 
-const scenarioGrid = document.getElementById('scenarioGrid');
-const promptText = document.getElementById('promptText');
-const promptCursor = document.getElementById('promptCursor');
-const tempSlider = document.getElementById('tempSlider');
-const tempValue = document.getElementById('tempValue');
-const tempHint = document.getElementById('tempHint');
-const sampleBtn = document.getElementById('sampleBtn');
-const resetBtn = document.getElementById('resetBtn');
-const distList = document.getElementById('distList');
-const lessonBox = document.getElementById('lessonBox');
-const lessonText = document.getElementById('lessonText');
-
-function buildScenarioButtons() {
-  TOKEN_DATA.forEach((scenario, idx) => {
+function buildCategoryTabs() {
+  CATEGORY_ORDER.forEach((cat) => {
     const btn = document.createElement('button');
-    btn.className = 'scenario-btn';
+    btn.type = 'button';
+    btn.className = 'category-tab' + (cat === activeCategory ? ' active' : '');
+    btn.dataset.category = cat;
+    btn.setAttribute('role', 'tab');
+    btn.setAttribute('aria-selected', cat === activeCategory ? 'true' : 'false');
+    btn.textContent = CATEGORY_LABELS[cat];
+    btn.addEventListener('click', () => setCategory(cat));
+    categoryTabs.appendChild(btn);
+  });
+}
+
+function setCategory(cat) {
+  activeCategory = cat;
+  categoryTabs.querySelectorAll('.category-tab').forEach((btn) => {
+    const isActive = btn.dataset.category === cat;
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+  });
+  renderScenarioButtons();
+}
+
+function renderScenarioButtons() {
+  scenarioGrid.innerHTML = '';
+  TOKEN_DATA.forEach((scenario, idx) => {
+    if (scenario.category !== activeCategory) return;
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'scenario-btn' + (currentScenario && currentScenario.id === scenario.id ? ' active' : '');
     btn.dataset.idx = idx;
     btn.innerHTML = `
       <span class="lang-flag">${scenario.lang.toUpperCase()}</span>
       <span class="cat">${CATEGORY_LABELS[scenario.category]}</span>
-      ${scenario.label}
+      ${escapeHtml(scenario.label)}
+      ${scenario.hint ? `<span class="hint">${escapeHtml(scenario.hint)}</span>` : ''}
     `;
     btn.addEventListener('click', () => selectScenario(idx));
     scenarioGrid.appendChild(btn);
+  });
+}
+
+function updatePresetButtons() {
+  tempPresets.querySelectorAll('.temp-preset').forEach((btn) => {
+    const v = parseFloat(btn.dataset.temp);
+    btn.classList.toggle('active', Math.abs(v - temperature) < 0.05);
   });
 }
 
@@ -810,67 +1397,177 @@ function buildScenarioButtons() {
 // SCENARIO SELECTION
 // =============================================================
 
-function selectScenario(idx) {
-  document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector(`.scenario-btn[data-idx="${idx}"]`).classList.add('active');
+function findScenarioIndexById(id) {
+  return TOKEN_DATA.findIndex((s) => s.id === id);
+}
 
-  currentScenario = TOKEN_DATA[idx];
-  baseTokens = [...currentScenario.tokens];
-  promptHistory = '';
+function selectScenario(idx, opts = {}) {
+  const scenario = TOKEN_DATA[idx];
+  if (!scenario) return;
 
-  // Update display
+  if (scenario.category !== activeCategory) {
+    setCategory(scenario.category);
+  }
+
+  currentScenario = scenario;
+  baseTokens = scenario.tokens.map(([t, p]) => [t, p]);
+  sampledToken = null;
+  sampleCount = 0;
+  tokenCounts = {};
+  lessonRevealed = false;
+  predictedChoice = null;
+
+  const hasPredict = Array.isArray(scenario.predictionChoices) && scenario.predictionChoices.length >= 2;
+  predictionRevealed = !hasPredict;
+
+  if (typeof opts.temperature === 'number') {
+    setTemperature(opts.temperature, { silent: true });
+  }
+
+  updatePromptDisplay();
+  updateSampleResult();
+  updateSampleMeta();
+  updateLessonUI();
+  applyTemperature();
+  setupPredictionGate();
+  renderDistribution();
+  renderScenarioButtons();
+  updateControlsEnabled();
+  updateTempHint();
+  updatePresetButtons();
+}
+
+function updateControlsEnabled() {
+  const ready = !!currentScenario && predictionRevealed;
+  sampleBtn.disabled = !ready;
+  sample10Btn.disabled = !ready;
+  resetBtn.disabled = !currentScenario;
+  distClickHint.hidden = !ready;
+  distSection.classList.toggle('locked', !!currentScenario && !predictionRevealed);
+}
+
+function setupPredictionGate() {
+  predictionFeedback.classList.remove('visible');
+  predictionFeedback.textContent = '';
+  predictionOptions.innerHTML = '';
+
+  if (!currentScenario || predictionRevealed) {
+    predictionPanel.classList.remove('visible');
+    return;
+  }
+
+  predictionPanel.classList.add('visible');
+  predictionPrompt.textContent =
+    'Abans de veure la distribució: quin token creus que lidera?';
+
+  currentScenario.predictionChoices.forEach((choice) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'prediction-option';
+    btn.textContent = '"' + choice + '"';
+    btn.addEventListener('click', () => commitPrediction(choice));
+    predictionOptions.appendChild(btn);
+  });
+}
+
+function commitPrediction(choice) {
+  if (predictionRevealed || !currentScenario) return;
+  predictedChoice = choice;
+  predictionRevealed = true;
+
+  const top = baseTokens.slice().sort((a, b) => b[1] - a[1])[0][0];
+  const hit = choice === top;
+
+  predictionOptions.querySelectorAll('.prediction-option').forEach((btn) => {
+    btn.disabled = true;
+    if (btn.textContent === '"' + choice + '"') btn.classList.add('picked');
+  });
+
+  predictionFeedback.textContent = hit
+    ? 'Has encertat el líder de la simulació. Ara compara les barres base i ajustades.'
+    : 'El líder de la simulació és «' + top + '». Ara mira la distribució completa.';
+  predictionFeedback.classList.add('visible');
+
+  updateControlsEnabled();
+  renderDistribution();
+}
+
+function updatePromptDisplay() {
+  if (!currentScenario) {
+    promptText.textContent = 'Selecciona un escenari per començar.';
+    promptCursor.style.display = 'none';
+    return;
+  }
   promptText.innerHTML = escapeHtml(currentScenario.prompt) + ' ';
   promptCursor.style.display = 'inline-block';
+}
 
-  // Refresh the temperature hint in the new scenario's language by
-  // re-firing the slider's input handler with the current value.
-  tempSlider.dispatchEvent(new Event('input', { bubbles: true }));
+function updateSampleResult() {
+  if (!sampledToken) {
+    sampleResult.classList.remove('visible');
+    sampleResult.innerHTML = '';
+    return;
+  }
+  sampleResult.innerHTML =
+    'Última mostra: <strong>"' + escapeHtml(sampledToken) + '"</strong>' +
+    '<span class="note">Extracció independent d\'aquesta distribució — no forma una frase continuada.</span>';
+  sampleResult.classList.add('visible');
+}
 
-  applyTemperature();
-  renderDistribution();
+function updateSampleMeta() {
+  if (!currentScenario || sampleCount === 0) {
+    // Preserve route guidance text when no samples yet
+    if (sampleCount === 0 && !activeRouteStep) {
+      sampleMeta.textContent = '';
+    } else if (sampleCount === 0 && sampleMeta.textContent.startsWith('Mostrejos')) {
+      sampleMeta.textContent = '';
+    }
+    return;
+  }
+  sampleMeta.textContent = 'Mostrejos: ' + sampleCount;
+}
 
-  sampleBtn.disabled = false;
-  resetBtn.disabled = false;
+function updateLessonUI() {
+  if (!currentScenario) {
+    lessonBox.classList.remove('visible');
+    lessonReveal.classList.remove('visible');
+    return;
+  }
 
-  // Show lesson
   lessonText.textContent = currentScenario.lesson;
-  lessonBox.classList.add('visible');
+
+  if (lessonRevealed) {
+    lessonBox.classList.add('visible');
+    lessonReveal.classList.remove('visible');
+  } else {
+    lessonBox.classList.remove('visible');
+    lessonReveal.classList.add('visible');
+  }
+}
+
+function revealLesson() {
+  if (!currentScenario) return;
+  lessonRevealed = true;
+  updateLessonUI();
 }
 
 // =============================================================
 // TEMPERATURE
 // =============================================================
 
-function applyTemperature() {
-  if (!baseTokens) return;
-
-  // Apply temperature to the distribution.
-  // Standard formula: p_i_new = p_i^(1/T) / sum(p_j^(1/T))
-  // T = 1: unchanged. T -> 0: peaked on max. T -> infinity: uniform.
-
-  // Guard: T = 0 means deterministic (top token gets 1.0)
-  if (temperature < 0.05) {
-    const maxIdx = baseTokens.reduce(
-      (best, [, p], i, arr) => p > arr[best][1] ? i : best, 0
-    );
-    currentTokens = baseTokens.map(([t, p], i) => [t, i === maxIdx ? 1.0 : 0]);
-    return;
+function setTemperature(value, opts = {}) {
+  temperature = Math.round(Math.max(0, Math.min(2, value)) * 10) / 10;
+  tempSlider.value = String(temperature);
+  tempValue.textContent = temperature.toFixed(1);
+  updatePresetButtons();
+  if (!opts.silent) {
+    applyTemperature();
+    renderDistribution();
   }
-
-  const invT = 1.0 / temperature;
-  const reweighted = baseTokens.map(([t, p]) => [t, Math.pow(p, invT)]);
-  const total = reweighted.reduce((s, [, p]) => s + p, 0);
-  currentTokens = reweighted.map(([t, p]) => [t, total > 0 ? p / total : 0]);
+  updateTempHint();
 }
 
-tempSlider.addEventListener('input', (e) => {
-  temperature = parseFloat(e.target.value);
-  tempValue.textContent = temperature.toFixed(1);
-
-  // Update hint based on temperature.
-  // The hint text is always in Catalan regardless of the scenario's language:
-  // the explanatory copy in this widget is consistently Catalan, only the
-  // example prompts are bilingual.
+function updateTempHint() {
   if (temperature < 0.1) {
     tempHint.textContent = 'Temperatura = 0: el model tria sempre el token més probable (determinista).';
   } else if (temperature < 0.7) {
@@ -882,111 +1579,291 @@ tempSlider.addEventListener('input', (e) => {
   } else {
     tempHint.textContent = 'Temperatura molt alta: el model pot triar gairebé qualsevol cosa; la qualitat de la sortida baixa.';
   }
+}
 
-  applyTemperature();
-  renderDistribution();
+function applyTemperature() {
+  if (!baseTokens) return;
+
+  if (temperature < 0.05) {
+    const maxIdx = baseTokens.reduce(
+      (best, [, p], i, arr) => (p > arr[best][1] ? i : best),
+      0
+    );
+    currentTokens = baseTokens
+      .map(([t, p], i) => [t, i === maxIdx ? 1.0 : 0])
+      .sort((a, b) => b[1] - a[1]);
+    return;
+  }
+
+  const invT = 1.0 / temperature;
+  const reweighted = baseTokens.map(([t, p]) => [t, Math.pow(p, invT)]);
+  const total = reweighted.reduce((s, [, p]) => s + p, 0);
+  currentTokens = reweighted
+    .map(([t, p]) => [t, total > 0 ? p / total : 0])
+    .sort((a, b) => b[1] - a[1]);
+}
+
+tempSlider.addEventListener('input', (e) => {
+  setTemperature(parseFloat(e.target.value));
+});
+
+tempPresets.addEventListener('click', (e) => {
+  const btn = e.target.closest('.temp-preset');
+  if (!btn) return;
+  setTemperature(parseFloat(btn.dataset.temp));
 });
 
 // =============================================================
 // SAMPLING
 // =============================================================
 
-function sampleToken() {
-  if (!currentTokens) return;
+function drawOneToken() {
+  if (!currentTokens || !currentTokens.length) return null;
 
   const r = Math.random();
   let cumulative = 0;
-  let sampledIdx = 0;
-  let sampledToken = currentTokens[0][0];
+  let chosen = currentTokens[0][0];
 
   for (let i = 0; i < currentTokens.length; i++) {
     cumulative += currentTokens[i][1];
     if (r <= cumulative) {
-      sampledIdx = i;
-      sampledToken = currentTokens[i][0];
+      chosen = currentTokens[i][0];
       break;
     }
   }
-
-  // Append to prompt history
-  if (promptHistory) {
-    promptHistory += ' <span class="sampled-token">' + escapeHtml(sampledToken) + '</span>';
-  } else {
-    promptHistory = ' <span class="sampled-token">' + escapeHtml(sampledToken) + '</span>';
-  }
-
-  promptText.innerHTML = escapeHtml(currentScenario.prompt) + promptHistory;
-
-  // Highlight which row was sampled
-  highlightSampledRow(sampledIdx);
+  return chosen;
 }
 
-function highlightSampledRow(idx) {
+function sampleToken() {
+  if (!predictionRevealed) return;
+  const chosen = drawOneToken();
+  if (chosen == null) return;
+  applySampledToken(chosen, { count: true });
+}
+
+function sampleTen() {
+  if (!predictionRevealed || !currentTokens) return;
+  let last = null;
+  for (let i = 0; i < 10; i++) {
+    last = drawOneToken();
+    if (last == null) break;
+    tokenCounts[last] = (tokenCounts[last] || 0) + 1;
+    sampleCount += 1;
+  }
+  sampledToken = last;
+  updateSampleResult();
+  updateSampleMeta();
+  renderDistribution();
+  if (last) highlightTokenRow(last, 'highlighted');
+  if (!lessonRevealed) lessonReveal.classList.add('visible');
+}
+
+function applySampledToken(token, opts = {}) {
+  sampledToken = token;
+  if (opts.count !== false) {
+    sampleCount += 1;
+    tokenCounts[token] = (tokenCounts[token] || 0) + 1;
+  }
+  updateSampleResult();
+  updateSampleMeta();
+  highlightTokenRow(token, opts.forced ? 'forced' : 'highlighted');
+  renderDistribution();
+
+  if (!lessonRevealed) {
+    lessonReveal.classList.add('visible');
+  }
+}
+
+function highlightTokenRow(token, className, opts = {}) {
   const rows = document.querySelectorAll('.dist-row');
-  rows.forEach(r => r.classList.remove('highlighted'));
-  if (rows[idx]) {
-    rows[idx].classList.add('highlighted');
-    setTimeout(() => {
-      if (rows[idx]) rows[idx].classList.remove('highlighted');
-    }, 1200);
+  rows.forEach((r) => {
+    r.classList.remove('highlighted', 'forced');
+  });
+  for (const row of rows) {
+    if (row.dataset.token === token) {
+      row.classList.add(className);
+      if (opts.fade !== false) {
+        setTimeout(() => {
+          row.classList.remove(className);
+        }, 1400);
+      }
+      break;
+    }
   }
 }
-
-sampleBtn.addEventListener('click', sampleToken);
-
-// =============================================================
-// RESET
-// =============================================================
 
 function resetSampling() {
   if (!currentScenario) return;
-  promptHistory = '';
-  promptText.innerHTML = escapeHtml(currentScenario.prompt) + ' ';
+  sampledToken = null;
+  sampleCount = 0;
+  tokenCounts = {};
+  updateSampleResult();
+  updateSampleMeta();
+  renderDistribution();
 }
 
+sampleBtn.addEventListener('click', sampleToken);
+sample10Btn.addEventListener('click', sampleTen);
 resetBtn.addEventListener('click', resetSampling);
+lessonReveal.addEventListener('click', revealLesson);
+
+// =============================================================
+// OBSERVATION ROUTE
+// =============================================================
+
+function setActiveRouteStep(step) {
+  activeRouteStep = step;
+  routeSteps.querySelectorAll('.route-step').forEach((btn) => {
+    btn.classList.toggle('active', Number(btn.dataset.step) === step);
+  });
+}
+
+function runRouteStep(step) {
+  const cfg = ROUTE_CONFIG[step];
+  if (!cfg) return;
+
+  setActiveRouteStep(step);
+
+  if (step === 3 && routePhase3FollowUp) {
+    const idx = findScenarioIndexById(cfg.followUpId);
+    selectScenario(idx, { temperature: cfg.followUpTemp });
+    routePhase3FollowUp = false;
+    const stepBtn = routeSteps.querySelector('.route-step[data-step="3"]');
+    if (stepBtn) {
+      stepBtn.querySelector('.route-hint').textContent =
+        'he/she, després Sagrada Família a 1,8';
+    }
+    sampleMeta.textContent = 'Temperatura 1,8 · mostreja fins a una ciutat incorrecta.';
+    return;
+  }
+
+  const idx = findScenarioIndexById(cfg.scenarioId);
+  selectScenario(idx, { temperature: cfg.temperature });
+
+  if (step === 1) {
+    sampleMeta.textContent = 'Després: pestanya Ambigua → «Una obertura narrativa oberta».';
+  }
+
+  if (step === 3) {
+    routePhase3FollowUp = true;
+    const stepBtn = routeSteps.querySelector('.route-step[data-step="3"]');
+    if (stepBtn) {
+      stepBtn.querySelector('.route-hint').textContent =
+        'Torna a clicar: Sagrada Família a T = 1,8';
+    }
+    sampleMeta.textContent = 'Després torna a Pas 3 per anar a Sagrada Família (T = 1,8).';
+  } else {
+    routePhase3FollowUp = false;
+    const stepBtn = routeSteps.querySelector('.route-step[data-step="3"]');
+    if (stepBtn) {
+      stepBtn.querySelector('.route-hint').textContent =
+        'he/she, després Sagrada Família a 1,8';
+    }
+  }
+}
+
+routeSteps.querySelectorAll('.route-step').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    runRouteStep(Number(btn.dataset.step));
+  });
+});
 
 // =============================================================
 // RENDER DISTRIBUTION
 // =============================================================
 
-function renderDistribution() {
-  if (!currentTokens) return;
+function formatProb(prob) {
+  if (prob >= 0.01) return (prob * 100).toFixed(1) + ' %';
+  if (prob >= 0.001) return (prob * 100).toFixed(2) + ' %';
+  if (prob > 0) return '< 0,1 %';
+  return '0 %';
+}
 
-  // Find max probability for bar scaling
-  const maxProb = Math.max(...currentTokens.map(([, p]) => p));
+function baseProbFor(token) {
+  if (!baseTokens) return 0;
+  const found = baseTokens.find(([t]) => t === token);
+  return found ? found[1] : 0;
+}
+
+function updateBiasRatio() {
+  biasRatio.classList.remove('visible');
+  biasRatio.innerHTML = '';
+  if (!currentTokens || !currentScenario || currentScenario.category !== 'BIAS') return;
+
+  const pairs = [
+    ['he', 'she'],
+    ['ell', 'ella']
+  ];
+
+  for (const [a, b] of pairs) {
+    const pa = currentTokens.find(([t]) => t === a);
+    const pb = currentTokens.find(([t]) => t === b);
+    if (pa && pb && pb[1] > 0) {
+      const ratio = pa[1] / pb[1];
+      const ratioStr = ratio >= 10 ? ratio.toFixed(0) : ratio.toFixed(1).replace('.', ',');
+      biasRatio.innerHTML =
+        '<span class="ratio-label">Ràtio de biaix</span>' +
+        escapeHtml(a) + ' / ' + escapeHtml(b) + ' ≈ ' + ratioStr + '×' +
+        ' <span style="color:var(--ink-soft);font-weight:400">(' +
+        formatProb(pa[1]) + ' vs ' + formatProb(pb[1]) + ')</span>';
+      biasRatio.classList.add('visible');
+      return;
+    }
+  }
+}
+
+function renderDistribution() {
+  if (!currentTokens || !predictionRevealed) {
+    if (!predictionRevealed && currentScenario) {
+      distList.innerHTML =
+        '<p style="color: var(--ink-soft); font-style: italic; padding: 16px 0;">Fes la predicció de dalt per revelar la distribució.</p>';
+    }
+    return;
+  }
 
   distList.innerHTML = '';
-  currentTokens.forEach(([token, prob]) => {
+
+  currentTokens.forEach(([token, adjProb]) => {
+    const baseProb = baseProbFor(token);
     const row = document.createElement('div');
     row.className = 'dist-row';
+    row.dataset.token = token;
+    row.title = 'Fes clic per forçar aquest token';
 
-    const barWidth = maxProb > 0 ? (prob / maxProb) * 100 : 0;
-
-    // Format probability nicely
-    let probStr;
-    if (prob >= 0.01) {
-      probStr = (prob * 100).toFixed(1) + ' %';
-    } else if (prob >= 0.001) {
-      probStr = (prob * 100).toFixed(2) + ' %';
-    } else if (prob > 0) {
-      probStr = '< 0,1 %';
-    } else {
-      probStr = '0 %';
-    }
-
-    const probClass = prob < 0.01 ? 'dist-prob dist-prob-low' : 'dist-prob';
+    const baseClass = baseProb < 0.01 ? 'dist-prob dist-prob-low' : 'dist-prob';
+    const adjClass = adjProb < 0.01 ? 'dist-prob dist-prob-low' : 'dist-prob';
+    const count = tokenCounts[token] || 0;
+    const freqStr = sampleCount > 0
+      ? (count > 0 ? count + ' (' + Math.round((count / sampleCount) * 100) + '%)' : '0')
+      : '—';
 
     row.innerHTML = `
       <div class="dist-token">${escapeHtml(token)}</div>
-      <div class="dist-bar-container">
-        <div class="dist-bar" style="width: ${barWidth}%"></div>
+      <div class="dist-bars">
+        <div class="dist-bar-container" title="Base T=1">
+          <div class="dist-bar base" style="width: ${(baseProb * 100).toFixed(2)}%"></div>
+        </div>
+        <div class="dist-bar-container" title="Temperatura actual">
+          <div class="dist-bar adj" style="width: ${(adjProb * 100).toFixed(2)}%"></div>
+        </div>
       </div>
-      <div class="${probClass}">${probStr}</div>
+      <div class="${baseClass}">${formatProb(baseProb)}</div>
+      <div class="${adjClass}">${formatProb(adjProb)}</div>
+      <div class="dist-freq">${freqStr}</div>
     `;
+
+    row.addEventListener('click', () => {
+      applySampledToken(token, { count: true, forced: true });
+    });
 
     distList.appendChild(row);
   });
+
+  updateBiasRatio();
+
+  if (sampledToken) {
+    highlightTokenRow(sampledToken, 'highlighted', { fade: false });
+  }
 }
 
 // =============================================================
@@ -1003,7 +1880,9 @@ function escapeHtml(str) {
 // BOOT
 // =============================================================
 
-buildScenarioButtons();
+buildCategoryTabs();
+renderScenarioButtons();
+updatePresetButtons();
 
 </script>
 </body>
