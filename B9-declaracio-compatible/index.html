@@ -1,176 +1,461 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ca">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Què és compatible amb això? · ENTI-UB AI Literacy</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
-:root{
---bg:#f4efe6;--bg-card:#ffffff;--bg-soft:#faf6ec;--bg-deep:#ede4cf;
---ink:#1a1814;--ink-soft:#4a463e;--ink-faint:#8a8478;
---rule:#1a1814;--rule-soft:#c9c2b3;
---accent:#b91c1c;--accent-deep:#8b1414;--accent-soft:#f5d8d8;--accent-2:#1e3a5f;
---ok:#3d6b3d;--ok-soft:#f2f6ee;
-}
-*{box-sizing:border-box}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'EB Garamond',Georgia,serif;font-size:18px;line-height:1.5;-webkit-font-smoothing:antialiased}
-.widget-frame{max-width:1080px;margin:0 auto;padding:24px 24px 40px}
-.widget-header{border-bottom:2px solid var(--rule);padding-bottom:14px;margin-bottom:22px}
-.widget-eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
-.widget-title{font-family:'EB Garamond',Georgia,serif;font-size:32px;font-weight:600;line-height:1.1;letter-spacing:-.01em;margin:0 0 6px}
-.widget-subtitle{color:var(--ink-soft);font-size:16px;font-style:italic;max-width:720px;margin:0}
-.widget-intro{background:var(--bg-card);border-left:3px solid var(--accent-2);padding:14px 18px;margin-bottom:22px;font-size:15px;line-height:1.55;color:var(--ink-soft)}
-.widget-intro strong{color:var(--ink);font-weight:600}
-h2{display:flex;justify-content:space-between;align-items:baseline;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin:24px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--rule-soft)}
-#groups>div:first-child h2{margin-top:0}
-.decl{position:relative;background:var(--bg-card);border:2px solid var(--ink);padding:20px 22px;margin:26px 0 14px;font-size:18px;min-height:76px}
-.decl::before{content:'LA TEVA DECLARACIÓ';position:absolute;top:-10px;left:18px;background:var(--bg);padding:0 10px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.22em;color:var(--ink)}
-.decl .ph{color:var(--ink-soft);font-style:italic}
-.opts{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:4px}
-button{cursor:pointer;transition:all .15s ease}
-.opt{font-family:'EB Garamond',Georgia,serif;font-size:15px;line-height:1.3;color:var(--ink);background:var(--bg-card);border:1px solid var(--rule-soft);padding:12px 14px;text-align:left;max-width:100%}
-.opt:hover{border-color:var(--rule);background:var(--bg-soft)}
-.opt[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--bg);font-weight:600}
-.btn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:var(--bg);border:1px solid var(--ink);padding:12px 20px}
-.btn:hover{background:var(--accent);border-color:var(--accent)}
-.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
-.btn.ghost:hover{background:var(--ink);color:var(--bg)}
-:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.counter{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;background:var(--bg-card);border:1px solid var(--rule-soft);border-left:3px solid var(--accent-2);padding:12px 14px;margin:14px 0}
-.counter b{font-family:'EB Garamond',Georgia,serif;font-size:24px;color:var(--ink)}
-.counter.win{border-left-color:var(--ok)} .counter.win b{color:var(--ok)}
-.delta{font-family:'EB Garamond',Georgia,serif;font-size:14px;font-style:italic;letter-spacing:0;color:var(--ink-soft);display:block;margin-top:3px}
-.worlds{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:9px;margin-top:10px}
-.w{background:var(--bg-card);border:1px solid var(--rule-soft);padding:12px 14px;font-size:15px}
-.w.true{border:2px solid var(--ok);background:var(--ok-soft)}
-.w .lbl{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-soft);display:block;margin-bottom:4px}
-.row{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
-.msg{font-family:'EB Garamond',Georgia,serif;font-size:15px;letter-spacing:0;background:var(--ok-soft);border-left:3px solid var(--ok);padding:10px 13px;margin-top:10px}
-.widget-footer{margin-top:24px;padding-top:16px;border-top:1px solid var(--rule-soft);font-size:12px;color:var(--ink-soft);font-style:italic;line-height:1.5}
-.widget-footer a{color:var(--accent-2)}
-.hide{display:none}
-@media (max-width:880px){.widget-title{font-size:24px}}
-@media (max-width:480px){.widget-frame{padding:16px 14px 32px}.row{flex-direction:column}.btn{width:100%}}
-@media (prefers-reduced-motion: reduce){*{transition:none!important}}
-</style>
-</head>
-<body>
-<div class="widget-frame">
-<header class="widget-header">
-<div class="widget-eyebrow">Activitat B9</div>
-<h1 class="widget-title">Què és compatible amb això?</h1>
-<p class="widget-subtitle">Una declaració pot sonar completa i, alhora, explicar gairebé res.</p>
-</header>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="no-referrer">
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
+    >
+    <meta name="enti-parent-origin" content="">
+    <title>Una declaració que informa · ENTI-UB AI Literacy</title>
+    <link rel="stylesheet" href="./styles.css">
+    <script defer src="./widget.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#activity">Ves directament a l'activitat</a>
 
-<div class="widget-intro">
-<strong>Com funciona aquesta eina.</strong> Un company entrega un document de disseny amb aquesta declaració: <em>«He fet servir IA per ajudar-me amb el document.»</em> Aquí sota tens vuit processos de treball completament diferents. Tots vuit són compatibles amb aquella frase. Afegeix-hi precisió fins que només en quedi un de possible.
-</div>
+    <main class="widget-frame" id="activity" tabindex="-1">
+      <header class="widget-header">
+        <div class="widget-eyebrow">Activitat B9 · Alfabetització en IA</div>
+        <h1>Una declaració que informa</h1>
+        <p class="widget-subtitle">
+          Dir que has fet servir IA no explica encara què va passar.
+        </p>
+      </header>
 
-<div class="decl" id="decl"></div>
-<div class="counter" id="counter" aria-live="polite"></div>
+      <section class="orientation" aria-labelledby="orientation-title">
+        <div>
+          <h2 id="orientation-title">Objectiu</h2>
+          <p>
+            Aprendràs a descriure <strong>què va aportar l'eina</strong>,
+            <strong>què vas fer tu</strong> i <strong>quina part del treball</strong>
+            en va quedar afectada.
+          </p>
+        </div>
+        <p class="time-note">
+          <span aria-hidden="true">◷</span> 5–7 minuts · pràctica sense nota
+        </p>
+      </section>
 
-<div id="groups"></div>
+      <nav class="activity-progress" aria-label="Progrés de l'activitat">
+        <ol>
+          <li data-progress-step="1" aria-current="step">
+            <span class="progress-number">1</span>
+            <span>Prediu</span>
+          </li>
+          <li data-progress-step="2">
+            <span class="progress-number">2</span>
+            <span>Construeix</span>
+          </li>
+          <li data-progress-step="3">
+            <span class="progress-number">3</span>
+            <span>Explica</span>
+          </li>
+          <li data-progress-step="4">
+            <span class="progress-number">4</span>
+            <span>Transfereix</span>
+          </li>
+          <li data-progress-step="5">
+            <span class="progress-number">5</span>
+            <span>Emporta-t'ho</span>
+          </li>
+        </ol>
+      </nav>
 
-<div class="row">
-<button class="btn ghost" id="vague">Prova una declaració llarga i vaga</button>
-<button class="btn ghost" id="reset">Comença de nou</button>
-</div>
+      <noscript>
+        <div class="notice notice-error">
+          Aquesta activitat necessita JavaScript per comparar els casos. El text
+          de suport i la política del curs continuen disponibles a Moodle.
+        </div>
+      </noscript>
 
-<h2>Mons encara compatibles amb la teva declaració</h2>
-<div class="worlds" id="worlds"></div>
+      <div class="notice notice-insight" id="startup-status">
+        <strong>Carregant l'activitat…</strong>
+        <p>
+          Si aquest missatge no desapareix, el fitxer <code>widget.js</code> no
+          s'ha pogut carregar. Torna a copiar o publicar la carpeta completa.
+        </p>
+      </div>
 
-<footer class="widget-footer">ENTI-UB · Curs d'alfabetització en IA · Activitat B9. El que va passar de debò és el procés marcat en verd quan el trobis. Aquest exercici no jutja com escrius: compta quantes realitats diferents encaixen encara amb el que has dit. És una experiència de n=1, no es desa res i no compta per a cap nota.</footer>
-</div>
+      <section class="activity-step" id="step-1" data-step="1">
+        <header class="step-header">
+          <p class="step-kicker">Pas 1 de 5 · Prediu abans de mirar</p>
+          <h2 tabindex="-1">Quantes realitats hi caben?</h2>
+          <p>
+            Un company entrega un document de disseny amb aquesta declaració:
+          </p>
+        </header>
 
-<script>
-"use strict";
-const W=[
- {id:1,t:"Corrector ortogràfic",d:"Va escriure tot el document i el va passar per un corrector d'IA.",a:{toca:true,struct:false,gen:"cap",ma:"lleu"}},
- {id:2,t:"Pluja d'idees prèvia",d:"Va parlar d'idees amb l'eina abans de començar; res del que va sortir és al document.",a:{toca:false,struct:false,gen:"cap",ma:"cap"}},
- {id:3,t:"Document sencer generat",d:"Va demanar el document complet i el va retocar per sobre.",a:{toca:true,struct:true,gen:"tot",ma:"lleu"}},
- {id:4,t:"Estructura generada, text propi",d:"Va demanar propostes d'estructura, en va reorganitzar una i va escriure tot el text ell.",a:{toca:true,struct:true,gen:"cap",ma:"reescrit"},truth:true},
- {id:5,t:"Traducció",d:"Va escriure el document en català i el va fer traduir a l'anglès per entregar-lo.",a:{toca:true,struct:false,gen:"part",ma:"lleu"}},
- {id:6,t:"Consultes de disseny",d:"Va fer preguntes sobre disseny de nivells; cap text de l'eina és al lliurament.",a:{toca:false,struct:false,gen:"cap",ma:"cap"}},
- {id:7,t:"Dues seccions generades",d:"Les seccions 2 i 4 són generades i van quedar gairebé tal qual; la resta és seva.",a:{toca:true,struct:false,gen:"part",ma:"cap"}},
- {id:8,t:"Estructura i una secció",d:"Va generar l'estructura i la secció 4, i hi va fer retocs menors.",a:{toca:true,struct:true,gen:"part",ma:"lleu"}}
-];
-const G=[
- {k:"eina",n:"1 · L'eina",o:[
-  {t:"(no dir res)",x:""},
-  {t:"«una IA»",x:"una IA",f:()=>true},
-  {t:"«ChatGPT»",x:"ChatGPT",f:()=>true},
-  {t:"«ChatGPT (GPT-5, web, juliol de 2026)»",x:"ChatGPT (GPT-5, web, juliol de 2026)",f:()=>true}]},
- {k:"prop",n:"2 · Per a què",o:[
-  {t:"(no dir res)",x:""},
-  {t:"«per ajudar-me»",x:"per ajudar-me",f:()=>true},
-  {t:"«per proposar-me estructures»",x:"per proposar-me estructures del document",f:p=>p.struct===true},
-  {t:"«per traduir el meu text»",x:"per traduir el meu text",f:p=>p.gen==="part"&&p.struct===false}]},
- {k:"on",n:"3 · On exactament",o:[
-  {t:"(no dir res)",x:""},
-  {t:"«al document»",x:"al document",f:p=>p.toca===true},
-  {t:"«a l'estructura»",x:"a l'estructura del document",f:p=>p.struct===true},
-  {t:"«a l'estructura; cap paràgraf del text final no és generat»",x:"a l'estructura del document, i cap paràgraf del text final no és generat",f:p=>p.struct===true&&p.gen==="cap"}]},
- {k:"ma",n:"4 · La teva mà",o:[
-  {t:"(no dir res)",x:""},
-  {t:"«ho he revisat jo»",x:"ho he revisat jo",f:p=>p.ma!=="cap"},
-  {t:"«he reorganitzat la proposta i he escrit tot el text jo»",x:"he reorganitzat la proposta i he escrit tot el text jo",f:p=>p.ma==="reescrit"&&p.gen==="cap"}]}
-];
-function COMPAT(sel){
- return W.filter(w=>G.every(g=>{
-  const i=sel[g.k]; if(i===undefined||i===0) return true;
-  const o=g.o[i]; return o.f ? o.f(w.a) : true;
- }));
-}
-function SENT(sel){
- const g=k=>{const i=sel[k];if(i===undefined||i===0)return "";return G.find(x=>x.k===k).o[i].x;};
- const eina=g("eina"),prop=g("prop"),on=g("on"),ma=g("ma");
- let s="";
- if(eina||prop) s+="He fet servir "+(eina||"IA")+(prop?" "+prop:"")+".";
- if(on) s+=(s?" ":"")+"Ho he aplicat "+on+".";
- if(ma) s+=(s?" ":"")+ma.charAt(0).toUpperCase()+ma.slice(1)+".";
- return s;
-}
-if (typeof document !== "undefined") {
- let sel={}, prev=W.length;
- const gh=document.getElementById("groups");
- G.forEach(g=>{
-  const wrap=document.createElement("div");
-  const h=document.createElement("h2"); h.textContent=g.n; wrap.appendChild(h);
-  const box=document.createElement("div"); box.className="opts"; box.setAttribute("role","group"); box.setAttribute("aria-label",g.n);
-  g.o.forEach((o,i)=>{
-   const b=document.createElement("button"); b.type="button"; b.className="opt"; b.textContent=o.t;
-   b.setAttribute("aria-pressed", i===0?"true":"false");
-   b.addEventListener("click",()=>{sel[g.k]=i;[...box.children].forEach((c,j)=>c.setAttribute("aria-pressed",j===i?"true":"false"));render();});
-   box.appendChild(b);
-  });
-  wrap.appendChild(box); gh.appendChild(wrap);
- });
- function render(){
-  const s=SENT(sel), list=COMPAT(sel), n=list.length;
-  document.getElementById("decl").innerHTML = s ? s : '<span class="ph">La teva declaració apareixerà aquí a mesura que triïs.</span>';
-  const c=document.getElementById("counter");
-  let delta="";
-  if(n===prev && s) delta='<span class="delta">L\'última tria no ha eliminat cap possibilitat: ocupa espai, però no informa.</span>';
-  else if(n<prev) delta='<span class="delta">L\'última tria n\'ha eliminat '+(prev-n)+'.</span>';
-  c.className = n===1 ? "counter win" : "counter";
-  c.innerHTML='Mons compatibles amb la teva declaració: <b>'+n+'</b> de 8.'+delta+
-   (n===1?'<div class="msg">Ara la declaració només encaixa amb una realitat: informa de debò. Fixa\'t en quines tries ho han aconseguit i quines no: el nom de l\'eina no n\'ha eliminat cap. El que tanca el ventall és <strong>on</strong> exactament i <strong>què hi vas fer tu</strong>.</div>':"");
-  prev=n;
-  document.getElementById("worlds").innerHTML = list.map(w=>'<div class="w'+(n===1&&w.truth?" true":"")+'"><span class="lbl">'+(n===1&&w.truth?"El que va passar de debò":"Possible")+'</span><strong>'+w.t+'</strong><br>'+w.d+'</div>').join("");
- }
- document.getElementById("vague").addEventListener("click",()=>{
-  sel={eina:1,prop:1,on:1,ma:1};
-  document.querySelectorAll(".opts").forEach((box,gi)=>[...box.children].forEach((c,j)=>c.setAttribute("aria-pressed",j===1?"true":"false")));
-  prev=W.length; render();
- });
- document.getElementById("reset").addEventListener("click",()=>{
-  sel={}; prev=W.length;
-  document.querySelectorAll(".opts").forEach(box=>[...box.children].forEach((c,j)=>c.setAttribute("aria-pressed",j===0?"true":"false")));
-  render();
- });
- render();
-}
-</script>
-</body>
+        <blockquote class="declaration-card declaration-card-large">
+          «He fet servir IA per ajudar-me amb el document.»
+        </blockquote>
+
+        <form id="prediction-form">
+          <fieldset class="question-card">
+            <legend>
+              Quants processos diferents creus que podrien encaixar amb la frase?
+            </legend>
+            <p class="field-help" id="prediction-help">
+              Tria una resposta abans de revelar els casos.
+            </p>
+            <div
+              class="choice-grid choice-grid-compact"
+              aria-describedby="prediction-help"
+            >
+              <label class="choice">
+                <input type="radio" name="prediction" value="1">
+                <span><strong>1</strong><small>Només un procés</small></span>
+              </label>
+              <label class="choice">
+                <input type="radio" name="prediction" value="2">
+                <span><strong>2</strong><small>Un parell</small></span>
+              </label>
+              <label class="choice">
+                <input type="radio" name="prediction" value="4">
+                <span><strong>4</strong><small>La meitat</small></span>
+              </label>
+              <label class="choice">
+                <input type="radio" name="prediction" value="8">
+                <span><strong>8</strong><small>Tots vuit</small></span>
+              </label>
+            </div>
+          </fieldset>
+          <div class="action-row">
+            <button class="button button-primary" type="submit">
+              Revela els casos
+            </button>
+          </div>
+        </form>
+
+        <div id="prediction-result" hidden>
+          <div
+            class="notice notice-insight"
+            id="prediction-status"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          ></div>
+          <div class="world-grid" id="opening-worlds"></div>
+          <div class="takeaway">
+            <p class="takeaway-label">Idea clau</p>
+            <p>
+              La frase és certa en tots vuit casos, però amaga diferències enormes.
+              <strong>La llargada no és el mateix que la precisió.</strong>
+            </p>
+          </div>
+          <div class="action-row action-row-end">
+            <button class="button button-primary" id="to-step-2" type="button">
+              Construeix una declaració
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="activity-step" id="step-2" data-step="2" hidden>
+        <header class="step-header">
+          <p class="step-kicker">Pas 2 de 5 · Cas guiat</p>
+          <h2 tabindex="-1">Construeix una declaració fidel</h2>
+          <p>
+            Ara sí que sabem què va passar. La teva declaració ha de mantenir aquest
+            cas possible, completar els quatre camps i descartar les alternatives.
+          </p>
+        </header>
+
+        <article class="case-card" aria-labelledby="worked-case-title">
+          <p class="case-label">Què va passar de debò</p>
+          <h3 id="worked-case-title"></h3>
+          <ul id="worked-case-facts"></ul>
+        </article>
+
+        <div class="builder-tools">
+          <button class="text-button" id="load-vague" type="button">
+            Carrega un exemple llarg però vague
+          </button>
+          <span aria-hidden="true">·</span>
+          <button class="text-button" id="reset-worked" type="button">
+            Reinicia les tries
+          </button>
+        </div>
+
+        <div id="worked-builder" data-builder-id="worked"></div>
+
+        <div class="step-footer-actions">
+          <button class="button button-quiet" data-go-step="1" type="button">
+            Enrere
+          </button>
+          <button
+            class="button button-primary"
+            id="to-step-3"
+            type="button"
+            hidden
+          >
+            Explica què has descobert
+          </button>
+        </div>
+      </section>
+
+      <section class="activity-step" id="step-3" data-step="3" hidden>
+        <header class="step-header">
+          <p class="step-kicker">Pas 3 de 5 · Recupera la idea</p>
+          <h2 tabindex="-1">Què descriu millor el procés?</h2>
+        </header>
+
+        <form id="reflection-form">
+          <fieldset class="question-card">
+            <legend>
+              Quina combinació ajuda més un lector a entendre què va passar?
+            </legend>
+            <div class="choice-list">
+              <label class="choice choice-wide">
+                <input type="radio" name="reflection" value="tool">
+                <span>
+                  <strong>El producte, el model i la data</strong>
+                  <small>Procedència de l'eina</small>
+                </span>
+              </label>
+              <label class="choice choice-wide">
+                <input type="radio" name="reflection" value="length">
+                <span>
+                  <strong>Una declaració més llarga</strong>
+                  <small>Més paraules i més formalitat</small>
+                </span>
+              </label>
+              <label class="choice choice-wide">
+                <input type="radio" name="reflection" value="process">
+                <span>
+                  <strong>La part afectada, l'abast i la contribució humana</strong>
+                  <small>Com es reparteix realment el procés</small>
+                </span>
+              </label>
+            </div>
+          </fieldset>
+          <div class="action-row">
+            <button class="button button-primary" type="submit">
+              Comprova la resposta
+            </button>
+          </div>
+        </form>
+
+        <div
+          class="notice"
+          id="reflection-feedback"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+          hidden
+        ></div>
+
+        <div class="step-footer-actions">
+          <button class="button button-quiet" data-go-step="2" type="button">
+            Enrere
+          </button>
+          <button
+            class="button button-primary"
+            id="to-step-4"
+            type="button"
+            hidden
+          >
+            Aplica-ho a un cas nou
+          </button>
+        </div>
+      </section>
+
+      <section class="activity-step" id="step-4" data-step="4" hidden>
+        <header class="step-header">
+          <p class="step-kicker">Pas 4 de 5 · Transfereix</p>
+          <h2 tabindex="-1">Resol un cas diferent</h2>
+          <p>
+            Tria un cas i construeix una declaració sense copiar la solució guiada.
+          </p>
+        </header>
+
+        <form id="scenario-form">
+          <fieldset class="question-card">
+            <legend>Quin cas vols resoldre?</legend>
+            <div class="choice-grid" id="scenario-choices"></div>
+          </fieldset>
+        </form>
+
+        <div id="transfer-workspace" hidden>
+          <article class="case-card" aria-labelledby="transfer-case-title">
+            <p class="case-label">Nou cas</p>
+            <h3 id="transfer-case-title"></h3>
+            <p id="transfer-case-summary"></p>
+            <ul id="transfer-case-facts"></ul>
+          </article>
+
+          <div id="transfer-builder" data-builder-id="transfer"></div>
+        </div>
+
+        <div class="step-footer-actions">
+          <button class="button button-quiet" data-go-step="3" type="button">
+            Enrere
+          </button>
+          <button
+            class="button button-primary"
+            id="to-step-5"
+            type="button"
+            hidden
+          >
+            Acaba i emporta-t'ho
+          </button>
+        </div>
+      </section>
+
+      <section class="activity-step" id="step-5" data-step="5" hidden>
+        <header class="step-header">
+          <p class="step-kicker">Pas 5 de 5 · Emporta-t'ho</p>
+          <h2 tabindex="-1">Ja tens una regla reutilitzable</h2>
+          <p>
+            Una bona declaració no intenta sonar impressionant: permet entendre el
+            procés i comprovar què és teu.
+          </p>
+        </header>
+
+        <div class="completion-banner" role="status">
+          <span class="completion-mark" aria-hidden="true">✓</span>
+          <div>
+            <strong>Activitat completada</strong>
+            <p>Has resolt un cas guiat i un cas de transferència.</p>
+          </div>
+        </div>
+
+        <section class="output-card" aria-labelledby="final-declaration-title">
+          <div class="output-heading">
+            <div>
+              <p class="case-label">La teva declaració del cas nou</p>
+              <h3 id="final-declaration-title">Text per revisar o copiar</h3>
+            </div>
+            <button class="button button-quiet" id="copy-declaration" type="button">
+              Copia
+            </button>
+          </div>
+          <p class="final-declaration" id="final-declaration"></p>
+          <p
+            class="copy-status"
+            id="copy-status"
+            role="status"
+            aria-live="polite"
+          ></p>
+        </section>
+
+        <section class="checklist-card" aria-labelledby="checklist-title">
+          <h3 id="checklist-title">Revisa abans d'entregar</h3>
+          <ul class="final-checklist">
+            <li><span aria-hidden="true">□</span> Tot el que afirmo és cert?</li>
+            <li>
+              <span aria-hidden="true">□</span> Queda clar per a què vaig fer servir
+              l'eina?
+            </li>
+            <li>
+              <span aria-hidden="true">□</span> He delimitat la part i l'abast
+              afectats?
+            </li>
+            <li>
+              <span aria-hidden="true">□</span> He dit què vaig escriure, canviar,
+              descartar o verificar?
+            </li>
+            <li>
+              <span aria-hidden="true">□</span> La consigna demana també model,
+              prompts, fonts o un enllaç?
+            </li>
+            <li>
+              <span aria-hidden="true">□</span> Aquest ús estava permès en
+              l'activitat?
+            </li>
+          </ul>
+        </section>
+
+        <div class="notice notice-policy">
+          <strong>Important:</strong> aquesta activitat practica una convenció de
+          declaració. No substitueix la política de l'assignatura ni decideix si un
+          ús estava permès.
+        </div>
+
+        <div class="action-row action-row-between">
+          <button class="button button-quiet" id="try-another" type="button">
+            Prova un altre cas
+          </button>
+          <button class="button button-primary" id="restart-activity" type="button">
+            Torna a començar
+          </button>
+        </div>
+      </section>
+
+      <footer class="widget-footer">
+        <p>
+          ENTI-UB · Activitat B9 · Casos ficticis. No s'envia ni es desa el text de
+          les declaracions. Aquesta versió no fa peticions a tercers.
+        </p>
+        <p>
+          Si Moodle configura una integració, només s'hi comuniquen el pas i la
+          finalització; mai les tries ni el text. El resultat no compta per a cap
+          nota.
+        </p>
+      </footer>
+    </main>
+
+    <template id="builder-template">
+      <div class="builder-layout">
+        <div class="builder-question">
+          <div class="builder-group-heading">
+            <p class="step-kicker" data-role="group-position"></p>
+            <h3 data-role="group-title"></h3>
+            <p class="field-help" data-role="group-help"></p>
+          </div>
+          <div data-role="group-host"></div>
+          <div class="action-row action-row-between builder-navigation">
+            <button
+              class="button button-quiet"
+              data-role="previous-group"
+              type="button"
+            >
+              Camp anterior
+            </button>
+            <button
+              class="button button-primary"
+              data-role="next-group"
+              type="button"
+            >
+              Camp següent
+            </button>
+          </div>
+        </div>
+
+        <aside class="builder-summary" aria-label="Resultat de les tries">
+          <div class="summary-section">
+            <p class="summary-label">Declaració actual</p>
+            <p class="declaration-preview" data-role="declaration">
+              Tria una opció per començar.
+            </p>
+          </div>
+
+          <div
+            class="builder-status"
+            data-role="status"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+            tabindex="-1"
+          ></div>
+
+          <ul class="quality-checks" data-role="quality-checks"></ul>
+
+          <div class="transition-note" data-role="transition"></div>
+
+          <details class="compatible-details" open>
+            <summary data-role="world-summary"></summary>
+            <ol class="compatible-list" data-role="world-list"></ol>
+          </details>
+
+          <nav class="field-jump" aria-label="Revisa els camps">
+            <p class="summary-label">Revisa un camp</p>
+            <div data-role="group-jump"></div>
+          </nav>
+        </aside>
+      </div>
+    </template>
+  </body>
 </html>

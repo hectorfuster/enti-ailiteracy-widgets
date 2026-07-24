@@ -1,0 +1,17 @@
+{
+  "name": "enti-b9-declaracio-compatible",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Guided AI-use disclosure activity for the ENTI-UB AI literacy Moodle course.",
+  "scripts": {
+    "build": "node scripts/build-runtime.mjs",
+    "build:check": "node scripts/build-runtime.mjs --check",
+    "test": "node --test",
+    "validate:static": "node scripts/validate-static.mjs",
+    "validate": "npm run build:check && npm run test && npm run validate:static"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
