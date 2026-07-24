@@ -1,0 +1,32 @@
+name: B8 consent mirror
+
+on:
+  pull_request:
+    paths:
+      - "B8-mirall-consentiment/**"
+      - ".github/workflows/b8-consent-mirror.yml"
+  push:
+    paths:
+      - "B8-mirall-consentiment/**"
+      - ".github/workflows/b8-consent-mirror.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: B8-mirall-consentiment
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: B8-mirall-consentiment/package-lock.json
+      - run: npm ci --ignore-scripts
+      - run: npx playwright install --with-deps chromium
+      - run: npm run check:all
+      - run: npm run sources:check

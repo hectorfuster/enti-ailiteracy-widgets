@@ -1,159 +1,92 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ca">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>El mirall del consentiment</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-:root{--paper:#f4efe6;--card:#faf6ec;--ink:#2b2620;--ink-soft:#5a5348;--line:#c9c2b3;--crimson:#8f2d2d;--crimson-dark:#6e2222;--ok:#3d6b3d;--warn:#8a6d1f;}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--paper);color:var(--ink);font-family:"Source Serif 4",Georgia,serif;line-height:1.6;padding:24px 16px;max-width:880px;margin:0 auto}
-h1{font-size:1.5rem;color:var(--crimson-dark);margin-bottom:.35em}
-h2{font-size:1.1rem;margin:.2em 0 .55em}
-p{margin-bottom:.8em}
-.lead{color:var(--ink-soft)}
-.panel{background:var(--card);border:1px solid var(--line);padding:18px 20px;margin:14px 0}
-.stamp{font-family:"Source Sans 3",sans-serif;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft)}
-fieldset{border:none;margin:14px 0;padding:0}
-legend{font-family:"Source Sans 3",sans-serif;font-weight:700;font-size:.95rem;margin-bottom:6px}
-button{font-family:"Source Sans 3",sans-serif;font-size:.92rem;cursor:pointer}
-.opt{display:block;width:100%;background:#fff;border:2px solid var(--line);padding:9px 12px;text-align:left;margin-bottom:6px}
-.opt:hover{border-color:var(--crimson)}
-.opt[aria-pressed="true"]{border-color:var(--crimson);background:#f1e4e0;font-weight:700}
-.btn{background:var(--crimson);color:#fff;border:none;padding:10px 22px;font-weight:700}
-.btn:disabled{background:var(--line);cursor:not-allowed}
-.btn.ghost{background:transparent;color:var(--crimson-dark);border:2px solid var(--crimson)}
-:focus-visible{outline:3px solid var(--crimson-dark);outline-offset:2px}
-.pair{border:1px solid var(--line);background:#fff;margin-bottom:10px}
-.pair .dim{font-family:"Source Sans 3",sans-serif;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;padding:7px 12px;background:var(--card);border-bottom:1px solid var(--line)}
-.cols{display:grid;grid-template-columns:1fr 1fr;gap:0}
-.col{padding:9px 12px;font-size:.9rem}
-.col+.col{border-left:1px dashed var(--line)}
-.col .who{font-family:"Source Sans 3",sans-serif;font-size:.72rem;color:var(--ink-soft);display:block;text-transform:uppercase;letter-spacing:.04em}
-.tag{font-family:"Source Sans 3",sans-serif;font-size:.82rem;padding:6px 12px;border-top:1px solid var(--line)}
-.tag.gap{background:#f6ece7;color:var(--crimson-dark);font-weight:700}
-.tag.mid{background:#fbf6ea;color:var(--warn)}
-.tag.okc{background:#f2f6ee;color:var(--ok)}
-.verdict{border:2px solid var(--crimson);background:#fdf9f2;padding:16px 18px;margin-top:12px}
-.note{font-size:.85rem;color:var(--ink-soft);border-top:1px solid var(--line);margin-top:22px;padding-top:12px}
-@media (prefers-reduced-motion: reduce){*{transition:none!important}}
-@media (max-width:560px){.cols{grid-template-columns:1fr}.col+.col{border-left:none;border-top:1px dashed var(--line)}}
-</style>
-</head>
-<body>
-<h1>El mirall del consentiment</h1>
-<p class="lead">Un exercici en dues parts, amb un truc que no et desvelarem fins al final. Respon la primera part amb el cap fred de qui pren decisions de negoci.</p>
-<div id="game"></div>
-<p class="note">Aquí no hi ha respostes correctes ni puntuació: l'única sortida de l'exercici és la distància entre les teves pròpies respostes. Experiència de n=1: no es desa res, no s'envia res enlloc i no compta per a cap nota.</p>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Activitat B8 d’alfabetització en IA: aplica principis recíprocs com a estudi i com a creador."
+    />
+    <title>El mirall de la reciprocitat · Activitat B8 · ENTI-UB</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="content.js" defer></script>
+    <script src="mirror-core.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#activity">Salta a l’activitat</a>
 
-<script>
-"use strict";
-const Q=[
- {dim:"Consentiment dels autors",
-  s:{q:"Exigiríeu al proveïdor garanties que el model es va entrenar amb el consentiment dels autors del material?",
-     o:[{t:"No cal: com es va entrenar és problema seu, no nostre.",v:0},{t:"Només per al material que acabi en contingut comercial del joc.",v:1},{t:"Sí, sempre: sense garanties, no el comprem.",v:2}]},
-  a:{q:"Podria una empresa entrenar amb el teu portafolis sense demanar-t'ho?",
-     o:[{t:"Tant me fa: penjat a internet, ja compto que passarà.",v:0},{t:"Només per a recerca sense ànim de lucre.",v:1},{t:"Mai sense demanar-m'ho explícitament.",v:2}]}},
- {dim:"Compensació",
-  s:{q:"Pagaríeu més per un model entrenat només amb material llicenciat, pels quals els autors han cobrat?",
-     o:[{t:"No: comprem el millor model al millor preu.",v:0},{t:"Una mica més, si la diferència de preu és petita.",v:1},{t:"Notablement més: és una condició de compra.",v:2}]},
-  a:{q:"Què hauria de pagar-te una empresa per entrenar amb la teva obra?",
-     o:[{t:"Res: la visibilitat ja em compensa.",v:0},{t:"Una quantitat simbòlica per tancar el tema.",v:1},{t:"Un preu just per obra, com qualsevol llicència.",v:2}]}},
- {dim:"Transparència i crèdit",
-  s:{q:"Necessiteu saber amb quines dades es va entrenar el model que compreu?",
-     o:[{t:"Indiferent: ens importa el rendiment, no la recepta.",v:0},{t:"Amb una descripció general en tenim prou.",v:1},{t:"Volem la llista o una descripció detallada i auditable.",v:2}]},
-  a:{q:"Si la teva obra és dins d'un conjunt d'entrenament, vols que consti?",
-     o:[{t:"M'és indiferent.",v:0},{t:"Vull poder consultar-ho si ho demano.",v:1},{t:"Vull que consti públicament, amb el meu nom.",v:2}]}},
- {dim:"Imitació d'estil",
-  s:{q:"Faríeu servir un model que imita l'estil d'artistes concrets i vius per accelerar la vostra direcció d'art?",
-     o:[{t:"Sí, mentre sigui legal: l'estil no té drets d'autor.",v:0},{t:"Només estils genèrics o d'època, mai d'una persona concreta.",v:1},{t:"Mai: sense permís de l'artista, no.",v:2}]},
-  a:{q:"Que un model pugui generar imatges «a la teva manera», amb el teu estil reconeixible?",
-     o:[{t:"No em molesta: l'estil no es pot tancar amb clau.",v:0},{t:"Acceptable amb permís i una part del benefici.",v:1},{t:"Mai sense el meu consentiment explícit.",v:2}]}},
- {dim:"Retirada (sortir del conjunt)",
-  s:{q:"Si autors demanen sortir del conjunt de dades i el model s'ha de reentrenar, acceptaríeu canvis i interrupcions del model que useu?",
-     o:[{t:"No: l'estabilitat del nostre pipeline és primer.",v:0},{t:"Només amb un preavís llarg i versions congelades.",v:1},{t:"Sí: el dret dels autors passa per davant de la nostra comoditat.",v:2}]},
-  a:{q:"Si demanes que la teva obra surti d'un conjunt d'entrenament, què esperes?",
-     o:[{t:"Res: un cop dins, ja està fet.",v:0},{t:"Que no sigui als entrenaments següents.",v:1},{t:"Efecte real com més aviat millor, encara que costi al proveïdor.",v:2}]}}
-];
-function EVAL8(sv, av){
- return Q.map((q,i)=>{
-  const gap=Math.abs(sv[i]-av[i]);
-  let cls, line;
-  if(gap>=2){cls="gap"; line = sv[i]<av[i]
-    ? "Asimetria clara: el que reclames com a autor és exactament el que no exigies com a comprador."
-    : "Asimetria clara: com a comprador exigies als autors una protecció que tu mateix no reclames.";}
-  else if(gap===1){cls="mid"; line="Matís: les dues posicions s'assemblen, però no coincideixen del tot.";}
-  else {cls="okc"; line="Coherent: demanes a l'altra banda el mateix que et demanes a tu.";}
-  return {dim:q.dim, s:q.s.o[sv[i]].t, a:q.a.o[av[i]].t, gap, cls, line};
- });
-}
-if (typeof document !== "undefined") {
- const g=document.getElementById("game");
- const sv=[null,null,null,null,null], av=[null,null,null,null,null];
- let studioName="";
- function form(role, store, title, stamp, intro, nextLabel, next){
-  g.innerHTML="";
-  const p=document.createElement("div"); p.className="panel";
-  p.innerHTML='<span class="stamp">'+stamp+'</span><h2>'+title+'</h2><p>'+intro+'</p>';
-  Q.forEach((q,i)=>{
-   const fs=document.createElement("fieldset");
-   const lg=document.createElement("legend"); lg.textContent=(i+1)+". "+q[role].q; fs.appendChild(lg);
-   q[role].o.forEach((o,j)=>{
-    const b=document.createElement("button"); b.type="button"; b.className="opt"; b.textContent=o.t;
-    b.setAttribute("aria-pressed","false");
-    b.addEventListener("click",()=>{store[i]=j;[...fs.querySelectorAll(".opt")].forEach((c,k)=>c.setAttribute("aria-pressed",k===j?"true":"false"));chk();});
-    fs.appendChild(b);
-   });
-   p.appendChild(fs);
-  });
-  const go=document.createElement("button"); go.className="btn"; go.type="button"; go.textContent=nextLabel; go.disabled=true;
-  function chk(){go.disabled=store.some(x=>x===null);}
-  go.addEventListener("click",next);
-  p.appendChild(go); g.appendChild(p);
-  if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches) window.scrollTo({top:0,behavior:"smooth"});
- }
- function s1(){ form("s",sv,"Primera part: la compra","Barret d'estudi",
-  "Sou un estudi de dotze persones a punt de llicenciar un model de generació d'imatge per a la vostra canonada d'art. Tu portes la negociació. Fixa les condicions de compra.",
-  "Tanca les condicions de compra", inter); }
- function inter(){
-  g.innerHTML="";
-  const p=document.createElement("div"); p.className="panel"; p.setAttribute("aria-live","polite");
-  p.innerHTML='<span class="stamp">Interludi</span><h2>Passen tres anys</h2><p>Les condicions van quedar tancades i el projecte va sortir. Amb els beneficis, has deixat l\'estudi per treballar pel teu compte, i el teu portafolis en línia comença a tenir nom. Abans de continuar: com es deia, aquell estudi?</p>';
-  ["Nau Roja","Forn de Píxels","Marea Baixa"].forEach(n=>{
-   const b=document.createElement("button"); b.type="button"; b.className="opt"; b.textContent=n;
-   b.addEventListener("click",()=>{studioName=n; s2();});
-   p.appendChild(b);
-  });
-  g.appendChild(p);
- }
- function s2(){ form("a",av,"Segona part: la carta","Barret d'artista",
-  "T'arriba un correu: una empresa d'IA vol incorporar obres del teu portafolis al conjunt d'entrenament del seu pròxim model. Et pregunten les teves condicions. Fixa-les.",
-  "Envia les teves condicions", fin); }
- function fin(){
-  const res=EVAL8(sv,av);
-  const gaps=res.filter(r=>r.cls==="gap").length, mids=res.filter(r=>r.cls==="mid").length;
-  g.innerHTML="";
-  const d=document.createElement("div"); d.setAttribute("aria-live","polite");
-  let h='<div class="verdict"><h2>El mirall</h2><p>Aquest era el truc: les cinc preguntes de la segona part eren les mateixes cinc de la primera, mirades des de l\'altra banda de la taula. A l\'esquerra, el que vas exigir comprant per a '+studioName+'; a la dreta, el que has reclamat com a autor.</p></div>';
-  res.forEach(r=>{
-   h+='<div class="pair"><div class="dim">'+r.dim+'</div><div class="cols">'
-    +'<div class="col"><span class="who">Com a estudi</span>'+r.s+'</div>'
-    +'<div class="col"><span class="who">Com a autor</span>'+r.a+'</div></div>'
-    +'<div class="tag '+r.cls+'">'+r.line+'</div></div>';
-  });
-  h+='<div class="verdict"><p>'+(gaps>0
-    ? 'Resultat: '+gaps+' asimetria'+(gaps>1?'es':'')+' clara'+(gaps>1?'es':'')+(mids?' i '+mids+' matís'+(mids>1?'os':''):'')+'. No és cap acusació: és el descobriment. La majoria de la gent surt asimètrica d\'aquest mirall, i el sector sencer també: els compradors volen models bons i barats, i els autors volen consentiment i paga. Tu seràs les dues coses alhora durant tota la teva carrera. Els contractes del teu sector els escriurà la gent que hagi vist aquesta distància abans de seure a la taula.'
-    : 'Resultat: cap asimetria clara. Coherència completa entre les dues bandes de la taula, en la direcció que sigui: és menys habitual del que sembla. Ara la pregunta interessant és si el mercat t\'oferirà mai unes condicions tan simètriques com les teves, i què estàs disposat a fer quan no ho faci.')+'</p></div>';
-  const b=document.createElement("button"); b.className="btn ghost"; b.type="button"; b.textContent="Torna-hi"; b.style.marginTop="12px";
-  b.addEventListener("click",()=>{for(let i=0;i<5;i++){sv[i]=null;av[i]=null;} s1();});
-  d.innerHTML=h; d.appendChild(b); g.appendChild(d);
-  if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches) window.scrollTo({top:0,behavior:"smooth"});
- }
- s1();
-}
-</script>
-</body>
+    <header class="activity-header">
+      <div>
+        <p class="eyebrow">ENTI-UB · Alfabetització en IA · B8</p>
+        <h1>El mirall de la reciprocitat</h1>
+        <p class="header-summary">
+          Del criteri de compra al criteri que voldries rebre com a creador.
+        </p>
+      </div>
+      <button
+        class="button button-quiet"
+        id="restartButton"
+        type="button"
+        hidden
+      >
+        Reinicia
+      </button>
+    </header>
+
+    <section
+      class="activity-progress"
+      id="progressShell"
+      aria-label="Progrés de l’activitat"
+      hidden
+    >
+      <div class="progress-copy">
+        <span id="progressLabel">Orientació</span>
+        <span id="progressValue">0 %</span>
+      </div>
+      <progress id="progressBar" max="100" value="0">0 %</progress>
+      <p class="progress-step" id="progressStep">Pas 0 de 6</p>
+    </section>
+
+    <main id="activity" tabindex="-1">
+      <p class="restore-notice" id="restoreNotice" role="status" hidden></p>
+      <div id="app"></div>
+      <noscript>
+        <section class="card">
+          <h2>Cal JavaScript per fer l’activitat interactiva</h2>
+          <p>
+            Pots fer una versió equivalent comparant, per a cada tema, què
+            exigires a un proveïdor i què esperaries com a creador. Escriu el
+            principi compartit i qualsevol raó que justifiqui una diferència.
+          </p>
+        </section>
+      </noscript>
+    </main>
+
+    <p
+      class="screen-reader-only"
+      id="activityStatus"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    ></p>
+
+    <dialog id="restartDialog" aria-labelledby="restartTitle">
+      <form method="dialog">
+        <h2 id="restartTitle">Vols tornar a començar?</h2>
+        <p>
+          S’esborraran les decisions, les revisions i el text opcional
+          conservats en aquesta pestanya.
+        </p>
+        <div class="button-row">
+          <button class="button button-quiet" value="cancel">
+            Continua aquí
+          </button>
+          <button class="button button-danger" value="confirm">
+            Esborra i reinicia
+          </button>
+        </div>
+      </form>
+    </dialog>
+  </body>
 </html>
