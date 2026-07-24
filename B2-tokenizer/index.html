@@ -583,6 +583,11 @@ html, body {
 
 .widget-footer a { color: var(--accent-2); }
 
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 /* ---------------- responsive ---------------- */
 
 @media (max-width: 880px) {
@@ -605,13 +610,22 @@ html, body {
   .workbench { padding: 18px 16px; }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 </style>
 </head>
 <body>
 <div class="widget-frame">
 
   <header class="widget-header">
-    <div class="widget-eyebrow">Capítol 2 · Activitat B2</div>
+    <div class="widget-eyebrow">Mòdul 1 · Capítol 2 · Activitat B2</div>
     <h1 class="widget-title">El cost del català</h1>
     <p class="widget-subtitle">La mateixa idea, expressada en català, en anglès i en castellà, no costa el mateix nombre de tokens.</p>
   </header>
@@ -666,7 +680,7 @@ html, body {
   </div>
 
   <footer class="widget-footer">
-    ENTI-UB · Curs d'alfabetització en IA · Mòdul 1, Capítol 2.
+    ENTI-UB · Curs d'alfabetització en IA · Mòdul 1, Capítol 2 · Activitat B2.
     Tokenització feta amb la biblioteca <a href="https://github.com/niieani/gpt-tokenizer" target="_blank" rel="noopener">gpt-tokenizer</a> (codificació o200k_base, la que fan servir GPT-4o, GPT-5 i la sèrie o).
     El cost en tokens es paga dues vegades: una a l'entrada (el que envies al model) i una altra a la sortida (la resposta que reps).
   </footer>

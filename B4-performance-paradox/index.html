@@ -31,7 +31,7 @@ button{font-family:'EB Garamond',Georgia,serif;font-size:15px;line-height:1.3;cu
 button:hover,button:focus-visible{background:var(--bg-soft);border-color:var(--rule)}
 button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 button.primary{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:var(--bg);border-color:var(--ink);text-align:center;width:auto;padding:12px 20px}
-button.primary:hover,button.primary:focus-visible{background:var(--accent-deep);border-color:var(--accent-deep)}
+button.primary:hover,button.primary:focus-visible{background:var(--accent);border-color:var(--accent)}
 button.opt{margin-bottom:8px}
 button.opt.sel{background:var(--bg-deep);border-width:2px}
 button.opt[disabled]{cursor:default;opacity:.85}
@@ -61,7 +61,7 @@ button.opt[disabled]{cursor:default;opacity:.85}
 @media (max-width:880px){.widget-title{font-size:24px}}
 @media (max-width:640px){.grid2{grid-template-columns:1fr}.card{padding:16px}}
 @media (max-width:480px){.widget-frame{padding:16px 14px 32px}}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
@@ -79,7 +79,7 @@ button.opt[disabled]{cursor:default;opacity:.85}
 <div id="stage" aria-live="polite"></div>
 
 <footer class="widget-footer">
-ENTI-UB · Curs d'alfabetització en IA · Activitat B4. Aquesta experiència il·lustra un mecanisme; no mesura la teva capacitat ni substitueix l'evidència de l'estudi.
+ENTI-UB · Curs d'alfabetització en IA · Mòdul 2, Capítol 2 · Activitat B4. Aquesta experiència il·lustra un mecanisme; no mesura la teva capacitat ni substitueix l'evidència de l'estudi.
 </footer>
 </div>
 
